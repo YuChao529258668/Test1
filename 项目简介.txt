@@ -1,0 +1,133 @@
+1、项目架构说明
+项目支持ios7.0及以上
+
+common
+entity:公共实体
+biz：CGBaseBiz基础的业务biz，网络请求封装，所有网络请求类继承此类
+constants：app的基础配置参数,屏幕大小，主色调，全部请求网络地址等都在此包下
+controller：基础controller，包含tab等的配置
+dao：app本地持久化包
+tabbar:底部tabbar
+tools:公共的工具类
+view:可以共用的经过自定义封装的控件等
+
+components:第三方组件
+UMessage_Sdk_XXX:友盟推送包
+UMSocial:友盟分享包
+WebViewJavascriptVridge:原生与js交互包
+
+modules：业务模块
+attention：关注模块
+compete：竞报模块
+discover：发现模块
+headline：头条模块
+usercenter：我的模块
+Alcatraz
+network：网络访问出口的封装，app所有网络请求都必须经过此
+
+
+2、第三方框架
+本项目第三方框架均采用Pods来进行管理，使用框架如下：
+FMDB:sqlite3的操作封装
+Reachability:网络状态的监听
+SDWebImage:图片加载
+ASIHTTPRequest:网络请求
+libqrencode:二维码相关
+MJRefresh:上下拉刷新
+JSPatch:局部热更新
+UMengAnalytics-NO-IDFA:友盟统计
+MJExtension:json、字典、数组、对象之间的转换
+
+
+
+3、注意：
+3.1：提示框建议统一使用CTToast，等待进度框统一使用CTNetWorkUtil.startBlockAnimation开启，使用CTNetWorkUtil.stopBlockAnimation关闭
+
+
+
+4:原生与H5交互：
+1、获取token接口、登录接口、获取用户信息接口这三个接口执行完成主动推送用户信息到H5端
+
+
+
+5、聊天用的腾讯云 IMSDK
+5.1 适配导航栏，在 IMAChatViewController 的 viewDidLoad 方法调用 createCustomNavi
+5.2 返回按钮图片 headline_detail_back 。btn.frame = CGRectMake(5, 20, 44, 44)
+
+5.3 左文右图按钮 CTButtonRightImg
+
+5.4 会话列表 cell： ConversationListTableViewCell
+设置头像 [_conversationIcon sd_setBackgroundImageWithURL:[_showItem showIconUrl] forState:UIControlStateNormal placeholderImage:[_showItem defaultShowImage]];
+
+5.5 通讯录 CGUserContactsViewController
+
+5.6 白色加号图片 common_add_white，蓝色加号 add
+
+5.7 系统小红点 .badgeValue
+
+修改 ChatInputPanel 的 onKeyboardDidShow 方法， 修复了聊天界面表情框和键盘相对位置不正确的 bug。
+修改 IMAChatViewController 的 layoutTableView 方法，修复了表视图高度不正确的 bug。
+
+聊天界面，看不到头像。
+
+选择部分联系人 CGDiscoverPartSeeAddressViewController
+
+聊天界面是 IMAChatViewController，适配旧代码主要修改这个。聊天界面右上角按钮在 CustomChatUIViewController 里面，就在这里修改，在自定义的导航栏视图添加按钮。
+
+5.8 会话列表，登录成功后，要调用 [self configOwnViews]; 才能刷新看到结果
+
+群聊列表 PublicGroupViewController
+
+群信息 GroupProfileViewController.h
+好友信息 FriendProfileViewController.h
+
+
+要在 initSdk:里面设置账号类型，和 appid。
+#define kTLSAppid       @"1400001533"
+#define kSdkAppId       @"1400001533"
+#define kSdkAccountType @"792"
+#define kQQAccountType  1
+#define kWXAccountType  2
+
+生意猫：
+public static final int ACCOUNT_TYPE = 18686;
+//sdk appid 由腾讯分配
+public static final int SDK_APPID = 1400047877;
+
+
+//登录
+#define URL_USER_LOGIN [BASEHOST stringByAppendingFormat:@"user/login"]
+
+是否登录
+[ObjectShareTool sharedInstance].currentUser.isLogin
+
+登录成功
+NOTIFICATION_LOGINSUCCESS
+
+//退出登录
+#define URL_USER_LOGOUT [BASEHOST stringByAppendingFormat:@"auth/user/logout"]
+
+//退出登录通知
+#define NOTIFICATION_LOGOUT @"NotificationLogout"
+
+
+聊天 cell 基类，ChatTextTableViewCell。头像在这里 TIMElemBaseTableViewCell 的 _icon 属性，configWith: 方法.IMAHost.icon,
+- (NSString *)icon
+{
+//    return nil;
+return _profile.faceURL; // 聊天界面头像
+}
+
+聊天头像，好友聊天，通过修改 IMAMsg 的 getSender 方法修复：注释掉原配的，启用原配注释掉的。
+- (IMAUser *)getSender
+{
+if ([[_msg getConversation] getType] == TIM_C2C)
+{
+NSString *sender = [_msg sender];
+IMAUser *user = [[IMAPlatform sharedInstance].contactMgr getUserByUserId:sender]; // 被 demo 注释掉的，但却能正常工作，fuck
+//        IMAUser *user2 = [[IMAUser alloc] initWith:[_msg sender]];// 原配
+。。。
+}
+TIM_GROUP 分支也修改了。
+
+
