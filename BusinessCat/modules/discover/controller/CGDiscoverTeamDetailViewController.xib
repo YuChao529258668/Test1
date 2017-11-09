@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CGDiscoverTeamDetailViewController">
+            <connections>
+                <outlet property="bgView" destination="xY9-Y8-3mB" id="thr-0L-6V1"/>
+                <outlet property="tableView" destination="HKb-cb-u7d" id="dkz-OA-MRA"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HKb-cb-u7d">
+                    <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="ycy-xx-aGo"/>
+                        <outlet property="delegate" destination="-1" id="yKE-YJ-jOw"/>
+                    </connections>
+                </tableView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xY9-Y8-3mB">
+                    <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no_data" translatesAutoresizingMaskIntoConstraints="NO" id="Qdi-Rp-G0q">
+                            <rect key="frame" x="92" y="218" width="190" height="147"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="190" id="9VF-2a-Zps"/>
+                                <constraint firstAttribute="height" constant="147" id="bab-Ey-Uqh"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="内容已被删除！" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ru4-BH-bww">
+                            <rect key="frame" x="15" y="375" width="345" height="18"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="250" constant="20" id="BQ2-1n-m6n"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Ru4-BH-bww" secondAttribute="trailing" constant="15" id="9sB-aE-6gU"/>
+                        <constraint firstItem="Ru4-BH-bww" firstAttribute="leading" secondItem="xY9-Y8-3mB" secondAttribute="leading" constant="15" id="Liw-rR-0Kb"/>
+                        <constraint firstItem="Qdi-Rp-G0q" firstAttribute="centerY" secondItem="xY9-Y8-3mB" secondAttribute="centerY" constant="-10" id="SA6-53-5IQ"/>
+                        <constraint firstItem="Qdi-Rp-G0q" firstAttribute="centerX" secondItem="xY9-Y8-3mB" secondAttribute="centerX" id="p4y-IL-Lbr"/>
+                        <constraint firstItem="Ru4-BH-bww" firstAttribute="top" secondItem="Qdi-Rp-G0q" secondAttribute="bottom" constant="10" id="r22-Qm-mYj"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="HKb-cb-u7d" secondAttribute="trailing" id="COp-hS-ptb"/>
+                <constraint firstItem="HKb-cb-u7d" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="M5z-Pl-i7t"/>
+                <constraint firstAttribute="bottom" secondItem="HKb-cb-u7d" secondAttribute="bottom" id="WGr-Vj-EqJ"/>
+                <constraint firstItem="xY9-Y8-3mB" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="bIe-wd-3ve"/>
+                <constraint firstAttribute="bottom" secondItem="xY9-Y8-3mB" secondAttribute="bottom" id="eEi-PX-MO2"/>
+                <constraint firstAttribute="trailing" secondItem="xY9-Y8-3mB" secondAttribute="trailing" id="kPJ-0W-U1X"/>
+                <constraint firstItem="HKb-cb-u7d" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="yYP-xh-RNZ"/>
+                <constraint firstItem="xY9-Y8-3mB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ypT-dp-SFx"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="no_data" width="190" height="147"/>
+    </resources>
+</document>

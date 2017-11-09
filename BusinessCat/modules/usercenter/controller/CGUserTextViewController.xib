@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CGUserTextViewController">
+            <connections>
+                <outlet property="textField" destination="hu2-OS-gRD" id="lOX-NB-pEw"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0bw-OD-ifL">
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hu2-OS-gRD">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="umj-jV-faU"/>
+                            </constraints>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="hu2-OS-gRD" secondAttribute="trailing" constant="15" id="1fS-oj-ys2"/>
+                        <constraint firstAttribute="height" constant="30" id="cd6-lg-b0Q"/>
+                        <constraint firstItem="hu2-OS-gRD" firstAttribute="leading" secondItem="0bw-OD-ifL" secondAttribute="leading" constant="15" id="v9O-No-k4c"/>
+                        <constraint firstItem="hu2-OS-gRD" firstAttribute="top" secondItem="0bw-OD-ifL" secondAttribute="top" id="wCl-vj-JyK"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="0bw-OD-ifL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="74" id="W7F-ke-Bei"/>
+                <constraint firstAttribute="trailing" secondItem="0bw-OD-ifL" secondAttribute="trailing" id="oic-ab-DY6"/>
+                <constraint firstItem="0bw-OD-ifL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xrL-k9-WTe"/>
+            </constraints>
+            <point key="canvasLocation" x="96.5" y="53.5"/>
+        </view>
+    </objects>
+</document>

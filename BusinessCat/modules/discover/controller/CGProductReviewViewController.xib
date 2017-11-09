@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CGProductReviewViewController">
+            <connections>
+                <outlet property="collectionView" destination="XXd-ch-48G" id="Hnf-CV-KzM"/>
+                <outlet property="screenButton" destination="P42-kK-FXN" id="TiU-ba-7k6"/>
+                <outlet property="topView" destination="SF9-LN-hWX" id="5gZ-fT-uEf"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="XXd-ch-48G">
+                    <rect key="frame" x="0.0" y="104" width="375" height="563"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tLT-t7-V5k">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="H0q-Ph-9k4"/>
+                        <outlet property="delegate" destination="-1" id="ERc-5q-OaB"/>
+                    </connections>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SF9-LN-hWX">
+                    <rect key="frame" x="0.0" y="64" width="375" height="40"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P42-kK-FXN">
+                            <rect key="frame" x="335" y="0.0" width="40" height="40"/>
+                            <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="DFp-po-HmS"/>
+                                <constraint firstAttribute="height" constant="40" id="yJg-No-oLk"/>
+                            </constraints>
+                            <state key="normal" image="common_bigtype_edit"/>
+                            <connections>
+                                <action selector="categoriesClick:" destination="-1" eventType="touchUpInside" id="glS-xT-jLb"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.97254901959999995" green="0.97254901959999995" blue="0.97254901959999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="P42-kK-FXN" secondAttribute="trailing" id="49p-Xs-mjA"/>
+                        <constraint firstItem="P42-kK-FXN" firstAttribute="top" secondItem="SF9-LN-hWX" secondAttribute="top" id="UQj-fl-SR6"/>
+                        <constraint firstAttribute="height" constant="40" id="uK6-8Y-dfI"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="SF9-LN-hWX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="9Vf-Zi-hAa"/>
+                <constraint firstAttribute="bottom" secondItem="XXd-ch-48G" secondAttribute="bottom" id="APh-m8-Dew"/>
+                <constraint firstAttribute="trailing" secondItem="XXd-ch-48G" secondAttribute="trailing" id="IaB-iO-FsQ"/>
+                <constraint firstItem="SF9-LN-hWX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="SS2-VW-8sy"/>
+                <constraint firstItem="XXd-ch-48G" firstAttribute="top" secondItem="SF9-LN-hWX" secondAttribute="bottom" id="cxX-Qv-6Jq"/>
+                <constraint firstAttribute="trailing" secondItem="SF9-LN-hWX" secondAttribute="trailing" id="d59-8l-joC"/>
+                <constraint firstItem="XXd-ch-48G" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="wee-Ex-cb5"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="common_bigtype_edit" width="22" height="22"/>
+    </resources>
+</document>

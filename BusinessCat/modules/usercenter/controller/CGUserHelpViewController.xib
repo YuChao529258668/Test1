@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CGUserHelpViewController">
+            <connections>
+                <outlet property="tableView" destination="mpy-je-jBT" id="TLh-gh-wbr"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mpy-je-jBT">
+                    <rect key="frame" x="0.0" y="64" width="375" height="563"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Sf7-II-n15"/>
+                        <outlet property="delegate" destination="-1" id="mkH-gX-6hH"/>
+                    </connections>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AJe-sW-7XB">
+                    <rect key="frame" x="0.0" y="627" width="375" height="40"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Dis-6T-kCf">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                            <color key="backgroundColor" red="0.90980392160000001" green="0.90980392160000001" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="mBl-Ai-zzx"/>
+                            </constraints>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Z0-Rw-wDM">
+                            <rect key="frame" x="0.0" y="1" width="375" height="39"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" title="快捷教程" image="course">
+                                <color key="titleColor" red="0.48627450980392156" green="0.48627450980392156" blue="0.48627450980392156" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="quickTutorialAction:" destination="-1" eventType="touchUpInside" id="fk7-GS-cRi"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="5Z0-Rw-wDM" secondAttribute="bottom" id="12R-r1-Fsp"/>
+                        <constraint firstAttribute="trailing" secondItem="Dis-6T-kCf" secondAttribute="trailing" id="Owy-HP-Se0"/>
+                        <constraint firstItem="5Z0-Rw-wDM" firstAttribute="top" secondItem="Dis-6T-kCf" secondAttribute="bottom" id="Xrs-Ik-FA6"/>
+                        <constraint firstItem="Dis-6T-kCf" firstAttribute="top" secondItem="AJe-sW-7XB" secondAttribute="top" id="ZSe-Yv-ocf"/>
+                        <constraint firstAttribute="trailing" secondItem="5Z0-Rw-wDM" secondAttribute="trailing" id="ZWy-Tv-7o2"/>
+                        <constraint firstItem="5Z0-Rw-wDM" firstAttribute="leading" secondItem="AJe-sW-7XB" secondAttribute="leading" id="aIK-59-M4K"/>
+                        <constraint firstItem="Dis-6T-kCf" firstAttribute="leading" secondItem="AJe-sW-7XB" secondAttribute="leading" id="dWV-Nu-6dV"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="mpy-je-jBT" secondAttribute="bottom" constant="40" id="5cc-Yt-Wrp"/>
+                <constraint firstAttribute="trailing" secondItem="mpy-je-jBT" secondAttribute="trailing" id="Fsf-jd-q3y"/>
+                <constraint firstAttribute="trailing" secondItem="AJe-sW-7XB" secondAttribute="trailing" id="Vhb-1k-wma"/>
+                <constraint firstItem="mpy-je-jBT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="XpY-q5-DQH"/>
+                <constraint firstItem="mpy-je-jBT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="bUD-Ao-WtM"/>
+                <constraint firstItem="AJe-sW-7XB" firstAttribute="top" secondItem="mpy-je-jBT" secondAttribute="bottom" id="huj-hI-rx4"/>
+                <constraint firstAttribute="bottom" secondItem="AJe-sW-7XB" secondAttribute="bottom" id="o41-8U-vJg"/>
+                <constraint firstItem="AJe-sW-7XB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="s3U-Kw-f7L"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="course" width="22" height="22"/>
+    </resources>
+</document>

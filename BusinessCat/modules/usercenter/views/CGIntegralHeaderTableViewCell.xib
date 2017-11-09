@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="179" id="KGk-i7-Jjw" customClass="CGIntegralHeaderTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="139.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cnm-lN-ygt">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1490" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIL-oa-3NY">
+                                <rect key="frame" x="107" y="50" width="92" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" priority="250" constant="42" id="BKR-Q2-jab"/>
+                                    <constraint firstAttribute="height" priority="250" constant="21" id="Xum-xH-4bO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="可用的知识币" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7dZ-Fl-hsG">
+                                <rect key="frame" x="0.0" y="20" width="320" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="Ig4-Ty-uuy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38k-Jd-aET">
+                                <rect key="frame" x="0.0" y="98" width="320" height="42"/>
+                                <state key="normal" title="如何赚取知识币？">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="40b-Sa-LMa">
+                                <rect key="frame" x="199" y="71" width="42" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="MM0-5g-dOP"/>
+                                    <constraint firstAttribute="width" constant="42" id="ztP-u5-9po"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.070588235289999995" green="0.5450980392" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="7dZ-Fl-hsG" firstAttribute="top" secondItem="Cnm-lN-ygt" secondAttribute="top" constant="20" id="0Fq-Jg-AlO"/>
+                            <constraint firstItem="38k-Jd-aET" firstAttribute="leading" secondItem="Cnm-lN-ygt" secondAttribute="leading" id="4Zw-xg-Rw4"/>
+                            <constraint firstAttribute="trailing" secondItem="38k-Jd-aET" secondAttribute="trailing" id="4lU-uO-iER"/>
+                            <constraint firstItem="40b-Sa-LMa" firstAttribute="leading" secondItem="lIL-oa-3NY" secondAttribute="trailing" id="4lU-zE-7J2"/>
+                            <constraint firstItem="38k-Jd-aET" firstAttribute="top" secondItem="lIL-oa-3NY" secondAttribute="bottom" id="6zf-mv-15r"/>
+                            <constraint firstAttribute="bottom" secondItem="38k-Jd-aET" secondAttribute="bottom" id="8m9-X5-VFY"/>
+                            <constraint firstAttribute="height" constant="140" id="Ne3-R8-cPE"/>
+                            <constraint firstItem="40b-Sa-LMa" firstAttribute="top" secondItem="7dZ-Fl-hsG" secondAttribute="bottom" constant="31" id="P5S-zg-6dL"/>
+                            <constraint firstItem="lIL-oa-3NY" firstAttribute="centerX" secondItem="Cnm-lN-ygt" secondAttribute="centerX" constant="-7" id="Vgr-EA-l1f"/>
+                            <constraint firstItem="lIL-oa-3NY" firstAttribute="top" secondItem="7dZ-Fl-hsG" secondAttribute="bottom" constant="10" id="XyH-cB-Tq0"/>
+                            <constraint firstAttribute="trailing" secondItem="7dZ-Fl-hsG" secondAttribute="trailing" id="caM-K8-8nW"/>
+                            <constraint firstItem="7dZ-Fl-hsG" firstAttribute="leading" secondItem="Cnm-lN-ygt" secondAttribute="leading" id="l5b-0E-aqM"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="Cnm-lN-ygt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="B0s-X0-tfk"/>
+                    <constraint firstItem="Cnm-lN-ygt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Gwu-lo-ahh"/>
+                    <constraint firstAttribute="trailing" secondItem="Cnm-lN-ygt" secondAttribute="trailing" id="IWi-lH-6Xf"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="bgView" destination="Cnm-lN-ygt" id="AFx-Rf-DrI"/>
+                <outlet property="button" destination="38k-Jd-aET" id="b7t-tM-hIS"/>
+                <outlet property="integral" destination="lIL-oa-3NY" id="E8z-GW-2XN"/>
+            </connections>
+            <point key="canvasLocation" x="34" y="120"/>
+        </tableViewCell>
+    </objects>
+</document>

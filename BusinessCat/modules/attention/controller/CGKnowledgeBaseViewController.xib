@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CGKnowledgeBaseViewController">
+            <connections>
+                <outlet property="tableView" destination="zsA-yy-907" id="Hrz-AH-d9H"/>
+                <outlet property="topView" destination="xks-AC-ZcM" id="SGT-Si-WUH"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="zsA-yy-907">
+                    <rect key="frame" x="0.0" y="104" width="375" height="563"/>
+                    <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="jAE-I9-27Z"/>
+                        <outlet property="delegate" destination="-1" id="Km5-lv-cSz"/>
+                    </connections>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xks-AC-ZcM">
+                    <rect key="frame" x="0.0" y="64" width="375" height="40"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yXI-At-LAg">
+                            <rect key="frame" x="335" y="0.0" width="40" height="40"/>
+                            <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="1yf-m7-mUD"/>
+                                <constraint firstAttribute="height" constant="40" id="WlX-r6-3wg"/>
+                            </constraints>
+                            <state key="normal" image="sorting"/>
+                            <connections>
+                                <action selector="sortClick:" destination="-1" eventType="touchUpInside" id="esS-x8-r8v"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Ubn-MP-a9D"/>
+                        <constraint firstItem="yXI-At-LAg" firstAttribute="top" secondItem="xks-AC-ZcM" secondAttribute="top" id="YGD-kj-n1J"/>
+                        <constraint firstAttribute="trailing" secondItem="yXI-At-LAg" secondAttribute="trailing" id="yZN-sO-hxm"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="xks-AC-ZcM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="IFM-iF-8fL"/>
+                <constraint firstAttribute="trailing" secondItem="xks-AC-ZcM" secondAttribute="trailing" id="Mho-OE-bU7"/>
+                <constraint firstItem="zsA-yy-907" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="PHW-Qd-VvW"/>
+                <constraint firstAttribute="bottom" secondItem="zsA-yy-907" secondAttribute="bottom" id="UZZ-sv-iga"/>
+                <constraint firstAttribute="trailing" secondItem="zsA-yy-907" secondAttribute="trailing" id="YBS-zM-FnK"/>
+                <constraint firstItem="zsA-yy-907" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="104" id="Zut-Da-6qW"/>
+                <constraint firstItem="xks-AC-ZcM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qpx-aj-xKs"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="61.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="sorting" width="22" height="22"/>
+    </resources>
+</document>

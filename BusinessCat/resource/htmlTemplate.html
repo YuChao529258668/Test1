@@ -1,0 +1,217 @@
+<html>
+  <head>
+    <meta name="format-detection" content="telephone=no">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-touch-fullscreen" content="yes">
+          <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+              <title>竞品说</title>
+              <style>
+                * {
+                  margin: 0;
+                  padding: 0;
+                }
+              body {
+                height: auto;
+              }
+              .title-wrap {
+                display: flex;
+                justify-content: center;
+              }
+              h1 {
+                display: inline-block;
+                padding: 50px 20px 0 20px;
+                margin: 0 0 20px 0;
+                max-width: 100%;
+                line-height: 25px;
+                text-align: left;
+                font-size: 22px;
+              }
+              h2, h3 {
+                font-size: 17px !important;
+              }
+              .info {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-pack: center;
+                -webkit-justify-content: center;
+                -ms-flex-pack: center;
+                justify-content: center;
+                -webkit-box-align: center;
+                -webkit-align-items: center;
+                -ms-flex-align: center;
+                align-items: center;
+                color: #898989;
+                font-size: 12px;
+              }
+              .info .space {
+                margin-left: 3px;
+              }
+              .info .themeColor {
+                /*color: #128bed;*/
+                opacity: .8;
+              }
+              .info .tag-wrap {
+                display: flex;
+                align-items: center;
+                padding: 2px 5px;
+              }
+              .info .tag {
+                padding: 2px 4px;
+                color: #128bed;
+                border: 1px solid #128bed;
+                border-radius: 2px;
+                font-size: 10px;
+                opacity: .8;
+                line-height: 1;
+              }
+              .info .original {
+                border-color: #ff7f7c!important;
+                color: #ff7f7c!important;
+              }
+              .contents {
+                margin: 24px 0 15px 0;
+                padding: 0 15px 0 15px;
+                line-height: 28px;
+                font-size: 17px;
+                
+              }
+              .contents p {
+                margin: 24px 0 15px 0;
+                word-wrap: break-word;
+                color: #333;
+                line-height: 28px;
+                font-size: 17px;
+              }
+              
+              .contents span {
+                font-size: 17px !important;
+              }
+              .contents p iframe {
+                display: none;
+              }
+              .contents p embed {
+                display: none;
+              }
+              .contents table {
+                width: 100%;
+              }
+              .contents img {
+                display: block;
+                margin: auto;
+                max-width: 100%;
+              }
+              
+              #copyright {
+                padding: 3% 5%;
+                font-size: 14px;
+                //display: none;
+              }
+              #copyright_source {
+                align-items: center;
+                display: flex;
+              }
+              #copyright_source_message {
+                align-items: center;
+                display: flex;
+                width: 0px;
+                flex: 1;
+              }
+              #copyright_source_message_text{
+                color: #969696;
+                white-space: nowrap;
+              }
+              #copyright_source_message_tag{
+                vertical-align: middle;
+                border: 1px solid #0694ff;
+                border-radius: 2px;
+                padding: 1px 2px;
+                margin-left: 3%;
+                color: #0694ff;
+                font-size: 12px;
+                opacity: .8;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+              #copyright_source_message_title{
+                margin-left: 3%;
+                color: #414141;
+                font-size: 16px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+              #copyright_source_url:active{
+                background-color:#eeeeee;
+              }
+              #copyright_source_url{
+                border: 1px solid #969696;
+                border-radius: 3px;
+                padding: 3px 8px;
+                width: auto;
+                color: #414141;
+                margin-left: 3%;
+                flex-grow: 0;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+              #copyright_title{
+                align-items: center;
+                margin: 2% 0%; 
+                display: flex;
+              }
+              #copyright_title_text{
+                width: auto;
+                color: #969696;
+                margin: 0 5%;
+              }
+              #copyright_content{
+                color: #969696;
+                line-height: 1.6;
+              }
+              .copyright_line{
+                flex: 1;
+                width: 0px;
+                height: 1px;
+                opacity: .8;
+                background: #969696;
+              }
+              </style>
+              <script>
+                function toOriginWebsize(){
+                  window.webkit.messageHandlers.decideADBlock.postMessage("");
+                }
+                </script>
+              </head>
+  <body style="font-size: 12px;" bgcolor="#F8F8F8">
+    <div>
+      #html#
+      <div id="copyright">
+        <div id="copyright_source">
+          <div id="copyright_source_message">
+            <div id="copyright_source_message_text">此文章来源于</div>
+            <div id="copyright_source_message_tag">广州创将</div>
+            <div id="copyright_source_message_title">荐识</div>
+          </div>
+          <div id="copyright_source_url" onclick="toOriginWebsize()">访问原网址</div>
+        </div>
+        <div id="copyright_title">
+          <div class="copyright_line"></div>
+          <div id="copyright_title_text">版权提示</div>
+          <div class="copyright_line"></div>
+        </div>
+        <div id="copyright_content">
+          内容系作者个人观点，不代表荐识对观点的赞同或支持。
+          此内容来源于公开渠道，内容主要用于学习目的。
+          我们非常尊重和保护知识产品，如果发现存在版权问题，
+          请单击右上角的我要反馈，请留下版权疑问说明和联系方式，我们将在24小时内清除处理。
+        </div>
+        <div id="copyright_bottom_line" class="copyright_line" style="width: 100%; margin-top: 3%;"></div>
+      </div>
+    </div>
+  </body>
+</html>

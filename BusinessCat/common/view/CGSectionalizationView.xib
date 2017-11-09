@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CGSectionalizationView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FrK-vW-D8J">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" red="0.13725490200000001" green="0.13725490200000001" blue="0.13725490200000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <action selector="bottomClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="TEQ-8E-yOK"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Di2-rJ-GHv">
+                    <rect key="frame" x="40" y="154" width="295" height="359"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择分组" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zLJ-lN-fdb">
+                            <rect key="frame" x="0.0" y="0.0" width="295" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="u9Q-1w-spt"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="70z-fX-PTe">
+                            <rect key="frame" x="0.0" y="40" width="295" height="40"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Newly_build" translatesAutoresizingMaskIntoConstraints="NO" id="fk7-gL-UQE">
+                                    <rect key="frame" x="15" y="16" width="9" height="9"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="9" id="tfU-JF-dfa"/>
+                                        <constraint firstAttribute="height" constant="9" id="yG6-b6-jPd"/>
+                                    </constraints>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4DS-rY-Ie2">
+                                    <rect key="frame" x="34" y="0.0" width="261" height="40"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <state key="normal" title="新建分组">
+                                        <color key="titleColor" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="addGroupClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="sLl-jW-aYO"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="4DS-rY-Ie2" secondAttribute="bottom" id="0f1-7y-xEE"/>
+                                <constraint firstAttribute="trailing" secondItem="4DS-rY-Ie2" secondAttribute="trailing" id="1i8-er-MQi"/>
+                                <constraint firstItem="fk7-gL-UQE" firstAttribute="leading" secondItem="70z-fX-PTe" secondAttribute="leading" constant="15" id="5by-VT-ACz"/>
+                                <constraint firstItem="fk7-gL-UQE" firstAttribute="centerY" secondItem="70z-fX-PTe" secondAttribute="centerY" id="Hpi-nC-83K"/>
+                                <constraint firstItem="4DS-rY-Ie2" firstAttribute="leading" secondItem="fk7-gL-UQE" secondAttribute="trailing" constant="10" id="J8G-TW-AdB"/>
+                                <constraint firstAttribute="height" constant="40" id="N8K-7H-OuG"/>
+                                <constraint firstItem="4DS-rY-Ie2" firstAttribute="top" secondItem="70z-fX-PTe" secondAttribute="top" id="UNI-q8-QCB"/>
+                            </constraints>
+                        </view>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6Gp-rC-ALC">
+                            <rect key="frame" x="0.0" y="80" width="295" height="279"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="bCA-0f-Bxj"/>
+                                <outlet property="delegate" destination="-1" id="KTh-tq-Q9L"/>
+                            </connections>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="6Gp-rC-ALC" firstAttribute="top" secondItem="70z-fX-PTe" secondAttribute="bottom" id="1dM-fH-uRD"/>
+                        <constraint firstItem="zLJ-lN-fdb" firstAttribute="top" secondItem="Di2-rJ-GHv" secondAttribute="top" id="2UL-9O-l5Y"/>
+                        <constraint firstItem="70z-fX-PTe" firstAttribute="top" secondItem="zLJ-lN-fdb" secondAttribute="bottom" id="2g4-61-w1j"/>
+                        <constraint firstItem="zLJ-lN-fdb" firstAttribute="leading" secondItem="Di2-rJ-GHv" secondAttribute="leading" id="Ctp-a6-VUe"/>
+                        <constraint firstAttribute="trailing" secondItem="70z-fX-PTe" secondAttribute="trailing" id="F1F-EI-n94"/>
+                        <constraint firstItem="70z-fX-PTe" firstAttribute="leading" secondItem="Di2-rJ-GHv" secondAttribute="leading" id="XaL-ZN-mGw"/>
+                        <constraint firstAttribute="trailing" secondItem="zLJ-lN-fdb" secondAttribute="trailing" id="d4B-gE-r91"/>
+                        <constraint firstAttribute="bottom" secondItem="6Gp-rC-ALC" secondAttribute="bottom" id="fWJ-ha-3Zi"/>
+                        <constraint firstAttribute="trailing" secondItem="6Gp-rC-ALC" secondAttribute="trailing" id="hQK-RW-baV"/>
+                        <constraint firstItem="6Gp-rC-ALC" firstAttribute="leading" secondItem="Di2-rJ-GHv" secondAttribute="leading" id="r9O-Ux-2sD"/>
+                        <constraint firstAttribute="height" constant="359" id="uC0-Oh-UMq"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="8"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Di2-rJ-GHv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="40" id="RpY-oy-MYm"/>
+                <constraint firstAttribute="trailing" secondItem="Di2-rJ-GHv" secondAttribute="trailing" constant="40" id="Sja-tl-D4Q"/>
+                <constraint firstItem="FrK-vW-D8J" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="W2e-dj-Jxw"/>
+                <constraint firstAttribute="bottom" secondItem="FrK-vW-D8J" secondAttribute="bottom" id="W5T-fm-FTG"/>
+                <constraint firstItem="Di2-rJ-GHv" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="ci5-iq-AXZ"/>
+                <constraint firstItem="FrK-vW-D8J" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ffj-dr-FMl"/>
+                <constraint firstAttribute="trailing" secondItem="FrK-vW-D8J" secondAttribute="trailing" id="iCF-4m-1rh"/>
+            </constraints>
+            <connections>
+                <outlet property="addGroupButton" destination="4DS-rY-Ie2" id="LCn-xj-xdk"/>
+                <outlet property="tableView" destination="6Gp-rC-ALC" id="MNE-Le-A6z"/>
+            </connections>
+            <point key="canvasLocation" x="34.5" y="104.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Newly_build" width="9" height="9"/>
+    </resources>
+</document>

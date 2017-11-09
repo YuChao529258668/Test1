@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="CGUserCreateGroupTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yvl-Ri-eFR">
+                        <rect key="frame" x="15" y="11.5" width="115" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="115" id="EWP-TI-2oI"/>
+                            <constraint firstAttribute="height" constant="21" id="Lln-3Q-sUq"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="back_gray" translatesAutoresizingMaskIntoConstraints="NO" id="VIw-Lr-4f8">
+                        <rect key="frame" x="297" y="17" width="10" height="10"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="10" id="CnA-7x-IhW"/>
+                            <constraint firstAttribute="width" constant="10" id="MtX-P7-rhl"/>
+                        </constraints>
+                    </imageView>
+                    <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请选择" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DLI-cY-GBx">
+                        <rect key="frame" x="130" y="7" width="167" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="zUe-ew-DAI"/>
+                        </constraints>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入组织名称" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ffh-09-w1z">
+                        <rect key="frame" x="130" y="7" width="175" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="5HP-Sb-r9u"/>
+                        </constraints>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="DLI-cY-GBx" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="5Jf-Gk-r5o"/>
+                    <constraint firstItem="ffh-09-w1z" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="NrW-dW-yki"/>
+                    <constraint firstItem="Yvl-Ri-eFR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Sup-kH-vkz"/>
+                    <constraint firstAttribute="trailing" secondItem="VIw-Lr-4f8" secondAttribute="trailing" constant="13" id="T23-yt-a7s"/>
+                    <constraint firstAttribute="trailing" secondItem="ffh-09-w1z" secondAttribute="trailing" constant="15" id="VOC-g8-2Jl"/>
+                    <constraint firstItem="ffh-09-w1z" firstAttribute="leading" secondItem="Yvl-Ri-eFR" secondAttribute="trailing" id="aRO-Kq-cPC"/>
+                    <constraint firstItem="VIw-Lr-4f8" firstAttribute="leading" secondItem="DLI-cY-GBx" secondAttribute="trailing" id="akH-Ep-svb"/>
+                    <constraint firstItem="DLI-cY-GBx" firstAttribute="leading" secondItem="Yvl-Ri-eFR" secondAttribute="trailing" id="iCi-v5-zo9"/>
+                    <constraint firstItem="Yvl-Ri-eFR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="rCh-gq-Mxh"/>
+                    <constraint firstItem="VIw-Lr-4f8" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="sK5-4P-QIa"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="arrow" destination="VIw-Lr-4f8" id="av2-an-xMJ"/>
+                <outlet property="choseTextField" destination="DLI-cY-GBx" id="Aax-KV-eld"/>
+                <outlet property="companyTextField" destination="ffh-09-w1z" id="AUY-ba-lMZ"/>
+                <outlet property="titleLabel" destination="Yvl-Ri-eFR" id="GKF-hM-xDV"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="back_gray" width="10" height="10"/>
+    </resources>
+</document>

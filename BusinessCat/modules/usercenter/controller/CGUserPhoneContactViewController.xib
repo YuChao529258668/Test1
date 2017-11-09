@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CGUserPhoneContactViewController">
+            <connections>
+                <outlet property="bgView" destination="NbV-kh-oFz" id="jnH-BP-mmx"/>
+                <outlet property="tableViewY" destination="WXA-2T-yjA" id="yuk-gX-RQN"/>
+                <outlet property="tableview" destination="H5b-zv-HpZ" id="dE6-xW-HIR"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="H5b-zv-HpZ">
+                    <rect key="frame" x="0.0" y="104" width="375" height="563"/>
+                    <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="izT-vH-HNs"/>
+                        <outlet property="delegate" destination="-1" id="5Rw-RN-0Di"/>
+                    </connections>
+                </tableView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NbV-kh-oFz">
+                    <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_permissions" translatesAutoresizingMaskIntoConstraints="NO" id="jy8-P9-jQr">
+                            <rect key="frame" x="138.5" y="202.5" width="98" height="98"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="98" id="6H6-Ep-Jrs"/>
+                                <constraint firstAttribute="height" constant="98" id="kFD-Ow-rl4"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="荐识没有权限访问你的通讯录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nLa-H9-zki">
+                            <rect key="frame" x="0.0" y="320.5" width="375" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="Uie-jh-s1d"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.56862745098039214" green="0.56862745098039214" blue="0.56862745098039214" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你需要进入系统“设置”-“隐私”-“通讯录”中打开荐识的开关" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eaK-Dh-KpR">
+                            <rect key="frame" x="15" y="351.5" width="345" height="16"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="250" constant="60" id="kXd-ac-o48"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="nLa-H9-zki" secondAttribute="trailing" id="6Lr-aj-G90"/>
+                        <constraint firstItem="jy8-P9-jQr" firstAttribute="centerX" secondItem="NbV-kh-oFz" secondAttribute="centerX" id="R01-0Y-6KI"/>
+                        <constraint firstItem="nLa-H9-zki" firstAttribute="top" secondItem="jy8-P9-jQr" secondAttribute="bottom" constant="20" id="R2B-wc-xYp"/>
+                        <constraint firstAttribute="trailing" secondItem="eaK-Dh-KpR" secondAttribute="trailing" constant="15" id="Y9w-He-8MT"/>
+                        <constraint firstItem="eaK-Dh-KpR" firstAttribute="top" secondItem="nLa-H9-zki" secondAttribute="bottom" constant="10" id="Ze1-HW-cws"/>
+                        <constraint firstItem="eaK-Dh-KpR" firstAttribute="leading" secondItem="NbV-kh-oFz" secondAttribute="leading" constant="15" id="nxN-Ie-gbD"/>
+                        <constraint firstItem="jy8-P9-jQr" firstAttribute="centerY" secondItem="NbV-kh-oFz" secondAttribute="centerY" constant="-50" id="q9P-4p-W2S"/>
+                        <constraint firstItem="nLa-H9-zki" firstAttribute="leading" secondItem="NbV-kh-oFz" secondAttribute="leading" id="vY5-GL-PRH"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="H5b-zv-HpZ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2fR-MP-xQH"/>
+                <constraint firstAttribute="bottom" secondItem="H5b-zv-HpZ" secondAttribute="bottom" id="5Qq-JP-SfI"/>
+                <constraint firstAttribute="bottom" secondItem="NbV-kh-oFz" secondAttribute="bottom" id="AnV-gG-vL4"/>
+                <constraint firstItem="NbV-kh-oFz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="WIw-nU-FiM"/>
+                <constraint firstItem="H5b-zv-HpZ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="104" id="WXA-2T-yjA"/>
+                <constraint firstItem="NbV-kh-oFz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="iob-iW-opa"/>
+                <constraint firstAttribute="trailing" secondItem="H5b-zv-HpZ" secondAttribute="trailing" id="pCU-sw-EcH"/>
+                <constraint firstAttribute="trailing" secondItem="NbV-kh-oFz" secondAttribute="trailing" id="uor-0i-JPv"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="user_permissions" width="96" height="96"/>
+    </resources>
+</document>

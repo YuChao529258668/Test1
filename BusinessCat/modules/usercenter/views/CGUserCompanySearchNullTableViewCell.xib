@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="350" id="KGk-i7-Jjw" customClass="CGUserCompanySearchNullTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="350"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="349.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_moren" translatesAutoresizingMaskIntoConstraints="NO" id="ImF-3f-976">
+                        <rect key="frame" x="70" y="55" width="180" height="180"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="180" id="MzZ-Ke-J28"/>
+                            <constraint firstAttribute="width" constant="180" id="OPs-Sw-FdB"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="如果找不到你的组织，可以进行创建" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L3J-jm-A1v">
+                        <rect key="frame" x="0.0" y="250" width="320" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="5Dq-pj-Tpm"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jw5-T9-Ocl">
+                        <rect key="frame" x="105" y="279" width="110" height="36"/>
+                        <color key="backgroundColor" red="0.0078431372549019607" green="0.58823529411764708" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="PQn-GN-pkk"/>
+                            <constraint firstAttribute="width" constant="110" id="j0i-iW-r7g"/>
+                        </constraints>
+                        <state key="normal" title="我要创建">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="L3J-jm-A1v" firstAttribute="top" secondItem="ImF-3f-976" secondAttribute="bottom" constant="15" id="0H5-5l-eSJ"/>
+                    <constraint firstItem="jw5-T9-Ocl" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="7nO-bg-t8l"/>
+                    <constraint firstItem="jw5-T9-Ocl" firstAttribute="top" secondItem="L3J-jm-A1v" secondAttribute="bottom" constant="8" id="RlN-93-ePv"/>
+                    <constraint firstItem="L3J-jm-A1v" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="XO7-Li-AMl"/>
+                    <constraint firstItem="ImF-3f-976" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="XoA-cG-qiv"/>
+                    <constraint firstItem="ImF-3f-976" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="-30" id="jBq-oi-1uA"/>
+                    <constraint firstAttribute="trailing" secondItem="L3J-jm-A1v" secondAttribute="trailing" id="ou7-hM-zr7"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="createButton" destination="jw5-T9-Ocl" id="Zhz-QF-fGE"/>
+                <outlet property="detailLabel" destination="L3J-jm-A1v" id="6CS-UZ-mwz"/>
+            </connections>
+            <point key="canvasLocation" x="15" y="157"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="user_moren" width="180" height="180"/>
+    </resources>
+</document>

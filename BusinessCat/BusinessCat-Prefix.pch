@@ -1,0 +1,189 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+
+#define IOS_CELLULAR    @"pdp_ip0"
+#define IOS_WIFI        @"en0"
+#define IOS_VPN         @"utun0"
+#define IP_ADDR_IPv4    @"ipv4"
+#define IP_ADDR_IPv6    @"ipv6"
+
+#define kWXAPP_ID @"wx73bea73b9ead58e8"
+#define kWXAPP_SECRET @"1bc7ba5d9ba71c319b7691c5f65b18af"
+
+//用户信息的key
+#define CurrentLoginedUser @"CurrentLoginedUser"
+//用户信息的本地保存路径
+#define LoginUserInfoPath [NSString stringWithFormat:@"%@/%@",[CTFileUtil getDocumentsPath],CurrentLoginedUser]
+
+//首页下拉刷新通知
+#define HOMEPAGE_PULLDOWN_REFRESH @"NotificationPullDownToRefresh"
+
+//头条详情爆料通知
+#define NOTIFICATION_HEADLINE_FACT @"NotificationHeadlineFact"
+
+//退出登录通知
+#define NOTIFICATION_LOGOUT @"NotificationLogout"
+//登录成功通知
+#define NOTIFICATION_LOGINSUCCESS @"NotificationLoginSuccess"
+
+#define NOTIFICATION_DISCOVER_MAINPAGE_RELOAD @"NotificationDiscoverMainPageReload"
+
+//微信支付成功
+#define NOTIFICATION_WEIXINPAYSUCCESS @"NotificationWeiXinPaySuccess"
+//知识分打赏成功
+#define NOTIFICATION_INTEGRALEXCEPTIONALSUCCESS @"NotificationIntegralExceptionalSuccess"
+
+//刷新体验
+#define NOTIFICATION_JOINPRODUCT @"JionProudct"
+
+//关注/取消关注成功后回调
+#define NOTIFICATION_ATTENTION @"Attention"
+
+
+#define NOTIFICATION_WITHDRAWDEPOSIT @"NotificationwithdrawDeposit"
+
+//修改字体大小通知
+#define NOTIFICATION_FONTSIZE @"NotificationFontSize"
+
+//拉取服务器用户信息
+#define NOTIFICATION_TOQUERYUSERINFO @"NotificationToQueryUserInfo"
+
+//购买会员成功
+#define NOTIFICATION_BUYMEMBER @"NotificationBuyMember"
+
+//修改技能级别通知
+#define NOTIFICATION_UPDATESKILLLEVEL @"NotificationUpdateSkillLevel"
+
+//刷新界面的用户信息，包括组织的变更后需要界面做调整的，接收此通知
+#define NOTIFICATION_TOUPDATEUSERINFO @"NotificationUpdateUserInfo"
+
+//刷新岗位知识排序knowledge
+#define NOTIFICATION_JOBKNOWLEDGE @"NotificationJOBKnowledge"
+//岗位知识排序第一个位置改变时回调
+#define NOTIFICATION_JOBKNOWLEDGEFIRST @"NotificationJOBKnowledgeFirst"
+
+//刷新本地体验
+#define NOTIFICATION_UPDATLIGHTEXP @"NotificationUpdateLightExp"
+
+//获取微信code
+#define NOTIFICATION_GETWEIXINCODE @"NotificationGetWeiXinCode"
+
+//推送别名
+#define UMessagePush_Alias @"com.jp.knowledge"
+//头条收藏回调
+#define NOTIFICATION_UPDATECOLLECTSTATE @"NotificationUpdateCollectState"
+
+//登录验证码的倒计时
+#define NOTIFICATION_LOGIN_TIMER @"NotificationLoginTimer"
+
+//APP回到前台发出的通知
+#define NotificationToApplicationDidBecomeActive @"NotificationToApplicationDidBecomeActive"
+//APP退到后台发出的通知
+#define NotificationToApplicationDidEnterBackground @"NotificationToApplicationDidEnterBackground"
+
+#define DEF_KEY_SHOWN_WELCOME @"shownWelcome"
+
+#define DISCOVER_DATA @"discoverAppsData"
+
+#define USER_DATA @"UserData"
+
+//首页菜单数据
+#define HomePageMenuData @"HomePageMenuData"
+
+//发现首页
+#define DISCOVER_TOP_DATA @"discoverTopData"
+//工具首页
+#define TOOL_TOP_DATA @"toolTopData"
+
+#define LIGHTEXP_DATA @"lightExpData"
+//保存第一次使用应用
+#define DEF_First @"DefaultsFitst"
+
+//企业圈最新动态数据
+#define DISCOVER_STATE_LAST @"DiscoverStateLast"
+
+#define NotificationDiscoverHasLastData @"NotificationDiscoverHasLastData"
+
+#define NotificationSystemMessageRedHot @"NotificationSystemMessageRedHot"
+
+//存储字体大小
+#define NSUSERDEFAULT_FONTSIZE @"NSUserDefaultFontSize"
+
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import "AppConstants.h"
+    #import "URLConstants.h"
+    #import "ObjectShareTool.h"
+    #import "UIImageView+WebCache.h"
+    #import "CTStringUtil.h"
+    #import "MJExtension.h"
+    #import "NSObject+MJProperty.h"
+    #import "SVProgressHUD.h"
+    #import <MJRefresh.h>
+    #import "CTCommonTool.h"
+    #import "UIImage+Transform.h"
+    #import "GiFHUD.h"
+    #import "WKWebViewController.h"
+    #import "CGCommonBiz.h"
+#endif
+
+
+
+
+// Justalk cloud 的 pch
+#ifndef JCPrefix_pch
+#define JCPrefix_pch
+#ifdef __OBJC__
+#import <JCApi/JCApi.h>
+#import "JCBaseViewController.h"
+#import "UIImage+Tint.h"
+#endif
+#endif /* JCPrefix_pch */
+
+
+// 腾讯云 demo
+
+#ifndef TIMChat_Prefix_h
+#define TIMChat_Prefix_h
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+
+// 是否支持富文本显示
+#define kTestChatAttachment 1
+
+#import "CommonLibrary.h"
+
+#import "TIMAdapter.h"
+
+#import "ImageHeader.h"
+
+#import "ConstHeader.h"
+
+#import "CustomUIHeader.h"
+
+#import "AppDelegate.h"
+
+#import "AppUIHeaders.h"
+
+#import <AVFoundation/AVAsset.h>
+#endif
+
+#endif /* TIMChat_Prefix_h */
+
+
+
+
+

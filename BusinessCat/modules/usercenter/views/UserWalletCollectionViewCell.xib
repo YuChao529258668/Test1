@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="UserWalletCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="367" height="380"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="367" height="380"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1U9-En-8g9">
+                        <rect key="frame" x="0.0" y="0.0" width="367" height="380"/>
+                        <color key="backgroundColor" red="0.97254901959999995" green="0.97254901959999995" blue="0.97254901959999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tableView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="1U9-En-8g9" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="JL5-re-pYt"/>
+                <constraint firstAttribute="trailing" secondItem="1U9-En-8g9" secondAttribute="trailing" id="QWv-MA-Qnx"/>
+                <constraint firstAttribute="bottom" secondItem="1U9-En-8g9" secondAttribute="bottom" id="SJj-E1-2Kk"/>
+                <constraint firstItem="1U9-En-8g9" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Us3-Fl-n10"/>
+            </constraints>
+            <size key="customSize" width="367" height="380"/>
+            <connections>
+                <outlet property="tableView" destination="1U9-En-8g9" id="4uQ-Nt-Cfb"/>
+            </connections>
+            <point key="canvasLocation" x="192.5" y="269"/>
+        </collectionViewCell>
+    </objects>
+</document>
