@@ -1,0 +1,56 @@
+/* 
+  Localizable.strings
+  UltimateShow
+
+  Created by young on 16/12/23.
+  Copyright © 2016年 young. All rights reserved.
+*/
+
+"confirm" = "确定";
+"cancel" = "取消";
+"back" = "返回";
+"save" = "保存";
+
+"setting" = "设置";
+"resolution" = "分辨率";
+"capacity" = "参会人数";
+"join mode" = "参会方式";
+"cdn push" = "CDN推流";
+"server address" = "服务器地址";
+"privacy" = "隐私";
+"about" = "关于";
+"contact us" = "联系我们";
+"version" = "版本";
+"send" = "发送";
+
+"video" = "视频";
+"audio" = "语音";
+
+"sure to delete" = "确定要删除吗？";
+"delete" = "删除";
+"edit" = "编辑";
+
+"save successful" = "保存成功";
+"add" = "添加";
+
+"please click this input server address" = "请点此输入服务器地址";
+"please enter the server address" = "请输入服务器地址";
+"set default" = "设为默认";
+
+"microphone" = "麦克风";
+"camera" = "相机";
+
+"microphone privacy unauthorized" = "无法访问麦克风。会议中其他人将无法听到您的声音。";
+"camera privacy unauthorized" = "无法访问相机。会议中其他人将无法看到您的画面。";
+
+"describe the issue you encountered" = "请描述您所遇到的问题";
+"thank you for your report" = "感谢您的反馈！";
+
+"sure to quit" = "确定退出？";
+"join failed" = "加入失败";
+
+
+"Please enter the number 15 meeting" = "请输入15位以内的会议号";
+"Please enter the letters or conference number" = "请输入字母或数字作为会议号";
+
+"sure to quit doodle" = "确定终止当前的白板共享？";
