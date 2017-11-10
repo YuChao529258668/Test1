@@ -47,6 +47,21 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "WXApi.h"
 
+//// 视频会议
+//#import <JCApi/JCApi.h>
+//#define kJCKey @"5f523868f54c24aa8fdc5096"
+////#import "RoomViewController.h"
+//
+//// 语音会议
+//#import "avatar/zos/zos_type.h"
+//#import "grape/zmf.h"
+//#import "lemon/lemon.h"
+//#import <JusCall/JusCall.h>
+//#import <JusLogin/JusLogin.h>
+////#import <JusDoodle/JusDoodle.h>
+//#import <PushKit/PushKit.h>
+
+#import "YCJCSDKHelper.h"
 
 @interface AppDelegate ()<UNUserNotificationCenterDelegate,WXApiDelegate>
 @property (nonatomic, copy) NSString *recordId;
@@ -60,6 +75,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // 腾讯云
     [super application:application didFinishLaunchingWithOptions:launchOptions];
+    
+    // 初始化 JCSDK
+//    [YCJCSDKHelper initializeVideoCall]; // 视频
+    [YCJCSDKHelper initializeMultiCall]; // 语音
     
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
