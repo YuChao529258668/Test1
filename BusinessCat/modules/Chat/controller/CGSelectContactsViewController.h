@@ -13,6 +13,7 @@
 // 显示在导航栏
 @property (nonatomic,copy) NSString *titleForBar;
 
-@property (nonatomic,copy) void (^completeBtnClickBlock)(NSMutableArray<CGUserCompanyContactsEntity *> *contacts);
+// 返回 YES 表示要 dismiss 该控制器
+@property (nonatomic,copy) BOOL (^completeBtnClickBlock)(NSMutableArray<CGUserCompanyContactsEntity *> *contacts);
 
 @end

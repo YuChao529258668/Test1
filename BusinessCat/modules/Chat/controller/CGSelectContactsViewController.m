@@ -57,11 +57,20 @@
 }
 
 - (void)completeBtnClick {
-//    [self fetchSelectedContacts];
+    BOOL shouldDismiss = YES;
+    
     if (self.completeBtnClickBlock) {
-        self.completeBtnClickBlock(self.contactsNoDuplicate);
+        shouldDismiss = self.completeBtnClickBlock(self.contactsNoDuplicate);
     }
-    if (self.contactsNoDuplicate.count > 0) {
+    if (shouldDismiss) {
+        [self dismissViewController];
+    }
+}
+
+- (void)dismissViewController {
+    if (self.presentingViewController) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
