@@ -10,7 +10,7 @@
 #import "CGUserCompanyContactsEntity.h"
 
 @interface CGSelectContactsViewController ()<UITableViewDelegate>
-//@interface CGSelectContactsViewController ()
+
 // 可能包含重复的，因为一个朋友可以加入多个公司。用于判断是否显示勾勾
 @property (nonatomic,strong) NSMutableArray<CGUserCompanyContactsEntity *> *contactsMayDuplicate;
 // 没有重复的。用于创建群聊
@@ -18,7 +18,11 @@
 // 没有重复。用于判断是否要添加到 contactsNoDuplicate
 @property (nonatomic,strong) NSMutableArray<NSString *> *selectedContactIDs;
 
+@property (nonatomic,strong) UIButton *cancleBtn; // 取消
+@property (nonatomic,strong) UIButton *completeBtn; // 完成选择
+
 @end
+
 
 @implementation CGSelectContactsViewController
 
@@ -27,13 +31,13 @@
     // Do any additional setup after loading the view.
     
     [self setupCompleteBtn];
+    [self setupCancleBtn];
     [self configTableView];
     self.titleView.text = self.titleForBar;
     
     self.contactsMayDuplicate = [NSMutableArray new];
     self.contactsNoDuplicate = [NSMutableArray new];
     self.selectedContactIDs = [NSMutableArray new];
-
 }
 
 - (void)configTableView {
@@ -47,24 +51,52 @@
     self.tableview.tableHeaderView = nil;
 }
 
+- (void)configRightBtn {
+    if (self.selectedContactIDs.count > 0) {
+        self.cancleBtn.hidden = YES;
+        self.completeBtn.hidden = NO;
+    } else {
+        self.cancleBtn.hidden = NO;
+        self.completeBtn.hidden = YES;
+    }
+}
+
+
+#pragma mark - Setup
+
 - (void)setupCompleteBtn {
     UIButton *btn = [[UIButton alloc] initWithFrame:self.rightBtn.frame];
     [btn setTitle:@"完成" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(completeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn.hidden = YES;
+    self.completeBtn = btn;
     [self.rightBtn removeFromSuperview];
     [self.navi addSubview:btn];
 }
 
+- (void)setupCancleBtn {
+    UIButton *btn = [[UIButton alloc] initWithFrame:self.rightBtn.frame];
+    [btn setTitle:@"取消" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(cancleBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.cancleBtn = btn;
+    [self.rightBtn removeFromSuperview];
+    [self.navi addSubview:btn];
+}
+
+
+#pragma mark - Actions
+
+- (void)cancleBtnClick {
+    [self dismissViewController];
+}
+
 - (void)completeBtnClick {
-    BOOL shouldDismiss = YES;
-    
     if (self.completeBtnClickBlock) {
-        shouldDismiss = self.completeBtnClickBlock(self.contactsNoDuplicate);
+        self.completeBtnClickBlock(self.contactsNoDuplicate);
     }
-    if (shouldDismiss) {
-        [self dismissViewController];
-    }
+    [self dismissViewController];
 }
 
 - (void)dismissViewController {
@@ -110,6 +142,7 @@
     } else {
 //        NSLog(@"已包含 %@", contact.userName);
     }
+    [self configRightBtn];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -118,6 +151,7 @@
     [self.contactsMayDuplicate removeObject:contact];
     [self.contactsNoDuplicate removeObject:contact];
     [self.selectedContactIDs removeObject:contact.userId];
+    [self configRightBtn];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
