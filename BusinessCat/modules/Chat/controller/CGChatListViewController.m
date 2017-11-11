@@ -10,6 +10,7 @@
 #import "CGDiscoverPartSeeAddressViewController.h" // 选择部分联系人
 #import "CGUserContactsViewController.h" // 通讯录
 #import "CGSelectContactsViewController.h" // 选择通讯录
+#import "YCMultiCallHelper.h"
 
 //// 视频会议
 //#import <JCApi/JCApi.h>
@@ -44,12 +45,18 @@
 }
 @property(nonatomic,strong)UIView *navi;
 @property(nonatomic,strong)UILabel *titleView;
-@property (nonatomic,assign) BOOL isJCSDKLogin;
 
 @end
 
 
 @implementation CGChatListViewController
+
+- (void)dealloc {
+    [self removeObserverForLoginLogout];
+    
+    //    [[NSNotificationCenter defaultCenter] removeObserver:self name:@MtcLoginOkNotification object:nil];
+    //    [[NSNotificationCenter defaultCenter] removeObserver:self name:@MtcCliServerLoginDidFailNotification object:nil];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -58,33 +65,20 @@
     [self createCustomNavi];
     [self setupCreateGroupChatBtn];
     
-    //    [self initialTengXunYun];
-//    [self initialJCSDK];
-//    [self initialJCSDKCall];
-//    [YCJCSDKHelper initializeMultiCall];
-//    [YCJCSDKHelper initializeVideoCall];
-    
 //    [YCJCSDKHelper loginVideoCall];
     [YCJCSDKHelper loginMultiCall];
     [self setupCallVideoBtn];
     [self setupCallBtn];
-    
 }
-
-- (void)dealloc {
-    [self removeObserverForLoginLogout];
-    
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@MtcLoginOkNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@MtcCliServerLoginDidFailNotification object:nil];
-    
-}
-
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [self pinHeaderView];
     [self configOwnViews];
+    
+//    [self editMultiCallViewController];
+
     
     //    [[TIMGroupManager sharedInstance]getGroupList:^(NSArray *arr) {
     //        for (IMAGroup *group in arr) {
@@ -105,6 +99,18 @@
     //    }];
 }
 
+//- (void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//
+//    // 设置为 nil，释放资源
+//    [self editMultiCallViewController];
+//}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self editMultiCallViewController];
+}
 
 
 #pragma mark - 创建群聊
@@ -298,7 +304,8 @@
         return;
     }
     
-    [WXApi registerApp:WX_APP_ID];
+//    [WXApi registerApp:WX_APP_ID];
+    
     //demo暂不提供微博登录
     //[WeiboSDK registerApp:WB_APPKEY];
     
@@ -364,7 +371,8 @@
         [weakSelf enterMainUI];
     } fail:^(int code, NSString *msg) {
         [[HUDHelper sharedInstance] syncStopLoadingMessage:IMALocalizedError(code, msg) delay:2 completion:^{
-            [weakSelf pullLoginUI];
+//            [weakSelf pullLoginUI];
+            NSLog(@"腾讯云登录失败 %@, %@", msg, NSStringFromSelector(_cmd));
         }];
     }];
 }
@@ -406,12 +414,14 @@
     
     TLSUserInfo *userinfo = [TLSUserInfo new];
     userinfo.accountType = 0;
-    if (SCREEN_WIDTH == 375) {
-        // iPhone 8是375，8plus 是540
-        userinfo.identifier = kTestUserID;
-    } else {
-        userinfo.identifier = currentUser.txyIdentifier;
-    }
+//    if (SCREEN_WIDTH == 375) {
+//        // iPhone 8是375，8plus 是540
+//        userinfo.identifier = kTestUserID;
+//    } else {
+//        userinfo.identifier = currentUser.txyIdentifier;
+//    }
+    userinfo.identifier = currentUser.txyIdentifier;
+
     [self loginWith:userinfo]; // acctype:0 userid:yc529258668
 }
 
@@ -432,12 +442,14 @@
             _loginParam.identifier = userinfo.identifier;
             //            _loginParam.userSig = [[TLSHelper getInstance] getTLSUserSig:userinfo.identifier];
             
-            if (SCREEN_WIDTH == 375) {
-                // iPhone 8 是375，8 plus 是540
-                _loginParam.userSig = kUserSig;
-            } else {
-                _loginParam.userSig = currentUser.txyUsersig;
-            }
+//            if (SCREEN_WIDTH == 375) {
+//                // iPhone 8 是375，8 plus 是540
+//                _loginParam.userSig = kUserSig;
+//            } else {
+//                _loginParam.userSig = currentUser.txyUsersig;
+//            }
+            _loginParam.userSig = currentUser.txyUsersig;
+
             _loginParam.tokenTime = [[NSDate date] timeIntervalSince1970];
             
             // 获取本地的登录config
@@ -455,7 +467,6 @@
     [self loginWith:userInfo];
 }
 
-
 - (void)OnRefreshTicketFail:(TLSErrInfo *)errInfo
 {
     _loginParam.tokenTime = 0;
@@ -468,12 +479,10 @@
     
 }
 
-
 - (void)OnRefreshTicketTimeout:(TLSErrInfo *)errInfo
 {
     [self OnRefreshTicketFail:errInfo];
 }
-
 
 
 #pragma mark - 创建视频会议
@@ -494,9 +503,8 @@
         RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
         //    roomVc.roomId = @"9990";
 //        roomVc.roomId = @"10726763"; // 服务器
-//        roomVc.roomId = @"10877365"; // 服务器
+        roomVc.roomId = @"10877365"; // 服务器
 //        roomVc.roomId = @"10563734"; // yj 创建的会议室
-        roomVc.roomId = @"10250779";
         
         roomVc.displayName = @"余超";
         [self.navigationController pushViewController:roomVc animated:YES];
@@ -505,63 +513,9 @@
     }
 }
 
-#pragma mark - 初始化 JCSDk
-
-//- (void)initialTengXunYun {
-//    TIMManager *manager = [TIMManager sharedInstance];
-//    TIMSdkConfig *config = [[TIMSdkConfig alloc] init];
-//    config.sdkAppId = [kSdkAppId intValue] ;
-//    config.accountType = kSdkAccountType;
-//    //    config.disableCrashReport = NO;
-//    //    config.connListener = self;
-//    int r = [manager initSdk:config];
-//    if (r == 0) {
-//        NSLog(@"腾讯云初始化成功");
-//    }
-//}
-
 
 #pragma mark - 创建电话会议
 // http://www.justalkcloud.com/cn/docs/gitbook/call/CallServiceIntegrationUsingUIControls/iOS/readme.html
-
-//- (void)loginJCSDKCall {
-//    //    http://www.justalkcloud.com/cn/docs/gitbook/account/LoginUsingJusLogin/iOS/readme.html
-//
-//    // 不会重复注册吗？
-//
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleJCSDKLoginOK) name:@MtcLoginOkNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMtcCliServerLoginDidFailNotification:) name:@MtcCliServerLoginDidFailNotification object:nil];
-//
-//    NSString *server = @"http:router.justalkcloud.com:8080";
-//    if ([MtcLoginManager Login:@"1837" password:@"111" network:server] == ZOK) {
-//        NSLog(@"调用语音登录成功");
-//    }
-//
-//}
-
-//- (void)logoutJCSDKCall {
-//    [MtcLoginManager Logout];
-//}
-
-//- (void)handleJCSDKLoginOK {
-//    NSLog(@"语音登录成功");
-//    self.isJCSDKLogin = YES;
-//    //    [MtcCallManager Call:@"1836" displayName:nil peerDisplayName:nil isVideo:NO userInfo:nil];
-//    //    [MtcCallManager Call:@"test" displayName:nil peerDisplayName:nil isVideo:NO userInfo:nil];
-//}
-//
-//- (void)handleMtcCliServerLoginDidFailNotification:(NSNotification *)noti {
-//    //    http://www.justalkcloud.com/cn/docs/gitbook/account/LoginErrorCode/readme.html
-//    // MtcCliStatusCodeKey
-//    NSLog(@"%@ 语音登录失败 %@", NSStringFromSelector(_cmd), noti.userInfo);
-//    self.isJCSDKLogin = NO;
-//
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self loginJCSDKCall];
-//    });
-//}
-
-
 
 - (void)setupCallBtn {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -574,24 +528,37 @@
     [btn addTarget:self action:@selector(callBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)callBtnClick {
-    //    CallViewController *callViewController = [[CallViewController alloc] init];
-    //    [self.navigationController pushViewController:callViewController animated:YES];
+- (void)editMultiCallViewController {
+    UIViewController *vc = self.presentedViewController;
+    if (vc.class == NSClassFromString(@"CallingViewController")) {
+        [YCMultiCallHelper setMultiCallViewController:vc];
+    }
     
+    // 设置为 nil，释放资源
+//    if (!vc) {
+//        [YCMultiCallHelper setMultiCallViewController:vc];
+//    }
+}
+
+- (void)callBtnClick {
     // 判断猫有没有登录
     
-    
 //    NSArray *numbers = @[@"1837", @"test"];
+//    @"a2af44fb-f67e-4143-9cc1-0a935f044d73"
     NSArray *numbers = @[@"1837"];
+//    NSArray *numbers = @[@"a2af44fb-f67e-4143-9cc1-0a935f044d73"];
     NSString *displayName = @"余超";
 //    NSString *user1 = @"1837";
-    NSString *user2 = @"test";
+//    NSString *user2 = @"test";
+    NSString *user3 = @"a2af44fb-f67e-4143-9cc1-0a935f044d73";
 
     if ([YCJCSDKHelper isLoginedForMultiCall]) {
+//        [self test];
+//        [[YCMultiCallHelper shareHelper] setSourceVC:self];
         [YCJCSDKHelper multiCall:numbers displayName:displayName];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [YCJCSDKHelper calll:user2 displayName:nil peerDisplayName:nil isVideo:NO];
+            [YCJCSDKHelper calll:user3 displayName:nil peerDisplayName:nil isVideo:NO];
         });
     } else {
         [YCJCSDKHelper loginMultiCall];

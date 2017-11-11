@@ -321,6 +321,7 @@
 		0D90E0771FB4836600EDB7CF /* YCJCSDKHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D90E0761FB4836600EDB7CF /* YCJCSDKHelper.m */; };
 		0D90E07A1FB5470D00EDB7CF /* JusMultiCall.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0D90E0781FB5470B00EDB7CF /* JusMultiCall.bundle */; };
 		0D90E07B1FB5470D00EDB7CF /* JusMultiCall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D90E0791FB5470D00EDB7CF /* JusMultiCall.framework */; };
+		0D90E0811FB5A9E700EDB7CF /* YCMultiCallHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D90E0801FB5A9E700EDB7CF /* YCMultiCallHelper.m */; };
 		0DA9C38B1FA8270D00A91427 /* CGChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA9C38A1FA8270D00A91427 /* CGChatListViewController.m */; };
 		0DA9C38E1FA8492B00A91427 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA9C38D1FA8492B00A91427 /* StoreKit.framework */; };
 		0DBF462B1FB3053600707C12 /* JusDoodle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0DBF45E31FB3053500707C12 /* JusDoodle.bundle */; };
@@ -2010,6 +2011,8 @@
 		0D90E0761FB4836600EDB7CF /* YCJCSDKHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCJCSDKHelper.m; sourceTree = "<group>"; };
 		0D90E0781FB5470B00EDB7CF /* JusMultiCall.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JusMultiCall.bundle; sourceTree = "<group>"; };
 		0D90E0791FB5470D00EDB7CF /* JusMultiCall.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JusMultiCall.framework; sourceTree = "<group>"; };
+		0D90E07F1FB5A9E700EDB7CF /* YCMultiCallHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMultiCallHelper.h; sourceTree = "<group>"; };
+		0D90E0801FB5A9E700EDB7CF /* YCMultiCallHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMultiCallHelper.m; sourceTree = "<group>"; };
 		0DA9C3891FA8270D00A91427 /* CGChatListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGChatListViewController.h; sourceTree = "<group>"; };
 		0DA9C38A1FA8270D00A91427 /* CGChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGChatListViewController.m; sourceTree = "<group>"; };
 		0DA9C38C1FA8492700A91427 /* BusinessCat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BusinessCat.entitlements; sourceTree = "<group>"; };
@@ -5054,6 +5057,8 @@
 				0DA9C38A1FA8270D00A91427 /* CGChatListViewController.m */,
 				0D90E0721FB43F0E00EDB7CF /* CGSelectContactsViewController.h */,
 				0D90E0711FB43F0E00EDB7CF /* CGSelectContactsViewController.m */,
+				0D90E07F1FB5A9E700EDB7CF /* YCMultiCallHelper.h */,
+				0D90E0801FB5A9E700EDB7CF /* YCMultiCallHelper.m */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -8899,6 +8904,7 @@
 				0D90E0281FB43C3A00EDB7CF /* MicroVideoView.m in Sources */,
 				18322E3C1EF7CE0900B238CC /* CGDiscoverTeamDetailViewController.m in Sources */,
 				1835DA101DBA17E10006ED07 /* CGUserCompanySearchNullTableViewCell.m in Sources */,
+				0D90E0811FB5A9E700EDB7CF /* YCMultiCallHelper.m in Sources */,
 				18E481091F03922700A94FF8 /* qrencode.c in Sources */,
 				0D90E00A1FB43C3A00EDB7CF /* UIView+Additions.m in Sources */,
 				D710B7DD1D99043100688D72 /* CTCommonUtil.m in Sources */,

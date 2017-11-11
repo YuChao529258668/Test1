@@ -109,6 +109,8 @@ static YCJCSDKHelper * helper;
 
 
 #pragma mark - 语音
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleJCSDKLoginOK) name:@MtcLoginOkNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMtcCliServerLoginDidFailNotification:) name:@MtcCliServerLoginDidFailNotification object:nil];
 
 // 语音用的 demo 是 justalk-cloud
 
@@ -154,5 +156,26 @@ static YCJCSDKHelper * helper;
 + (void)multiCall:(NSArray *)numbers displayName:(NSString *)dispalyName {
     [MtcCallManager multiCall:numbers displayName:dispalyName];
 }
+
+
+
+
+
+//#pragma mark - 初始化 腾讯云
+
+//- (void)initialTengXunYun {
+//    TIMManager *manager = [TIMManager sharedInstance];
+//    TIMSdkConfig *config = [[TIMSdkConfig alloc] init];
+//    config.sdkAppId = [kSdkAppId intValue] ;
+//    config.accountType = kSdkAccountType;
+//    //    config.disableCrashReport = NO;
+//    //    config.connListener = self;
+//    int r = [manager initSdk:config];
+//    if (r == 0) {
+//        NSLog(@"腾讯云初始化成功");
+//    }
+//}
+
+
 
 @end
