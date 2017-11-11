@@ -10,6 +10,7 @@
 
 @interface YCJCSDKHelper : NSObject
 
+// 注意，语音初始化和登录了，视频就不用初始化了，也不用登录。
 
 #pragma mark - 视频会议模块
 

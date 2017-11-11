@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D7430FC1FB6FC61002867FA /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7430FB1FB6FC5D002867FA /* PushKit.framework */; };
 		0D90DF351FB43C3900EDB7CF /* ADTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D90DC621FB43C3800EDB7CF /* ADTransition.m */; };
 		0D90DF361FB43C3900EDB7CF /* ADFlipTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D90DC651FB43C3800EDB7CF /* ADFlipTransition.m */; };
 		0D90DF371FB43C3900EDB7CF /* UICollectionViewController+ADFlipTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D90DC671FB43C3800EDB7CF /* UICollectionViewController+ADFlipTransition.m */; };
@@ -1347,6 +1348,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D7430FB1FB6FC5D002867FA /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		0D90DC601FB43C3800EDB7CF /* ADHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADHeaders.h; sourceTree = "<group>"; };
 		0D90DC611FB43C3800EDB7CF /* ADTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADTransition.h; sourceTree = "<group>"; };
 		0D90DC621FB43C3800EDB7CF /* ADTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADTransition.m; sourceTree = "<group>"; };
@@ -3666,6 +3668,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D7430FC1FB6FC61002867FA /* PushKit.framework in Frameworks */,
 				0DBF46381FB305D200707C12 /* libstdc++.6.tbd in Frameworks */,
 				D7F44C471DAA7627004393C2 /* SystemConfiguration.framework in Frameworks */,
 				D7F44C491DAA7630004393C2 /* CoreTelephony.framework in Frameworks */,
@@ -5011,6 +5014,8 @@
 			children = (
 				0D90E0751FB4836600EDB7CF /* YCJCSDKHelper.h */,
 				0D90E0761FB4836600EDB7CF /* YCJCSDKHelper.m */,
+				0D90E07F1FB5A9E700EDB7CF /* YCMultiCallHelper.h */,
+				0D90E0801FB5A9E700EDB7CF /* YCMultiCallHelper.m */,
 			);
 			path = YCJCSDKHelper;
 			sourceTree = "<group>";
@@ -5057,8 +5062,6 @@
 				0DA9C38A1FA8270D00A91427 /* CGChatListViewController.m */,
 				0D90E0721FB43F0E00EDB7CF /* CGSelectContactsViewController.h */,
 				0D90E0711FB43F0E00EDB7CF /* CGSelectContactsViewController.m */,
-				0D90E07F1FB5A9E700EDB7CF /* YCMultiCallHelper.h */,
-				0D90E0801FB5A9E700EDB7CF /* YCMultiCallHelper.m */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -7461,6 +7464,7 @@
 		EF8F4E14DE3978A597FB876D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D7430FB1FB6FC5D002867FA /* PushKit.framework */,
 				0DBF46391FB305E600707C12 /* libresolv.tbd */,
 				0DBF46371FB305D200707C12 /* libstdc++.6.tbd */,
 				0DBF46351FB3059D00707C12 /* CoreMotion.framework */,
