@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+
+// 用于会议列表界面的 cell 里面的 collectionview
 @interface CGUsersCollectionViewCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end

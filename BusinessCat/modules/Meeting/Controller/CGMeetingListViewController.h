@@ -1,5 +1,5 @@
 //
-//  MeetingListViewController.h
+//  CGMeetingListViewController.h
 //  BusinessCat
 //
 //  Created by 余超 on 2017/11/13.
@@ -8,6 +8,6 @@
 
 #import "YCBaseViewController.h"
 
-@interface MeetingListViewController : YCBaseViewController
+@interface CGMeetingListViewController : YCBaseViewController
 
 @end
