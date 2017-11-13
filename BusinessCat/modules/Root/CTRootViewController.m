@@ -20,6 +20,7 @@
 #import "CGCompanyDao.h"
 #import "AttentionBiz.h"
 
+#import "CGMeetingListViewController.h"
 
 #define kTabCount 5
 #define kChat 0
@@ -43,6 +44,13 @@
 @end
 
 @implementation CTRootViewController
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    CGMeetingListViewController *vc = [CGMeetingListViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 -(UILabel *)redHot{
     if(!_redHot){

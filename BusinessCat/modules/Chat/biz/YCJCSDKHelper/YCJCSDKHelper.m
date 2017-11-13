@@ -124,13 +124,14 @@ static YCJCSDKHelper * helper;
     }
     
     [MtcLoginManager Init:kJCKey];
+    //    [MtcLoginManager Set:self]; // MtcLoginDelegate
+
     //    [MtcPushManager SetPayloadForCall:@MY_PUSH_CALL_PAYLOAD                     Expiration:MY_PUSH_EXPIRATION];
     [MtcCallManager Init];
     
     //    [MtcDoodleManager Init:(id<MtcDoodleDelegate>)self];
     //    [MtcDoodleManager Init:nil];
     
-    //    [MtcLoginManager Set:self]; // MtcLoginDelegate
 }
 
 + (BOOL)isLoginedForMultiCall {
@@ -157,7 +158,15 @@ static YCJCSDKHelper * helper;
     [MtcCallManager multiCall:numbers displayName:dispalyName];
 }
 
+// MtcLoginOkNotification
++ (void)onLoginMultiCallSuccess {
+    
+}
 
+// MtcLoginDidFailNotification
++ (void)onLoginMultiCallFaild {
+    
+}
 
 
 
