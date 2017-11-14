@@ -13,10 +13,13 @@
 #import "CGMeeting.h"
 
 #define kHeaderViewHeight 46
-
+#define kCreateMeetingBtnHeight 50
+#define kMeetingListBottomBarHeight 70
 
 @interface CGMeetingListViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) UIView *bottomBar;
+
 @property (nonatomic,strong) NSMutableArray *meetings;
 
 @end
@@ -33,6 +36,21 @@
     [self getMeetingModels];
 }
 
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+//    NSLog(@"%@", NSStringFromCGRect(self.view.frame));
+//    NSLog(@"%@", @(self.navigationController.navigationBar.frame.size.height));
+
+    CGRect frame = self.view.frame;
+    frame.origin = CGPointZero;
+    frame.size.height -= kMeetingListBottomBarHeight;
+    self.tableView.frame = frame;
+    
+    float y = self.view.frame.size.height - kMeetingListBottomBarHeight;
+    float width = self.view.frame.size.width;
+    self.bottomBar.frame = CGRectMake(0, y, width, kMeetingListBottomBarHeight);
+}
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -40,8 +58,13 @@
 
 #pragma mark - Setup
 
+// 布局在viewWillLayoutSubviews
 - (void)setupTableView {
-    UITableView *tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    CGRect frame = self.view.frame;
+    frame.origin = CGPointZero;
+    frame.size.height -= kMeetingListBottomBarHeight;
+    
+    UITableView *tableView = [[UITableView alloc]initWithFrame:frame style:UITableViewStylePlain];
     [self.view addSubview:tableView];
     self.tableView = tableView;
     
@@ -73,8 +96,30 @@
     [btn addTarget:self action:@selector(headerViewClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
+// 布局在viewWillLayoutSubviews
 - (void)setupCreateMeetingBtn {
+    // 创建按钮容器
+    float y = self.view.frame.size.height - kMeetingListBottomBarHeight;
+    float width = self.view.frame.size.width;
+    UIView *bar = [[UIView alloc]initWithFrame:CGRectMake(0, y, width, kMeetingListBottomBarHeight)];
+    bar.backgroundColor = [UIColor whiteColor];
     
+    // 创建按钮
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGRect frame = CGRectMake(0, 0, kCreateMeetingBtnHeight, kCreateMeetingBtnHeight);
+    btn.frame = frame;
+    btn.center = CGPointMake(width / 2, kMeetingListBottomBarHeight / 2);
+    
+    btn.layer.cornerRadius = kCreateMeetingBtnHeight / 2;
+    btn.clipsToBounds = YES;
+    btn.backgroundColor = [UIColor redColor];
+    
+    [btn setImage:[UIImage imageNamed:@"common_add_white"] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(createMeetingBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    
+    [bar addSubview:btn];
+    [self.view addSubview:bar];
+    self.bottomBar = bar;
 }
 
 #pragma mark -
@@ -89,7 +134,7 @@
 }
 
 - (void)createMeetingBtnClick {
-    
+
 }
 
 #pragma mark - Data
