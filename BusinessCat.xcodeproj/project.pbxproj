@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D07DE0C1FB9413B000E2A1D /* 030104.工作_会议_列表.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D07DE0B1FB9413B000E2A1D /* 030104.工作_会议_列表.png */; };
 		0D07DE0E1FB9415F000E2A1D /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D07DE0D1FB9415F000E2A1D /* View.xib */; };
 		0D07DE121FB94CC1000E2A1D /* CGUsersCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D07DE111FB94CC1000E2A1D /* CGUsersCollectionView.m */; };
 		0D07DE161FB94E4E000E2A1D /* CGUsersCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D07DE141FB94E4E000E2A1D /* CGUsersCollectionViewCell.m */; };
@@ -1358,7 +1357,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0D07DE0B1FB9413B000E2A1D /* 030104.工作_会议_列表.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "030104.工作_会议_列表.png"; path = "../../../../../../../Downloads/03.工作_会议/030104.工作_会议_列表.png"; sourceTree = "<group>"; };
 		0D07DE0D1FB9415F000E2A1D /* View.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
 		0D07DE101FB94CC1000E2A1D /* CGUsersCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CGUsersCollectionView.h; sourceTree = "<group>"; };
 		0D07DE111FB94CC1000E2A1D /* CGUsersCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CGUsersCollectionView.m; sourceTree = "<group>"; };
@@ -3811,7 +3809,6 @@
 			isa = PBXGroup;
 			children = (
 				0D07DE0F1FB94C68000E2A1D /* CGUsersCollectionView */,
-				0D07DE0B1FB9413B000E2A1D /* 030104.工作_会议_列表.png */,
 				0D7431071FB93FFF002867FA /* CGMeetingListCell.h */,
 				0D7431081FB93FFF002867FA /* CGMeetingListCell.m */,
 				0D7431091FB93FFF002867FA /* CGMeetingListCell.xib */,
@@ -8072,7 +8069,6 @@
 				187724871DEEB23100D38E8A /* SubCollectionViewCell.xib in Resources */,
 				181C55111EC2FECE0064354D /* CGMessageDetailTextTableViewCell.xib in Resources */,
 				18322E421EF93A9D00B238CC /* CGNoIdentityTableViewCell.xib in Resources */,
-				0D07DE0C1FB9413B000E2A1D /* 030104.工作_会议_列表.png in Resources */,
 				0DBF47B71FB3087400707C12 /* camera_switch_normal@2x.png in Resources */,
 				1835DA1E1DBB4AAA0006ED07 /* CGUserCompanyTypeTableViewCell.xib in Resources */,
 				0DBF47771FB3087300707C12 /* doodle@2x.png in Resources */,
