@@ -20,13 +20,14 @@
 #import "CGCompanyDao.h"
 #import "AttentionBiz.h"
 
-#import "CGMeetingListViewController.h"
+#import "YCWorkViewController.h"
 
 #define kTabCount 5
-#define kChat 0
-#define kKnowledgeMeal 1
-#define kKnowledgeBase 2
-#define kDiscoverMain 3
+#define kWork 0
+#define kChat 1
+#define kKnowledgeMeal 2
+#define kKnowledgeBase 3
+#define kDiscoverMain 5
 #define kMyMain 4
 
 
@@ -45,12 +46,12 @@
 
 @implementation CTRootViewController
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    CGMeetingListViewController *vc = [CGMeetingListViewController new];
-    [self.navigationController pushViewController:vc animated:YES];
-}
+//- (void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//    
+//    CGMeetingListViewController *vc = [CGMeetingListViewController new];
+//    [self.navigationController pushViewController:vc animated:YES];
+//}
 
 -(UILabel *)redHot{
     if(!_redHot){
@@ -243,9 +244,27 @@
             [self addChildViewController:self.chatListVC];
             [self.chatListVC.view setFrame:self.contentView.bounds];
             [self.contentView addSubview:self.chatListVC.view];
+//            tabView.hidden = NO;
+//            [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
+        }
+        else if(i ==  kWork){
+            tabEntity.title = @"工作";
+            tabEntity.normalImage = @"tab_homepage";
+            tabEntity.selectedName = @"tab_homepage_hl";
+            [self.tabEntitys addObject:tabEntity];
+            
+            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
+            [self.tabbarView addSubview:tabView];
+            [self.tabViews addObject:tabView];
+            
+            self.workVC = [[YCWorkViewController alloc]init];
+            [self addChildViewController:self.workVC];
+            [self.workVC.view setFrame:self.contentView.bounds];
+            [self.contentView addSubview:self.workVC.view];
             tabView.hidden = NO;
             [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
-        } else if(i == kKnowledgeMeal){
+        }
+        else if(i == kKnowledgeMeal){
             tabEntity.title = @"今日知识";
             tabEntity.normalImage = @"tab_homepage";
             tabEntity.selectedName = @"tab_homepage_hl";

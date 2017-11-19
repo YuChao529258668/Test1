@@ -7,6 +7,7 @@
 //
 
 #import "CGMeetingListViewController.h"
+#import "YCBookMeetingController.h"
 
 #import "CGMeetingListCell.h"
 
@@ -15,7 +16,7 @@
 #define kHeaderViewHeight 46
 #define kCreateMeetingBtnHeight 50
 #define kCreateMeetingBtnRightSpace 10
-#define kCreateMeetingBtnBottomSpace 10
+#define kCreateMeetingBtnBottomSpace 30
 
 //#define kMeetingListBottomBarHeight 70
 
@@ -101,9 +102,10 @@
     frame.size.height = kHeaderViewHeight;
     btn.frame = frame;
     
-    btn.backgroundColor = [UIColor redColor];
+    btn.backgroundColor = CTThemeMainColor;
     [btn setTitle:@"您有会议正在召开，点此进入..." forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn.titleLabel setFont:[UIFont systemFontOfSize:16]];
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(headerViewClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -120,16 +122,18 @@
     
     btn.layer.cornerRadius = kCreateMeetingBtnHeight / 2;
     btn.clipsToBounds = YES;
-    btn.backgroundColor = [UIColor redColor];
+    btn.backgroundColor = CTThemeMainColor;
     
-    [btn setImage:[UIImage imageNamed:@"common_add_white"] forState:UIControlStateNormal];
+    UIImage *image = [UIImage imageNamed:@"common_add_white"];
+    image = [image imageWithTintColor:[UIColor blackColor]];
+    [btn setImage:image forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(createMeetingBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
     self.createMeetingBtn = btn;
     [self.view addSubview:btn];
 }
 
-#pragma mark -
+#pragma mark - Action
 
 - (void)headerViewClick {
     
@@ -141,7 +145,8 @@
 }
 
 - (void)createMeetingBtnClick {
-
+    YCBookMeetingController *vc = [YCBookMeetingController new];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Data

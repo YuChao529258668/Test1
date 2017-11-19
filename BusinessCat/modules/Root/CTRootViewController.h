@@ -16,7 +16,7 @@
 #import "CTKnowledgeMealViewController.h"
 
 #import "CGChatListViewController.h"
-
+#import "YCWorkViewController.h"
 
 @interface CTRootViewController : CTBaseViewController
 
@@ -51,6 +51,8 @@
 @property (nonatomic,strong) CGDiscoverMainController *discoverVC;
 @property (nonatomic,strong) CGMyMainViewController *myVC;
 @property (nonatomic,strong) CGChatListViewController *chatListVC;
+@property (nonatomic,strong) YCWorkViewController *workVC;
+
 
 
 //默认显示哪个tab
