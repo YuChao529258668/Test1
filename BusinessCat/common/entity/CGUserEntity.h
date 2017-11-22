@@ -11,6 +11,8 @@
 #import "CGUserRoles.h"
 #import "CGUserIndustry.h"
 
+@class CGUserOrganizaJoinEntity;
+
 @interface CGUserEntity : NSObject
 
 @property (nonatomic,retain) NSString *uuid;
@@ -24,7 +26,7 @@
 @property(nonatomic,assign)int isVip;//1是vip 0非vip 2续费vip
 @property(nonatomic,assign)int vipDays;//vip过期天数，正数为离过期还有多少天 负数为已过期多少天
 @property(nonatomic,assign) NSInteger vipTime;//VIP到期时间
-@property (nonatomic,retain) NSString *portrait;
+@property (nonatomic,retain) NSString *portrait; // 头像
 @property (nonatomic,retain) NSString *grade;
 @property (nonatomic,retain) NSString *gradeName;
 @property (nonatomic,retain) NSString *qrcode;
@@ -53,7 +55,10 @@
 //用户行业
 @property (nonatomic,retain) NSMutableArray *industry;
 //用户加入的组织列表
-@property(nonatomic,retain) NSMutableArray *companyList;
+@property(nonatomic,retain) NSMutableArray<CGUserOrganizaJoinEntity *> *companyList;
+
+// 默认返回 companyList 的第一个公司的 companyId
+- (NSString *)getCompanyID;
 
 // 腾讯云
 @property (nonatomic,strong) NSDictionary *txy;

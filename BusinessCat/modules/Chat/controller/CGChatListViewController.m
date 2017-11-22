@@ -219,7 +219,7 @@
         self.navi.backgroundColor = CTThemeMainColor;
         self.titleView = [[UILabel alloc]initWithFrame:CGRectMake(TOPBARCONTENTHEIGHT+5, CTMarginTop, SCREEN_WIDTH-2*(TOPBARCONTENTHEIGHT+5), TOPBARCONTENTHEIGHT)];
         self.titleView.backgroundColor = [UIColor clearColor];
-        self.titleView.textColor = [UIColor whiteColor];
+        self.titleView.textColor = [UIColor blackColor];
         self.titleView.textAlignment = NSTextAlignmentCenter;
         self.titleView.font = [UIFont systemFontOfSize:18];
         [self.navi addSubview:self.titleView];
@@ -245,7 +245,7 @@
 //            self.navi.backgroundColor = CTThemeMainColor;
 //            self.titleView = [[UILabel alloc]initWithFrame:CGRectMake(TOPBARCONTENTHEIGHT+5, CTMarginTop, SCREEN_WIDTH-2*(TOPBARCONTENTHEIGHT+5), TOPBARCONTENTHEIGHT)];
 //            self.titleView.backgroundColor = [UIColor clearColor];
-//            self.titleView.textColor = [UIColor whiteColor];
+//            self.titleView.textColor = [UIColor blackColor];
 //            self.titleView.textAlignment = NSTextAlignmentCenter;
 //            self.titleView.font = [UIFont systemFontOfSize:18];
 //            [self.navi addSubview:self.titleView];
@@ -346,9 +346,15 @@
 {
     if ([_loginParam isExpired])
     {
-        [[HUDHelper sharedInstance] syncLoading:@"刷新票据。。。"];
+//        [[HUDHelper sharedInstance] syncLoading:@"刷新票据。。。"];
         //刷新票据
-        [[TLSHelper getInstance] TLSRefreshTicket:_loginParam.identifier andTLSRefreshTicketListener:self];
+        int success = [[TLSHelper getInstance] TLSRefreshTicket:_loginParam.identifier andTLSRefreshTicketListener:self];
+        // 0表示调用成功；其它表示调用失败
+        if (success != 0) {
+//            [[HUDHelper sharedInstance] syncStopLoading];
+//            [[HUDHelper sharedInstance] syncStopLoadingMessage:@"刷新票据失败"];
+            NSLog(@"刷新票据失败");
+        }
     }
     else
     {

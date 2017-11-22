@@ -12,29 +12,20 @@
 #define kCGMeetingListCellBtnClickNotification @"kCGMeetingListCellBtnClickNotification"
 
 
-// 编译错误 提示找不到 CGMeetingListCellButtonModell 类
-// 参与会议的用户信息
-//@interface CGMeetingListCellButtonModell : NSObject
-//@property (nonatomic,strong) NSString *title;
-//@property (nonatomic,strong) NSString *modelID;
-//@end
-
-
-// Cell
 @interface CGMeetingListCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *meetingTypeLabel;
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *meetingTypeLabel; // 会议名字
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 @property (weak, nonatomic) IBOutlet UIButton *button; // 点击发送通知,通知里的参数是 cell
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
-//@property (nonatomic,strong) NSString *modelID;
-//@property (nonatomic,strong) NSArray<CGMeetingListCellButtonModell *> *btnModels;
 @property (nonatomic,strong) NSArray *titles;
 @property (nonatomic,strong) NSIndexPath *indexPath;
 
-
-- (void)setCountLabelTextWithNumber:(NSString *)count;
+- (void)setImageName:(NSString *)name;
+- (void)setCountLabelTextWithNumber:(NSUInteger)count;
 - (void)setTimeLabelTextWithTimeInterval:(NSString *)interval;
 + (float)cellHeight;
 

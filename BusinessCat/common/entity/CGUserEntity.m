@@ -7,6 +7,8 @@
 //
 
 #import "CGUserEntity.h"
+#import "CGUserOrganizaJoinEntity.h"
+
 
 @implementation CGUserEntity
 -(void)encodeWithCoder:(NSCoder *)aCoder{
@@ -104,5 +106,10 @@
     self.txyIdentifier = txy[@"Identifier"];
     self.txyUsersig = txy[@"Usersig"];
 }
+
+- (NSString *)getCompanyID {
+    return self.companyList.firstObject.companyId;
+}
+
 
 @end

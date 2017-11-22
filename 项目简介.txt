@@ -133,3 +133,11 @@ TIM_GROUP 分支也修改了。
 
 ipad，从微信登录跳转回来，会打开手机登录界面，？？？关掉应用重新打开，一直提示6017.
 
+
+获取当期用户
+[ObjectShareTool sharedInstance].currentUser
+
+刷新票据失败
+
+
+

@@ -76,9 +76,10 @@
 -(CTButtonRightImg *)navTypeBtn{
     if(!_navTypeBtn){
         _navTypeBtn = [[CTButtonRightImg alloc]initWithFrame:CGRectMake(0, 22, SCREEN_WIDTH, 44)];
-        [_navTypeBtn setImage:[UIImage imageNamed:@"triangle"] forState:UIControlStateNormal];
+        UIImage *image = [[UIImage imageNamed:@"triangle"] imageWithTintColor:[UIColor blackColor]];
+        [_navTypeBtn setImage:image forState:UIControlStateNormal];
         [_navTypeBtn addTarget:self action:@selector(clickNavTypeAction:) forControlEvents:UIControlEventTouchUpInside];
-        [_navTypeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_navTypeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     return _navTypeBtn;
 }

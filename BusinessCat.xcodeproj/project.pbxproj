@@ -7,15 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D07DE0E1FB9415F000E2A1D /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D07DE0D1FB9415F000E2A1D /* View.xib */; };
 		0D07DE121FB94CC1000E2A1D /* CGUsersCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D07DE111FB94CC1000E2A1D /* CGUsersCollectionView.m */; };
 		0D07DE161FB94E4E000E2A1D /* CGUsersCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D07DE141FB94E4E000E2A1D /* CGUsersCollectionViewCell.m */; };
 		0D07DE171FB94E4E000E2A1D /* CGUsersCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D07DE151FB94E4E000E2A1D /* CGUsersCollectionViewCell.xib */; };
+		0D15EE941FC28AD70088CE11 /* YCMeetingBiz.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D15EE931FC28AD70088CE11 /* YCMeetingBiz.m */; };
 		0D3EB2B71FBA9CC900DAE678 /* Meeting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */; };
 		0D3EB2B91FBA9D0B00DAE678 /* 030105.工作_会议_预约会议.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D3EB2B81FBA9D0B00DAE678 /* 030105.工作_会议_预约会议.png */; };
 		0D3EB2DF1FC12D6600DAE678 /* 预约会议.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D3EB2DE1FC12D6600DAE678 /* 预约会议.png */; };
 		0D3EB2E31FC1806900DAE678 /* YCBookMeetingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */; };
 		0D3EB2E71FC1825700DAE678 /* YCWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E61FC1825700DAE678 /* YCWorkViewController.m */; };
+		0D46268C1FC1E0620004A993 /* Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D46268B1FC1E0620004A993 /* Test.storyboard */; };
+		0D46268E1FC1E0B50004A993 /* 030102.工作_会议_有会议.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D46268D1FC1E0B50004A993 /* 030102.工作_会议_有会议.png */; };
+		0D57A52B1FC2B69A008C30C7 /* YCMeetingRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D57A52A1FC2B69A008C30C7 /* YCMeetingRoom.m */; };
+		0D57A5301FC2C42D008C30C7 /* YCDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D57A52E1FC2C42D008C30C7 /* YCDatePickerViewController.m */; };
+		0D57A5311FC2C42D008C30C7 /* YCDatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D57A52F1FC2C42D008C30C7 /* YCDatePickerViewController.xib */; };
+		0D57A5331FC51703008C30C7 /* 030112.工作_会议_修改预约_未开始.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D57A5321FC51702008C30C7 /* 030112.工作_会议_修改预约_未开始.png */; };
+		0D57A5371FC55738008C30C7 /* YCSelectMeetingRoomController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D57A5361FC55738008C30C7 /* YCSelectMeetingRoomController.m */; };
+		0D57A5391FC557E3008C30C7 /* 030107.工作_会议_选择会议室.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D57A5381FC557E1008C30C7 /* 030107.工作_会议_选择会议室.png */; };
+		0D57A53C1FC559D4008C30C7 /* YCSelectRoomHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D57A53B1FC559D4008C30C7 /* YCSelectRoomHeaderView.m */; };
+		0D57A53E1FC559E5008C30C7 /* YCSelectRoomHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D57A53D1FC559E5008C30C7 /* YCSelectRoomHeaderView.xib */; };
 		0D7430FC1FB6FC61002867FA /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7430FB1FB6FC5D002867FA /* PushKit.framework */; };
 		0D7430FF1FB93BAC002867FA /* YCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7430FE1FB93BAC002867FA /* YCBaseViewController.m */; };
 		0D7431061FB93D91002867FA /* CGMeetingListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7431051FB93D91002867FA /* CGMeetingListViewController.m */; };
@@ -1362,12 +1372,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0D07DE0D1FB9415F000E2A1D /* View.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
 		0D07DE101FB94CC1000E2A1D /* CGUsersCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CGUsersCollectionView.h; sourceTree = "<group>"; };
 		0D07DE111FB94CC1000E2A1D /* CGUsersCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CGUsersCollectionView.m; sourceTree = "<group>"; };
 		0D07DE131FB94E4E000E2A1D /* CGUsersCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CGUsersCollectionViewCell.h; sourceTree = "<group>"; };
 		0D07DE141FB94E4E000E2A1D /* CGUsersCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CGUsersCollectionViewCell.m; sourceTree = "<group>"; };
 		0D07DE151FB94E4E000E2A1D /* CGUsersCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CGUsersCollectionViewCell.xib; sourceTree = "<group>"; };
+		0D15EE921FC28AD70088CE11 /* YCMeetingBiz.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingBiz.h; sourceTree = "<group>"; };
+		0D15EE931FC28AD70088CE11 /* YCMeetingBiz.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingBiz.m; sourceTree = "<group>"; };
 		0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Meeting.storyboard; sourceTree = "<group>"; };
 		0D3EB2B81FBA9D0B00DAE678 /* 030105.工作_会议_预约会议.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "030105.工作_会议_预约会议.png"; path = "../../../../../../../Downloads/03.工作_会议_新/030105.工作_会议_预约会议.png"; sourceTree = "<group>"; };
 		0D3EB2DE1FC12D6600DAE678 /* 预约会议.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "预约会议.png"; sourceTree = "<group>"; };
@@ -1375,6 +1386,20 @@
 		0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCBookMeetingController.m; sourceTree = "<group>"; };
 		0D3EB2E51FC1825700DAE678 /* YCWorkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCWorkViewController.h; sourceTree = "<group>"; };
 		0D3EB2E61FC1825700DAE678 /* YCWorkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCWorkViewController.m; sourceTree = "<group>"; };
+		0D46268B1FC1E0620004A993 /* Test.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Test.storyboard; sourceTree = "<group>"; };
+		0D46268D1FC1E0B50004A993 /* 030102.工作_会议_有会议.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "030102.工作_会议_有会议.png"; sourceTree = "<group>"; };
+		0D57A5291FC2B69A008C30C7 /* YCMeetingRoom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingRoom.h; sourceTree = "<group>"; };
+		0D57A52A1FC2B69A008C30C7 /* YCMeetingRoom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingRoom.m; sourceTree = "<group>"; };
+		0D57A52D1FC2C42D008C30C7 /* YCDatePickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCDatePickerViewController.h; sourceTree = "<group>"; };
+		0D57A52E1FC2C42D008C30C7 /* YCDatePickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCDatePickerViewController.m; sourceTree = "<group>"; };
+		0D57A52F1FC2C42D008C30C7 /* YCDatePickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCDatePickerViewController.xib; sourceTree = "<group>"; };
+		0D57A5321FC51702008C30C7 /* 030112.工作_会议_修改预约_未开始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "030112.工作_会议_修改预约_未开始.png"; sourceTree = "<group>"; };
+		0D57A5351FC55738008C30C7 /* YCSelectMeetingRoomController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCSelectMeetingRoomController.h; sourceTree = "<group>"; };
+		0D57A5361FC55738008C30C7 /* YCSelectMeetingRoomController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCSelectMeetingRoomController.m; sourceTree = "<group>"; };
+		0D57A5381FC557E1008C30C7 /* 030107.工作_会议_选择会议室.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "030107.工作_会议_选择会议室.png"; sourceTree = "<group>"; };
+		0D57A53A1FC559D4008C30C7 /* YCSelectRoomHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCSelectRoomHeaderView.h; sourceTree = "<group>"; };
+		0D57A53B1FC559D4008C30C7 /* YCSelectRoomHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCSelectRoomHeaderView.m; sourceTree = "<group>"; };
+		0D57A53D1FC559E5008C30C7 /* YCSelectRoomHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCSelectRoomHeaderView.xib; sourceTree = "<group>"; };
 		0D7430FB1FB6FC5D002867FA /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		0D7430FD1FB93BAC002867FA /* YCBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCBaseViewController.h; sourceTree = "<group>"; };
 		0D7430FE1FB93BAC002867FA /* YCBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCBaseViewController.m; sourceTree = "<group>"; };
@@ -3786,6 +3811,15 @@
 			path = CGUsersCollectionView;
 			sourceTree = "<group>";
 		};
+		0D15EE911FC28A740088CE11 /* Biz */ = {
+			isa = PBXGroup;
+			children = (
+				0D15EE921FC28AD70088CE11 /* YCMeetingBiz.h */,
+				0D15EE931FC28AD70088CE11 /* YCMeetingBiz.m */,
+			);
+			path = Biz;
+			sourceTree = "<group>";
+		};
 		0D1C8E3E1FB3F315003F1958 /* TengXunYun */ = {
 			isa = PBXGroup;
 			children = (
@@ -3844,9 +3878,32 @@
 			path = Work;
 			sourceTree = "<group>";
 		};
+		0D57A52C1FC2C3E8008C30C7 /* YCDatePickerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0D57A52D1FC2C42D008C30C7 /* YCDatePickerViewController.h */,
+				0D57A52E1FC2C42D008C30C7 /* YCDatePickerViewController.m */,
+				0D57A52F1FC2C42D008C30C7 /* YCDatePickerViewController.xib */,
+			);
+			path = YCDatePickerViewController;
+			sourceTree = "<group>";
+		};
+		0D57A5341FC55706008C30C7 /* YCSelectMeetingRoomController */ = {
+			isa = PBXGroup;
+			children = (
+				0D57A5351FC55738008C30C7 /* YCSelectMeetingRoomController.h */,
+				0D57A5361FC55738008C30C7 /* YCSelectMeetingRoomController.m */,
+				0D57A53A1FC559D4008C30C7 /* YCSelectRoomHeaderView.h */,
+				0D57A53B1FC559D4008C30C7 /* YCSelectRoomHeaderView.m */,
+				0D57A53D1FC559E5008C30C7 /* YCSelectRoomHeaderView.xib */,
+			);
+			path = YCSelectMeetingRoomController;
+			sourceTree = "<group>";
+		};
 		0D7431001FB93CF3002867FA /* Meeting */ = {
 			isa = PBXGroup;
 			children = (
+				0D15EE911FC28A740088CE11 /* Biz */,
 				0D7431031FB93D16002867FA /* Model */,
 				0D7431021FB93D0D002867FA /* Controller */,
 				0D7431011FB93D02002867FA /* View */,
@@ -3859,10 +3916,13 @@
 			children = (
 				0D07DE0F1FB94C68000E2A1D /* CGUsersCollectionView */,
 				0D3EB2B41FBA9C6A00DAE678 /* CGMeetingListCell */,
-				0D07DE0D1FB9415F000E2A1D /* View.xib */,
 				0D3EB2B81FBA9D0B00DAE678 /* 030105.工作_会议_预约会议.png */,
+				0D46268D1FC1E0B50004A993 /* 030102.工作_会议_有会议.png */,
+				0D57A5321FC51702008C30C7 /* 030112.工作_会议_修改预约_未开始.png */,
+				0D57A5381FC557E1008C30C7 /* 030107.工作_会议_选择会议室.png */,
 				0D3EB2DE1FC12D6600DAE678 /* 预约会议.png */,
 				0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */,
+				0D46268B1FC1E0620004A993 /* Test.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3870,6 +3930,7 @@
 		0D7431021FB93D0D002867FA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0D57A5341FC55706008C30C7 /* YCSelectMeetingRoomController */,
 				0D3EB2E01FC1801D00DAE678 /* YCBookMeetingController */,
 				0D3EB2B51FBA9C8900DAE678 /* CGMeetingListViewController */,
 			);
@@ -3881,6 +3942,8 @@
 			children = (
 				0D74310C1FB94093002867FA /* CGMeeting.h */,
 				0D74310D1FB94093002867FA /* CGMeeting.m */,
+				0D57A5291FC2B69A008C30C7 /* YCMeetingRoom.h */,
+				0D57A52A1FC2B69A008C30C7 /* YCMeetingRoom.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -7061,6 +7124,7 @@
 		D7BF3EAA1D98F9D900FC94E6 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				0D57A52C1FC2C3E8008C30C7 /* YCDatePickerViewController */,
 				1842BE291E2A08AB00697332 /* GiFHUD.h */,
 				1842BE2A1E2A08AB00697332 /* GiFHUD.m */,
 				D781F6571DCB170600ECA3C9 /* CGRotateUtil.h */,
@@ -7866,8 +7930,8 @@
 				18D135741DC1D6EC001EEE0A /* CGDiscoverSourceCircleViewController.xib in Resources */,
 				0DBF480D1FB3087400707C12 /* JoinModeViewController.xib in Resources */,
 				1835DA5E1DC084AE0006ED07 /* CGUserPCImportViewController.xib in Resources */,
-				0D07DE0E1FB9415F000E2A1D /* View.xib in Resources */,
 				182CC0801ECDAB28008B19B9 /* CGExpListTableViewCell.xib in Resources */,
+				0D57A5391FC557E3008C30C7 /* 030107.工作_会议_选择会议室.png in Resources */,
 				0DBF47F61FB3087400707C12 /* volume_off_highlighted@3x.png in Resources */,
 				0DBF47A41FB3087400707C12 /* choose@3x.png in Resources */,
 				18E481121F04B0F500A94FF8 /* CGInviteMembersViewController.xib in Resources */,
@@ -7912,10 +7976,12 @@
 				18FD35401E88EBA30073E5A1 /* CGHeadlineDetailLeftTableViewCell.xib in Resources */,
 				181C55251EC4425D0064354D /* CGProductReviewViewController.xib in Resources */,
 				18427D5F1DC72D6000E19BC0 /* CGDiscoverOtherCompanyViewController.xib in Resources */,
+				0D57A53E1FC559E5008C30C7 /* YCSelectRoomHeaderView.xib in Resources */,
 				1835D9891DB8B3A60006ED07 /* CGUserCreateGroupTableViewCell.xib in Resources */,
 				187F1CCC1F5422A00098D1CE /* CGCollectUrlViewController.xib in Resources */,
 				1832844E1EDEA4DB00964D0B /* CGInterfaceDetailTopTableViewCell.xib in Resources */,
 				0DBF476E1FB3087300707C12 /* white@2x.png in Resources */,
+				0D57A5331FC51703008C30C7 /* 030112.工作_会议_修改预约_未开始.png in Resources */,
 				18B668151DB5B6F3003EA387 /* CGUserHeaderCollectionViewCell.xib in Resources */,
 				0DBF47861FB3087400707C12 /* JCMessageCell.xib in Resources */,
 				0DBF47AE1FB3087400707C12 /* camera_off@3x.png in Resources */,
@@ -7972,6 +8038,7 @@
 				183CDE601F2731290099520F /* CGMaterialCorrectionViewController.xib in Resources */,
 				1891BF901E9E140500D6F37B /* CGFeedbackViewController.xib in Resources */,
 				180F5A2B1EE69FE300BCB07F /* CGToolViewController.xib in Resources */,
+				0D57A5311FC2C42D008C30C7 /* YCDatePickerViewController.xib in Resources */,
 				1835DA111DBA17E10006ED07 /* CGUserCompanySearchNullTableViewCell.xib in Resources */,
 				0D90DFE61FB43C3A00EDB7CF /* 4.gif in Resources */,
 				1835D9981DB8C7300006ED07 /* CGUserAuditTableViewCell.xib in Resources */,
@@ -7994,6 +8061,7 @@
 				1827C4EC1E3383DE0019FE6B /* CGLoginOutTableViewCell.xib in Resources */,
 				1842BE3F1E2F504400697332 /* HeadlineLeftPicAddTableViewCell.xib in Resources */,
 				18C6C8041EEE7FEC009DFD89 /* CGTeamDocumentCollectionViewCell.xib in Resources */,
+				0D46268E1FC1E0B50004A993 /* 030102.工作_会议_有会议.png in Resources */,
 				1834BB501DB70C87008F4685 /* CGUserFireIconTableViewCell.xib in Resources */,
 				0D90DFDB1FB43C3A00EDB7CF /* 25.gif in Resources */,
 				0DBF481A1FB3087400707C12 /* VersionViewController.xib in Resources */,
@@ -8074,6 +8142,7 @@
 				1890F3DA1E6171CB00A0F1BF /* ThemeTableViewCell.xib in Resources */,
 				0DBF47B01FB3087400707C12 /* camera_off_highlighted@3x.png in Resources */,
 				0DBF47EE1FB3087400707C12 /* video_window_off_pressed@3x.png in Resources */,
+				0D46268C1FC1E0620004A993 /* Test.storyboard in Resources */,
 				0D90DFE91FB43C3A00EDB7CF /* 7.gif in Resources */,
 				0D90E0131FB43C3A00EDB7CF /* PE.dat in Resources */,
 				0DBF47BD1FB3087400707C12 /* information_highlighted@2x.png in Resources */,
@@ -8355,6 +8424,7 @@
 				0D90E0441FB43C3A00EDB7CF /* FriendProfileViewController.m in Sources */,
 				18427D4C1DC71D9B00E19BC0 /* CGPartSeeTableViewCell.m in Sources */,
 				D73749EB1DB46305002FD9EE /* CGHeadlineInfoDetailController.m in Sources */,
+				0D15EE941FC28AD70088CE11 /* YCMeetingBiz.m in Sources */,
 				18CEA6A01E5D6B8E00D9D17F /* CommentaryTableViewCell.m in Sources */,
 				18E4810A1F03922700A94FF8 /* qrinput.c in Sources */,
 				0D90DFBD1FB43C3A00EDB7CF /* ChatHeadRefreshView.m in Sources */,
@@ -8367,6 +8437,7 @@
 				0D90E0381FB43C3A00EDB7CF /* NewGroupViewController.m in Sources */,
 				181C55351EC493990064354D /* InterfaceCatalogEntity.m in Sources */,
 				18427D5E1DC72D6000E19BC0 /* CGDiscoverOtherCompanyViewController.m in Sources */,
+				0D57A53C1FC559D4008C30C7 /* YCSelectRoomHeaderView.m in Sources */,
 				1806D2E71DCC8741002CC77E /* CGUserChoseSchoolViewController.m in Sources */,
 				1838CF641EA859D5005480B3 /* CGKnowledgeBaseTableTopViewCell.m in Sources */,
 				184AB5B21DD1C5430020433E /* CGDiscoverDataEntity.m in Sources */,
@@ -8661,6 +8732,7 @@
 				181C55081EC2F6A20064354D /* CGMessageDetailViewController.m in Sources */,
 				0D90DF4A1FB43C3900EDB7CF /* NSDate+Common.m in Sources */,
 				0D90DF561FB43C3900EDB7CF /* UIView+CustomAutoLayout.m in Sources */,
+				0D57A5371FC55738008C30C7 /* YCSelectMeetingRoomController.m in Sources */,
 				181C54C61EC043F30064354D /* CGEnterpriseMemberViewController.m in Sources */,
 				182DC82A1E71263B00E9E982 /* UserWalletCollectionViewCell.m in Sources */,
 				186853501EA70BFA00B79EFD /* LWActionSheetView.m in Sources */,
@@ -8789,6 +8861,7 @@
 				0D90E02A1FB43C3A00EDB7CF /* RichChatTableViewCell.m in Sources */,
 				0D90DF821FB43C3A00EDB7CF /* NavigationViewController.m in Sources */,
 				0D90DF9F1FB43C3A00EDB7CF /* IMAPlatform+FriendShip.m in Sources */,
+				0D57A5301FC2C42D008C30C7 /* YCDatePickerViewController.m in Sources */,
 				1821E6DD1E28A9B90082F174 /* CGTopicToolBar.m in Sources */,
 				D7799E441ED94AB1009107E4 /* CGNavTypeSelector.m in Sources */,
 				1842BE3E1E2F504400697332 /* HeadlineLeftPicAddTableViewCell.m in Sources */,
@@ -8941,6 +9014,7 @@
 				1821E6D31E25109B0082F174 /* CGLibraryCollectionViewCell.m in Sources */,
 				D71142791D59CC720037F633 /* main.m in Sources */,
 				0D90E05F1FB43C3A00EDB7CF /* PopupMenuItem.m in Sources */,
+				0D57A52B1FC2B69A008C30C7 /* YCMeetingRoom.m in Sources */,
 				18CC894F1E692F2A00A0E7D1 /* UserNickNameTableViewCell.m in Sources */,
 				181C54EF1EC1C8810064354D /* CGBuyPackageTableViewCell.m in Sources */,
 				187124BE1E7A99B800C16E9C /* CGAttentionProductViewController.m in Sources */,

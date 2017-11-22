@@ -49,6 +49,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
     [MobClick beginLogPageView:NSStringFromClass([self class])];
 }
 
@@ -93,7 +94,7 @@
             self.navi.backgroundColor = CTThemeMainColor;
             self.titleView = [[UILabel alloc]initWithFrame:CGRectMake(TOPBARCONTENTHEIGHT+5, CTMarginTop, SCREEN_WIDTH-2*(TOPBARCONTENTHEIGHT+5), TOPBARCONTENTHEIGHT)];
             self.titleView.backgroundColor = [UIColor clearColor];
-            self.titleView.textColor = [UIColor whiteColor];
+            self.titleView.textColor = [UIColor blackColor];
             self.titleView.textAlignment = NSTextAlignmentCenter;
             self.titleView.font = [UIFont systemFontOfSize:18];
             [self.navi addSubview:self.titleView];

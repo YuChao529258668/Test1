@@ -19,10 +19,25 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self hideCustomBackBtn];
+    [self createCustomNavi];
+//    self.navigationItem.title = @"工作";
+    
     CGMeetingListViewController *vc = [CGMeetingListViewController new];
     [self addChildViewController:vc];
+    
+    CGRect frame = vc.view.frame;
+//    frame.size.height = self.view.frame.size.height - kCGBottomBarHeight - TOPBARHEIGHT;
+    frame.size.height = self.view.frame.size.height - TOPBARHEIGHT;
+    frame.origin.y = TOPBARHEIGHT;
+    vc.view.frame = frame;
     [self.view addSubview:vc.view];
 }
+
+//- (void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    [self.navigationController setNavigationBarHidden:NO animated:YES];
+//}
 
 #pragma mark - 适配旧代码
 
@@ -44,23 +59,23 @@
 //}
 //
 //
-//-(void)createCustomNavi{
-//    self.titleStr = @"消息";
-//    
-//    if(!self.navi){
-//        self.navi = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, TOPBARHEIGHT)];
-//        self.navi.backgroundColor = CTThemeMainColor;
-//        self.titleView = [[UILabel alloc]initWithFrame:CGRectMake(TOPBARCONTENTHEIGHT+5, CTMarginTop, SCREEN_WIDTH-2*(TOPBARCONTENTHEIGHT+5), TOPBARCONTENTHEIGHT)];
-//        self.titleView.backgroundColor = [UIColor clearColor];
-//        self.titleView.textColor = [UIColor whiteColor];
-//        self.titleView.textAlignment = NSTextAlignmentCenter;
-//        self.titleView.font = [UIFont systemFontOfSize:18];
-//        [self.navi addSubview:self.titleView];
-//    }
-//    self.titleView.text = _titleStr;
-//    [self.view addSubview:self.navi];
-//    
-//}
+-(void)createCustomNavi{
+    
+    if(!self.navi){
+        self.navi = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, TOPBARHEIGHT)];
+        self.navi.backgroundColor = CTThemeMainColor;
+        self.titleView = [[UILabel alloc]initWithFrame:CGRectMake(TOPBARCONTENTHEIGHT+5, CTMarginTop, SCREEN_WIDTH-2*(TOPBARCONTENTHEIGHT+5), TOPBARCONTENTHEIGHT)];
+        self.titleView.backgroundColor = [UIColor clearColor];
+        self.titleView.textColor = [UIColor blackColor];
+        self.titleView.textAlignment = NSTextAlignmentCenter;
+        self.titleView.font = [UIFont systemFontOfSize:18];
+        [self.navi addSubview:self.titleView];
+    }
+    self.titleView.text = @"工作";
+
+    [self.view addSubview:self.navi];
+    
+}
 
 - (void)tokenCheckComplete:(BOOL)state {
     
