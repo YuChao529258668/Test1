@@ -26,25 +26,35 @@
 @property (nonatomic,assign) NSTimeInterval timeb;
 @property (nonatomic,assign) NSTimeInterval timee;
 
-//
-//commonality                                  1;
-//companyid                                  "<null>";
-//costvideo                                  0;
-//costvoice                                  0;
-//createtime                                  "<null>";
-//freetime                                  120;
-//roomDefault                                  0;
-//roomHint
-//roomcharge                                  0;
-//roomid                                  "3a4c71eb-13e8-40fb-ae41-755bf67126d5";
-//roomname                                  "30\U4eba\U4f1a\U8bae\U5ba4";
-//roomnum                                  30;
-//state                                  1;
-//timeb                                  1509512400000;
-//timee                                  1512107999000;
 
 - (float)videoRoomPrice;
 // 免费/包月会议室时：直接显示为免费
 - (float)voiceRoomPrice;
 
 @end
+
+
+#pragma mark -
+
+@interface YCAvailableMeetingTime : NSObject
+
+@property (nonatomic,strong) NSString *info;
+@property (nonatomic,strong) NSString *timeB;
+@property (nonatomic,strong) NSString *timeE;
+
+//+ (NSArray *)timesWithKeyValues:(NSArray<NSDictionary *> *)array;
+
+@end
+
+
+#pragma mark -
+
+@interface YCAvailableMeetingTimeList : NSObject
+
+@property (nonatomic,strong) NSString *date;
+@property (nonatomic,strong) NSArray<YCAvailableMeetingTime *> *result;
+
++ (NSDictionary *)mj_objectClassInArray;
+
+@end
+

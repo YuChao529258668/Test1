@@ -261,14 +261,14 @@
 - (void)goToMeetingDetail:(CGMeeting *)meeting {
     YCBookMeetingController *vc = [YCBookMeetingController new];
     vc.meeting = meeting;
-    vc.isUseAsPreview = YES;
+    vc.style = YCBookMeetingControllerStylePreview;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToModifyMeeting:(CGMeeting *)meeting {
     YCBookMeetingController *vc = [YCBookMeetingController new];
     vc.meeting = meeting;
-    vc.isUseAsModify = YES;
+    vc.style = YCBookMeetingControllerStyleModify;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

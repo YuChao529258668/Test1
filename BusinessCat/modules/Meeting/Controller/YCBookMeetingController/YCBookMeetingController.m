@@ -9,6 +9,8 @@
 #import "YCBookMeetingController.h"
 #import "YCDatePickerViewController.h"
 #import "YCSelectMeetingRoomController.h"
+#import "YCSelectMeetingTimeController.h"
+
 
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoom.h"
@@ -52,8 +54,8 @@
 @property (nonatomic,strong) NSMutableArray<YCMeetingUser *> *users; // 参与开会的人
 @property (nonatomic,assign) int meetingType; // 会议类型 0：音频，1：视频
 
-
 @end
+
 
 @implementation YCBookMeetingController
 
@@ -66,13 +68,13 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
     
     
-    if (self.isUseAsCreate) {
+    if (self.style == YCBookMeetingControllerStyleCreate) {
         [self configViewForCreateMeeting];
     }
-    if (self.isUseAsPreview) {
+    if (self.style == YCBookMeetingControllerStylePreview) {
         [self configViewForPreviewMeetingDetail];
     }
-    if (self.isUseAsModify) {
+    if (self.style == YCBookMeetingControllerStyleModify) {
         [self configViewForModifyMeeting];
     }
     
@@ -93,9 +95,7 @@
         NSDate *after = [NSDate dateWithTimeInterval:30*60+59 sinceDate:now];
         self.beginDate = now;
         self.endDate = after;
-        self.isUseAsCreate = YES;
-        self.isUseAsPreview = NO;
-        self.isUseAsModify = NO;
+        self.style = YCBookMeetingControllerStyleCreate;
     }
     return self;
 }
@@ -165,12 +165,9 @@
     [self.createMeetingBtn setBackgroundColor:CTThemeMainColor];
     
     [self setDefaultMeetingCreater];
-    [self setDefaultMeetingDate];
+    [self updateMeetingDate];
     
     // 时长
-//    NSString *duration = [NSString stringWithFormat:@"%d 分钟", [self calculateMeetingDurationInMinute]] ;
-//    [self.meetingTimeBtn setTitle:duration forState:UIControlStateNormal];
-//    [self.meetingTimeBtn.titleLabel setTextColor:[UIColor blackColor]];
     [self updateMeetingDuration];
 
     // 类型。会议类型 0：音频，1：视频
@@ -252,6 +249,7 @@
     self.modifyMeetingBtn.hidden = YES;
     self.cancelMeetingBtn.hidden = YES;
     self.jianTouBtn.hidden = YES;
+    self.tickBtn.hidden = NO;
     self.tableViewBottomConstraint.constant = 0;
     
     // 会议状态   0:未开始     1：进行中     2：已结束      3：已取消
@@ -302,6 +300,20 @@
         [self updateMeetingCost];
     };
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)meetingTimeBtnClick:(UIButton *)sender {
+    YCSelectMeetingTimeController *vc = [YCSelectMeetingTimeController new];
+    vc.room = self.room;
+//    NSLog(@"会议有效时间 %@", NSStringFromSelector(_cmd));
+    vc.didSelectTime = ^(YCAvailableMeetingTime *time) {
+        self.beginDate = [NSDate dateWithTimeIntervalSince1970: time.timeB.doubleValue / 1000];
+        self.endDate = [NSDate dateWithTimeIntervalSince1970: time.timeE.doubleValue / 1000];
+        [self updateMeetingDate];
+        [self updateMeetingCost];
+        [self updateMeetingDuration];
+    };
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)meetingTypeBtnClick:(id)sender {
@@ -408,7 +420,7 @@
 
 #pragma mark -
 
-- (void)setDefaultMeetingDate {
+- (void)updateMeetingDate {
     [self updateMeetingBeginDate:self.beginDate];
     [self updateMeetingEndDate:self.endDate];
 }
@@ -466,9 +478,9 @@
 }
 
 - (void)checkMeetingDateValid {
-    return;
+    // 检查时间是否有效。得到结果后只需修改meetingTimeBtn的标题，不用修改其他数据。如果无效，用户会再点击meetingTimeBtn选择有效时间段。
     [[YCMeetingBiz new] checkMeetingDateValidWithBeginDate:self.beginDate endDate:self.endDate meetingID:self.room.roomid OnSuccess:^(NSString *message, int state, NSString *recommendTime) {
-        // 如果返回state<>0，代表时间有问题，需红色显示
+        // 如果返回state<>0，代表时间有问题，需红色显示. 状态:0可使用,1被预约,2超过限时
         if (state == 0) {
             [self.meetingTimeBtn setTitle:message forState:UIControlStateNormal];
             [self.meetingTimeBtn.titleLabel setTextColor:[UIColor blackColor]];
@@ -480,7 +492,6 @@
         NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
     }];
 }
-
 
 
 #pragma mark - Data

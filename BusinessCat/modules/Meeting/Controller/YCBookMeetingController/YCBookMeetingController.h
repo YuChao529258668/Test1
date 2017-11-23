@@ -9,13 +9,17 @@
 #import "YCBaseViewController.h"
 #import "CGMeeting.h"
 
+typedef NS_ENUM(NSUInteger, YCBookMeetingControllerStyle) {
+    YCBookMeetingControllerStyleCreate,
+    YCBookMeetingControllerStyleModify,
+    YCBookMeetingControllerStylePreview,
+};
+
 @interface YCBookMeetingController : YCBaseViewController
 
 @property (nonatomic,strong) CGMeeting *meeting;
 
 // 创建、预览、修改
-@property (nonatomic,assign) BOOL isUseAsCreate;
-@property (nonatomic,assign) BOOL isUseAsPreview;
-@property (nonatomic,assign) BOOL isUseAsModify;
+@property (nonatomic,assign) YCBookMeetingControllerStyle style;
 
 @end

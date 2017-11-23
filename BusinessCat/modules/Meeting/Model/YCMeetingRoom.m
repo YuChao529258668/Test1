@@ -45,3 +45,52 @@
 }
 
 @end
+
+
+#pragma mark -
+
+@implementation YCAvailableMeetingTime
+
+//+ (NSArray *)timesWithKeyValues:(NSArray<NSDictionary *> *)array {
+//    NSMutableArray *times = [NSMutableArray arrayWithCapacity:array.count];
+//
+//    for (NSDictionary *dic in array) {
+//        YCAvailableMeetingTime *time = [YCAvailableMeetingTime new];
+//        time.dateStr = dic[@"date"];
+//
+//        NSArray *result = dic[@"result"];
+//        for (NSDictionary *d in result) {
+//            time.info = d[@"info"];
+//            time.timeB = d[@"timeB"];
+//            time.timeE = d[@"timeE"];
+//        }
+//        [times addObject:time];
+//    }
+//    return times;
+//}
+
+
+@end
+
+
+#pragma mark -
+
+@implementation YCAvailableMeetingTimeList
+
++ (NSDictionary *)mj_objectClassInArray {
+    return @{@"result": [YCAvailableMeetingTime class]};
+}
+
+// json 数据
+//date = 23;
+//result =     (
+//              {
+//                  info = "08:38-23:59";
+//                  timeB = "08:38";
+//                  timeE = "23:59";
+//              }
+//              );
+
+@end
+
+

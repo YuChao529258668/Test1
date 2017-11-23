@@ -49,13 +49,14 @@
     }];
 }
 
+// 验证时间是否有效
 - (void)checkMeetingDateValidWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed meetingID:(NSString *)mid OnSuccess:(void(^)(NSString *message, int state, NSString *recommendTime))success fail:(void(^)(NSError *error))fail {
     NSString *token = [ObjectShareTool sharedInstance].currentUser.token;
 
 //    NSNumber *timestamp = [NSNumber numberWithLong:[[NSDate date] timeIntervalSince1970]*1000];
 
-    NSUInteger timeb = bd.timeIntervalSince1970*1000;
-    NSUInteger timee = ed.timeIntervalSince1970*1000;
+//    NSUInteger timeb = bd.timeIntervalSince1970*1000;
+//    NSUInteger timee = ed.timeIntervalSince1970*1000;
     
 //    NSNumber *bn = [NSNumber numberWithLong:timeb];
 //    NSNumber *en = [NSNumber numberWithLong:timee];
@@ -63,17 +64,17 @@
     NSNumber *bn = [NSNumber numberWithLong:bd.timeIntervalSince1970*1000];
     NSNumber *en = [NSNumber numberWithLong:ed.timeIntervalSince1970*1000];
     
-    NSString *tb = [NSString stringWithFormat:@"%ld", timeb];
-    NSString *te = [NSString stringWithFormat:@"%ld", timee];
+//    NSString *tb = [NSString stringWithFormat:@"%ld", timeb];
+//    NSString *te = [NSString stringWithFormat:@"%ld", timee];
     
-//    NSDictionary *dic = @{@"token":token, @"roomId":mid, @"timeB":bn, @"timeE":en};
+    NSDictionary *dic = @{@"token":token, @"roomId":mid, @"timeB":bn, @"timeE":en};
 //    NSDictionary *dic = @{@"token":token, @"roomId":mid, @"timeB":@(timeb), @"timeE":@(timee)};
-    NSDictionary *dic = @{@"token":token, @"roomId":mid, @"timeB":tb, @"timeE":te};
+//    NSDictionary *dic = @{@"token":token, @"roomId":mid, @"timeB":tb, @"timeE":te};
     [self.component sendPostRequestWithURL:URL_Meeting_MeetingTime param:dic success:^(id data) {
-        NSString *message = [data valueForKey:@"message"];
+        NSString *messageTip = [data valueForKey:@"messageTip"];
         int state = ((NSNumber *)[data valueForKey:@"state"]).intValue;
         NSString *recommendTime = [data valueForKey:@"recommendTime"];
-        success(message, state, recommendTime);
+        success(messageTip, state, recommendTime);
     } fail:^(NSError *error) {
         fail(error);
     }];
@@ -113,7 +114,6 @@
     }];
 }
 
-
 - (void)getMeetingDetailWithMeetingID:(NSString *)mid  success:(void(^)(CGMeeting *meeting))success fail:(void(^)(NSError *error))fail {
     NSString *token = [ObjectShareTool sharedInstance].currentUser.token;
     NSDictionary *dic = @{@"token": token, @"meetingId": mid};
@@ -123,9 +123,27 @@
     } fail:^(NSError *error) {
         fail(error);
     }];
+
 }
 
+// 获取会议有效日期
+- (void)getMeetingRoomTimeWithRoomID:(NSString *)rid  success:(void(^)(NSArray *times))success fail:(void(^)(NSError *error))fail {
+    NSString *token = [ObjectShareTool sharedInstance].currentUser.token;
+    NSDictionary *dic = @{@"token": token, @"roomId": rid};
+    NSLog(@"开始获取会议有效日期");
 
+    [self.component sendPostRequestWithURL:URL_Meeting_RoomTime param:dic success:^(id data) {
+        NSLog(@"获取会议有效日期成功");
+
+        NSArray *times = [YCAvailableMeetingTimeList mj_objectArrayWithKeyValuesArray:data];
+        success(times);
+    } fail:^(NSError *error) {
+        NSLog(@"获取会议有效日期失败");
+        fail(error);
+    }];
+    NSLog(@"结束 获取会议有效日期");
+
+}
 
 
 @end
