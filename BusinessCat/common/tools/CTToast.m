@@ -97,4 +97,11 @@
 	_duration = duration;
 }
 
+
+#pragma mark -
+
++ (void)showWithText:(NSString *)str {
+    [[CTToast makeText:str] show:[UIApplication sharedApplication].keyWindow];
+}
+
 @end

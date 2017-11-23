@@ -22,5 +22,7 @@
 //初始化
 + (CTToast *)makeText:(NSString *)text;
 
+// 创建并显示2秒，在主窗口
++ (void)showWithText:(NSString *)str;
 
 @end

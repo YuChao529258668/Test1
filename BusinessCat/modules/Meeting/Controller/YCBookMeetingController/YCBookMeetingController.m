@@ -10,7 +10,9 @@
 #import "YCDatePickerViewController.h"
 #import "YCSelectMeetingRoomController.h"
 #import "YCSelectMeetingTimeController.h"
+#import "CGSelectContactsViewController.h"
 
+#import "YCCreateMeetingUserCell.h"
 
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoom.h"
@@ -53,6 +55,7 @@
 @property (nonatomic,strong) YCMeetingRoom *room; // 即将创建的 room，保存必要的信息，默认是 后台给的 default room
 @property (nonatomic,strong) NSMutableArray<YCMeetingUser *> *users; // 参与开会的人
 @property (nonatomic,assign) int meetingType; // 会议类型 0：音频，1：视频
+@property (nonatomic,strong) YCMeetingUser *currentMeetingUser; // 自己
 
 @end
 
@@ -80,9 +83,7 @@
     
     self.meetingTitleTF.returnKeyType = UIReturnKeyDone;
     self.meetingTitleTF.delegate = self;
-    
-    //    self.tableView.dataSource = self;
-    //    self.tableView.delegate = self;
+    [self setupTableView];
 }
 
 - (instancetype)init
@@ -98,6 +99,10 @@
         self.style = YCBookMeetingControllerStyleCreate;
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -142,27 +147,54 @@
     [self.meetingCostLabel setTextColor:[UIColor redColor]];
 }
 
-- (YCMeetingUser *)currentMeetingUser {
+- (void)convertModels:(NSArray<CGUserCompanyContactsEntity *> *)array {
+    // CGUserCompanyContactsEntity 转 YCMeetingUser
+    self.users = [NSMutableArray arrayWithObject:self.currentMeetingUser];
+    
+    for (CGUserCompanyContactsEntity *contact in array) {
+        if ([contact.userId isEqualToString:self.currentMeetingUser.userid]) {
+            continue;
+        }
+        YCMeetingUser *muser = [YCMeetingUser new];
+        muser.userName = contact.userName;
+        muser.userid = contact.userId;
+        muser.userIcon = contact.userIcon;
+        muser.position = contact.position;
+        [self.users addObject:muser];
+    }
+}
+
+- (void)setupCurrentMeetingUser {
     YCMeetingUser *muser = [YCMeetingUser new];
     CGUserEntity *user = [ObjectShareTool sharedInstance].currentUser;
     muser.userName = user.nickname;
     muser.userid = user.uuid;
     muser.userIcon = user.portrait;
-    return muser;
+    muser.position = [user defaultPosition];
+    self.currentMeetingUser = muser;
 }
 
+- (void)setupTableView {
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.tableFooterView = [UIView new];
+    self.tableView.rowHeight = [YCCreateMeetingUserCell cellHeight];
+    [self.tableView registerNib:[UINib nibWithNibName:@"YCCreateMeetingUserCell" bundle:nil] forCellReuseIdentifier:@"YCCreateMeetingUserCell"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCellReduceBtnClick:) name:[YCCreateMeetingUserCell reducceNotificationName] object:nil];
+}
 
 #pragma mark - Config
 
 // 配置创建会议预约
 - (void)configViewForCreateMeeting {
-    self.users = [NSMutableArray arrayWithObject:[self currentMeetingUser]];
-    
     self.title = @"预约会议";
     self.modifyMeetingBtn.hidden = YES;
     self.cancelMeetingBtn.hidden = YES;
     self.tickBtn.hidden = YES;
     [self.createMeetingBtn setBackgroundColor:CTThemeMainColor];
+    
+    [self setupCurrentMeetingUser];
+    self.users = [NSMutableArray arrayWithObject:self.currentMeetingUser];
     
     [self setDefaultMeetingCreater];
     [self updateMeetingDate];
@@ -174,6 +206,7 @@
     self.meetingType = 0;
     [self.meetingTypeBtn setTitle:@"音频" forState:UIControlStateNormal];
     
+    
     // 获取会议室列表
     [self getMeetingRoomListWithSuccess:^(NSArray *companyRooms, NSArray *otherRooms) {
         self.companyRooms = companyRooms;
@@ -183,6 +216,8 @@
         self.meetingRoomNameL.text = self.room.roomname;
         // 费用
         [self updateMeetingCostWithMeetingRoom:self.room countOfUsers:self.users.count];
+        // 验证会议时间是否有效
+        [self checkMeetingDateValid];
     }];
 }
 
@@ -355,6 +390,7 @@
 - (IBAction)selectEndDateBtnClick:(UIButton *)sender {
     YCDatePickerViewController *vc = [YCDatePickerViewController picker];
     vc.minimumDate = self.beginDate;
+    vc.currentDate = self.endDate;
     vc.onDecitdeDate = ^(NSDate *date) {
         self.endDate = date;
         [self updateMeetingEndDate:date];
@@ -366,15 +402,37 @@
 }
 
 - (IBAction)addPeopleBtnClick:(UIButton *)sender {
-    
+    CGSelectContactsViewController *vc = [[CGSelectContactsViewController alloc]init];
+    vc.titleForBar = @"选择人员";
+    vc.completeBtnClickBlock = ^(NSMutableArray<CGUserCompanyContactsEntity *> *contacts) {
+        [self convertModels:contacts];
+        [self updateMeetingCost];
+        [self.tableView reloadData];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)createMeetingBtnClick:(UIButton *)sender {
-    NSString *users;
-    return;
+    NSString *meetingName = self.meetingTitleTF.text;
+    if ([CTStringUtil stringNotBlank: meetingName] == NO) {
+        NSLog(@"名字为空");
+        return;
+    }
     
-    [[YCMeetingBiz new] bookMeetingWithMeetingID:@"" MeetingType:self.meetingType MeetingName:self.meetingTitleTF.text users:users roomID:self.room.roomid beginDate:self.beginDate endDate:self.endDate Success:^{
-        
+    if (self.users.count < 2) {
+        return;
+    }
+    
+    NSString *users = self.users[1].userid;
+    for (int i = 2; i < self.users.count; i ++) {
+        users = [users stringByAppendingFormat:@",%@", self.users[i].userid];
+    }
+    
+    NSString *meetingID = self.meeting? self.meeting.meetingId : @"";
+    
+    [[YCMeetingBiz new] bookMeetingWithMeetingID:meetingID MeetingType:self.meetingType MeetingName:meetingName users:users roomID:self.room.roomid beginDate:self.beginDate endDate:self.endDate Success:^(id data){
+        [CTToast showWithText:@"预约成功"];
+        [self.navigationController popViewControllerAnimated:YES];
     } fail:^(NSError *error) {
         
     }];
@@ -388,23 +446,44 @@
     
 }
 
-- (void)setMeeting:(CGMeeting *)meeting {
-    _meeting = meeting;
-    self.meetingType = meeting.meetingType;
-    self.beginDate = [NSDate dateWithTimeIntervalSince1970:meeting.startTime.doubleValue/1000];
-    self.endDate = [NSDate dateWithTimeIntervalSince1970:meeting.endTime.doubleValue/1000];
+//- (void)setMeeting:(CGMeeting *)meeting {
+//    _meeting = meeting;
+//    self.meetingType = meeting.meetingType;
+//    self.beginDate = [NSDate dateWithTimeIntervalSince1970:meeting.startTime.doubleValue/1000];
+//    self.endDate = [NSDate dateWithTimeIntervalSince1970:meeting.endTime.doubleValue/1000];
+//}
+
+- (void)handleCellReduceBtnClick:(NSNotification *)noti {
+    YCCreateMeetingUserCell *cell = noti.object;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    [self.users removeObjectAtIndex:indexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
 }
 
 
 #pragma mark - UITableViewDataSource
 
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//
-//}
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//
-//}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.users.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    YCMeetingUser *user = self.users[indexPath.row];
+    YCCreateMeetingUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"YCCreateMeetingUserCell" forIndexPath:indexPath];
+    
+    cell.nameLabel.text = user.userName;
+    cell.positionLabel.text = user.position;
+    [cell.avatarIV sd_setImageWithURL:[NSURL URLWithString:user.userIcon] placeholderImage:[UIImage imageNamed:@"work_head"]];
+    
+    if (self.style == YCBookMeetingControllerStyleCreate) {
+        if (indexPath.row == 0) {
+            cell.reduceBtn.hidden = YES;
+        } else {
+            cell.reduceBtn.hidden = NO;
+        }
+    }
+    return cell;
+}
 
 
 #pragma mark - UITableViewDelegate

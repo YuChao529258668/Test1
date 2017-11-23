@@ -19,6 +19,7 @@
 @property (nonatomic,strong) NSString *userIcon;
 @property (nonatomic,strong) NSString *userName;
 @property (nonatomic,strong) NSString *userid;
+@property (nonatomic,strong) NSString *position;// 职位
 
 @end
 

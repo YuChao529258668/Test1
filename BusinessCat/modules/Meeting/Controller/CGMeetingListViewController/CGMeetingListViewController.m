@@ -185,6 +185,10 @@
 #pragma mark - Data
 
 - (void)getMeetingModels {
+    if (![ObjectShareTool sharedInstance].currentUser.token) {
+        return;
+    }
+    
     [[YCMeetingBiz new] getMeetingListWithPage:0 Success:^(NSArray<CGMeeting *> *meetings) {
         self.meetings = meetings;
         [self.tableView reloadData];

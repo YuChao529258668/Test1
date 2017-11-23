@@ -59,6 +59,8 @@
 
 // 默认返回 companyList 的第一个公司的 companyId
 - (NSString *)getCompanyID;
+// 默认返回 companyList 的第一个公司的 department
+- (NSString *)defaultPosition;
 
 // 腾讯云
 @property (nonatomic,strong) NSDictionary *txy;

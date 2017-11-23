@@ -41,7 +41,7 @@
 
 - (void)setTimeLabelTextWithTimeInterval:(NSString *)interval {
     NSTimeInterval stamp = interval.doubleValue / 1000;
-    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:stamp];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:stamp];
     NSDateFormatter *f = [NSDateFormatter new];
     f.dateFormat = kCGMeetingListCellDateStyle;
     self.timeLabel.text = [f stringFromDate:date];

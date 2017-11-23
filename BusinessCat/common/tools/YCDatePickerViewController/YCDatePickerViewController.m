@@ -19,6 +19,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.datePicker.minimumDate = self.minimumDate;
+    self.datePicker.date = self.currentDate;
 }
 
 - (IBAction)decideBtnClick:(id)sender {

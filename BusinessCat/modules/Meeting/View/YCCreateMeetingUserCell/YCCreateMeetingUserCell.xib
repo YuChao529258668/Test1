@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13528" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13526"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="YCCreateMeetingUserCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="53.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7bC-3r-NcU">
+                        <rect key="frame" x="34" y="5" width="42" height="42"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="42" id="DK0-wf-Xfk"/>
+                            <constraint firstAttribute="height" constant="42" id="py8-d5-Jyh"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="嘉" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="byp-3M-sRl">
+                        <rect key="frame" x="78" y="12" width="13.5" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未知职位" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dHB-gw-jG7">
+                        <rect key="frame" x="78" y="27.5" width="49.5" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ePN-am-4UV">
+                        <rect key="frame" x="308" y="9" width="56" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="56" id="cVb-Aj-6Ug"/>
+                            <constraint firstAttribute="height" constant="34" id="rV8-ym-xzS"/>
+                        </constraints>
+                        <state key="normal" image="work_btn_reduce"/>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="7bC-3r-NcU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="2hU-2J-5OE"/>
+                    <constraint firstAttribute="trailing" secondItem="ePN-am-4UV" secondAttribute="trailing" constant="11" id="8QH-Uu-ft0"/>
+                    <constraint firstItem="ePN-am-4UV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="Mgy-oG-esJ"/>
+                    <constraint firstItem="7bC-3r-NcU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="34" id="Q5K-FY-SYR"/>
+                    <constraint firstItem="byp-3M-sRl" firstAttribute="leading" secondItem="7bC-3r-NcU" secondAttribute="trailing" constant="2" id="XnO-QR-dvt"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="dHB-gw-jG7" secondAttribute="bottom" constant="1" id="ddd-tg-p0H"/>
+                    <constraint firstItem="byp-3M-sRl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="1" id="gIG-bb-fK4"/>
+                    <constraint firstItem="dHB-gw-jG7" firstAttribute="leading" secondItem="7bC-3r-NcU" secondAttribute="trailing" constant="2" id="piO-eV-Pj4"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="avatarIV" destination="7bC-3r-NcU" id="2ol-17-AH2"/>
+                <outlet property="nameLabel" destination="byp-3M-sRl" id="nYo-Kq-aN3"/>
+                <outlet property="positionLabel" destination="dHB-gw-jG7" id="hTV-ZU-1io"/>
+                <outlet property="reduceBtn" destination="ePN-am-4UV" id="sNP-HK-oRj"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="work_btn_reduce" width="22" height="22"/>
+    </resources>
+</document>

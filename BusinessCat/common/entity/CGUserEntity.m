@@ -111,5 +111,8 @@
     return self.companyList.firstObject.companyId;
 }
 
+- (NSString *)defaultPosition {
+    return self.companyList.firstObject.department;
+}
 
 @end

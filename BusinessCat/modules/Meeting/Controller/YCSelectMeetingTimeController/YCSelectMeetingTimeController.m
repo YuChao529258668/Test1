@@ -41,7 +41,7 @@
     self.contentView.layer.cornerRadius = 8;
     self.descriteLabel.textColor = [UIColor blueColor];
     
-    [self setupTapGesture];
+//    [self setupTapGesture];
     [self setupLabels];
     [self setupButtons];
     [self setupDateArray];
@@ -134,6 +134,8 @@
 }
 
 - (void)handleTap:(UITapGestureRecognizer *)tap {
+    // self.view 添加tap手势后，cell 的 textField.enable = no 的时候， 点击 cell 不会触发代理 didselect 方法，好奇怪
+    // self.view 添加tap手势后，点击子视图(一个 UIVIew 对象)，也会触发手势，好奇怪
     CGPoint location = [tap locationInView:self.contentView];
     if (CGRectContainsPoint(self.contentView.bounds, location)) {
         return;
@@ -141,17 +143,22 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)cancelBtnClick:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 #pragma mark - Data
 
 - (void)getAvaliableTime {
-    NSLog(@"获取有效时间 %@", NSStringFromSelector(_cmd));
+//    NSLog(@"获取有效时间 %@", NSStringFromSelector(_cmd));
     [[YCMeetingBiz new] getMeetingRoomTimeWithRoomID:self.room.roomid success:^(NSArray *times) {
         self.timeListArray = times;
         [self.collectionView reloadData];
     } fail:^(NSError *error) {
         
     }];
-    NSLog(@"结束 获取有效时间 %@", NSStringFromSelector(_cmd));
+//    NSLog(@"结束 获取有效时间 %@", NSStringFromSelector(_cmd));
 
 }
 
@@ -219,7 +226,7 @@
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     UITextField *tf = [cell viewWithTag:2];
     tf.text = time.info;
-    tf.text = @"23:59-23:59";
+//    tf.text = @"23:59-23:59";
     return cell;
 }
 
@@ -234,6 +241,7 @@
 
         self.didSelectTime(time);
     }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
