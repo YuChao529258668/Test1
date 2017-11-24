@@ -106,7 +106,7 @@ static CTNetWorkUtil *_sharedManager;
   [_request POST:urlString parameters:param progress:^(NSProgress * _Nonnull uploadProgress) {
     
   } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                NSString *responseString = responseObject;
+//                NSString *responseString = responseObject;
 //            NSLog(@"%@, 请求接口：%@，返回数据：%@", NSStringFromSelector(_cmd),urlString,responseString);
             NSDictionary *res = responseObject;
             if(res){
@@ -297,5 +297,27 @@ static CTNetWorkUtil *_sharedManager;
     [loadingTimer invalidate];
     loadingTimer = nil;
 }
+
+
+#pragma mark -
+
+/**
+ *   带请求动画的 POST 请求，基于 sendPostRequestWithURL 的封装
+ *  url         接口完整地址
+ *  param       请求参数    json格式
+ *  success     请求成功回调
+ *  fail        请求失败回调
+ */
+- (void)UIPostRequestWithURL:(NSString *)urlString param:(NSDictionary *)param success:(void(^)(id data))success fail:(void (^)(NSError *error))fail {
+    [self startBlockAnimation];
+    [self sendPostRequestWithURL:urlString param:param success:^(id data) {
+        [self stopBlockAnimation];
+        success(data);
+    } fail:^(NSError *error) {
+        [self stopBlockAnimation];
+        fail(error);
+    }];
+}
+
 
 @end

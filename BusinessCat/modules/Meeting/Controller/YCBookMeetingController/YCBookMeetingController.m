@@ -81,19 +81,19 @@
         [self configViewForCreateMeeting];
     }
     if (self.style == YCBookMeetingControllerStylePreview) {
-        [self configViewForPreviewMeetingDetail];
+//        [self configViewForPreviewMeetingDetail];
         [self getMeetingDetailWithSuccess:^{
             [self configViewForPreviewMeetingDetail];
         }];
     }
     if (self.style == YCBookMeetingControllerStyleModify) {
-        [self configViewForModifyMeeting];
+//        [self configViewForModifyMeeting];
         [self getMeetingDetailWithSuccess:^{
             [self configViewForModifyMeeting];
         }];
     }
     if (self.style == YCBookMeetingControllerStyleReopen) {
-        [self configViewForReopen];
+//        [self configViewForReopen];
         [self getMeetingDetailWithSuccess:^{
             [self configViewForReopen];
         }];
@@ -219,9 +219,6 @@
     // 验证会议时间是否有效
     [self checkMeetingDateValid];
     
-    // 费用
-    [self updateMeetingCost];
-    
     // 类型
     self.meetingType = self.meeting.meetingType;
     NSString *title = (self.meetingType == 0)? @"语音": @"视频";
@@ -246,6 +243,9 @@
     }
     [self updateMeetingJoinerCount];
     [self.tableView reloadData];
+    
+    // 费用
+    [self updateMeetingCost];
 }
 
 // 配置修改预约
@@ -293,9 +293,6 @@
     // 时长
     [self updateMeetingDuration];
     
-    // 费用
-    [self updateMeetingCost];
-    
     // 类型
     self.meetingType = self.meeting.meetingType;
     NSString *title = (self.meetingType == 0)? @"语音": @"视频";
@@ -321,6 +318,9 @@
     [self updateMeetingJoinerCount];
     
     [self.tableView reloadData];
+    
+    // 费用
+    [self updateMeetingCost];
 }
 
 // 配置会议详情
@@ -364,9 +364,6 @@
     // 时长
     [self updateMeetingDuration];
     
-    // 费用
-    [self updateMeetingCost];
-    
     // 类型
     self.meetingType = self.meeting.meetingType;
     NSString *title = (self.meetingType == 0)? @"语音": @"视频";
@@ -386,6 +383,9 @@
     [self updateMeetingJoinerCount];
     
     [self.tableView reloadData];
+    
+    // 费用
+    [self updateMeetingCost];
 }
 
 
@@ -498,7 +498,7 @@
     YCMeetingRoom *room = [YCMeetingRoom new];
     room.roomid = meeting.roomId;
     room.roomname = meeting.roomName;
-    room.roomcharge = meeting.roomcharge;
+    room.roomcharge = meeting.roomCharge;
     room.costvideo = meeting.costVideo;
     room.costvoice = meeting.costVoice;
     return room;

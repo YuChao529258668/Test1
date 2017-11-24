@@ -14,6 +14,11 @@
 #import "CGMeeting.h"
 #import "YCMeetingBiz.h"
 
+#import "YCMultiCallHelper.h"
+#import "RoomViewController.h"
+#import "YCJCSDKHelper.h"
+
+
 #define kHeaderViewHeight 46
 #define kHeaderViewBtnHeight 36
 #define kCreateMeetingBtnHeight 50
@@ -187,11 +192,11 @@
             break;
         case 2: // 已结束
                 // 再次召开
-            [self goToModifyMeeting:meeting];
+            [self goToReopenMeeting:meeting];
             break;
         case 3: // 已取消
                 // 再次召开
-            [self goToModifyMeeting:meeting];
+            [self goToReopenMeeting:meeting];
             break;
     }
 }
@@ -324,6 +329,13 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)goToReopenMeeting:(CGMeeting *)meeting {
+    YCBookMeetingController *vc = [YCBookMeetingController new];
+    vc.meeting = meeting;
+    vc.style = YCBookMeetingControllerStyleReopen;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)updateHeaderView {
     // 会议状态 0:未开始 1：进行中
     int ready = 0;
@@ -350,18 +362,41 @@
     self.tableView.tableHeaderView = nil;
 }
 
+
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CGMeeting *meeting = self.meetings[indexPath.row];
-    [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state) {
+    [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message) {
 //        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已取消
         if (state == 1) {
-            
+            [CTToast showWithText:message];
+            [self goToVideoMeetingWithRoomID:meeting.roomId];
         }
     } fail:^(NSError *error) {
         
     }];
 }
+
+
+#pragma mark - 视频会议
+
+- (void)goToVideoMeetingWithRoomID:(NSString *)rid {
+    if ([YCJCSDKHelper isLoginForVideoCall]) {
+        RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
+        //    roomVc.roomId = @"9990";
+        //        roomVc.roomId = @"10726763"; // 服务器
+//        roomVc.roomId = @"10877365"; // 服务器
+        //        roomVc.roomId = @"10563734"; // yj 创建的会议室
+        roomVc.roomId = rid;
+        roomVc.displayName = [ObjectShareTool sharedInstance].currentUser.username;
+        [self.navigationController pushViewController:roomVc animated:YES];
+    } else {
+        [CTToast showWithText:@"会议功能尚未登录，请稍后再试"];
+        [YCJCSDKHelper loginVideoCall];
+    }
+
+}
+
 
 @end

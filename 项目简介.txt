@@ -138,4 +138,5 @@ ipad，从微信登录跳转回来，会打开手机登录界面，？？？关�
 [ObjectShareTool sharedInstance].currentUser
 
 腾讯云 刷新票据失败
-
+修改人员，只能增加，不能减少。
+再次召开，提示成功，但其实失败。

@@ -57,7 +57,7 @@
 @property (nonatomic,strong) NSString *roomNum;//会议最大人数
 @property (nonatomic,strong) NSString *serverId;//服务器Id(justalk)
 @property (nonatomic,strong) NSString *usedTime;//实际开会用时(分钟)
-@property (nonatomic,assign) int roomcharge; // 费用(0免费1付费2包月)
+@property (nonatomic,assign) int roomCharge; // 费用(0免费1付费2包月)
 
 #pragma mark - 函数
 

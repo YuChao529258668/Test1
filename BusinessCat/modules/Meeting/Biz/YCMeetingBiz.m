@@ -23,10 +23,13 @@
 }
 
 //状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已取消
-- (void)meetingEntranceWithMeetingID:(NSString *)mid Success:(void(^)(int state))success fail:(void(^)(NSError *error))fail {
+- (void)meetingEntranceWithMeetingID:(NSString *)mid Success:(void(^)(int state, NSString *password, NSString *message))success fail:(void(^)(NSError *error))fail {
     NSDictionary *dic = @{@"meetingId":mid};
-    [self.component sendPostRequestWithURL:URL_Meeting_MeetingEntrance param:dic success:^(id data) {
-        NSLog(@"%@", data);
+    [self.component UIPostRequestWithURL:URL_Meeting_MeetingEntrance param:dic success:^(id data) {
+        NSString *message = data[@"message"];
+        NSString *password = data[@"password"];
+        NSNumber *state = data[@"state"];
+        success(state.intValue, password, message);
     } fail:^(NSError *error) {
         fail(error);
     }];
@@ -88,7 +91,7 @@
                           @"attendance": @0
                           };
 
-    [self.component sendPostRequestWithURL:URL_Meeting_BespeakMeeting param:dic success:^(id data) {
+    [self.component UIPostRequestWithURL:URL_Meeting_BespeakMeeting param:dic success:^(id data) {
         success(data);
     } fail:^(NSError *error) {
         fail(error);
@@ -131,7 +134,7 @@
 // 取消会议. type 0取消/1结束
 - (void)cancelMeetingWithMeetingID:(NSString *)mid cancelType:(int)type success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
     NSDictionary *dic = @{@"meetingId": mid, @"type": @(type)};
-    [self.component sendPostRequestWithURL:URL_Meeting_Cancel param:dic success:^(id data) {
+    [self.component UIPostRequestWithURL:URL_Meeting_Cancel param:dic success:^(id data) {
         success(data);
     } fail:^(NSError *error) {
         fail(error);

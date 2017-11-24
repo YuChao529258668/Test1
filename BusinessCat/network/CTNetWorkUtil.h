@@ -58,5 +58,15 @@ typedef void (^FailBlockCallBack)(NSError *error);
 - (void)sendDownLoadRequestWithURL:(NSString *)urlString filename:(NSString *)filename success:(void(^)(id data))success;
 
 
+#pragma mark -
+
+/**
+ *   带请求动画的 POST 请求，基于 sendPostRequestWithURL 的封装
+ *  url         接口完整地址
+ *  param       请求参数    json格式
+ *  success     请求成功回调
+ *  fail        请求失败回调
+ */
+- (void)UIPostRequestWithURL:(NSString *)urlString param:(NSDictionary *)param success:(void(^)(id data))success fail:(void (^)(NSError *error))fail;
 
 @end
