@@ -34,7 +34,7 @@
 @property (nonatomic,strong) NSString *conferenceNumber; // 会议号(justalk)
 @property (nonatomic,strong) NSString *endTime;
 @property (nonatomic,strong) NSString *startTime;
-@property (nonatomic,strong) NSString *meetingDuration;
+@property (nonatomic,strong) NSString * meetingDuration; // 时长，可能是一句话，不能用来计算价格！
 @property (nonatomic,strong) NSString *meetingId;
 @property (nonatomic,strong) NSString *meetingName;
 @property (nonatomic,strong) NSString *meetingPassword;
@@ -57,6 +57,7 @@
 @property (nonatomic,strong) NSString *roomNum;//会议最大人数
 @property (nonatomic,strong) NSString *serverId;//服务器Id(justalk)
 @property (nonatomic,strong) NSString *usedTime;//实际开会用时(分钟)
+@property (nonatomic,assign) int roomcharge; // 费用(0免费1付费2包月)
 
 #pragma mark - 函数
 
@@ -64,6 +65,6 @@
 // 返回 id
 - (NSString *)meetingCreator;
 - (NSString *)meetingCreatorName;
-- (NSString *)caculateMeetingCostStr;
 
+- (float)calculateMeetingCost;
 @end

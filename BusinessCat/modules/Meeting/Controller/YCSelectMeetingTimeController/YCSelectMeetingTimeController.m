@@ -26,8 +26,9 @@
 
 //@property (nonatomic,strong) NSArray *displayModels;
 //@property (nonatomic,strong) NSArray<NSArray *> *allArray;
-@property (nonatomic,strong) NSMutableArray *dateArray;// 7天的日期
+//@property (nonatomic,strong) NSMutableArray *dateArray;// 7天的日期
 @property (nonatomic,strong) NSArray<YCAvailableMeetingTimeList *> *timeListArray;
+//@property (nonatomic,strong) NSMutableArray *labelTexts; // 星期几
 
 @end
 
@@ -44,8 +45,6 @@
 //    [self setupTapGesture];
     [self setupLabels];
     [self setupButtons];
-    [self setupDateArray];
-    [self updateButtonsTitle];
     [self getAvaliableTime];
     
     self.selectedBtn = self.btns.firstObject;
@@ -79,8 +78,8 @@
         [self.contentView addSubview:btn];
         [self.btns addObject:btn];
     }
-    self.btns.firstObject.titleLabel.textColor = [UIColor darkGrayColor];
-    self.btns.lastObject.titleLabel.textColor = [UIColor darkGrayColor];
+//    self.btns.firstObject.titleLabel.textColor = [UIColor darkGrayColor];
+//    self.btns.lastObject.titleLabel.textColor = [UIColor darkGrayColor];
 }
 
 - (void)setupLabels {
@@ -94,19 +93,19 @@
         [self.contentView addSubview:label];
         [self.labels addObject:label];
     }
-    self.labels.firstObject.textColor = [UIColor darkGrayColor];
-    self.labels.lastObject.textColor = [UIColor darkGrayColor];
+//    self.labels.firstObject.textColor = [UIColor darkGrayColor];
+//    self.labels.lastObject.textColor = [UIColor darkGrayColor];
 }
 
-- (void)setupDateArray {
-    self.dateArray = [NSMutableArray arrayWithCapacity:7];
-    NSDate *now = [NSDate date];
-    [self.dateArray addObject:now];
-    for (int i = 1; i < 7; i ++) {
-        NSDate *date = [NSDate dateWithTimeInterval:i * 24 * 60 * 60 sinceDate:now];
-        [self.dateArray addObject:date];
-    }
-}
+//- (void)setupDateArray {
+//    self.dateArray = [NSMutableArray arrayWithCapacity:self.timeListArray.count];
+//    NSDate *now = [NSDate date];
+//    [self.dateArray addObject:now];
+//    for (int i = 1; i < 7; i ++) {
+//        NSDate *date = [NSDate dateWithTimeInterval:i * 24 * 60 * 60 sinceDate:now];
+//        [self.dateArray addObject:date];
+//    }
+//}
 
 - (void)setupTapGesture {
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
@@ -117,9 +116,9 @@
 
 - (void)dateButtonClick:(UIButton *)btn {
     self.selectedBtn.backgroundColor = [UIColor clearColor];
-    if (self.selectedBtn == self.btns.firstObject || self.selectedBtn == self.btns.lastObject) {
-        [self.selectedBtn.titleLabel setTextColor:[UIColor darkGrayColor]];
-    }
+//    if (self.selectedBtn == self.btns.firstObject || self.selectedBtn == self.btns.lastObject) {
+//        [self.selectedBtn.titleLabel setTextColor:[UIColor darkGrayColor]];
+//    }
     
     btn.backgroundColor = CTThemeMainColor;
     [btn.titleLabel setTextColor:[UIColor blackColor]];
@@ -127,7 +126,7 @@
     NSUInteger index = [self.btns indexOfObject:btn];
     [self.collectionView reloadData];
     
-    NSDate *date = self.dateArray[index];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970: self.timeListArray[index].date.doubleValue/1000];
     [self updateDateLabel:date];
     
     self.selectedBtn = btn;
@@ -151,32 +150,51 @@
 #pragma mark - Data
 
 - (void)getAvaliableTime {
-//    NSLog(@"获取有效时间 %@", NSStringFromSelector(_cmd));
     [[YCMeetingBiz new] getMeetingRoomTimeWithRoomID:self.room.roomid success:^(NSArray *times) {
         self.timeListArray = times;
         [self.collectionView reloadData];
-    } fail:^(NSError *error) {
         
+        [self updateDateLabel:nil];
+        [self updateLabelTexts];
+        [self updateButtonsTitle];
+    } fail:^(NSError *error) {
+        [CTToast showWithText:@"获取可用时间失败"];
     }];
-//    NSLog(@"结束 获取有效时间 %@", NSStringFromSelector(_cmd));
-
 }
 
 
-#pragma mark -
+#pragma mark - Update
 
+// 传 nil 默认第一个
 - (void)updateDateLabel:(NSDate *)date {
+    if (!date) {
+        date = [NSDate dateWithTimeIntervalSince1970:self.timeListArray.firstObject.date.doubleValue/1000];
+    }
     NSDateFormatter *f = [NSDateFormatter new];
     f.dateFormat = @"yyyy年MM月dd日";
     self.dateLabel.text = [f stringFromDate:date];
+}
+
+- (void)updateLabelTexts {
+    NSDateFormatter *f = [NSDateFormatter new];
+    f.dateFormat = @"EE"; // 周五
+    
+    for (YCAvailableMeetingTimeList *list in self.timeListArray) {
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:list.date.doubleValue/1000];
+        NSString *week = [f stringFromDate:date];
+        week = [week substringFromIndex:week.length-1];
+        
+        NSUInteger i = [self.timeListArray indexOfObject:list];
+        self.labels[i].text = week;
+    }
 }
 
 - (void)updateButtonsTitle {
     NSDateFormatter *f = [NSDateFormatter new];
     f.dateFormat = @"dd";
     
-    for (int i = 0; i < 7; i ++) {
-        NSDate *date = self.dateArray[i];
+    for (int i = 0; i < self.timeListArray.count; i ++) {
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970: self.timeListArray[i].date.doubleValue/1000];
         UIButton *btn = self.btns[i];
         [btn setTitle:[f stringFromDate:date] forState:UIControlStateNormal];
     }

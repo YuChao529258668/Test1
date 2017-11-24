@@ -226,10 +226,8 @@
         
         if (i == kChat) {
             tabEntity.title = @"消息";
-//            tabEntity.normalImage = @"tab_homepage";
-//            tabEntity.selectedName = @"tab_homepage_hl";
-            tabEntity.normalImage = @"conversation_normal";
-            tabEntity.selectedName = @"conversation_hover";
+            tabEntity.normalImage = @"tab_information_normal";
+            tabEntity.selectedName = @"tab_information_Highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
@@ -249,8 +247,8 @@
         }
         else if(i ==  kWork){
             tabEntity.title = @"工作";
-            tabEntity.normalImage = @"tab_homepage";
-            tabEntity.selectedName = @"tab_homepage_hl";
+            tabEntity.normalImage = @"tab_word_normal";
+            tabEntity.selectedName = @"tab_word_normal_Highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
@@ -311,8 +309,8 @@
         }else if(i == kMyMain){
             int isLogin = [ObjectShareTool sharedInstance].currentUser.isLogin;
             tabEntity.title = isLogin == 1 ? @"我的" : @"未登录";
-            tabEntity.normalImage = isLogin == 1 ? @"my" : @"tab_usercenter_nologin";
-            tabEntity.selectedName = isLogin == 1 ? @"myy" : @"tab_usercenter_nologin_hl";
+            tabEntity.normalImage = isLogin == 1 ? @"tab_me_normal" : @"tab_usercenter_nologin";
+            tabEntity.selectedName = isLogin == 1 ? @"tab_me_Highlighted" : @"tab_usercenter_nologin_hl";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];

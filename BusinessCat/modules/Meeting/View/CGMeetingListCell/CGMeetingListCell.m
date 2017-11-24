@@ -44,7 +44,13 @@
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:stamp];
     NSDateFormatter *f = [NSDateFormatter new];
     f.dateFormat = kCGMeetingListCellDateStyle;
-    self.timeLabel.text = [f stringFromDate:date];
+    NSString *dateStr = [f stringFromDate:date];
+    
+    // 如果是今天的日期，只显示时分
+    f.dateFormat = @"yyyy-MM-dd";
+    NSString *ymd = [f stringFromDate:[NSDate date]];
+    dateStr = [dateStr stringByReplacingOccurrencesOfString:ymd withString:@""];
+    self.timeLabel.text = dateStr;
 }
 
 - (void)setTitles:(NSArray *)titles {
@@ -53,8 +59,9 @@
 }
 
 - (void)setImageName:(NSString *)name {
-    self.imageView.image = [UIImage imageNamed:name];
+    self.myImageView.image = [UIImage imageNamed:name];
 }
+
 
 #pragma mark - Config
 

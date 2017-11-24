@@ -32,5 +32,7 @@
 // 会议室可用时间
 - (void)getMeetingRoomTimeWithRoomID:(NSString *)rid  success:(void(^)(NSArray *times))success fail:(void(^)(NSError *error))fail;
 
+// 取消会议. type 0取消/1结束
+- (void)cancelMeetingWithMeetingID:(NSString *)mid cancelType:(int)type success:(void(^)(id data))success fail:(void(^)(NSError *error))fail;
 
 @end

@@ -13,6 +13,12 @@
 // 显示在导航栏
 @property (nonatomic,copy) NSString *titleForBar;
 
+// 最大选择数
+@property (nonatomic,assign) NSUInteger maxSelectCount;
+
+// 用于第一次显示时，判断哪些联系人要打钩，不作为最后的选择结果
+@property (nonatomic,strong) NSMutableArray<CGUserCompanyContactsEntity *> *contacts;
+
 @property (nonatomic,copy) void (^completeBtnClickBlock)(NSMutableArray<CGUserCompanyContactsEntity *> *contacts);
 
 @end

@@ -13,13 +13,14 @@ typedef NS_ENUM(NSUInteger, YCBookMeetingControllerStyle) {
     YCBookMeetingControllerStyleCreate,
     YCBookMeetingControllerStyleModify,
     YCBookMeetingControllerStylePreview,
+    YCBookMeetingControllerStyleReopen,
 };
 
 @interface YCBookMeetingController : YCBaseViewController
 
 @property (nonatomic,strong) CGMeeting *meeting;
 
-// 创建、预览、修改
+// 创建、预览、修改、再次召开
 @property (nonatomic,assign) YCBookMeetingControllerStyle style;
 
 @end

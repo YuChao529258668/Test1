@@ -40,27 +40,33 @@
 @property (weak, nonatomic) IBOutlet UIButton *selectEndDateBtn;
 @property (weak, nonatomic) IBOutlet UILabel *meetingRoomNameL;
 @property (weak, nonatomic) IBOutlet UIButton *jianTouBtn;
+@property (weak, nonatomic) IBOutlet UIButton *jianTouBtn2;
 @property (weak, nonatomic) IBOutlet UIButton *tickBtn; // 打钩
+@property (weak, nonatomic) IBOutlet UIButton *addUserBtn;
+@property (weak, nonatomic) IBOutlet UIView *topView; // tableView 头部的 view
 
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewBottomConstraint; // 表视图底部距离约束
 @property (weak, nonatomic) IBOutlet UIButton *modifyMeetingBtn;
-@property (weak, nonatomic) IBOutlet UIButton *cancelMeetingBtn;
+@property (weak, nonatomic) IBOutlet UIButton *cancelMeetingBtn; // 取消或者结束会议
 
 @property (nonatomic,strong) NSDate *beginDate;
 @property (nonatomic,strong) NSDate *endDate;
 @property (nonatomic,strong) NSArray<YCMeetingRoom *> *companyRooms; // 用户公司的会议室
 @property (nonatomic,strong) NSArray<YCMeetingRoom *> *otherRooms; // 生意猫会议室
 
-@property (nonatomic,strong) YCMeetingRoom *room; // 即将创建的 room，保存必要的信息，默认是 后台给的 default room
+@property (nonatomic,strong) YCMeetingRoom *room; // 后台给的 default room，或者用 self.meeting 的信息来创建
 @property (nonatomic,strong) NSMutableArray<YCMeetingUser *> *users; // 参与开会的人
 @property (nonatomic,assign) int meetingType; // 会议类型 0：音频，1：视频
 @property (nonatomic,strong) YCMeetingUser *currentMeetingUser; // 自己
+@property (nonatomic,assign) BOOL meetingTimeAvailable; // 会议时间段是否可用
 
 @end
 
 
 @implementation YCBookMeetingController
+
+#pragma mark -
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -76,14 +82,33 @@
     }
     if (self.style == YCBookMeetingControllerStylePreview) {
         [self configViewForPreviewMeetingDetail];
+        [self getMeetingDetailWithSuccess:^{
+            [self configViewForPreviewMeetingDetail];
+        }];
     }
     if (self.style == YCBookMeetingControllerStyleModify) {
         [self configViewForModifyMeeting];
+        [self getMeetingDetailWithSuccess:^{
+            [self configViewForModifyMeeting];
+        }];
+    }
+    if (self.style == YCBookMeetingControllerStyleReopen) {
+        [self configViewForReopen];
+        [self getMeetingDetailWithSuccess:^{
+            [self configViewForReopen];
+        }];
     }
     
     self.meetingTitleTF.returnKeyType = UIReturnKeyDone;
     self.meetingTitleTF.delegate = self;
+    
     [self setupTableView];
+    [self resetLabelsColor]; // 故事板对 view 颜色设置无效，所以代码设置
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self updateMeetingJoinerCount];
 }
 
 - (instancetype)init
@@ -97,6 +122,7 @@
         self.beginDate = now;
         self.endDate = after;
         self.style = YCBookMeetingControllerStyleCreate;
+        self.meetingTimeAvailable = NO;
     }
     return self;
 }
@@ -106,63 +132,7 @@
 }
 
 
-#pragma mark - Helper
-
-- (void)updateMeetingDuration {
-    NSString *duration = [NSString stringWithFormat:@"%d 分钟", [self calculateMeetingDurationInMinute]] ;
-    [self.meetingTimeBtn setTitle:duration forState:UIControlStateNormal];
-    [self.meetingTimeBtn.titleLabel setTextColor:[UIColor blackColor]];
-}
-
-// 计算时长，单位分钟
-- (int)calculateMeetingDurationInMinute {
-    int minute = [self.endDate timeIntervalSinceDate:self.beginDate] / 60;
-    return minute;
-}
-
-// 选择会议室后才能计算费用
-- (float)calculateMeetingCostWithMeetingRoom:(YCMeetingRoom *)room countOfUsers:(NSInteger)count {
-//        收费会议室：按会议类型+参会人数+时长进行计算费用，显示为：预计最多N元
-//        免费/包月会议室时：直接显示为免费
-
-    // 费用(0免费 1付费 2包月)
-    if (room.roomcharge == 0 || room.roomcharge == 2) {
-        return 0;
-    }
-    
-    // 单价。会议类型 0：音频，1：视频
-    float price = (self.meetingType == 0)? room.costvoice: room.costvideo;
-    // 时长
-    int minutes = [self calculateMeetingDurationInMinute];
-    return price * count * minutes; // 价格*人数*时长
-}
-
-- (void)updateMeetingCost {
-    [self updateMeetingCostWithMeetingRoom:self.room countOfUsers:self.users.count];
-}
-
-- (void)updateMeetingCostWithMeetingRoom:(YCMeetingRoom *)room countOfUsers:(NSInteger)count  {
-    float cost = [self calculateMeetingCostWithMeetingRoom:room countOfUsers:count];
-    self.meetingCostLabel.text = [NSString stringWithFormat:@"预计最多 %@ 元", @(cost)];
-    [self.meetingCostLabel setTextColor:[UIColor redColor]];
-}
-
-- (void)convertModels:(NSArray<CGUserCompanyContactsEntity *> *)array {
-    // CGUserCompanyContactsEntity 转 YCMeetingUser
-    self.users = [NSMutableArray arrayWithObject:self.currentMeetingUser];
-    
-    for (CGUserCompanyContactsEntity *contact in array) {
-        if ([contact.userId isEqualToString:self.currentMeetingUser.userid]) {
-            continue;
-        }
-        YCMeetingUser *muser = [YCMeetingUser new];
-        muser.userName = contact.userName;
-        muser.userid = contact.userId;
-        muser.userIcon = contact.userIcon;
-        muser.position = contact.position;
-        [self.users addObject:muser];
-    }
-}
+#pragma mark - Setup
 
 - (void)setupCurrentMeetingUser {
     YCMeetingUser *muser = [YCMeetingUser new];
@@ -183,6 +153,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCellReduceBtnClick:) name:[YCCreateMeetingUserCell reducceNotificationName] object:nil];
 }
 
+
 #pragma mark - Config
 
 // 配置创建会议预约
@@ -196,16 +167,15 @@
     [self setupCurrentMeetingUser];
     self.users = [NSMutableArray arrayWithObject:self.currentMeetingUser];
     
-    [self setDefaultMeetingCreater];
+    [self updateMeetingCreator];
     [self updateMeetingDate];
     
     // 时长
     [self updateMeetingDuration];
-
-    // 类型。会议类型 0：音频，1：视频
-    self.meetingType = 0;
-    [self.meetingTypeBtn setTitle:@"音频" forState:UIControlStateNormal];
     
+    // 类型。会议类型 0：音频，1：视频
+    self.meetingType = 1;
+    [self.meetingTypeBtn setTitle:@"视频" forState:UIControlStateNormal];
     
     // 获取会议室列表
     [self getMeetingRoomListWithSuccess:^(NSArray *companyRooms, NSArray *otherRooms) {
@@ -215,10 +185,67 @@
         self.room = [self getDefaultMeetingRoom];
         self.meetingRoomNameL.text = self.room.roomname;
         // 费用
-        [self updateMeetingCostWithMeetingRoom:self.room countOfUsers:self.users.count];
+        [self updateMeetingCost];
         // 验证会议时间是否有效
         [self checkMeetingDateValid];
     }];
+}
+
+// 再次召开
+- (void)configViewForReopen {
+    self.title = @"再次召开";
+    self.modifyMeetingBtn.hidden = YES;
+    self.cancelMeetingBtn.hidden = YES;
+    self.tickBtn.hidden = YES;
+    [self.createMeetingBtn setBackgroundColor:CTThemeMainColor];
+    
+    [self setupCurrentMeetingUser];
+    //    self.users = [NSMutableArray arrayWithObject:self.currentMeetingUser];
+    
+    // 会议主题
+    self.meetingTitleTF.text = self.meeting.meetingName;
+    
+    [self updateMeetingCreator];
+    
+    // 会议室
+    self.room = [self roomOfMeeting:self.meeting];
+    self.meetingRoomNameL.text = self.room.roomname;
+    
+    // 日期
+    [self updateMeetingDate];
+    
+    // 时长
+    [self updateMeetingDuration];
+    // 验证会议时间是否有效
+    [self checkMeetingDateValid];
+    
+    // 费用
+    [self updateMeetingCost];
+    
+    // 类型
+    self.meetingType = self.meeting.meetingType;
+    NSString *title = (self.meetingType == 0)? @"语音": @"视频";
+    [self.meetingTypeBtn setTitle:title forState:UIControlStateNormal];
+    
+    // 获取会议室列表
+    [self getMeetingRoomListWithSuccess:^(NSArray *companyRooms, NSArray *otherRooms) {
+        self.companyRooms = companyRooms;
+        self.otherRooms = otherRooms;
+    }];
+    
+    // 参会人员
+    self.users = self.meeting.meetingUserList.mutableCopy;
+    // 把创建者放到数组的第一位，因为参会人的第一个必须是创建者，在界面的 cell 没有删除按钮
+    for (int i = 0; i < self.users.count; i ++) {
+        if (self.users[i].compere  == 1) {
+            YCMeetingUser *user = self.users[i];
+            [self.users removeObject:user];
+            [self.users insertObject:user atIndex:0];
+            break;
+        }
+    }
+    [self updateMeetingJoinerCount];
+    [self.tableView reloadData];
 }
 
 // 配置修改预约
@@ -234,7 +261,7 @@
         self.title = @"修改预约(进行中)";
         [self.modifyMeetingBtn setTitle:@"修改人员" forState:UIControlStateNormal];
         [self.cancelMeetingBtn setTitle:@"结束会议" forState:UIControlStateNormal];
-
+        
         self.meetingTitleTF.enabled = NO;
         self.meetingRoomBtn.enabled = NO;
         self.selectBeginDateBtn.enabled = NO;
@@ -246,28 +273,53 @@
     self.tickBtn.hidden = YES;
     [self.modifyMeetingBtn setBackgroundColor:CTThemeMainColor];
     [self.cancelMeetingBtn setBackgroundColor:CTThemeMainColor];
-
+    
+    [self setupCurrentMeetingUser];
+    self.meetingTimeAvailable = YES;
     
     // 会议主题
     self.meetingTitleTF.text = self.meeting.meetingName;
     // 召集人
     self.createrLabel.text = self.meeting.meetingCreatorName;
     // 会议室
-    self.meetingRoomNameL.text = self.meeting.roomName;
+    self.room = [self roomOfMeeting:self.meeting];
+    self.meetingRoomNameL.text = self.room.roomname;
+    
     // 日期
     self.beginDate = [NSDate dateWithTimeIntervalSince1970:self.meeting.startTime.doubleValue/1000];
     self.endDate = [NSDate dateWithTimeIntervalSince1970:self.meeting.endTime.doubleValue/1000];
+    [self updateMeetingDate];
     
     // 时长
-    [self.meetingTimeBtn setTitle:self.meeting.meetingDuration forState:UIControlStateNormal];
+    [self updateMeetingDuration];
+    
     // 费用
-    self.meetingCostLabel.text = [self.meeting caculateMeetingCostStr];
+    [self updateMeetingCost];
+    
     // 类型
     self.meetingType = self.meeting.meetingType;
     NSString *title = (self.meetingType == 0)? @"语音": @"视频";
     [self.meetingTypeBtn setTitle:title forState:UIControlStateNormal];
+    
+    // 获取会议室列表
+    [self getMeetingRoomListWithSuccess:^(NSArray *companyRooms, NSArray *otherRooms) {
+        self.companyRooms = companyRooms;
+        self.otherRooms = otherRooms;
+    }];
+    
     // 参会人员
     self.users = self.meeting.meetingUserList.mutableCopy;
+    // 把创建者放到数组的第一位，因为参会人的第一个必须是创建者，在界面的 cell 没有删除按钮
+    for (int i = 0; i < self.users.count; i ++) {
+        if (self.users[i].compere  == 1) {
+            YCMeetingUser *user = self.users[i];
+            [self.users removeObject:user];
+            [self.users insertObject:user atIndex:0];
+            break;
+        }
+    }
+    [self updateMeetingJoinerCount];
+    
     [self.tableView reloadData];
 }
 
@@ -284,42 +336,202 @@
     self.modifyMeetingBtn.hidden = YES;
     self.cancelMeetingBtn.hidden = YES;
     self.jianTouBtn.hidden = YES;
+    self.jianTouBtn2.hidden = YES;
     self.tickBtn.hidden = NO;
+    self.addUserBtn.hidden = YES;
     self.tableViewBottomConstraint.constant = 0;
+    
+    [self setupCurrentMeetingUser];
     
     // 会议状态   0:未开始     1：进行中     2：已结束      3：已取消
     NSArray *titles = @[@"会议详情(未开始)", @"会议详情(进行中)", @"会议详情(已结束)", @"会议详情(已取消)"];
     self.title = titles[self.meeting.meetingState];
-
+    
     // 会议主题
     self.meetingTitleTF.text = self.meeting.meetingName;
     // 召集人
     self.createrLabel.text = self.meeting.meetingCreatorName;
+    
     // 会议室
-    self.meetingRoomNameL.text = self.meeting.roomName;
+    self.room = [self roomOfMeeting:self.meeting];
+    self.meetingRoomNameL.text = self.room.roomname;
+    
     // 日期
     self.beginDate = [NSDate dateWithTimeIntervalSince1970:self.meeting.startTime.doubleValue/1000];
     self.endDate = [NSDate dateWithTimeIntervalSince1970:self.meeting.endTime.doubleValue/1000];
+    [self updateMeetingDate];
     
     // 时长
-    [self.meetingTimeBtn setTitle:self.meeting.meetingDuration forState:UIControlStateNormal];
+    [self updateMeetingDuration];
+    
     // 费用
-    self.meetingCostLabel.text = [self.meeting caculateMeetingCostStr];
+    [self updateMeetingCost];
+    
     // 类型
     self.meetingType = self.meeting.meetingType;
     NSString *title = (self.meetingType == 0)? @"语音": @"视频";
     [self.meetingTypeBtn setTitle:title forState:UIControlStateNormal];
+    
     // 参会人员
     self.users = self.meeting.meetingUserList.mutableCopy;
+    // 把创建者放到数组的第一位，因为参会人的第一个必须是创建者，在界面的 cell 没有删除按钮
+    for (int i = 0; i < self.users.count; i ++) {
+        if (self.users[i].compere  == 1) {
+            YCMeetingUser *user = self.users[i];
+            [self.users removeObject:user];
+            [self.users insertObject:user atIndex:0];
+            break;
+        }
+    }
+    [self updateMeetingJoinerCount];
+    
     [self.tableView reloadData];
 }
 
 
-#pragma mark - UITextFieldDelegate
+#pragma mark - Helper
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    return YES;
+// 计算时长，单位分钟
+- (int)calculateMeetingDurationInMinute {
+    int minute = [self.endDate timeIntervalSinceDate:self.beginDate] / 60;
+    return minute;
+}
+
+- (float)meetingPrice {
+    // 收费会议室：按会议类型+参会人数+时长进行计算费用，显示为：预计最多N元
+    // 免费/包月会议室时：直接显示为免费
+    
+    // 费用(0免费 1付费 2包月)
+    if (self.room.roomcharge == 0 || self.room.roomcharge == 2) {
+        return 0;
+    }
+    
+    // 单价。会议类型 0：音频，1：视频
+    float price = (self.meetingType == 0)? self.room.costvoice: self.room.costvideo;
+    return price;
+}
+
+- (void)updateMeetingCost {
+    int minutes = [self calculateMeetingDurationInMinute];
+    float price = [self meetingPrice];
+    NSUInteger count = self.users.count;
+    
+    float cost = price * count * minutes; // 价格*人数*时长
+    NSString *costStr = (cost == 0)? @"免费": [NSString stringWithFormat:@"预计最多 %.2f 元", cost];
+    
+    self.meetingCostLabel.text = costStr;
+    [self.meetingCostLabel setTextColor:[UIColor redColor]];
+}
+
+- (void)updateMeetingJoinerCount {
+    self.meetingJoinerCountLabel.text = [NSString stringWithFormat:@"参会人(%@/50)", @(self.users.count)];
+}
+
+- (void)updateMeetingDate {
+    [self updateMeetingBeginDate:self.beginDate];
+    [self updateMeetingEndDate:self.endDate];
+}
+
+- (void)updateMeetingDuration {
+    // 不能用会议的日期来计算，因为不会修改会议的日期
+    NSString *duration = [NSString stringWithFormat:@"%d 分钟", [self calculateMeetingDurationInMinute]] ;
+    [self.meetingTimeBtn setTitle:duration forState:UIControlStateNormal];
+    [self.meetingTimeBtn.titleLabel setTextColor:[UIColor blackColor]];
+}
+
+- (void)updateMeetingBeginDate:(NSDate *)date {
+    NSDateFormatter *f = [NSDateFormatter new];
+    f.dateFormat = @"yyyy年MM月dd日";
+    self.beginDateLabel.text = [f stringFromDate:date];
+    f.dateFormat = @"hh:mm";
+    self.beginTimeLabel.text = [f stringFromDate:date];
+}
+
+- (void)updateMeetingEndDate:(NSDate *)date {
+    NSDateFormatter *f = [NSDateFormatter new];
+    f.dateFormat = @"yyyy年MM月dd日";
+    self.endDateLabel.text = [f stringFromDate:date];
+    f.dateFormat = @"hh:mm";
+    self.endTimeLabel.text = [f stringFromDate:date];
+}
+
+- (void)updateMeetingCreator {
+    NSString *name = [ObjectShareTool sharedInstance].currentUser.nickname;
+    if (!name || name.length == 0) {
+        name = [ObjectShareTool sharedInstance].currentUser.username;
+    }
+    self.createrLabel.text = name;
+}
+
+- (void)resetLabelsColor {
+    for (UIView *view in self.topView.subviews) {
+        if ([view isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)view;
+            label.textColor = [UIColor darkGrayColor];
+        }
+    }
+    self.createrLabel.textColor = [UIColor blackColor];
+    self.meetingRoomNameL.textColor = [UIColor blackColor];
+    self.beginDateLabel.textColor = [UIColor blackColor];
+    self.endDateLabel.textColor = [UIColor blackColor];
+    self.beginTimeLabel.textColor = [UIColor blackColor];
+    self.endTimeLabel.textColor = [UIColor blackColor];
+    self.meetingCostLabel.textColor = [UIColor redColor];
+    self.meetingJoinerCountLabel.textColor = [UIColor blackColor];
+}
+
+- (YCMeetingRoom *)getDefaultMeetingRoom {
+    for (YCMeetingRoom *room in self.companyRooms) {
+        if (room.roomDefault) {
+            return room;
+        }
+    }
+    for (YCMeetingRoom *room in self.otherRooms) {
+        if (room.roomDefault) {
+            return room;
+        }
+    }
+    return nil;
+}
+
+- (YCMeetingRoom *)roomOfMeeting:(CGMeeting *)meeting {
+    YCMeetingRoom *room = [YCMeetingRoom new];
+    room.roomid = meeting.roomId;
+    room.roomname = meeting.roomName;
+    room.roomcharge = meeting.roomcharge;
+    room.costvideo = meeting.costVideo;
+    room.costvoice = meeting.costVoice;
+    return room;
+}
+
+- (void)convertCGUserCompanyContactsEntitysToYCMeetingUsers:(NSArray<CGUserCompanyContactsEntity *> *)array {
+    self.users = [NSMutableArray arrayWithObject:self.currentMeetingUser];
+    
+    for (CGUserCompanyContactsEntity *contact in array) {
+        if ([contact.userId isEqualToString:self.currentMeetingUser.userid]) {
+            continue;
+        }
+        YCMeetingUser *muser = [YCMeetingUser new];
+        muser.userName = contact.userName;
+        muser.userid = contact.userId;
+        muser.userIcon = contact.userIcon;
+        muser.position = contact.position;
+        [self.users addObject:muser];
+    }
+}
+
+- (NSMutableArray *)convertYCMeetingUsersToCGUserCompanyContactsEntitys:(NSArray<YCMeetingUser *> *)users {
+    NSMutableArray *array = [NSMutableArray arrayWithCapacity:users.count];
+    
+    for (YCMeetingUser *user in users) {
+        CGUserCompanyContactsEntity *contact = [CGUserCompanyContactsEntity new];
+        contact.userName = user.userName;
+        contact.userId = user.userid;
+        contact.userIcon = user.userIcon;
+        contact.position = user.position;
+        [array addObject:contact];
+    }
+    return array;
 }
 
 
@@ -376,7 +588,7 @@
 - (IBAction)selectBeginDateBtnClick:(UIButton *)sender {
     YCDatePickerViewController *vc = [YCDatePickerViewController picker];
     vc.minimumDate = [NSDate date];
-
+    vc.currentDate = self.beginDate;
     vc.onDecitdeDate = ^(NSDate *date) {
         self.beginDate = date;
         [self updateMeetingBeginDate:date];
@@ -404,8 +616,10 @@
 - (IBAction)addPeopleBtnClick:(UIButton *)sender {
     CGSelectContactsViewController *vc = [[CGSelectContactsViewController alloc]init];
     vc.titleForBar = @"选择人员";
+    vc.maxSelectCount = 50;
+    vc.contacts = [self convertYCMeetingUsersToCGUserCompanyContactsEntitys:self.users];
     vc.completeBtnClickBlock = ^(NSMutableArray<CGUserCompanyContactsEntity *> *contacts) {
-        [self convertModels:contacts];
+        [self convertCGUserCompanyContactsEntitysToYCMeetingUsers:contacts];
         [self updateMeetingCost];
         [self.tableView reloadData];
     };
@@ -413,50 +627,32 @@
 }
 
 - (IBAction)createMeetingBtnClick:(UIButton *)sender {
-    NSString *meetingName = self.meetingTitleTF.text;
-    if ([CTStringUtil stringNotBlank: meetingName] == NO) {
-        NSLog(@"名字为空");
-        return;
-    }
-    
-    if (self.users.count < 2) {
-        return;
-    }
-    
-    NSString *users = self.users[1].userid;
-    for (int i = 2; i < self.users.count; i ++) {
-        users = [users stringByAppendingFormat:@",%@", self.users[i].userid];
-    }
-    
-    NSString *meetingID = self.meeting? self.meeting.meetingId : @"";
-    
-    [[YCMeetingBiz new] bookMeetingWithMeetingID:meetingID MeetingType:self.meetingType MeetingName:meetingName users:users roomID:self.room.roomid beginDate:self.beginDate endDate:self.endDate Success:^(id data){
-        [CTToast showWithText:@"预约成功"];
-        [self.navigationController popViewControllerAnimated:YES];
-    } fail:^(NSError *error) {
-        
-    }];
+    [self bookMeetingWithSuccessHint:@"预约成功" failHint:@"预约失败"];
 }
 
 - (IBAction)modifyMeetingBtnClick:(id)sender {
-    
+    // 修改和创建是同一个接口
+    [self bookMeetingWithSuccessHint:@"修改成功" failHint:@"修改失败"];
 }
 
 - (IBAction)cancelMeetingBtnClick:(id)sender {
-    
-}
+    // 会议状态 0:未开始 1：进行中
+    // 未开始：取消成功，进行中：结束成功
+    // 取消会议. type 0取消/1结束
 
-//- (void)setMeeting:(CGMeeting *)meeting {
-//    _meeting = meeting;
-//    self.meetingType = meeting.meetingType;
-//    self.beginDate = [NSDate dateWithTimeIntervalSince1970:meeting.startTime.doubleValue/1000];
-//    self.endDate = [NSDate dateWithTimeIntervalSince1970:meeting.endTime.doubleValue/1000];
-//}
+    int type = (self.meeting.meetingState == 0)? 0: 1;
+    NSString *sHint = (self.meeting.meetingState == 0)? @"取消成功": @"结束会议成功";
+    NSString *fHint = (self.meeting.meetingState == 0)? @"取消失败": @"结束会议失败";
+    
+    [self cancelMeetingWithType:type successHint: sHint failHint:fHint];
+}
 
 - (void)handleCellReduceBtnClick:(NSNotification *)noti {
     YCCreateMeetingUserCell *cell = noti.object;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     [self.users removeObjectAtIndex:indexPath.row];
+    [self updateMeetingJoinerCount];
+    [self updateMeetingCost];
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
 }
 
@@ -475,7 +671,9 @@
     cell.positionLabel.text = user.position;
     [cell.avatarIV sd_setImageWithURL:[NSURL URLWithString:user.userIcon] placeholderImage:[UIImage imageNamed:@"work_head"]];
     
-    if (self.style == YCBookMeetingControllerStyleCreate) {
+    if (self.style == YCBookMeetingControllerStylePreview) {
+        cell.reduceBtn.hidden = YES;
+    } else {
         if (indexPath.row == 0) {
             cell.reduceBtn.hidden = YES;
         } else {
@@ -497,79 +695,11 @@
 }
 
 
-#pragma mark -
+#pragma mark - UITextFieldDelegate
 
-- (void)updateMeetingDate {
-    [self updateMeetingBeginDate:self.beginDate];
-    [self updateMeetingEndDate:self.endDate];
-}
-
-- (void)updateMeetingBeginDate:(NSDate *)date {
-    NSDateFormatter *f = [NSDateFormatter new];
-    f.dateFormat = @"yyyy年MM月dd日";
-    self.beginDateLabel.text = [f stringFromDate:date];
-    f.dateFormat = @"hh:mm";
-    self.beginTimeLabel.text = [f stringFromDate:date];
-}
-
-- (void)updateMeetingEndDate:(NSDate *)date {
-    NSDateFormatter *f = [NSDateFormatter new];
-    f.dateFormat = @"yyyy年MM月dd日";
-    self.endDateLabel.text = [f stringFromDate:date];
-    f.dateFormat = @"hh:mm";
-    self.endTimeLabel.text = [f stringFromDate:date];
-}
-
-- (void)setDefaultMeetingCreater {
-    NSString *name = [ObjectShareTool sharedInstance].currentUser.nickname;
-    if (!name || name.length == 0) {
-        name = [ObjectShareTool sharedInstance].currentUser.username;
-    }
-    self.createrLabel.text = name;
-}
-
-- (YCMeetingRoom *)getDefaultMeetingRoom {
-    for (YCMeetingRoom *room in self.companyRooms) {
-        if (room.roomDefault) {
-            return room;
-        }
-    }
-    for (YCMeetingRoom *room in self.otherRooms) {
-        if (room.roomDefault) {
-            return room;
-        }
-    }
-    return nil;
-}
-
-- (void)setMeetingTime:(YCMeetingRoom *)room {
-//    会议时长值显示由会议室可用时间接口返回显示：
-//http://doc.cgsays.com:50123/index.php?s=/1&page_id=394
-//    如果返回state<>1，代表时间有问题，需红色显示
-    if (room.state != 1) {
-        [self.meetingTimeBtn.titleLabel setTextColor:[UIColor redColor]];
-    } else {
-        [self.meetingTimeBtn.titleLabel setTextColor:[UIColor blackColor]];
-    }
-    
-    [self.meetingTimeBtn setTitle:[NSString stringWithFormat:@"%@分钟", room.freetime] forState:UIControlStateNormal];
-    
-}
-
-- (void)checkMeetingDateValid {
-    // 检查时间是否有效。得到结果后只需修改meetingTimeBtn的标题，不用修改其他数据。如果无效，用户会再点击meetingTimeBtn选择有效时间段。
-    [[YCMeetingBiz new] checkMeetingDateValidWithBeginDate:self.beginDate endDate:self.endDate meetingID:self.room.roomid OnSuccess:^(NSString *message, int state, NSString *recommendTime) {
-        // 如果返回state<>0，代表时间有问题，需红色显示. 状态:0可使用,1被预约,2超过限时
-        if (state == 0) {
-            [self.meetingTimeBtn setTitle:message forState:UIControlStateNormal];
-            [self.meetingTimeBtn.titleLabel setTextColor:[UIColor blackColor]];
-        } else {
-            [self.meetingTimeBtn setTitle:message forState:UIControlStateNormal];
-            [self.meetingTimeBtn.titleLabel setTextColor:[UIColor redColor]];
-        }
-    } fail:^(NSError *error) {
-        NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
-    }];
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 
@@ -582,16 +712,87 @@
             success(companyRooms, otherRooms);
         }
     } fail:^(NSError *error) {
+        [CTToast showWithText:@"获取会议室列表失败，请返回上一个界面"];
+    }];
+}
+
+- (void)getMeetingDetailWithSuccess:(void(^)())success {
+    [[YCMeetingBiz new] getMeetingDetailWithMeetingID:self.meeting.meetingId success:^(CGMeeting *meeting) {
+        self.meeting = meeting;
+        if (success) {
+            success();
+        }
+    } fail:^(NSError *error) {
         
     }];
 }
 
-- (void)getMeetingDetail {
-    [[YCMeetingBiz new] getMeetingDetailWithMeetingID:self.meeting.meetingId success:^(CGMeeting *meeting) {
-        self.meeting = meeting;
-        [self configViewForPreviewMeetingDetail];
+- (void)checkMeetingDateValid {
+    // 检查时间是否有效。得到结果后只需修改meetingTimeBtn的标题，不用修改其他数据。如果无效，用户会再点击meetingTimeBtn选择有效时间段。
+    [[YCMeetingBiz new] checkMeetingDateValidWithBeginDate:self.beginDate endDate:self.endDate meetingID:self.room.roomid OnSuccess:^(NSString *message, int state, NSString *recommendTime) {
+        // 如果返回state<>0，代表时间有问题，需红色显示. 状态:0可使用,1被预约,2超过限时
+        if (state == 0) {
+            [self.meetingTimeBtn setTitle:message forState:UIControlStateNormal];
+            [self.meetingTimeBtn.titleLabel setTextColor:[UIColor blackColor]];
+            self.meetingTimeAvailable = YES;
+        } else {
+            [self.meetingTimeBtn setTitle:message forState:UIControlStateNormal];
+            [self.meetingTimeBtn.titleLabel setTextColor:[UIColor redColor]];
+            self.meetingTimeAvailable = NO;
+        }
     } fail:^(NSError *error) {
-        
+        NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
+        self.meetingTimeAvailable = NO;
+    }];
+}
+
+- (void)bookMeetingWithSuccessHint:(NSString *)successStr failHint:(NSString *)failStr {
+    if (self.meetingTimeAvailable == NO) {
+        [CTToast showWithText:@"会议时间不可用"];
+        return;
+    }
+    
+    NSString *meetingName = self.meetingTitleTF.text;
+    if ([CTStringUtil stringNotBlank: meetingName] == NO) {
+        [CTToast showWithText:@"主题不能为空"];
+        return;
+    }
+    
+    if (self.users.count < 2) {
+        [CTToast showWithText:@"至少 2 个人"];
+        return;
+    }
+    
+    NSString *users = self.users[1].userid;
+    for (int i = 2; i < self.users.count; i ++) {
+        users = [users stringByAppendingFormat:@",%@", self.users[i].userid];
+    }
+    
+    NSString *meetingID = self.meeting? self.meeting.meetingId : @"";
+    
+    self.createMeetingBtn.userInteractionEnabled = NO;
+
+    [[YCMeetingBiz new] bookMeetingWithMeetingID:meetingID MeetingType:self.meetingType MeetingName:meetingName users:users roomID:self.room.roomid beginDate:self.beginDate endDate:self.endDate Success:^(id data){
+        [CTToast showWithText:successStr];
+        [self.navigationController popViewControllerAnimated:YES];
+    } fail:^(NSError *error) {
+        [CTToast showWithText:failStr];
+        self.createMeetingBtn.userInteractionEnabled = YES;
+        NSLog(@"%@, 失败  = %@", NSStringFromSelector(_cmd),  error.description);
+    }];
+}
+
+// 取消会议. type 0取消/1结束
+- (void)cancelMeetingWithType:(int)type successHint:(NSString *)successStr failHint:(NSString *)failStr {
+    self.cancelMeetingBtn.userInteractionEnabled = NO;
+
+    [[YCMeetingBiz new] cancelMeetingWithMeetingID:self.meeting.meetingId cancelType:type success:^(id data) {
+        [CTToast showWithText:successStr];
+        [self.navigationController popViewControllerAnimated:YES];
+    } fail:^(NSError *error) {
+        [CTToast showWithText:failStr];
+        NSLog(@"%@, 失败  = %@", NSStringFromSelector(_cmd),  error.description);
+        self.cancelMeetingBtn.userInteractionEnabled = YES;
     }];
 }
 

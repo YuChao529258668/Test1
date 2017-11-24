@@ -98,6 +98,9 @@
         }
     }
     
+    // 修改状态栏颜色
+    isBlack = YES;
+    
     [[UIApplication sharedApplication] setStatusBarStyle:isBlack?UIStatusBarStyleDefault:UIStatusBarStyleLightContent animated:NO];
     
     BOOL ishide = NO;

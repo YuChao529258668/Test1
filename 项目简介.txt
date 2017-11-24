@@ -138,6 +138,4 @@ ipad，从微信登录跳转回来，会打开手机登录界面，？？？关�
 [ObjectShareTool sharedInstance].currentUser
 
 腾讯云 刷新票据失败
-meetingTimeBtnClick, 会议时长，
-
 

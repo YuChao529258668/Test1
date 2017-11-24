@@ -37,9 +37,13 @@
     return nil;
 }
 
-- (NSString *)caculateMeetingCostStr {
-    float cost = self.attendance * self.meetingCost;
-    return [NSString stringWithFormat:@"%f", cost];
+- (float)calculateMeetingCost {
+//    int minute = (self.endTime.doubleValue/1000 - self.startTime.doubleValue/1000)/60;
+//    return self.meetingCost * minute * self.meetingUserList.count;
+    
+    return self.meetingCost * self.meetingDuration.intValue * self.attendance;
+
 }
+
 
 @end

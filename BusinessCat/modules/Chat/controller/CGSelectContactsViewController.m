@@ -26,6 +26,15 @@
 
 @implementation CGSelectContactsViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.maxSelectCount = NSUIntegerMax;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -35,9 +44,18 @@
     [self configTableView];
     self.titleView.text = self.titleForBar;
     
-    self.contactsMayDuplicate = [NSMutableArray new];
-    self.contactsNoDuplicate = [NSMutableArray new];
-    self.selectedContactIDs = [NSMutableArray new];
+    if (self.contacts) {
+        self.contactsMayDuplicate = [NSMutableArray arrayWithArray:self.contacts];
+        self.contactsNoDuplicate = [NSMutableArray arrayWithArray:self.contacts];
+        self.selectedContactIDs = [NSMutableArray new];
+        for (CGUserCompanyContactsEntity *contact in self.contacts) {
+            [self.selectedContactIDs addObject:contact.userId];
+        }
+    } else {
+        self.contactsMayDuplicate = [NSMutableArray new];
+        self.contactsNoDuplicate = [NSMutableArray new];
+        self.selectedContactIDs = [NSMutableArray new];
+    }
 }
 
 - (void)configTableView {
@@ -131,8 +149,16 @@
 
 // 不重写点击会跳到聊天界面
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGUserCompanyContactsEntity *contact;
-    contact = [self contactAtIndexPath:indexPath];
+    if (self.selectedContactIDs.count > self.maxSelectCount) {
+        [CTToast showWithText:[NSString stringWithFormat: @"选择人数不能大于 %ld", self.maxSelectCount]];
+        return;
+    }
+    
+    CGUserCompanyContactsEntity *contact = [self contactAtIndexPath:indexPath];
+    if (!contact.userId) {
+        return;
+    }
+    
     [self.contactsMayDuplicate addObject:contact];
     
     if (![self.selectedContactIDs containsObject:contact.userId]) {
@@ -146,23 +172,56 @@
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGUserCompanyContactsEntity *contact;
-    contact = [self contactAtIndexPath:indexPath];
-    [self.contactsMayDuplicate removeObject:contact];
-    [self.contactsNoDuplicate removeObject:contact];
-    [self.selectedContactIDs removeObject:contact.userId];
+    CGUserCompanyContactsEntity *contact = [self contactAtIndexPath:indexPath];
+    
+    [self removeContactWithID:contact.userId];
     [self configRightBtn];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGUserCompanyContactsEntity *contact;
-    contact = [self contactAtIndexPath:indexPath];
+    CGUserCompanyContactsEntity *contact = [self contactAtIndexPath:indexPath];
     
-    if ([self.contactsMayDuplicate containsObject:contact]) {
+    if ([self isContactsMayDuplicateContainsContact:contact]) {
         [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
     } else {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
+}
+
+
+#pragma mark - 判断是否包含某个联系人
+
+- (BOOL)isContactsMayDuplicateContainsContact:(CGUserCompanyContactsEntity *)contact {
+    BOOL contains = NO;
+    
+    for (CGUserCompanyContactsEntity *entity in self.contactsMayDuplicate) {
+        if ([entity.userId isEqualToString:contact.userId]) {
+            contains = YES;
+            break;
+        }
+    }
+    return contains;
+}
+
+
+#pragma mark - 删除某个联系人
+
+- (void)removeContactWithID:(NSString *)userID {
+    for (CGUserCompanyContactsEntity *contact in self.contactsMayDuplicate) {
+        if ([contact.userId isEqualToString:userID]) {
+            [self.contactsMayDuplicate removeObject:contact];
+            break;
+        }
+    }
+    
+    for (CGUserCompanyContactsEntity *contact in self.contactsNoDuplicate) {
+        if ([contact.userId isEqualToString:userID]) {
+            [self.contactsNoDuplicate removeObject:contact];
+            break;
+        }
+    }
+
+    [self.selectedContactIDs removeObject:userID];
 }
 
 @end

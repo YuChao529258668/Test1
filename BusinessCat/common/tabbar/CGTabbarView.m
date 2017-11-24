@@ -33,8 +33,9 @@
         [self.title setTitle:entity.title forState:UIControlStateSelected];
         
         [self.title setTitleColor:[CTCommonUtil convert16BinaryColor:@"#777777"] forState:UIControlStateNormal];
-        [self.title setTitleColor:CTThemeMainColor forState:UIControlStateSelected];
-        
+//        [self.title setTitleColor:CTThemeMainColor forState:UIControlStateSelected];
+        [self.title setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tabbarClickItemAction:)];
         self.userInteractionEnabled = YES;
         self.view.userInteractionEnabled = YES;
@@ -57,7 +58,15 @@
     self.title.selected = flag;
     [self.title setTitle:self.entity.title forState:UIControlStateNormal];
     [self.title setTitle:self.entity.title forState:UIControlStateSelected];
-    self.image.image = [UIImage imageNamed:flag?self.entity.selectedName:self.entity.normalImage];
+//    UIImage *image = [UIImage imageNamed:flag?self.entity.selectedName:self.entity.normalImage];
+
+    if (flag) {
+        UIImage *image = [UIImage imageNamed:self.entity.selectedName];
+        self.image.image = [image imageWithTintColor:CTThemeMainColor];
+    } else {
+        UIImage *image = [UIImage imageNamed:self.entity.normalImage];
+        self.image.image = image;
+    }
 }
 
 -(void)tabbarClickItemAction:(UITapGestureRecognizer *)recognizer{

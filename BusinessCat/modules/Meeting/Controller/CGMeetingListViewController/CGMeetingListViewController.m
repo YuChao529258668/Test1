@@ -26,8 +26,10 @@
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) UIView *bottomBar;
 @property (nonatomic,strong) UIButton *createMeetingBtn;
+@property (nonatomic,strong) UIView *headerView;
 
 @property (nonatomic,strong) NSArray<CGMeeting *> *meetings;
+@property (nonatomic,assign) int currentPage; // 页数，用于获取后台分页数据
 
 @end
 
@@ -40,6 +42,12 @@
     [self setupTableView];
     [self setupHeaderView];
     [self setupCreateMeetingBtn];
+//    [self getMeetingModels];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     [self getMeetingModels];
 }
 
@@ -94,6 +102,9 @@
     tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellAtionBtnClick:) name:kCGMeetingListCellBtnClickNotification object:nil];
+    
+    tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getMeetingModels)];
+    tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMoreMeetingModels)];
 }
 
 - (void)setupHeaderView {
@@ -103,7 +114,8 @@
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [view addSubview:btn];
-    self.tableView.tableHeaderView = view;
+//    self.tableView.tableHeaderView = view;
+    self.headerView = view;
     
     CGRect rect = frame;
     rect.size.height = kHeaderViewBtnHeight;
@@ -111,7 +123,8 @@
     btn.frame = rect;
     
     btn.backgroundColor = CTThemeMainColor;
-    [btn setTitle:@"您有会议正在召开，点此进入..." forState:UIControlStateNormal];
+    btn.tag = 1;
+//    [btn setTitle:@"您有会议正在召开" forState:UIControlStateNormal];
     [btn.titleLabel setFont:[UIFont systemFontOfSize:14]];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(headerViewClick) forControlEvents:UIControlEventTouchUpInside];
@@ -134,6 +147,7 @@
     self.createMeetingBtn = btn;
     [self.view addSubview:btn];
 }
+
 
 #pragma mark - Action
 
@@ -163,8 +177,13 @@
             }
             break;
         case 1: // 进行中
+            if ([self isMeetingCreater:meeting]) {
+                // 修改预约
+                [self goToModifyMeeting:meeting];
+            } else {
                 // 预约详情
-            [self goToMeetingDetail:meeting];
+                [self goToMeetingDetail:meeting];
+            }
             break;
         case 2: // 已结束
                 // 再次召开
@@ -182,6 +201,7 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+
 #pragma mark - Data
 
 - (void)getMeetingModels {
@@ -189,11 +209,32 @@
         return;
     }
     
-    [[YCMeetingBiz new] getMeetingListWithPage:0 Success:^(NSArray<CGMeeting *> *meetings) {
+    self.currentPage = 0;
+    
+    [[YCMeetingBiz new] getMeetingListWithPage:self.currentPage Success:^(NSArray<CGMeeting *> *meetings) {
         self.meetings = meetings;
+        [self updateHeaderView];
         [self.tableView reloadData];
+        [self.tableView.mj_header endRefreshing];
     } fail:^(NSError *error) {
-        
+        [self.tableView.mj_header endRefreshing];
+    }];
+}
+
+- (void)getMoreMeetingModels {
+    if (![ObjectShareTool sharedInstance].currentUser.token) {
+        return;
+    }
+    
+    self.currentPage ++;
+    
+    [[YCMeetingBiz new] getMeetingListWithPage:self.currentPage Success:^(NSArray<CGMeeting *> *meetings) {
+        self.meetings = [self.meetings arrayByAddingObjectsFromArray:meetings];
+//        [self updateHeaderView];
+        [self.tableView reloadData];
+        [self.tableView.mj_footer endRefreshing];
+    } fail:^(NSError *error) {
+        [self.tableView.mj_footer endRefreshing];
     }];
 }
 
@@ -234,7 +275,7 @@
 //3）修改预约：创建者，并未开始显示为修改预约。
 - (void)configCell:(CGMeetingListCell *)cell withMeeting:(CGMeeting *)meeting {
     NSString *title;
-    NSString *imageName;
+    NSString *imageName; // 蓝色 work_clock, 黄色 work_meeting, 灰色 work_temporary
     int state = meeting.meetingState;
     
     switch (state) {
@@ -243,15 +284,22 @@
             if ([self isMeetingCreater:meeting]) {
                 title = @"修改预约";
             }
+            imageName = @"work_clock";
             break;
         case 1: // 进行中
             title = @"会议详情";
+            if ([self isMeetingCreater:meeting]) {
+                title = @"修改预约";
+            }
+            imageName = @"work_meeting";
             break;
         case 2: // 已结束
             title = @"再次召开";
+            imageName = @"work_temporary";
             break;
         case 3: // 已取消
             title = @"再次召开";
+            imageName = @"work_temporary";
             break;
     }
     [cell.button setTitle:title forState:UIControlStateNormal];
@@ -276,6 +324,31 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)updateHeaderView {
+    // 会议状态 0:未开始 1：进行中
+    int ready = 0;
+    for (CGMeeting *meeting in self.meetings) {
+        if (meeting.meetingState == 1) {
+            UIButton *btn = [self.headerView viewWithTag:1];
+            [btn setTitle:@"您有会议正在召开" forState:UIControlStateNormal];
+            self.tableView.tableHeaderView = self.headerView;
+            return;
+        }
+        if (meeting.meetingState == 0) {
+            ready ++;
+        }
+    }
+    
+    if (ready > 0) {
+        UIButton *btn = [self.headerView viewWithTag:1];
+        NSString *title = [NSString stringWithFormat:@"您有 %d 个会议需要参加", ready];
+        [btn setTitle:title forState:UIControlStateNormal];
+        self.tableView.tableHeaderView = self.headerView;
+        return;
+    }
+    
+    self.tableView.tableHeaderView = nil;
+}
 
 #pragma mark - UITableViewDelegate
 
