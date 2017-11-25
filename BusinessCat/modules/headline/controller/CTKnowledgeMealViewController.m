@@ -68,7 +68,7 @@
 -(UIButton *)calendarBtn{
     if(!_calendarBtn){
         _calendarBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 20, 44, 44)];
-        [_calendarBtn setImage:[UIImage imageNamed:@"calendar"] forState:UIControlStateNormal];
+        [_calendarBtn setImage:[UIImage imageNamed:@"icon_manage_calendar"] forState:UIControlStateNormal];
         [_calendarBtn addTarget:self action:@selector(clickCalendarAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _calendarBtn;
@@ -76,7 +76,7 @@
 -(CTButtonRightImg *)navTypeBtn{
     if(!_navTypeBtn){
         _navTypeBtn = [[CTButtonRightImg alloc]initWithFrame:CGRectMake(0, 22, SCREEN_WIDTH, 44)];
-        UIImage *image = [[UIImage imageNamed:@"triangle"] imageWithTintColor:[UIColor blackColor]];
+        UIImage *image = [UIImage imageNamed:@"icon_manage_down"];
         [_navTypeBtn setImage:image forState:UIControlStateNormal];
         [_navTypeBtn addTarget:self action:@selector(clickNavTypeAction:) forControlEvents:UIControlEventTouchUpInside];
         [_navTypeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

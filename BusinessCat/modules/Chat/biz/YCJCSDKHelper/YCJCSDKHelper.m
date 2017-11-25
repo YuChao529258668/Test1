@@ -27,6 +27,7 @@
 #define userID1 @"18362970827"
 #define userID2 @"1837"
 
+
 @interface YCJCSDKHelper()<JCEngineDelegate>
 @end
 
@@ -42,9 +43,11 @@ static YCJCSDKHelper * helper;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         helper = [YCJCSDKHelper new];
+        [helper addObserver];
     });
     return helper;
 }
+
 
 #pragma mark - 视频
 
@@ -58,7 +61,7 @@ static YCJCSDKHelper * helper;
     }
     __weak YCJCSDKHelper *wf = [YCJCSDKHelper shareHelper];
     [[JCEngineManager sharedManager] setDelegate:wf];
-    
+
 //    [[JCEngineManager sharedManager] setServerAddress:[SettingManager getDefaultServerAddress]];
 //    [[JCEngineManager sharedManager] setServerAddress:@"http:router.justalkcloud.com:8080"];
 }
@@ -77,8 +80,16 @@ static YCJCSDKHelper * helper;
     return [[JCEngineManager sharedManager] isOnline];
 }
 
+
 #pragma mark  JCEngineDelegate
 
+/**
+ * @brief  错误回调
+ *   SDK 运行中发生错误时就会触发此互调。如调用 - (int)joinWithRoomId:(NSString *)roomId
+ *   displayName:(NSString *)displayName 时操作失败等
+ *
+ * @param  errorReason 具体原因值 @ref ErrorReason
+ */
 - (void)onError:(ErrorReason)errorReason {
     
 //    /** 发起连接服务端失败，原因为无效的网络 */
@@ -109,8 +120,6 @@ static YCJCSDKHelper * helper;
 
 
 #pragma mark - 语音
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleJCSDKLoginOK) name:@MtcLoginOkNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMtcCliServerLoginDidFailNotification:) name:@MtcCliServerLoginDidFailNotification object:nil];
 
 // 语音用的 demo 是 justalk-cloud
 
@@ -139,9 +148,9 @@ static YCJCSDKHelper * helper;
     return state == EN_MTC_CLI_STATE_LOGINED;
 }
 
-+ (void)loginMultiCall {
++ (void)loginMultiCallWithUserID:(NSString *)userID {
     NSString *server = @"http:router.justalkcloud.com:8080";
-    if ([MtcLoginManager Login:userID1 password:@"111" network:server] == ZOK) {
+    if ([MtcLoginManager Login:userID password:@"jp580" network:server] == ZOK) {
         NSLog(@"调用语音登录成功");
     }
 }
@@ -158,14 +167,30 @@ static YCJCSDKHelper * helper;
     [MtcCallManager multiCall:numbers displayName:dispalyName];
 }
 
-// MtcLoginOkNotification
-+ (void)onLoginMultiCallSuccess {
-    
+
+#pragma mark - Notification
+
+- (void)addObserver {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMtcLoginOkNotification:) name:@MtcLoginOkNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMtcLoginDidFailNotification:) name:@MtcLoginDidFailNotification object:nil];
 }
 
-// MtcLoginDidFailNotification
-+ (void)onLoginMultiCallFaild {
-    
+//// MtcLoginOkNotification
+//+ (void)onLoginMultiCallSuccess {
+//
+//}
+//
+//// MtcLoginDidFailNotification
+//+ (void)onLoginMultiCallFaild {
+//
+//}
+
+- (void)handleMtcLoginOkNotification:(NSNotification *)noti {
+    NSLog(@"%@, 视频会议登录成功 ", NSStringFromSelector(_cmd));
+}
+
+- (void)handleMtcLoginDidFailNotification:(NSNotification *)noti {
+    NSLog(@"%@, 视频会议登录失败 error  = %@", NSStringFromSelector(_cmd), noti);
 }
 
 

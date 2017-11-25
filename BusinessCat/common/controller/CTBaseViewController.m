@@ -111,7 +111,7 @@
     if(_showCustomBackBtn){
         if(!self.backBtn){
             self.backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, CTMarginTop, TOPBARCONTENTHEIGHT, TOPBARCONTENTHEIGHT)];
-            [self.backBtn setImage:[UIImage imageNamed:@"topbar_goback_white_img"] forState:UIControlStateNormal];
+            [self.backBtn setImage:[UIImage imageNamed:@"headline_detail_back"] forState:UIControlStateNormal];
             [self.backBtn addTarget:self action:@selector(baseBackAction) forControlEvents:UIControlEventTouchUpInside];
         }
         [self.navi addSubview:self.backBtn];

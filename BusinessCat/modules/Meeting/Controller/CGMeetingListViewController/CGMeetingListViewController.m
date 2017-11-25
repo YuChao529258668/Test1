@@ -38,11 +38,14 @@
 
 @end
 
+
 @implementation CGMeetingListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [YCJCSDKHelper loginMultiCallWithUserID:[ObjectShareTool sharedInstance].currentUser.uuid];
     
     [self setupTableView];
     [self setupHeaderView];
@@ -371,7 +374,7 @@
 //        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已取消
         if (state == 1) {
             [CTToast showWithText:message];
-            [self goToVideoMeetingWithRoomID:meeting.roomId];
+            [self goToVideoMeetingWithRoomID:meeting.conferenceNumber];
         }
     } fail:^(NSError *error) {
         
@@ -393,9 +396,8 @@
         [self.navigationController pushViewController:roomVc animated:YES];
     } else {
         [CTToast showWithText:@"会议功能尚未登录，请稍后再试"];
-        [YCJCSDKHelper loginVideoCall];
+        [YCJCSDKHelper loginMultiCallWithUserID:[ObjectShareTool sharedInstance].currentUser.uuid];
     }
-
 }
 
 

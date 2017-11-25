@@ -53,21 +53,18 @@
 
 - (void)dealloc {
     [self removeObserverForLoginLogout];
-    
-    //    [[NSNotificationCenter defaultCenter] removeObserver:self name:@MtcLoginOkNotification object:nil];
-    //    [[NSNotificationCenter defaultCenter] removeObserver:self name:@MtcCliServerLoginDidFailNotification object:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self addObserverForLoginLogout];
     [self onViewDidLoad];
+    
     [self createCustomNavi];
     [self setupCreateGroupChatBtn];
     
-//    [YCJCSDKHelper loginVideoCall];
-    [YCJCSDKHelper loginMultiCall];
-    [self setupCallVideoBtn];
+//    [self setupCallVideoBtn];
     [self setupCallBtn];
 }
 
@@ -124,7 +121,9 @@
     CGRect frame = CGRectMake(x, y, 44, 44);
     btn.frame = frame;
     //    btn.center = CGPointMake(x, y);
-    [btn setImage:[UIImage imageNamed:@"common_add_white"] forState:UIControlStateNormal];
+//    UIImage *image = [[UIImage imageNamed:@"common_add_white"] imageWithTintColor:[UIColor blackColor]];
+//    [btn setImage:image forState:UIControlStateNormal];
+    [btn setTitle:@"群聊" forState: UIControlStateNormal];
     [self.navi addSubview:btn];
     [btn addTarget:self action:@selector(createGroupChatBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -142,18 +141,26 @@
 
 // 创建群名
 - (NSString *)createGroupNameWithContacts:(NSMutableArray<CGUserCompanyContactsEntity *> *)contacts {
+    // 防止群名字过长，只把姓连起来
+    
+    NSRange range = NSMakeRange(0, 1);
+    NSString *firstName; // 姓
     
     NSString *name = [ObjectShareTool sharedInstance].currentUser.username;
-    NSLog(@"群名 = %@, %@", name, NSStringFromSelector(_cmd));
+    name = [name substringWithRange:range];
+    
     NSInteger count = contacts.count;
     count = count > 3? 3: count;
+
     
     for (int i = 0; i < count; i++) {
         name = [name stringByAppendingString:@"、"];
-        name = [name stringByAppendingString:contacts[i].userName];
+        firstName = [contacts[i].userName substringWithRange:range];
+        name = [name stringByAppendingString:firstName];
     }
     name = [name stringByAppendingString:[NSString stringWithFormat:@"(%@人)", @(count + 1)]];
-    
+//    NSLog(@"群名 = %@, %@", name, NSStringFromSelector(_cmd));
+
     return name;
 }
 
@@ -353,7 +360,8 @@
         if (success != 0) {
 //            [[HUDHelper sharedInstance] syncStopLoading];
 //            [[HUDHelper sharedInstance] syncStopLoadingMessage:@"刷新票据失败"];
-            NSLog(@"刷新票据失败");
+//            NSLog(@"刷新票据失败");
+            [CTToast showWithText:@"聊天功能：刷新票据失败"];
         }
     }
     else
@@ -370,15 +378,16 @@
 {
     //直接登录
     __weak CGChatListViewController *weakSelf = self;
-    [[HUDHelper sharedInstance] syncLoading:@"正在登录"];
+//    [[HUDHelper sharedInstance] syncLoading:@"正在登录"];
     [[IMAPlatform sharedInstance] login:_loginParam succ:^{
-        [[HUDHelper sharedInstance] syncStopLoadingMessage:@"登录成功"];
+//        [[HUDHelper sharedInstance] syncStopLoadingMessage:@"登录成功"];
         [weakSelf registNotification];
         [weakSelf enterMainUI];
     } fail:^(int code, NSString *msg) {
         [[HUDHelper sharedInstance] syncStopLoadingMessage:IMALocalizedError(code, msg) delay:2 completion:^{
 //            [weakSelf pullLoginUI];
             NSLog(@"腾讯云登录失败 %@, %@", msg, NSStringFromSelector(_cmd));
+            [CTToast showWithText:@"聊天功能登录失败"];
         }];
     }];
 }
@@ -505,11 +514,14 @@
 }
 
 - (void)callVideoBtnClick {
+//    [CTToast showWithText:@"在会议列表界面使用此功能"];
+//    return;
+    
     if ([YCJCSDKHelper isLoginForVideoCall]) {
         RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
         //    roomVc.roomId = @"9990";
 //        roomVc.roomId = @"10726763"; // 服务器
-        roomVc.roomId = @"10877365"; // 服务器
+//        roomVc.roomId = @"10877365"; // 服务器
 //        roomVc.roomId = @"10563734"; // yj 创建的会议室
         
         roomVc.displayName = @"余超";
@@ -563,11 +575,11 @@
 //        [[YCMultiCallHelper shareHelper] setSourceVC:self];
         [YCJCSDKHelper multiCall:numbers displayName:displayName];
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [YCJCSDKHelper calll:user3 displayName:nil peerDisplayName:nil isVideo:NO];
-        });
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [YCJCSDKHelper calll:user3 displayName:nil peerDisplayName:nil isVideo:NO];
+//        });
     } else {
-        [YCJCSDKHelper loginMultiCall];
+        [YCJCSDKHelper loginMultiCallWithUserID:[ObjectShareTool sharedInstance].currentUser.uuid];
     }
 }
 

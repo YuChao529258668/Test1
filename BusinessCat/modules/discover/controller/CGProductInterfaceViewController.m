@@ -58,7 +58,7 @@ static NSString * const Identifier = @"CGInterfaceImageViewCell";
   
   UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-42.5f-30, 22, 40, 40)];
   [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
-  [rightBtn setImage:[UIImage imageNamed:@"common_search_white_icon"] forState:UIControlStateNormal];
+  [rightBtn setImage:[UIImage imageNamed:@"station_magnifier"] forState:UIControlStateNormal];
   rightBtn.contentMode = UIViewContentModeScaleAspectFit;
   [self.navi addSubview:rightBtn];
   __weak typeof(self)weakSelf = self;

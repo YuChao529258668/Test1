@@ -53,7 +53,7 @@
   [self.topView addSubview:self.bigTypeScrollView];
   UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-42.5f, 22, 40, 40)];
   [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
-  [rightBtn setImage:[UIImage imageNamed:@"common_search_white_icon"] forState:UIControlStateNormal];
+  [rightBtn setImage:[UIImage imageNamed:@"station_magnifier"] forState:UIControlStateNormal];
   rightBtn.contentMode = UIViewContentModeScaleAspectFit;
   [self.navi addSubview:rightBtn];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationFontSizeChange) name:NOTIFICATION_FONTSIZE object:nil];

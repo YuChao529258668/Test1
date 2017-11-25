@@ -76,6 +76,13 @@
     //    [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
     
+//    UIBarButtonItem *back = self.navigationItem.leftBarButtonItem;
+//    back.image = [UIImage imageNamed:@"headline_detail_back"];
+//    back setimage
+    UIImage *image = [UIImage imageNamed:@"headline_detail_back"];
+    UIBarButtonItem *back = [[UIBarButtonItem alloc]initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(backBtnClick)];
+    self.navigationItem.leftBarButtonItem = back;
+    
     
     if (self.style == YCBookMeetingControllerStyleCreate) {
         [self configViewForCreateMeeting];
@@ -129,6 +136,7 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSLog(@"book dealloc");
 }
 
 
@@ -198,6 +206,8 @@
     self.cancelMeetingBtn.hidden = YES;
     self.tickBtn.hidden = YES;
     [self.createMeetingBtn setBackgroundColor:CTThemeMainColor];
+    
+    self.meeting.meetingId = @""; // 再次召开，mid 要为空
     
     [self setupCurrentMeetingUser];
     //    self.users = [NSMutableArray arrayWithObject:self.currentMeetingUser];
@@ -478,6 +488,13 @@
     self.endTimeLabel.textColor = [UIColor blackColor];
     self.meetingCostLabel.textColor = [UIColor redColor];
     self.meetingJoinerCountLabel.textColor = [UIColor blackColor];
+
+    // 占位符 placeholder 颜色和内容
+    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"少于30字" attributes:
+                                      @{NSForegroundColorAttributeName:[UIColor lightGrayColor],
+                                        NSFontAttributeName: self.meetingTitleTF.font
+                                        }];
+    self.meetingTitleTF.attributedPlaceholder = attrString;
 }
 
 - (YCMeetingRoom *)getDefaultMeetingRoom {
@@ -656,6 +673,9 @@
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
 }
 
+- (void)backBtnClick {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - UITableViewDataSource
 
@@ -763,21 +783,38 @@
         return;
     }
     
-    NSString *users = self.users[1].userid;
-    for (int i = 2; i < self.users.count; i ++) {
-        users = [users stringByAppendingFormat:@",%@", self.users[i].userid];
+    NSString *users = @"";
+    if (self.style == YCBookMeetingControllerStyleReopen) {
+        // 再次召开，如果会议的住持人不是自己，要先删掉，因为后台会默认把自己也加入会议，不删掉就会出现两个自己。
+        for (YCMeetingUser *user in self.users) {
+            if ([user.userid isEqualToString:self.currentMeetingUser.userid]) {
+                [self.users removeObject:user];
+                break;
+            }
+        }
+        users = self.users[0].userid;
+        for (int i = 1; i < self.users.count; i ++) {
+            users = [users stringByAppendingFormat:@",%@", self.users[i].userid];
+        }
+    } else {
+        // 第 0 个是自己，后台会默认把自己也加入会议，所以从第 1 个开始
+        users = self.users[1].userid;
+        for (int i = 2; i < self.users.count; i ++) {
+            users = [users stringByAppendingFormat:@",%@", self.users[i].userid];
+        }
     }
     
     NSString *meetingID = self.meeting? self.meeting.meetingId : @"";
     
     self.createMeetingBtn.userInteractionEnabled = NO;
+    __weak typeof(self) ws = self;
 
     [[YCMeetingBiz new] bookMeetingWithMeetingID:meetingID MeetingType:self.meetingType MeetingName:meetingName users:users roomID:self.room.roomid beginDate:self.beginDate endDate:self.endDate Success:^(id data){
         [CTToast showWithText:successStr];
-        [self.navigationController popViewControllerAnimated:YES];
+        [ws.navigationController popViewControllerAnimated:YES];
     } fail:^(NSError *error) {
         [CTToast showWithText:failStr];
-        self.createMeetingBtn.userInteractionEnabled = YES;
+        ws.createMeetingBtn.userInteractionEnabled = YES;
         NSLog(@"%@, 失败  = %@", NSStringFromSelector(_cmd),  error.description);
     }];
 }
@@ -785,14 +822,16 @@
 // 取消会议. type 0取消/1结束
 - (void)cancelMeetingWithType:(int)type successHint:(NSString *)successStr failHint:(NSString *)failStr {
     self.cancelMeetingBtn.userInteractionEnabled = NO;
-
+    __weak typeof(self) ws = self;
     [[YCMeetingBiz new] cancelMeetingWithMeetingID:self.meeting.meetingId cancelType:type success:^(id data) {
         [CTToast showWithText:successStr];
-        [self.navigationController popViewControllerAnimated:YES];
+//        [self.navigationController popViewControllerAnimated:YES];
+        [ws.navigationController popViewControllerAnimated:YES];
     } fail:^(NSError *error) {
         [CTToast showWithText:failStr];
         NSLog(@"%@, 失败  = %@", NSStringFromSelector(_cmd),  error.description);
-        self.cancelMeetingBtn.userInteractionEnabled = YES;
+        ws.cancelMeetingBtn.userInteractionEnabled = YES;
+//        self.cancelMeetingBtn.userInteractionEnabled = YES;
     }];
 }
 

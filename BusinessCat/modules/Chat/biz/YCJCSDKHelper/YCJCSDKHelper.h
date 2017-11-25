@@ -24,7 +24,7 @@
 
 + (BOOL)isLoginedForMultiCall;
 
-+ (void)loginMultiCall;
++ (void)loginMultiCallWithUserID:(NSString *)userID;
 
 + (void)logoutMultiCall;
 

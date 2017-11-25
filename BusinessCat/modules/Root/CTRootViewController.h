@@ -17,6 +17,7 @@
 
 #import "CGChatListViewController.h"
 #import "YCWorkViewController.h"
+#import "YCCollegeViewController.h"
 
 @interface CTRootViewController : CTBaseViewController
 
@@ -52,6 +53,7 @@
 @property (nonatomic,strong) CGMyMainViewController *myVC;
 @property (nonatomic,strong) CGChatListViewController *chatListVC;
 @property (nonatomic,strong) YCWorkViewController *workVC;
+@property (nonatomic,strong) YCCollegeViewController *collegeVC;
 
 
 

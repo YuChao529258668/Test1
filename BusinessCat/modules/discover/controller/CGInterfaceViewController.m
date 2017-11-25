@@ -50,7 +50,7 @@
   
   self.rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f-40, 22, 40, 40)];
   [self.rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
-  [self.rightBtn setImage:[UIImage imageNamed:@"common_search_white_icon"] forState:UIControlStateNormal];
+  [self.rightBtn setImage:[UIImage imageNamed:@"station_magnifier"] forState:UIControlStateNormal];
   self.rightBtn.contentMode = UIViewContentModeScaleAspectFit;
   [self.navi addSubview:self.rightBtn];
   __weak typeof(self) weakSelf = self;

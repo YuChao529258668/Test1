@@ -156,7 +156,7 @@
                                                 <action selector="addPeopleBtnClick:" destination="uTT-xd-1bK" eventType="touchUpInside" id="VMm-u0-t1W"/>
                                             </connections>
                                         </button>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="少于 30 字" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="veI-nv-0pz">
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="veI-nv-0pz">
                                             <rect key="frame" x="106" y="24" width="245" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="whe-zn-lJk"/>

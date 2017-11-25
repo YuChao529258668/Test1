@@ -58,7 +58,7 @@
   UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-42.5f, 22, 40, 40)];
   rightBtn.contentMode = UIViewContentModeScaleAspectFit;
   [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
-  [rightBtn setImage:[UIImage imageNamed:@"common_search_white_icon"] forState:UIControlStateNormal];
+  [rightBtn setImage:[UIImage imageNamed:@"station_magnifier"] forState:UIControlStateNormal];
   [self.navi addSubview:rightBtn];
     self.dataArray = [ObjectShareTool sharedInstance].knowledgeBigTypeData;
   [self getTypeArray];

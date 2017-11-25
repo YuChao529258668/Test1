@@ -31,7 +31,7 @@
 
 @property (nonatomic,assign) int attendance;//参会人数
 @property (nonatomic,strong) NSString *companyId;
-@property (nonatomic,strong) NSString *conferenceNumber; // 会议号(justalk)
+@property (nonatomic,strong) NSString *conferenceNumber; // 会议号(justalk)，justalk的 roomID
 @property (nonatomic,strong) NSString *endTime;
 @property (nonatomic,strong) NSString *startTime;
 @property (nonatomic,strong) NSString * meetingDuration; // 时长，可能是一句话，不能用来计算价格！

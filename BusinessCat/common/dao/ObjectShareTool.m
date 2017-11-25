@@ -148,5 +148,8 @@ static ObjectShareTool *_sharedManager;
   }
 }
 
++ (NSString *)currentUserID {
+    return [ObjectShareTool sharedInstance].currentUser.uuid;
+}
 
 @end

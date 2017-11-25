@@ -169,7 +169,7 @@
   self.searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 74, 30, 24, 24)];
   [self.searchBtn addTarget:self action:@selector(searchBtnAction:) forControlEvents:UIControlEventTouchUpInside];
   self.searchBtn.contentMode = UIViewContentModeScaleAspectFit;
-  [self.searchBtn setBackgroundImage:[UIImage imageNamed:@"common_search_white_icon"] forState:UIControlStateNormal];
+  [self.searchBtn setBackgroundImage:[UIImage imageNamed:@"station_magnifier"] forState:UIControlStateNormal];
   [self.navi addSubview:self.searchBtn];
 }
 

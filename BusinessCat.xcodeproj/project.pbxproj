@@ -580,6 +580,7 @@
 		0DCD733F1FB3F3EB00972501 /* TXRTMPSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73311FB3F3EA00972501 /* TXRTMPSDK.framework */; };
 		0DCD73401FB3F3EB00972501 /* readme in Resources */ = {isa = PBXBuildFile; fileRef = 0DCD73321FB3F3EA00972501 /* readme */; };
 		0DCD73411FB3F3EB00972501 /* TLSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73331FB3F3EB00972501 /* TLSSDK.framework */; };
+		0DED884D1FC953FF00585C82 /* YCCollegeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */; };
 		1804A3321DCB229800CA2326 /* CGDiscoverLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 1804A3311DCB229800CA2326 /* CGDiscoverLink.m */; };
 		1806D2D31DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1806D2D11DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m */; };
 		1806D2D41DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1806D2D21DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.xib */; };
@@ -2425,6 +2426,8 @@
 		0DCD73311FB3F3EA00972501 /* TXRTMPSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TXRTMPSDK.framework; sourceTree = "<group>"; };
 		0DCD73321FB3F3EA00972501 /* readme */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme; sourceTree = "<group>"; };
 		0DCD73331FB3F3EB00972501 /* TLSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TLSSDK.framework; sourceTree = "<group>"; };
+		0DED884B1FC953FF00585C82 /* YCCollegeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCollegeViewController.h; sourceTree = "<group>"; };
+		0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCollegeViewController.m; sourceTree = "<group>"; };
 		0F96D292CC0F74E9725C4D2E /* libPods-BusinessCat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BusinessCat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1804A3301DCB229800CA2326 /* CGDiscoverLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGDiscoverLink.h; sourceTree = "<group>"; };
 		1804A3311DCB229800CA2326 /* CGDiscoverLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGDiscoverLink.m; sourceTree = "<group>"; };
@@ -5945,6 +5948,47 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		0DED88461FC9539000585C82 /* College */ = {
+			isa = PBXGroup;
+			children = (
+				0DED884A1FC953DA00585C82 /* Biz */,
+				0DED88481FC953DA00585C82 /* Controller */,
+				0DED88491FC953DA00585C82 /* Model */,
+				0DED88471FC953DA00585C82 /* View */,
+			);
+			path = College;
+			sourceTree = "<group>";
+		};
+		0DED88471FC953DA00585C82 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0DED88481FC953DA00585C82 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0DED884B1FC953FF00585C82 /* YCCollegeViewController.h */,
+				0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		0DED88491FC953DA00585C82 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0DED884A1FC953DA00585C82 /* Biz */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Biz;
+			sourceTree = "<group>";
+		};
 		1835D9F91DB9F6E20006ED07 /* entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -7285,6 +7329,7 @@
 		D7BF3EAD1D98F9D900FC94E6 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				0DED88461FC9539000585C82 /* College */,
 				0D3EB2E41FC1822A00DAE678 /* Work */,
 				0D7431001FB93CF3002867FA /* Meeting */,
 				0DA9C3811FA8242100A91427 /* Root */,
@@ -8851,6 +8896,7 @@
 				1835D97E1DB8A9F40006ED07 /* CGUserCompanyPrivilegeHeaderTableViewCell.m in Sources */,
 				187124B41E7A34DA00C16E9C /* AttentionMyGroupEntity.m in Sources */,
 				0D90E0581FB43C3A00EDB7CF /* SubGroupPickerViewController.m in Sources */,
+				0DED884D1FC953FF00585C82 /* YCCollegeViewController.m in Sources */,
 				0D90DF5F1FB43C3900EDB7CF /* ImageTitleButton.m in Sources */,
 				D7E417661D9A469000048E57 /* CTNetWorkUtil.m in Sources */,
 				184AB5B51DD201520020433E /* CGUserOrganizaEntity.m in Sources */,

@@ -86,7 +86,7 @@
     UIButton *btn = [[UIButton alloc] initWithFrame:self.rightBtn.frame];
     [btn setTitle:@"完成" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(completeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn.hidden = YES;
     self.completeBtn = btn;
     [self.rightBtn removeFromSuperview];
@@ -97,7 +97,7 @@
     UIButton *btn = [[UIButton alloc] initWithFrame:self.rightBtn.frame];
     [btn setTitle:@"取消" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(cancleBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.cancleBtn = btn;
     [self.rightBtn removeFromSuperview];
     [self.navi addSubview:btn];

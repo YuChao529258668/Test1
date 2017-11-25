@@ -20,16 +20,16 @@
 #import "CGCompanyDao.h"
 #import "AttentionBiz.h"
 
-#import "YCWorkViewController.h"
 
+// 消息、工作、学院、百宝箱(发现)、我的
 #define kTabCount 5
-#define kWork 0
-#define kChat 1
-#define kKnowledgeMeal 2
-#define kKnowledgeBase 3
-#define kDiscoverMain 5
+#define kWork 1
+#define kChat 0
+#define kKnowledgeMeal 5
+#define kKnowledgeBase 6
+#define kDiscoverMain 3
 #define kMyMain 4
-
+#define kCollege 2
 
 @interface CTRootViewController ()<SSZipArchiveDelegate>
 
@@ -45,6 +45,146 @@
 @end
 
 @implementation CTRootViewController
+
+#pragma mark - 创建 tab
+
+//生成tab和对应的controller
+-(void)generateTabAndController{
+    float length = 44;//tab的长和宽
+    float width = 60;
+    
+    self.tabEntitys = [NSMutableArray arrayWithCapacity:kTabCount];
+    self.tabViews = [NSMutableArray arrayWithCapacity:kTabCount];
+    
+    for(int i=0;i<kTabCount;i++){
+        float x = (SCREEN_WIDTH-(kTabCount*width))/(kTabCount+1)*(i+1)+width*i;
+        
+        CGTabbarView *tabView;
+        CGTabbarEntity *tabEntity = [[CGTabbarEntity alloc]init];
+        tabEntity.index = i;
+        
+        if (i == kChat) {
+            tabEntity.title = @"消息";
+            tabEntity.normalImage = @"tab_information_normal";
+            tabEntity.selectedName = @"tab_information_Highlighted";
+            [self.tabEntitys addObject:tabEntity];
+            
+            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
+            [self.tabbarView addSubview:tabView];
+            [self.tabViews addObject:tabView];
+            self.conversationListTabView = tabView;
+            
+            self.conversationListRedHot = [self createRedHot];
+            [self.conversationListTabView addSubview:self.conversationListRedHot];
+            
+            self.chatListVC = [[CGChatListViewController alloc]init];
+            [self addChildViewController:self.chatListVC];
+            [self.chatListVC.view setFrame:self.contentView.bounds];
+            [self.contentView addSubview:self.chatListVC.view];
+            tabView.hidden = NO;
+            [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
+        }
+        else if(i ==  kWork){
+            tabEntity.title = @"工作";
+            tabEntity.normalImage = @"tab_word_normal";
+            tabEntity.selectedName = @"tab_word_normal_Highlighted";
+            [self.tabEntitys addObject:tabEntity];
+            
+            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
+            [self.tabbarView addSubview:tabView];
+            [self.tabViews addObject:tabView];
+            
+            self.workVC = [[YCWorkViewController alloc]init];
+            [self addChildViewController:self.workVC];
+            [self.workVC.view setFrame:self.contentView.bounds];
+            [self.contentView addSubview:self.workVC.view];
+            //            tabView.hidden = NO;
+            //            [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
+        }
+        else if (i == kCollege) {
+            tabEntity.title = @"学院";
+            tabEntity.normalImage = @"tab_college_normal";
+            tabEntity.selectedName = @"tab_college_Highlighted";
+            [self.tabEntitys addObject:tabEntity];
+            
+            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
+            [self.tabbarView addSubview:tabView];
+            [self.tabViews addObject:tabView];
+            
+            self.collegeVC = [[YCCollegeViewController alloc]init];
+            [self addChildViewController:self.collegeVC];
+            [self.collegeVC.view setFrame:self.contentView.bounds];
+            [self.contentView addSubview:self.collegeVC.view];
+        }
+        else if(i == kKnowledgeMeal){
+            tabEntity.title = @"今日知识";
+            tabEntity.normalImage = @"tab_homepage";
+            tabEntity.selectedName = @"tab_homepage_hl";
+            [self.tabEntitys addObject:tabEntity];
+            
+            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
+            [self.tabbarView addSubview:tabView];
+            [self.tabViews addObject:tabView];
+            
+            self.mealVC = [[CTKnowledgeMealViewController alloc]init];
+            [self addChildViewController:self.mealVC];
+            [self.mealVC.view setFrame:self.contentView.bounds];
+            [self.contentView addSubview:self.mealVC.view];
+            //          tabView.hidden = NO;
+            //            [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
+        }else if(i == kKnowledgeBase){
+            tabEntity.title = @"岗位知识";
+            tabEntity.normalImage = @"repository";
+            tabEntity.selectedName = @"selectedrepository";
+            [self.tabEntitys addObject:tabEntity];
+            
+            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
+            [self.tabbarView addSubview:tabView];
+            [self.tabViews addObject:tabView];
+            
+            self.baseVC = [[CGKnowledgeBaseViewController alloc]init];
+            [self addChildViewController:self.baseVC];
+            [self.baseVC.view setFrame:self.contentView.bounds];
+            [self.contentView addSubview:self.baseVC.view];
+        }else if(i == kDiscoverMain){
+            tabEntity.title = @"百宝箱"; // 发现
+            tabEntity.normalImage = @"tab_station_normal";
+            tabEntity.selectedName = @"tab_station_normal_Highlighted";
+            [self.tabEntitys addObject:tabEntity];
+            
+            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
+            [self.tabbarView addSubview:tabView];
+            [self.tabViews addObject:tabView];
+            
+            self.discoverVC = [[CGDiscoverMainController alloc]init];
+            [self addChildViewController:self.discoverVC];
+            [self.discoverVC.view setFrame:self.contentView.bounds];
+            [self.contentView addSubview:self.discoverVC.view];
+        }else if(i == kMyMain){
+            int isLogin = [ObjectShareTool sharedInstance].currentUser.isLogin;
+            tabEntity.title = isLogin == 1 ? @"我的" : @"未登录";
+            tabEntity.normalImage = isLogin == 1 ? @"tab_me_normal" : @"tab_usercenter_nologin";
+            tabEntity.selectedName = isLogin == 1 ? @"tab_me_Highlighted" : @"tab_usercenter_nologin_hl";
+            [self.tabEntitys addObject:tabEntity];
+            
+            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
+            [self.tabbarView addSubview:tabView];
+            self.myMainTabView = tabView;
+            [self.tabViews addObject:tabView];
+            
+            self.myVC = [[CGMyMainViewController alloc]init];
+            [self addChildViewController:self.myVC];
+            [self.myVC.view setFrame:self.contentView.bounds];
+            [self.contentView addSubview:self.myVC.view];
+        }
+    }
+    
+    //    [self.contentView addSubview:self.childViewControllers.firstObject.view];//默认显示第一个tab的controller
+    [self.contentView bringSubviewToFront:self.childViewControllers.firstObject.view];
+}
+
+
+#pragma mark -
 
 //- (void)viewDidAppear:(BOOL)animated {
 //    [super viewDidAppear:animated];
@@ -195,6 +335,7 @@
     
 }
 
+
 #pragma mark - 小红点
 
 - (void)setConversationListTabViewRedPoint:(NSInteger)count {
@@ -205,128 +346,6 @@
     } else {
         redHot.hidden = YES;
     }
-}
-
-#pragma mark - 创建 tab
-
-//生成tab和对应的controller
--(void)generateTabAndController{
-    float length = 44;//tab的长和宽
-    float width = 60;
-    
-    self.tabEntitys = [NSMutableArray arrayWithCapacity:kTabCount];
-    self.tabViews = [NSMutableArray arrayWithCapacity:kTabCount];
-    
-    for(int i=0;i<kTabCount;i++){
-        float x = (SCREEN_WIDTH-(kTabCount*width))/(kTabCount+1)*(i+1)+width*i;
-        
-        CGTabbarView *tabView;
-        CGTabbarEntity *tabEntity = [[CGTabbarEntity alloc]init];
-        tabEntity.index = i;
-        
-        if (i == kChat) {
-            tabEntity.title = @"消息";
-            tabEntity.normalImage = @"tab_information_normal";
-            tabEntity.selectedName = @"tab_information_Highlighted";
-            [self.tabEntitys addObject:tabEntity];
-            
-            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
-            [self.tabbarView addSubview:tabView];
-            [self.tabViews addObject:tabView];
-            self.conversationListTabView = tabView;
-            
-            self.conversationListRedHot = [self createRedHot];
-            [self.conversationListTabView addSubview:self.conversationListRedHot];
-
-            self.chatListVC = [[CGChatListViewController alloc]init];
-            [self addChildViewController:self.chatListVC];
-            [self.chatListVC.view setFrame:self.contentView.bounds];
-            [self.contentView addSubview:self.chatListVC.view];
-//            tabView.hidden = NO;
-//            [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
-        }
-        else if(i ==  kWork){
-            tabEntity.title = @"工作";
-            tabEntity.normalImage = @"tab_word_normal";
-            tabEntity.selectedName = @"tab_word_normal_Highlighted";
-            [self.tabEntitys addObject:tabEntity];
-            
-            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
-            [self.tabbarView addSubview:tabView];
-            [self.tabViews addObject:tabView];
-            
-            self.workVC = [[YCWorkViewController alloc]init];
-            [self addChildViewController:self.workVC];
-            [self.workVC.view setFrame:self.contentView.bounds];
-            [self.contentView addSubview:self.workVC.view];
-            tabView.hidden = NO;
-            [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
-        }
-        else if(i == kKnowledgeMeal){
-            tabEntity.title = @"今日知识";
-            tabEntity.normalImage = @"tab_homepage";
-            tabEntity.selectedName = @"tab_homepage_hl";
-            [self.tabEntitys addObject:tabEntity];
-            
-            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
-            [self.tabbarView addSubview:tabView];
-            [self.tabViews addObject:tabView];
-            
-            self.mealVC = [[CTKnowledgeMealViewController alloc]init];
-            [self addChildViewController:self.mealVC];
-            [self.mealVC.view setFrame:self.contentView.bounds];
-            [self.contentView addSubview:self.mealVC.view];
-            //          tabView.hidden = NO;
-            //            [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
-        }else if(i == kKnowledgeBase){
-            tabEntity.title = @"岗位知识";
-            tabEntity.normalImage = @"repository";
-            tabEntity.selectedName = @"selectedrepository";
-            [self.tabEntitys addObject:tabEntity];
-            
-            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
-            [self.tabbarView addSubview:tabView];
-            [self.tabViews addObject:tabView];
-            
-            self.baseVC = [[CGKnowledgeBaseViewController alloc]init];
-            [self addChildViewController:self.baseVC];
-            [self.baseVC.view setFrame:self.contentView.bounds];
-            [self.contentView addSubview:self.baseVC.view];
-        }else if(i == kDiscoverMain){
-            tabEntity.title = @"发现";
-            tabEntity.normalImage = @"discovery";
-            tabEntity.selectedName = @"selecteddiscovery";
-            [self.tabEntitys addObject:tabEntity];
-            
-            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
-            [self.tabbarView addSubview:tabView];
-            [self.tabViews addObject:tabView];
-            
-            self.discoverVC = [[CGDiscoverMainController alloc]init];
-            [self addChildViewController:self.discoverVC];
-            [self.discoverVC.view setFrame:self.contentView.bounds];
-            [self.contentView addSubview:self.discoverVC.view];
-        }else if(i == kMyMain){
-            int isLogin = [ObjectShareTool sharedInstance].currentUser.isLogin;
-            tabEntity.title = isLogin == 1 ? @"我的" : @"未登录";
-            tabEntity.normalImage = isLogin == 1 ? @"tab_me_normal" : @"tab_usercenter_nologin";
-            tabEntity.selectedName = isLogin == 1 ? @"tab_me_Highlighted" : @"tab_usercenter_nologin_hl";
-            [self.tabEntitys addObject:tabEntity];
-            
-            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
-            [self.tabbarView addSubview:tabView];
-            self.myMainTabView = tabView;
-            [self.tabViews addObject:tabView];
-            
-            self.myVC = [[CGMyMainViewController alloc]init];
-            [self addChildViewController:self.myVC];
-            [self.myVC.view setFrame:self.contentView.bounds];
-            [self.contentView addSubview:self.myVC.view];
-        }
-    }
-    
-//    [self.contentView addSubview:self.childViewControllers.firstObject.view];//默认显示第一个tab的controller
-    [self.contentView bringSubviewToFront:self.childViewControllers.firstObject.view];
 }
 
 

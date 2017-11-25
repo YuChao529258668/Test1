@@ -56,4 +56,6 @@
 //发现侧边栏内存缓存
 @property(nonatomic,strong)NSMutableDictionary *discoverDict;
 
++ (NSString *)currentUserID;
+
 @end

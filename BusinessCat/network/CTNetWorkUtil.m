@@ -120,6 +120,7 @@ static CTNetWorkUtil *_sharedManager;
                     if(successcallback){
                         successcallback([res objectForKey:@"data"]);
                     }
+//                    successcallback = nil;
                 }else if(errCode == 100002){//token过期,重新获取
                     [weakSelf autoLogin];
                 }else if(errCode == 110006){//非法uuid
@@ -130,6 +131,7 @@ static CTNetWorkUtil *_sharedManager;
                 }else{
                     if(failcallback){
                         failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:errCode userInfo:res]);
+//                        failcallback = nil;
                     }
                     if (errCode == 110113) {//未登陆
                         if ([ObjectShareTool sharedInstance].currentUser.isLogin == YES) {
@@ -154,6 +156,7 @@ static CTNetWorkUtil *_sharedManager;
             }else{
                 if(failcallback){
                     failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:-1 userInfo:nil]);
+//                    failcallback = nil;
                 }
             }
   } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -164,6 +167,7 @@ static CTNetWorkUtil *_sharedManager;
             }
             if(failcallback){
                 failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:-1 userInfo:nil]);
+//                failcallback = nil;
             }
             if([CTStringUtil stringNotBlank:errMsg]){
     //            UIWindow *window = [UIApplication sharedApplication].keyWindow;
@@ -259,16 +263,19 @@ static CTNetWorkUtil *_sharedManager;
             if(successcallback){
                 successcallback(nil);
             }
+//            successcallback = nil;
         }else{
             if(successcallback){
                 successcallback(nil);
             }
+//            successcallback = nil;
         }
         
     } fail:^(NSError *error){
         if(failcallback){
             failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:-1 userInfo:nil]);
         }
+//        failcallback = nil;
     }];
 }
 
@@ -296,6 +303,10 @@ static CTNetWorkUtil *_sharedManager;
 -(void)dealloc{
     [loadingTimer invalidate];
     loadingTimer = nil;
+    
+//    NSLog(@"网络工具释放成功 %@", NSStringFromSelector(_cmd));
+//    successcallback = nil;
+//    failcallback = nil;
 }
 
 

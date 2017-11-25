@@ -59,7 +59,7 @@
 //    headline_delete_confirm_center_back
 //    headline_detail_back
     UIImage *image = [UIImage imageNamed:@"headline_detail_back"];
-    image = [image imageWithTintColor:[UIColor whiteColor]];
+//    image = [image imageWithTintColor:[UIColor whiteColor]];
     [btn setImage:image forState:UIControlStateNormal];
     [self.navi addSubview:btn];
     btn.frame = CGRectMake(5, 20, 44, 44);

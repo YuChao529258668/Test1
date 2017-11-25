@@ -107,7 +107,7 @@
   UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f, 30, 24, 24)];
   rightBtn.contentMode = UIViewContentModeScaleAspectFit;
   [rightBtn addTarget:self action:@selector(messageAction) forControlEvents:UIControlEventTouchUpInside];
-  [rightBtn setBackgroundImage:[UIImage imageNamed:@"mynews"] forState:UIControlStateNormal];
+  [rightBtn setBackgroundImage:[UIImage imageNamed:@"nav_news"] forState:UIControlStateNormal];
   [self.navi addSubview:rightBtn];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notificationSystemMessageRedHot:) name:NotificationSystemMessageRedHot object:nil];
@@ -472,7 +472,7 @@
                 [self.userLevel setLevelName];
 //                if([ObjectShareTool sharedInstance].currentUser.isVip == 1){
 //                    [self.toBeVIPBtn setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
-                  [self.toBeVIPBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                  [self.toBeVIPBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                     [self.toBeVIPBtn setTitle:@"我的特权" forState:UIControlStateNormal];
 //                    [self.toBeVIPBtn setBackgroundImage:[CTCommonUtil generateImageWithColor:[UIColor whiteColor] size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
                   [self.toBeVIPBtn setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];

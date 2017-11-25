@@ -47,6 +47,12 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "WXApi.h"
 
+// justalk
+#import "YCMultiCallHelper.h"
+#import "RoomViewController.h"
+#import "YCJCSDKHelper.h"
+
+
 //// 视频会议
 //#import <JCApi/JCApi.h>
 //#define kJCKey @"5f523868f54c24aa8fdc5096"
@@ -71,8 +77,12 @@
 
 @implementation AppDelegate
 
+#pragma mark - Life Cycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [self addObserverForLoginLogout];
+
     // 腾讯云
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     
@@ -84,6 +94,7 @@
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     [self.window makeKeyAndVisible];
     self.viewModel = [[commonViewModel alloc]init];
+    
     //友盟统计初始化
     UMConfigInstance.appKey = UMeng_AppKey;
     [MobClick startWithConfigure:UMConfigInstance];//配置以上参数后调用此方法初始化SDK！
@@ -92,8 +103,7 @@
     //友盟分享
     //设置友盟appkey
     [[UMSocialManager defaultManager] setUmSocialAppkey:UMeng_AppKey];
-    //注册微信支付
-    [WXApi registerApp:kWXAPP_ID withDescription:@"荐识"];
+
     //设置分享到QQ互联的appKey和appSecret
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:@"1106151485"  appSecret:@"KySAKNdhytNLBTyE" redirectURL:@"http://mobile.umeng.com/social"];
     //设置新浪的appKey和appSecret
@@ -101,15 +111,20 @@
     //设置微信的appKey和appSecret
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kWXAPP_ID appSecret:kWXAPP_SECRET redirectURL:@"http://www.team580.com"];
     
-    //注册科大讯飞语音
-    [IFlySpeechUtility createUtility:@"appid=58c81249"];
-    
     //友盟推送
     [UMessage startWithAppkey:UMeng_AppKey launchOptions:launchOptions httpsEnable:YES];
     //友盟设置渠道
     [UMessage setChannel:@"App Store"];
     //注册通知，如果要使用category的自定义策略，可以参考demo中的代码。
     [UMessage registerForRemoteNotifications];
+    
+    //注册微信支付
+    //    [WXApi registerApp:kWXAPP_ID withDescription:@"荐识"];
+    [WXApi registerApp:kWXAPP_ID withDescription:@"生意猫"];
+    
+    //注册科大讯飞语音
+    [IFlySpeechUtility createUtility:@"appid=58c81249"];
+    
     //iOS10必须加下面这段代码。
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate=self;
@@ -123,6 +138,7 @@
             //这里可以添加一些自己的逻辑
         }
     }];
+    
     //    if (![self isShownWelcome]) {
     //        [self showWelcomeView];
     //    } else {
@@ -134,17 +150,81 @@
     [self.window addSubview:zhe];
     [self.window bringSubviewToFront:zhe];
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginSccess) name:NOTIFICATION_LOGINSUCCESS object:nil];
-    
     return YES;
 }
 
--(void)loginSccess{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    BOOL isFirst = [defaults boolForKey:DEF_First];
-    if (!isFirst) {
-        CGSortView *sortView = [[CGSortView alloc]initWithArray:[ObjectShareTool sharedInstance].knowledgeBigTypeData];
-    }
+- (void)applicationWillResignActive:(UIApplication *)application {
+    
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    
+    [super applicationDidEnterBackground:application];
+    
+    //进入后台
+    [[NSNotificationCenter defaultCenter]postNotificationName:NotificationToApplicationDidEnterBackground object:nil];
+    //  [self.urlView dismiss];
+    
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    [super applicationWillEnterForeground:application];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    
+    [super applicationDidBecomeActive:application];
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:NotificationToApplicationDidBecomeActive object:nil];
+    //  if ([ObjectShareTool sharedInstance].isLaunchScreen) {
+    //    if ([[UIPasteboard generalPasteboard].string hasPrefix:@"http"]) {
+    //      NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    //      NSString *currChangeCount = [user objectForKey:@"changeCount"];
+    //      if ([UIPasteboard generalPasteboard].changeCount > currChangeCount.integerValue) {
+    //        self.urlView = [[CGUrlView alloc]initWithUrl:[UIPasteboard generalPasteboard].string block:^(NSString *title, NSString *icon) {
+    //          CGDiscoverReleaseSourceViewController *vc = [[CGDiscoverReleaseSourceViewController alloc]initWithBlock:^(BOOL isCurrent, NSInteger reloadIndex, BOOL isOutside) {
+    //
+    //          }];
+    //          if([ObjectShareTool sharedInstance].currentUser.companyList && [ObjectShareTool sharedInstance].currentUser.companyList.count > 0){
+    //            CGUserOrganizaJoinEntity *companyEntity = [ObjectShareTool sharedInstance].currentUser.companyList[0];
+    //            CGHorrolEntity *entity;
+    //            if (companyEntity.companyType == 2) {
+    //              entity = [[CGHorrolEntity alloc]initWithRolId:companyEntity.classId rolName:companyEntity.companyName sort:0];
+    //            }else{
+    //              entity = [[CGHorrolEntity alloc]initWithRolId:companyEntity.companyId rolName:companyEntity.companyName sort:0];
+    //            }
+    //            entity.rolType = [NSString stringWithFormat:@"%d",companyEntity.companyType];
+    //            vc.currentEntity = entity;
+    //            vc.releaseType = DiscoverReleaseTypeCompany;
+    //          }else{
+    //            vc.releaseType = DiscoverReleaseTypeNoCompany;
+    //          }
+    //
+    //          CGDiscoverLink *link = [[CGDiscoverLink alloc]init];
+    //          link.linkIcon = icon;
+    //          link.linkId = [UIPasteboard generalPasteboard].string;
+    //          link.linkTitle = title;
+    //          link.linkType = 1;
+    //          vc.link = link;
+    //          if ([ObjectShareTool sharedInstance].currentUser.companyList.count > 0) {
+    //            vc.releaseType = HeadlineReleaseTypeCompany;
+    //          }else{
+    //            vc.releaseType = HeadlineReleaseTypeNoCompany;
+    //          }
+    //          [self.navi pushViewController:vc animated:YES];
+    //        }];
+    //        [self.window addSubview:self.urlView];
+    //      }
+    //      NSString *changeCount = [NSString stringWithFormat:@"%ld",[UIPasteboard generalPasteboard].changeCount];
+    //      [user setObject:changeCount forKey:@"changeCount"];
+    //    }
+    //  }
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 
@@ -274,7 +354,7 @@
 }
 
 //iOS10新增：处理后台点击通知的代理方法
--(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler{
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
     NSDictionary * userInfo = response.notification.request.content.userInfo;
     //NSLog(@"iOS10后台消息推送：%@",userInfo);
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
@@ -329,83 +409,6 @@
 }
 
 
-#pragma mark - Life Cycle
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-    
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    
-    [super applicationDidEnterBackground:application];
-    
-    //进入后台
-    [[NSNotificationCenter defaultCenter]postNotificationName:NotificationToApplicationDidEnterBackground object:nil];
-    //  [self.urlView dismiss];
-    
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    
-    [super applicationWillEnterForeground:application];
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    
-    [super applicationDidBecomeActive:application];
-    
-    [[NSNotificationCenter defaultCenter]postNotificationName:NotificationToApplicationDidBecomeActive object:nil];
-    //  if ([ObjectShareTool sharedInstance].isLaunchScreen) {
-    //    if ([[UIPasteboard generalPasteboard].string hasPrefix:@"http"]) {
-    //      NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    //      NSString *currChangeCount = [user objectForKey:@"changeCount"];
-    //      if ([UIPasteboard generalPasteboard].changeCount > currChangeCount.integerValue) {
-    //        self.urlView = [[CGUrlView alloc]initWithUrl:[UIPasteboard generalPasteboard].string block:^(NSString *title, NSString *icon) {
-    //          CGDiscoverReleaseSourceViewController *vc = [[CGDiscoverReleaseSourceViewController alloc]initWithBlock:^(BOOL isCurrent, NSInteger reloadIndex, BOOL isOutside) {
-    //
-    //          }];
-    //          if([ObjectShareTool sharedInstance].currentUser.companyList && [ObjectShareTool sharedInstance].currentUser.companyList.count > 0){
-    //            CGUserOrganizaJoinEntity *companyEntity = [ObjectShareTool sharedInstance].currentUser.companyList[0];
-    //            CGHorrolEntity *entity;
-    //            if (companyEntity.companyType == 2) {
-    //              entity = [[CGHorrolEntity alloc]initWithRolId:companyEntity.classId rolName:companyEntity.companyName sort:0];
-    //            }else{
-    //              entity = [[CGHorrolEntity alloc]initWithRolId:companyEntity.companyId rolName:companyEntity.companyName sort:0];
-    //            }
-    //            entity.rolType = [NSString stringWithFormat:@"%d",companyEntity.companyType];
-    //            vc.currentEntity = entity;
-    //            vc.releaseType = DiscoverReleaseTypeCompany;
-    //          }else{
-    //            vc.releaseType = DiscoverReleaseTypeNoCompany;
-    //          }
-    //
-    //          CGDiscoverLink *link = [[CGDiscoverLink alloc]init];
-    //          link.linkIcon = icon;
-    //          link.linkId = [UIPasteboard generalPasteboard].string;
-    //          link.linkTitle = title;
-    //          link.linkType = 1;
-    //          vc.link = link;
-    //          if ([ObjectShareTool sharedInstance].currentUser.companyList.count > 0) {
-    //            vc.releaseType = HeadlineReleaseTypeCompany;
-    //          }else{
-    //            vc.releaseType = HeadlineReleaseTypeNoCompany;
-    //          }
-    //          [self.navi pushViewController:vc animated:YES];
-    //        }];
-    //        [self.window addSubview:self.urlView];
-    //      }
-    //      NSString *changeCount = [NSString stringWithFormat:@"%ld",[UIPasteboard generalPasteboard].changeCount];
-    //      [user setObject:changeCount forKey:@"changeCount"];
-    //    }
-    //  }
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-
 #pragma mark - 腾讯云
 
 // 代码全部拷贝自 demo 的 AppDelegate
@@ -443,6 +446,44 @@
 //
 //}
 
+
+#pragma mark -
+
+- (void)dealloc {
+    [self removeObserverForLoginLogout];
+}
+
+//-(void)loginSccess{
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    BOOL isFirst = [defaults boolForKey:DEF_First];
+//    if (!isFirst) {
+//        CGSortView *sortView = [[CGSortView alloc]initWithArray:[ObjectShareTool sharedInstance].knowledgeBigTypeData];
+//    }
+//}
+
+#pragma mark - 用户登录注销通知
+
+- (void)addObserverForLoginLogout {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleLoginSuccessNotification) name:NOTIFICATION_LOGINSUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleLogoutSuccessNotification) name:NOTIFICATION_LOGOUT object:nil];
+}
+
+- (void)handleLoginSuccessNotification {
+//    [self loginSccess];
+    
+    // justalk 登录
+    [YCJCSDKHelper loginMultiCallWithUserID:[ObjectShareTool  currentUserID]];
+}
+
+- (void)handleLogoutSuccessNotification {
+    // justalk 的
+    [YCJCSDKHelper logoutMultiCall];
+}
+
+- (void)removeObserverForLoginLogout {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_LOGINSUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_LOGOUT object:nil];
+}
 
 @end
 
