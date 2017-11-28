@@ -58,6 +58,7 @@
 @property (nonatomic,strong) NSString *serverId;//服务器Id(justalk)
 @property (nonatomic,strong) NSString *usedTime;//实际开会用时(分钟)
 @property (nonatomic,assign) int roomCharge; // 费用(0免费1付费2包月)
+@property (nonatomic,strong) NSString *groupId; // 群聊 id，用于腾讯云获取群信息
 
 #pragma mark - 函数
 

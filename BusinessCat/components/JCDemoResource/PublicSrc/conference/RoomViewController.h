@@ -13,4 +13,6 @@
 @property (nonatomic, copy) NSString *roomId;           // 会议号码
 @property (nonatomic, copy) NSString *displayName;      // 昵称
 
+@property (nonatomic,strong) NSString *meetingID;
+
 @end

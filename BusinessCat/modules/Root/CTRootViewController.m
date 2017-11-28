@@ -66,7 +66,7 @@
         if (i == kChat) {
             tabEntity.title = @"消息";
             tabEntity.normalImage = @"tab_information_normal";
-            tabEntity.selectedName = @"tab_information_Highlighted";
+            tabEntity.selectedName = @"tab_information_highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
@@ -103,8 +103,8 @@
         }
         else if (i == kCollege) {
             tabEntity.title = @"学院";
-            tabEntity.normalImage = @"tab_college_normal";
-            tabEntity.selectedName = @"tab_college_Highlighted";
+            tabEntity.normalImage = @"tab_book_normal";
+            tabEntity.selectedName = @"tab_book_highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
@@ -148,8 +148,8 @@
             [self.contentView addSubview:self.baseVC.view];
         }else if(i == kDiscoverMain){
             tabEntity.title = @"百宝箱"; // 发现
-            tabEntity.normalImage = @"tab_station_normal";
-            tabEntity.selectedName = @"tab_station_normal_Highlighted";
+            tabEntity.normalImage = @"tab_college_normal";
+            tabEntity.selectedName = @"tab_college_highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
@@ -164,7 +164,7 @@
             int isLogin = [ObjectShareTool sharedInstance].currentUser.isLogin;
             tabEntity.title = isLogin == 1 ? @"我的" : @"未登录";
             tabEntity.normalImage = isLogin == 1 ? @"tab_me_normal" : @"tab_me_normal";
-            tabEntity.selectedName = isLogin == 1 ? @"tab_me_Highlighted" : @"tab_me_Highlighted";
+            tabEntity.selectedName = isLogin == 1 ? @"tab_me_highlighted" : @"tab_me_highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
@@ -535,7 +535,7 @@
     CGTabbarEntity *tabEntity = self.tabEntitys[kMyMain];
     tabEntity.title = isLogin == 1 ? @"我的" : @"未登录";
     tabEntity.normalImage = isLogin == 1 ? @"tab_me_normal" : @"tab_me_normal";
-    tabEntity.selectedName = isLogin == 1 ? @"tab_me_Highlighted" : @"tab_me_Highlighted";
+    tabEntity.selectedName = isLogin == 1 ? @"tab_me_highlighted" : @"tab_me_highlighted";
     [self.myMainTabView tabbarUpdateItemState:tabEntity.selected];
 }
 

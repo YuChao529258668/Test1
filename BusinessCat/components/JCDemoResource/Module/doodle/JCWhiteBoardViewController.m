@@ -246,8 +246,6 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     }
     
     {
-        //        CGFloat x = (self.view.bounds.size.width - kDoodletoolbarWidth) / 2;
-        //        CGFloat y = self.view.bounds.size.height - 35 - 32;
         CGFloat x = 0;
         CGFloat y = self.view.bounds.size.height - kDoodletoolbarHeight;
         self.doodletoolbar.frame = CGRectMake(x, y, kDoodletoolbarWidth, kDoodletoolbarHeight);

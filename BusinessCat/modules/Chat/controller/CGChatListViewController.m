@@ -528,7 +528,7 @@
         roomVc.displayName = @"余超";
         [self.navigationController pushViewController:roomVc animated:YES];
     } else {
-        [YCJCSDKHelper loginVideoCall];
+        [YCJCSDKHelper loginVideoCallWithUserID:[ObjectShareTool currentUserID]];
     }
 }
 

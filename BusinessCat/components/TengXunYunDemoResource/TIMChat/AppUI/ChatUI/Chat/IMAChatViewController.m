@@ -31,7 +31,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResendMsg:) name:kIMAMSG_ResendNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onChangedMsg:) name:kIMAMSG_ChangedNotification object:nil];
     
-    [self createCustomNavi];
+    if (self.navigationController) {
+        [self createCustomNavi];
+    }
 }
 
 #pragma mark - 适配旧代码
@@ -72,6 +74,9 @@
 
 - (void)layoutTableView {
     float y = TOPBARHEIGHT; // 自定义导航栏高度
+    if (self.navigationController == nil) {
+        y = 0;
+    }
     float barH = _inputView.contentHeight; // 聊天界面底部栏高度
 //    float height = self.tableView.frame.size.height - y;
     float height = [UIScreen mainScreen].bounds.size.height - y - barH;

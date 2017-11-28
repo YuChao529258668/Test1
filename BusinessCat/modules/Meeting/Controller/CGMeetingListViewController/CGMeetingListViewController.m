@@ -369,15 +369,15 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self test];
-    return;
+//    [self test];
+//    return;
     
     CGMeeting *meeting = self.meetings[indexPath.row];
     [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message) {
 //        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已取消
         if (state == 1) {
             [CTToast showWithText:message];
-            [self goToVideoMeetingWithRoomID:meeting.conferenceNumber];
+            [self goToVideoMeetingWithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId];
         }
     } fail:^(NSError *error) {
         
@@ -387,15 +387,12 @@
 
 #pragma mark - 视频会议
 
-- (void)goToVideoMeetingWithRoomID:(NSString *)rid {
+- (void)goToVideoMeetingWithRoomID:(NSString *)rid meetingID:(NSString *)mid{
     if ([YCJCSDKHelper isLoginForVideoCall]) {
         RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
-        //    roomVc.roomId = @"9990";
-        //        roomVc.roomId = @"10726763"; // 服务器
-//        roomVc.roomId = @"10877365"; // 服务器
-        //        roomVc.roomId = @"10563734"; // yj 创建的会议室
         roomVc.roomId = rid;
         roomVc.displayName = [ObjectShareTool sharedInstance].currentUser.username;
+        roomVc.meetingID = mid;
         [self.navigationController pushViewController:roomVc animated:YES];
     } else {
         [CTToast showWithText:@"会议功能尚未登录，请稍后再试"];

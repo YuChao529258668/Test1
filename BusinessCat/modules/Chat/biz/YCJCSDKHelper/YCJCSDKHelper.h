@@ -15,7 +15,7 @@
 #pragma mark - 视频会议模块
 
 + (void)initializeVideoCall;
-+ (void)loginVideoCall;
++ (void)loginVideoCallWithUserID:(NSString *)userID;
 + (BOOL)isLoginForVideoCall;
 
 #pragma mark - 语音会议模块

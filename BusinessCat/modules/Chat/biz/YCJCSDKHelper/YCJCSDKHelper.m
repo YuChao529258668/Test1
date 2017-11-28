@@ -10,8 +10,8 @@
 
 // 视频会议
 #import <JCApi/JCApi.h>
-//#define kJCKey @"5f523868f54c24aa8fdc5096"
-#define kJCKey @"6c06d1b0d9015e47ec144097" // 官方 demo
+#define kJCKey @"5f523868f54c24aa8fdc5096"
+//#define kJCKey @"6c06d1b0d9015e47ec144097" // 官方 demo
 //#import "RoomViewController.h"
 
 // 语音会议
@@ -67,12 +67,11 @@ static YCJCSDKHelper * helper;
 }
 
 // 不用登录?
-+ (void)loginVideoCall {
-//    NSString *server = @"http:router.justalkcloud.com:8080";
-//    if ([MtcLoginManager Login:userID1 password:@"111" network:server] == ZOK) {
-//        NSLog(@"调用语音登录成功");
-//    }
-    [[JCEngineManager sharedManager] loginWithUserId:userID1 password:@"111"];
++ (void)loginVideoCallWithUserID:(NSString *)userID {
+    int success = [[JCEngineManager sharedManager] loginWithUserId:userID password:@"111"];
+    if (success == JCOK) {
+        NSLog(@"%@, 发起视频会议登录成功  = %@", NSStringFromSelector(_cmd),  nil);
+    }
 //    [[JCEngineManager sharedManager] loginWithUserId:@"test" password:@"123"];
 }
 

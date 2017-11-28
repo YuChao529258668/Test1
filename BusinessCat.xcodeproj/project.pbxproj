@@ -352,6 +352,9 @@
 		0D90E07A1FB5470D00EDB7CF /* JusMultiCall.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0D90E0781FB5470B00EDB7CF /* JusMultiCall.bundle */; };
 		0D90E07B1FB5470D00EDB7CF /* JusMultiCall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D90E0791FB5470D00EDB7CF /* JusMultiCall.framework */; };
 		0D90E0811FB5A9E700EDB7CF /* YCMultiCallHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D90E0801FB5A9E700EDB7CF /* YCMultiCallHelper.m */; };
+		0D9113A81FCD5A700031DEF9 /* YCMeetingRoomMembersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9113A61FCD5A700031DEF9 /* YCMeetingRoomMembersController.m */; };
+		0D9113AD1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9113AB1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.m */; };
+		0D9113AE1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D9113AC1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.xib */; };
 		0DA9C38B1FA8270D00A91427 /* CGChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA9C38A1FA8270D00A91427 /* CGChatListViewController.m */; };
 		0DA9C38E1FA8492B00A91427 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA9C38D1FA8492B00A91427 /* StoreKit.framework */; };
 		0DBF462B1FB3053600707C12 /* JusDoodle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0DBF45E31FB3053500707C12 /* JusDoodle.bundle */; };
@@ -2090,6 +2093,11 @@
 		0D90E0791FB5470D00EDB7CF /* JusMultiCall.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JusMultiCall.framework; sourceTree = "<group>"; };
 		0D90E07F1FB5A9E700EDB7CF /* YCMultiCallHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMultiCallHelper.h; sourceTree = "<group>"; };
 		0D90E0801FB5A9E700EDB7CF /* YCMultiCallHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMultiCallHelper.m; sourceTree = "<group>"; };
+		0D9113A51FCD5A700031DEF9 /* YCMeetingRoomMembersController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingRoomMembersController.h; sourceTree = "<group>"; };
+		0D9113A61FCD5A700031DEF9 /* YCMeetingRoomMembersController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingRoomMembersController.m; sourceTree = "<group>"; };
+		0D9113AA1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingRoomMembersCell.h; sourceTree = "<group>"; };
+		0D9113AB1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingRoomMembersCell.m; sourceTree = "<group>"; };
+		0D9113AC1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCMeetingRoomMembersCell.xib; sourceTree = "<group>"; };
 		0DA9C3891FA8270D00A91427 /* CGChatListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGChatListViewController.h; sourceTree = "<group>"; };
 		0DA9C38A1FA8270D00A91427 /* CGChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGChatListViewController.m; sourceTree = "<group>"; };
 		0DA9C38C1FA8492700A91427 /* BusinessCat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BusinessCat.entitlements; sourceTree = "<group>"; };
@@ -3969,6 +3977,7 @@
 		0D7431021FB93D0D002867FA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0D9113A41FCD59B70031DEF9 /* YCMeetingRoomMembersController */,
 				0D57A53F1FC5A5D6008C30C7 /* YCSelectMeetingTimeController */,
 				0D57A5341FC55706008C30C7 /* YCSelectMeetingRoomController */,
 				0D3EB2E01FC1801D00DAE678 /* YCBookMeetingController */,
@@ -5247,6 +5256,18 @@
 				0D90E0801FB5A9E700EDB7CF /* YCMultiCallHelper.m */,
 			);
 			path = YCJCSDKHelper;
+			sourceTree = "<group>";
+		};
+		0D9113A41FCD59B70031DEF9 /* YCMeetingRoomMembersController */ = {
+			isa = PBXGroup;
+			children = (
+				0D9113A51FCD5A700031DEF9 /* YCMeetingRoomMembersController.h */,
+				0D9113A61FCD5A700031DEF9 /* YCMeetingRoomMembersController.m */,
+				0D9113AA1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.h */,
+				0D9113AB1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.m */,
+				0D9113AC1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.xib */,
+			);
+			path = YCMeetingRoomMembersController;
 			sourceTree = "<group>";
 		};
 		0DA9C3811FA8242100A91427 /* Root */ = {
@@ -8066,6 +8087,7 @@
 				1832844E1EDEA4DB00964D0B /* CGInterfaceDetailTopTableViewCell.xib in Resources */,
 				0DBF476E1FB3087300707C12 /* white@2x.png in Resources */,
 				0D57A5331FC51703008C30C7 /* 030112.工作_会议_修改预约_未开始.png in Resources */,
+				0D9113AE1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.xib in Resources */,
 				18B668151DB5B6F3003EA387 /* CGUserHeaderCollectionViewCell.xib in Resources */,
 				0DBF47861FB3087400707C12 /* JCMessageCell.xib in Resources */,
 				0DBF47AE1FB3087400707C12 /* camera_off@3x.png in Resources */,
@@ -8813,6 +8835,7 @@
 				0D90DFAE1FB43C3A00EDB7CF /* IMAGroupMember.m in Sources */,
 				D7F44D0C1DACE518004393C2 /* CGUserIndustry.m in Sources */,
 				181C551F1EC30CB60064354D /* CGMessageDetailImageTextTableViewCell.m in Sources */,
+				0D9113AD1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.m in Sources */,
 				0DBF48121FB3087400707C12 /* ServerInfoViewController.m in Sources */,
 				1835DA551DBF66520006ED07 /* CGUserPhoneContactViewController.m in Sources */,
 				18B6680A1DB4BCEB003EA387 /* CGUserTableViewCell.m in Sources */,
@@ -8904,6 +8927,7 @@
 				0D90DF5F1FB43C3900EDB7CF /* ImageTitleButton.m in Sources */,
 				D7E417661D9A469000048E57 /* CTNetWorkUtil.m in Sources */,
 				184AB5B51DD201520020433E /* CGUserOrganizaEntity.m in Sources */,
+				0D9113A81FCD5A700031DEF9 /* YCMeetingRoomMembersController.m in Sources */,
 				18427CA91DC333F700E19BC0 /* CGDiscoverReleaseSourceViewController.m in Sources */,
 				0D90DFF71FB43C3A00EDB7CF /* ChatImageBrowserView.m in Sources */,
 				0D90E0211FB43C3A00EDB7CF /* ZipArchive.m in Sources */,

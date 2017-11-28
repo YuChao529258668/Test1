@@ -473,11 +473,14 @@
     
     // justalk 登录
     [YCJCSDKHelper loginMultiCallWithUserID:[ObjectShareTool  currentUserID]];
+//    [YCJCSDKHelper loginVideoCallWithUserID:[ObjectShareTool currentUserID]];
+//    NSLog(@"justalk 登录 %@", NSStringFromSelector(_cmd));
 }
 
 - (void)handleLogoutSuccessNotification {
     // justalk 的
     [YCJCSDKHelper logoutMultiCall];
+//    [YCJCSDKHelper logou]
 }
 
 - (void)removeObserverForLoginLogout {

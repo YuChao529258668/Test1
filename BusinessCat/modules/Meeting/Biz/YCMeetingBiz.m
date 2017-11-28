@@ -50,10 +50,10 @@
 }
 
 // 验证时间是否有效
-- (void)checkMeetingDateValidWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed meetingID:(NSString *)mid OnSuccess:(void(^)(NSString *message, int state, NSString *recommendTime))success fail:(void(^)(NSError *error))fail {
+- (void)checkMeetingDateValidWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed roomID:(NSString *)rid OnSuccess:(void(^)(NSString *message, int state, NSString *recommendTime))success fail:(void(^)(NSError *error))fail {
     NSNumber *bn = [NSNumber numberWithLong:bd.timeIntervalSince1970*1000];
     NSNumber *en = [NSNumber numberWithLong:ed.timeIntervalSince1970*1000];
-    NSDictionary *dic = @{@"roomId":mid, @"timeB":bn, @"timeE":en};
+    NSDictionary *dic = @{@"roomId":rid, @"timeB":bn, @"timeE":en};
 
     [self.component sendPostRequestWithURL:URL_Meeting_MeetingTime param:dic success:^(id data) {
         NSString *messageTip = [data valueForKey:@"messageTip"];

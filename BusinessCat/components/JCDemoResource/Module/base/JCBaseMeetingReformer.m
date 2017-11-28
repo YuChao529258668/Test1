@@ -62,7 +62,11 @@
 
 - (void)onParticipantUpdated:(NSString *)userId
 {
-    if ([userId isEqualToString:[_confManager getOwnUserId]]) {
+    NSString *ownUserId = [_confManager getOwnUserId];
+    if (!ownUserId) {
+        ownUserId = [ObjectShareTool currentUserID];
+    }
+    if ([userId isEqualToString:ownUserId]) {
         JCParticipantModel *model = [[JCEngineManager sharedManager] getParticipantWithUserId:userId];
         
         if (model.isAudioUpload != self.isAudioEnabled) { //音频发送状态改变

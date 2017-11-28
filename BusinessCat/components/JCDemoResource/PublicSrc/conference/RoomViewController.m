@@ -24,6 +24,11 @@
 #define kMainScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kMainScreenHeight [UIScreen mainScreen].bounds.size.height
 
+
+#import "CGMeeting.h"
+#import "YCMeetingBiz.h"
+#import "YCMeetingRoomMembersController.h"
+
 #define kVideoViewHeight (kMainScreenHeight * 0.4) // splitScreenViewController的高度
 #define kTabBarHeight 40
 #define kBtnLineHeight 1
@@ -55,6 +60,11 @@ typedef enum {
     long _confNumber;
 }
 
+
+
+
+
+
 @property (weak, nonatomic) IBOutlet UIView *waitInfoView;                          // 会议等待界面
 
 @property (weak, nonatomic) IBOutlet UIView *mainView;                              // 加入会议后的主View
@@ -85,6 +95,12 @@ typedef enum {
 @property (nonatomic,strong) UIView *btnLine; // 按钮下面的线
 @property (weak, nonatomic) IBOutlet UIButton *myBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *myToolBarBtn;
+@property (nonatomic,strong) IMAChatViewController *chatVC;
+@property (nonatomic,strong) YCMeetingRoomMembersController *membersVC;
+
+//@property (nonatomic,strong) NSString *charRoomID; // 聊天室 id
+@property (nonatomic,strong) CGMeeting *meeting; // 会议详情
+
 
 
 @end
@@ -291,6 +307,9 @@ typedef enum {
     
     //更新界面
     [self showCurrentShowMode:ShowSplitScreen];
+    
+    // 获取会议详情
+    [self getMeetingDetail];
 }
 
 - (void)joinFailedWithReason:(ErrorReason)reason
@@ -432,9 +451,9 @@ typedef enum {
                 button.selected = isAudioEnabled;
             }];
             if (success != JCOK) {
-                [CTToast showWithText:@"开启麦克风失败"];
+//                [CTToast showWithText:@"开启麦克风失败"];
             } else {
-                [CTToast showWithText:@"开启麦克风成功"];
+//                [CTToast showWithText:@"开启麦克风成功"];
             }
             break;
         }
@@ -708,6 +727,8 @@ typedef enum {
     
     float y = kVideoViewHeight + kTabBarHeight;
     self.whiteBoardViewController.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
+    self.chatVC.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
+    self.membersVC.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
 }
 
 - (void)layoutTabBar {
@@ -773,7 +794,9 @@ typedef enum {
 
 - (void)whiteBoardTabBtnClick {
     self.whiteBoardViewController.view.hidden = NO;
-    
+    self.chatVC.view.hidden = YES;
+    self.membersVC.view.hidden = YES;
+
     self.whiteBoardTabBtn.selected = YES;
     self.chatTabBtn.selected = NO;
     self.menberTabBtn.selected = NO;
@@ -783,7 +806,9 @@ typedef enum {
 
 - (void)chatTabBtnClick {
     self.whiteBoardViewController.view.hidden = YES;
-    
+    self.chatVC.view.hidden = NO;
+    self.membersVC.view.hidden = YES;
+
     self.whiteBoardTabBtn.selected = NO;
     self.chatTabBtn.selected = YES;
     self.menberTabBtn.selected = NO;
@@ -793,12 +818,108 @@ typedef enum {
 
 - (void)menberTabBtnClick {
     self.whiteBoardViewController.view.hidden = YES;
-    
+    self.chatVC.view.hidden = YES;
+    self.membersVC.view.hidden = NO;
+
     self.whiteBoardTabBtn.selected = NO;
     self.chatTabBtn.selected = NO;
     self.menberTabBtn.selected = YES;
     
     [self layoutBtnLine:self.menberTabBtn];
+}
+
+
+#pragma mark - yc_Data
+
+// 获取群信息
+- (void)getGroupWithGroupID:(NSString *)groupId {
+    if (!groupId) {
+        [CTToast showWithText:@"获取群信息失败: 群id为空"];
+        return;
+    }
+    
+    NSMutableArray * groupList = [[NSMutableArray alloc] init];
+    //    [groupList addObject:@"TGID1JYSZEAEQ"];
+    [groupList addObject:groupId];
+    
+    [[TIMGroupManager sharedInstance] getGroupInfo:groupList succ:^(NSArray * groups) {
+        TIMGroupInfo * info = groups.firstObject;
+        [self addChatViewControllerWith:info];
+    } fail:^(int code, NSString* err) {
+        [CTToast showWithText: [NSString stringWithFormat:@"获取群信息失败 %d %@ groupId:%@", code, err, groupId]];
+    }];
+}
+
+// 会议详情
+- (void)getMeetingDetail {
+    if (!self.meetingID) {
+        [CTToast showWithText:@"获取会议详情失败: 会议id为空"];
+        return;
+    }
+    
+    [[YCMeetingBiz new] getMeetingDetailWithMeetingID:self.meetingID success:^(CGMeeting *meeting) {
+        self.meeting = meeting;
+        // 获取群聊
+        [self getGroupWithGroupID:self.meeting.groupId];
+        // 成员
+        [self addMembersControllerWithUsers:meeting.meetingUserList];
+    } fail:^(NSError *error) {
+        [CTToast showWithText:[NSString stringWithFormat:@"获取会议详情失败 : %@", error]];
+    }];
+}
+
+
+#pragma mark - 成员
+
+- (void)addMembersControllerWithUsers:(NSArray *)users {
+    self.membersVC = [YCMeetingRoomMembersController new];
+    self.membersVC.users = users;
+    self.membersVC.view.hidden = !self.menberTabBtn.isSelected;
+    [self.preview addSubview:self.membersVC.view];
+    // 布局
+    [self layoutViewControllers];
+}
+
+
+#pragma mark - 腾讯云
+
+- (void)addChatViewControllerWith:(TIMGroupInfo *)info {
+    self.chatVC = [self createChatViewControllerWith:info];
+    self.chatVC.view.hidden = !self.chatTabBtn.isSelected;
+    [self.preview addSubview:self.chatVC.view];
+    // 布局
+    [self layoutViewControllers];
+}
+
+// 聊天界面
+- (IMAChatViewController *)createChatViewControllerWith:(TIMGroupInfo *)info {
+    IMAGroup *user = [[IMAGroup alloc] initWithInfo:info];
+    
+    
+#if kTestChatAttachment
+    // 无则重新创建
+    IMAChatViewController *vc = [[CustomChatUIViewController alloc] initWith:user];
+#else
+    IMAChatViewController *vc = [[IMAChatViewController alloc] initWith:user];
+#endif
+    
+    //    IMAChatViewController *vc = [[IMAChatViewController alloc] initWith:user];
+    
+    if ([user isC2CType])
+    {
+        TIMConversation *imconv = [[TIMManager sharedInstance] getConversation:TIM_C2C receiver:user.userId];
+        if ([imconv getUnReadMessageNum] > 0)
+        {
+            [vc modifySendInputStatus:SendInputStatus_Send];
+        }
+    }
+    
+    if ([user.nickName isEqualToString:@""] || !user.nickName) {
+        vc.titleStr = user.userId;
+    } else {
+        vc.titleStr = user.nickName;
+    }
+    return vc;
 }
 
 
