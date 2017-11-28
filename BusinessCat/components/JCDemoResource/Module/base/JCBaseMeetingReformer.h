@@ -35,7 +35,7 @@
 
 - (void)leave;
 
-- (void)setAudioEnabled:(BOOL)enabled completion:(void (^)(BOOL isAudioEnabled))completion;
+- (int)setAudioEnabled:(BOOL)enabled completion:(void (^)(BOOL isAudioEnabled))completion;
 
 - (void)setVideoEnabled:(BOOL)enabled completion:(void (^)(BOOL isVideoEnabled))completion;
 

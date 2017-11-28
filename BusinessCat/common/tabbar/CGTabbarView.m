@@ -62,7 +62,6 @@
 
     if (flag) {
         UIImage *image = [UIImage imageNamed:self.entity.selectedName];
-//        self.image.image = [image imageWithTintColor:CTThemeMainColor];
         self.image.image = image;
     } else {
         UIImage *image = [UIImage imageNamed:self.entity.normalImage];

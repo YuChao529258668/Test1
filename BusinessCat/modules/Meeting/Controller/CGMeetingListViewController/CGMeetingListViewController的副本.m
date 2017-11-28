@@ -369,9 +369,6 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self test];
-    return;
-    
     CGMeeting *meeting = self.meetings[indexPath.row];
     [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message) {
 //        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已取消
@@ -401,13 +398,6 @@
         [CTToast showWithText:@"会议功能尚未登录，请稍后再试"];
         [YCJCSDKHelper loginMultiCallWithUserID:[ObjectShareTool sharedInstance].currentUser.uuid];
     }
-}
-
-- (void)test {
-    RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
-    roomVc.roomId = @"111";
-    roomVc.displayName = [ObjectShareTool sharedInstance].currentUser.username;
-    [self.navigationController pushViewController:roomVc animated:YES];
 }
 
 

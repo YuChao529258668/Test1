@@ -163,8 +163,8 @@
         }else if(i == kMyMain){
             int isLogin = [ObjectShareTool sharedInstance].currentUser.isLogin;
             tabEntity.title = isLogin == 1 ? @"我的" : @"未登录";
-            tabEntity.normalImage = isLogin == 1 ? @"tab_me_normal" : @"tab_usercenter_nologin";
-            tabEntity.selectedName = isLogin == 1 ? @"tab_me_Highlighted" : @"tab_usercenter_nologin_hl";
+            tabEntity.normalImage = isLogin == 1 ? @"tab_me_normal" : @"tab_me_normal";
+            tabEntity.selectedName = isLogin == 1 ? @"tab_me_Highlighted" : @"tab_me_Highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
@@ -534,8 +534,8 @@
     int isLogin = [ObjectShareTool sharedInstance].currentUser.isLogin;
     CGTabbarEntity *tabEntity = self.tabEntitys[kMyMain];
     tabEntity.title = isLogin == 1 ? @"我的" : @"未登录";
-    tabEntity.normalImage = isLogin == 1 ? @"my" : @"tab_usercenter_nologin";
-    tabEntity.selectedName = isLogin == 1 ? @"myy" : @"tab_usercenter_nologin_hl";
+    tabEntity.normalImage = isLogin == 1 ? @"tab_me_normal" : @"tab_me_normal";
+    tabEntity.selectedName = isLogin == 1 ? @"tab_me_Highlighted" : @"tab_me_Highlighted";
     [self.myMainTabView tabbarUpdateItemState:tabEntity.selected];
 }
 

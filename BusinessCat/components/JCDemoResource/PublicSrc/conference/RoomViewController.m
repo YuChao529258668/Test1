@@ -11,9 +11,11 @@
 #import "ConferenceToolBar.h"
 #import "JCBaseMeetingReformer.h"
 #import "JCPreviewViewController.h"
+
 #import "JCScreenShareViewController.h"
 #import "JCSplitScreenViewController.h"
 #import "JCWhiteBoardViewController.h"
+
 #import "JCStatisticsViewController.h"
 #import "JCMenuViewController.h"
 #import "MJPopTool.h"
@@ -21,6 +23,11 @@
 
 #define kMainScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kMainScreenHeight [UIScreen mainScreen].bounds.size.height
+
+#define kVideoViewHeight (kMainScreenHeight * 0.4) // splitScreenViewController的高度
+#define kTabBarHeight 40
+#define kBtnLineHeight 1
+
 // 显示相关界面
 typedef enum {
     ShowNone = 0,
@@ -68,10 +75,20 @@ typedef enum {
 @property (nonatomic, strong) JCMenuViewController *menuViewController;
 
 @property (nonatomic, strong) UIButton *stopButton;
-
 @property (nonatomic, strong) UILabel *textLabel;
 
+
+@property (nonatomic,strong) UIView *tabBar; // 中间栏，切换 画板、聊天等
+@property (nonatomic,strong) UIButton *whiteBoardTabBtn; // 切换白板
+@property (nonatomic,strong) UIButton *chatTabBtn;// 切换 讨论
+@property (nonatomic,strong) UIButton *menberTabBtn; // 切换 成员
+@property (nonatomic,strong) UIView *btnLine; // 按钮下面的线
+@property (weak, nonatomic) IBOutlet UIButton *myBackBtn;
+@property (weak, nonatomic) IBOutlet UIButton *myToolBarBtn;
+
+
 @end
+
 
 @implementation RoomViewController
 
@@ -164,18 +181,6 @@ typedef enum {
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
-//旋转时，支持的方向（如果用户会议界面竖屏的时候，可以修改下面两个方法的返回值）
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskLandscapeRight;
-}
-
-//被present时，首选的方向
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationLandscapeRight;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -189,7 +194,6 @@ typedef enum {
     self.menuViewController.delegate = self;
     
     _buttons = self.menuViewController.menuView.buttons;
-    
     _buttons[MenuButtonTypeShare].enabled = NO;
     _buttons[MenuButtonTypeShare].alpha = 0.5;
     
@@ -215,9 +219,10 @@ typedef enum {
     self.whiteBoardViewController.view.layer.borderColor = [UIColor colorWithRed:255.0/255.0 green:221.0/255.0 blue:40.0/255.0 alpha:1.0].CGColor;
     [self.whiteBoardViewController.view addSubview:self.stopButton];
     
-    Zmf_VideoCaptureListenRotation(0, 90);
-    Zmf_VideoRenderListenRotation(0, 90);
-    Zmf_VideoScreenOrientation(270);
+    //    Zmf_VideoCaptureListenRotation(0, 90);
+    //    Zmf_VideoRenderListenRotation(0, 90);
+    //    Zmf_VideoScreenOrientation(270);
+    
     // 设置涂鸦的代理
     [JCDoodleManager setDelegate:self];
     
@@ -243,7 +248,18 @@ typedef enum {
             [self presentViewController:alert animated:YES completion:nil];
         });
     }
+    
+    [self configForCustom];
+    
 }
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    [self layoutViewControllers];
+    [self layoutTabBar];
+}
+
 
 #pragma  mark - JCEngineDelegate
 - (void)onParticipantJoin:(NSString *)userId {
@@ -347,7 +363,8 @@ typedef enum {
     }
 }
 
-#pragma mark － JCDoodleDelegate
+#pragma mark - JCDoodleDelegate
+
 - (void)receiveActionType:(JCDoodleActionType)type doodle:(JCDoodleAction *)doodle fromSender:(NSString *)userId
 {
     if (type == JCDoodleActionStart) { //收到开始涂鸦
@@ -411,9 +428,14 @@ typedef enum {
         }
         case ConferenceToolBarButtonMicrophone: {
             BOOL selected = !button.isSelected;
-            [_meetingReformer setAudioEnabled:selected completion:^(BOOL isAudioEnabled) {
+            int success = [_meetingReformer setAudioEnabled:selected completion:^(BOOL isAudioEnabled) {
                 button.selected = isAudioEnabled;
             }];
+            if (success != JCOK) {
+                [CTToast showWithText:@"开启麦克风失败"];
+            } else {
+                [CTToast showWithText:@"开启麦克风成功"];
+            }
             break;
         }
         default:
@@ -487,7 +509,7 @@ typedef enum {
         
         NSDictionary *dic = @{NSFontAttributeName : font};
         NSString *info = [NSString stringWithFormat:@"RoomID:%@ 参与人数:%d 会议号码:%ld", _roomId, _count, _confNumber];
-
+        
         CGRect textRect = [info boundingRectWithSize:CGSizeMake(MAXFLOAT, 24) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:dic context:nil];
         
         _textLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 0, textRect.size.width + 24, 24)];
@@ -500,9 +522,9 @@ typedef enum {
         UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(kMainScreenWidth - (_textLabel.frame.size.width + 65), kMainScreenHeight - (kMainScreenHeight - 25), _textLabel.frame.size.width, _textLabel.frame.size.height)];
         
         contentView.backgroundColor = [UIColor colorWithRed:0.0
-                                                       green:0.0f
-                                                        blue:0.0f
-                                                       alpha:0.7f];
+                                                      green:0.0f
+                                                       blue:0.0f
+                                                      alpha:0.7f];
         [contentView addSubview:_textLabel];
         
         contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -527,7 +549,7 @@ typedef enum {
         
         _buttons[MenuButtonTypeVideo].layer.borderWidth = 0;
         _buttons[MenuButtonTypeVideo].layer.cornerRadius = 0;
-
+        
         _buttons[MenuButtonTypeShare].layer.borderWidth = 3;
         _buttons[MenuButtonTypeShare].layer.cornerRadius = 2;
         _buttons[MenuButtonTypeShare].layer.borderColor = [_menuViewController colorWithHexString:@"#03a9f4"].CGColor;
@@ -566,6 +588,14 @@ typedef enum {
     [self presentViewController:statsVc animated:YES completion:nil];
 }
 
+- (IBAction)myToolBarBtnClick:(UIButton *)sender {
+//    sender.selected = !sender.isSelected;
+    BOOL hidden = !self.myBackBtn.hidden;
+    self.myBackBtn.hidden = hidden;
+    self.conferenceToolBar.hidden = hidden;
+}
+
+
 #pragma mark - private function
 
 //获取当前大窗口显示的内容
@@ -593,13 +623,13 @@ typedef enum {
 //设置当前大窗口显示的内容
 - (void)showMode:(ShowMode)mode
 {
-    [_previewViewController stopShowPreview];
-    _previewViewController.view.hidden = YES;
-    [_splitScreenViewController stopShowSplitSreenView];
-    _splitScreenViewController.view.hidden = YES;
-    [_screenShareViewController stopScreenShare];
-    _screenShareViewController.view.hidden = YES;
-    _whiteBoardViewController.view.hidden = YES;
+    //    [_previewViewController stopShowPreview];
+    //    _previewViewController.view.hidden = YES;
+    //    [_splitScreenViewController stopShowSplitSreenView];
+    //    _splitScreenViewController.view.hidden = YES;
+    //    [_screenShareViewController stopScreenShare];
+    //    _screenShareViewController.view.hidden = YES;
+    //    _whiteBoardViewController.view.hidden = YES;
     
     switch (mode) {
         case ShowSplitScreen:               // 分屏界面
@@ -624,7 +654,7 @@ typedef enum {
     _splitScreenViewController.view.hidden = NO;
     [_splitScreenViewController reloadSplitSreenView];
     
-    _conferenceToolBar.hidden = NO;
+//    _conferenceToolBar.hidden = NO;
 }
 
 //显示屏幕共享
@@ -633,7 +663,7 @@ typedef enum {
     _screenShareViewController.view.hidden = NO;
     [_screenShareViewController reloadScreenShare];
     
-    _conferenceToolBar.hidden = NO;
+//    _conferenceToolBar.hidden = NO;
 }
 
 //显示涂鸦
@@ -641,7 +671,7 @@ typedef enum {
 {
     _whiteBoardViewController.view.hidden = NO;
     
-    _conferenceToolBar.hidden = YES;
+//    _conferenceToolBar.hidden = YES;
 }
 
 - (void)stopAllRender
@@ -652,19 +682,149 @@ typedef enum {
     [_splitScreenViewController stopShowSplitSreenView];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - 屏幕方向
+
+//旋转时，支持的方向（如果用户会议界面竖屏的时候，可以修改下面两个方法的返回值）
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+    //    return UIInterfaceOrientationMaskLandscapeRight;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+//被present时，首选的方向
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
+    //    return UIInterfaceOrientationLandscapeRight;
 }
-*/
+
+
+#pragma mark - yc_Layout
+
+- (void)layoutViewControllers {
+    CGRect frame = CGRectMake(0, 0, kMainScreenWidth, kVideoViewHeight);
+    self.splitScreenViewController.view.frame = frame;
+    
+    float y = kVideoViewHeight + kTabBarHeight;
+    self.whiteBoardViewController.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
+}
+
+- (void)layoutTabBar {
+    self.tabBar.frame = CGRectMake(0, kVideoViewHeight, kMainScreenWidth, kTabBarHeight);
+    
+    float btnWidth = kMainScreenWidth / 3;
+    self.whiteBoardTabBtn.frame = CGRectMake(0, 0, btnWidth, kTabBarHeight);
+    self.chatTabBtn.frame = CGRectMake(btnWidth, 0, btnWidth, kTabBarHeight);
+    self.menberTabBtn.frame = CGRectMake(btnWidth * 2, 0, btnWidth, kTabBarHeight);
+    
+    CGRect frame = self.btnLine.frame;
+    frame.origin.y = kTabBarHeight - kBtnLineHeight;
+    frame.size = CGSizeMake(btnWidth, kBtnLineHeight);
+    self.btnLine.frame = frame;
+}
+
+- (void)layoutBtnLine:(UIButton *)btn {
+    CGRect frame = self.btnLine.frame;
+    frame.origin.x = btn.frame.origin.x;
+    frame.origin.y = btn.frame.size.height - kBtnLineHeight;
+    self.btnLine.frame = frame;
+}
+
+#pragma mark - yc_Setup
+
+- (void)setupTarBar {
+    self.btnLine = [UIView new];
+    self.btnLine.backgroundColor = [UIColor blueColor];
+    
+    self.whiteBoardTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.chatTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.menberTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    self.whiteBoardTabBtn.selected = YES;
+    
+    [self.whiteBoardTabBtn addTarget:self action:@selector(whiteBoardTabBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.chatTabBtn addTarget:self action:@selector(chatTabBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.menberTabBtn addTarget:self action:@selector(menberTabBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.whiteBoardTabBtn setTitle:@"白板" forState:UIControlStateNormal];
+    [self.chatTabBtn setTitle:@"讨论" forState:UIControlStateNormal];
+    [self.menberTabBtn setTitle:@"成员" forState:UIControlStateNormal];
+    
+    [self.whiteBoardTabBtn setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+    [self.chatTabBtn setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+    [self.menberTabBtn setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+    
+    [self.whiteBoardTabBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.chatTabBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.menberTabBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    self.tabBar = [UIView new];
+    self.tabBar.backgroundColor = [UIColor whiteColor];
+    
+    [self.tabBar addSubview:self.whiteBoardTabBtn];
+    [self.tabBar addSubview:self.chatTabBtn];
+    [self.tabBar addSubview:self.menberTabBtn];
+    [self.tabBar addSubview:self.btnLine];
+    [self.preview addSubview:self.tabBar];
+}
+
+#pragma mark - yc_Action
+
+- (void)whiteBoardTabBtnClick {
+    self.whiteBoardViewController.view.hidden = NO;
+    
+    self.whiteBoardTabBtn.selected = YES;
+    self.chatTabBtn.selected = NO;
+    self.menberTabBtn.selected = NO;
+    
+    [self layoutBtnLine:self.whiteBoardTabBtn];
+}
+
+- (void)chatTabBtnClick {
+    self.whiteBoardViewController.view.hidden = YES;
+    
+    self.whiteBoardTabBtn.selected = NO;
+    self.chatTabBtn.selected = YES;
+    self.menberTabBtn.selected = NO;
+    
+    [self layoutBtnLine:self.chatTabBtn];
+}
+
+- (void)menberTabBtnClick {
+    self.whiteBoardViewController.view.hidden = YES;
+    
+    self.whiteBoardTabBtn.selected = NO;
+    self.chatTabBtn.selected = NO;
+    self.menberTabBtn.selected = YES;
+    
+    [self layoutBtnLine:self.menberTabBtn];
+}
+
+
+#pragma mark - yc_Custom
+
+- (BOOL)isSupportPanReturnBack {
+    return NO;
+}
+
+// viewDidLoad 的时候调用
+- (void)configForCustom {
+    self.whiteBoardViewController.view.hidden = NO;
+    
+    [self setupTarBar];
+    
+    [self.stopButton removeFromSuperview]; // 结束白板共享按钮
+    [self.sidebar removeFromSuperview]; // 右边栏
+    
+    self.conferenceToolBar.hidden = YES;
+    self.myBackBtn.hidden = YES;
+    self.myToolBarBtn.hidden = NO;
+    
+    [self.preview bringSubviewToFront:self.myBackBtn];
+    [self.preview bringSubviewToFront:self.myToolBarBtn];
+}
 
 @end
+
+

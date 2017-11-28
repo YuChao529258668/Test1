@@ -293,6 +293,7 @@
             [[AppDelegate sharedAppDelegate] enterLoginUI];
         }];
     }];
+    
 }
 
 - (void)removeObserverForLoginLogout {

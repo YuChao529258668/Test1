@@ -580,6 +580,7 @@
 		0DCD733F1FB3F3EB00972501 /* TXRTMPSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73311FB3F3EA00972501 /* TXRTMPSDK.framework */; };
 		0DCD73401FB3F3EB00972501 /* readme in Resources */ = {isa = PBXBuildFile; fileRef = 0DCD73321FB3F3EA00972501 /* readme */; };
 		0DCD73411FB3F3EB00972501 /* TLSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73331FB3F3EB00972501 /* TLSSDK.framework */; };
+		0DEBED4D1FCA8C6200354E4C /* LaunchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */; };
 		0DED884D1FC953FF00585C82 /* YCCollegeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */; };
 		1804A3321DCB229800CA2326 /* CGDiscoverLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 1804A3311DCB229800CA2326 /* CGDiscoverLink.m */; };
 		1806D2D31DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1806D2D11DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m */; };
@@ -2426,6 +2427,7 @@
 		0DCD73311FB3F3EA00972501 /* TXRTMPSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TXRTMPSDK.framework; sourceTree = "<group>"; };
 		0DCD73321FB3F3EA00972501 /* readme */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme; sourceTree = "<group>"; };
 		0DCD73331FB3F3EB00972501 /* TLSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TLSSDK.framework; sourceTree = "<group>"; };
+		0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LaunchView.xib; sourceTree = "<group>"; };
 		0DED884B1FC953FF00585C82 /* YCCollegeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCollegeViewController.h; sourceTree = "<group>"; };
 		0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCollegeViewController.m; sourceTree = "<group>"; };
 		0F96D292CC0F74E9725C4D2E /* libPods-BusinessCat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BusinessCat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -6597,6 +6599,7 @@
 				18D1C7051E07CBC7007AC5CC /* CGWelcomeVC.xib */,
 				D71142781D59CC720037F633 /* main.m */,
 				D7BF3EAF1D98F9D900FC94E6 /* resource */,
+				0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -8313,6 +8316,7 @@
 				181C55011EC2E7B60064354D /* CGMassageTableViewCell.xib in Resources */,
 				D7D15CA11E8A3A90004D5118 /* HomePageAppsController.xib in Resources */,
 				0DBF47AF1FB3087400707C12 /* camera_off_highlighted@2x.png in Resources */,
+				0DEBED4D1FCA8C6200354E4C /* LaunchView.xib in Resources */,
 				0D90DFDF1FB43C3A00EDB7CF /* 29.gif in Resources */,
 				0DBF47D11FB3087400707C12 /* paint_normal_highlighted@2x.png in Resources */,
 				0D90DFCA1FB43C3A00EDB7CF /* 1.gif in Resources */,
@@ -9357,7 +9361,6 @@
 			baseConfigurationReference = 1F17897C5752EEF827F05A4B /* Pods-BusinessCat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = BusinessCat/BusinessCat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Guangzhou Chuangjiang Information Technology co., Ltd (V77FU256ES)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -9491,7 +9494,6 @@
 			baseConfigurationReference = BD014DD70448B0719C7497EA /* Pods-BusinessCat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = BusinessCat/BusinessCat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Guangzhou Chuangjiang Information Technology co., Ltd (V77FU256ES)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

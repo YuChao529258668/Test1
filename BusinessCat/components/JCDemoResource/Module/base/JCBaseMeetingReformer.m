@@ -100,10 +100,11 @@
     [_confManager leave];
 }
 
-- (void)setAudioEnabled:(BOOL)enabled completion:(void (^)(BOOL isAudioEnabled))completion
+- (int)setAudioEnabled:(BOOL)enabled completion:(void (^)(BOOL isAudioEnabled))completion
 {
-    [_confManager enableLocalAudioStream:enabled];
+    int success = [_confManager enableLocalAudioStream:enabled];
     self.audioEnabledBlock = completion;
+    return success;
 }
 
 - (void)setVideoEnabled:(BOOL)enabled completion:(void (^)(BOOL isVideoEnabled))completion

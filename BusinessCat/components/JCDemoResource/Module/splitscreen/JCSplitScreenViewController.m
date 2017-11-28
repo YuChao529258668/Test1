@@ -76,6 +76,13 @@
 }
 
 
-#pragma mark - private function
+#pragma mark - 布局
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    self.splitScreenView.frame = self.view.bounds;
+}
 
 @end
+

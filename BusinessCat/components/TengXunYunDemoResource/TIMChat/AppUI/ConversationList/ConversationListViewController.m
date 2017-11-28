@@ -234,6 +234,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (![ObjectShareTool currentUserID]) {
+        [CTToast showWithText:@"尚未登录"];
+        return;
+    }
+    
     id<IMAConversationShowAble> convable = [_conversationList objectAtIndex:indexPath.row];
     ConversationListTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     IMAConversation *conv = (IMAConversation *)convable;

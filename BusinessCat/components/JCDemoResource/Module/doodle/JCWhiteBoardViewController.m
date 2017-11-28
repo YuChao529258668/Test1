@@ -10,6 +10,9 @@
 #import <JCApi/JCApi.h>
 #import "JCDoodleView.h"
 
+#define kDoodletoolbarHeight 35
+#define kDoodletoolbarWidth  [UIScreen mainScreen].bounds.size.width //179
+
 typedef NS_ENUM(NSInteger, TouchActionMode) {
     TouchActionNone = 0,
     TouchActionDraw,
@@ -31,6 +34,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 - (void)cleanAllPath;
 
 @end
+
 
 @implementation DoodlePathCache {
     NSMutableArray<JCDoodleAction *> *_doodleArray;
@@ -233,10 +237,35 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     NSLog(@"WhiteBoardViewController dealloc");
 }
 
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    {
+        float height = self.view.bounds.size.height - kDoodletoolbarHeight;
+        self.doodleView.frame = CGRectMake(0, 0, self.view.bounds.size.width, height);
+    }
+    
+    {
+        //        CGFloat x = (self.view.bounds.size.width - kDoodletoolbarWidth) / 2;
+        //        CGFloat y = self.view.bounds.size.height - 35 - 32;
+        CGFloat x = 0;
+        CGFloat y = self.view.bounds.size.height - kDoodletoolbarHeight;
+        self.doodletoolbar.frame = CGRectMake(x, y, kDoodletoolbarWidth, kDoodletoolbarHeight);
+        
+        self.doodletoolbar.backgroundColor = [UIColor lightGrayColor];
+    }
+    
+    {
+        CGFloat x = (self.view.bounds.size.width - 308) / 2;
+        CGFloat y = self.view.bounds.size.height - 28 - 87;
+        self.colorsToolbar.frame = CGRectMake(x, y, 308, 28);
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-   
+    
     [self.view addSubview:self.doodleView];
     if (!self.doodletoolbar.superview) {
         [self.view addSubview:self.doodletoolbar];
@@ -248,7 +277,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     
     self.doodletoolbar.delegate = self;
     self.colorsToolbar.delegate = self;
-        
+    
     //设置colourButton的初始颜色
     _brushColor = [_colorsToolbar currentColor];
     UIImage *image = [UIImage imageNamed:@"colour"];
@@ -311,7 +340,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     UIImage *image = [UIImage imageNamed:@"colour"];
     UIImage *tintImage = [self imageWithColor:color originalImage:image];
     [_colourButton setImage:tintImage forState:UIControlStateNormal];
-
+    
     _brushColor = color;
 }
 
@@ -557,13 +586,13 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 //获取16:9的可画区域大小
 - (CGSize)getScaleSize {
     CGSize viewSize = _doodleView.bounds.size;
-
+    
     if (viewSize.width * 9 > viewSize.height * 16) {
         viewSize.height = viewSize.width * 9 / 16;
     } else {
         viewSize.width = viewSize.height * 16 / 9;
     }
-
+    
     return viewSize;
 }
 
@@ -701,3 +730,4 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 
 
 @end
+
