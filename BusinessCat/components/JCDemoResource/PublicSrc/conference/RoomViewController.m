@@ -181,6 +181,9 @@ typedef enum {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         _confManager = [JCEngineManager sharedManager];
+        [_confManager setMaxCapacity:32];
+//        [_confManager setJoinMode:JoinModeAudio];
+
         _meetingReformer = [[JCBaseMeetingReformer alloc] init];
         
         _showModeArray = [NSMutableArray array];
@@ -195,6 +198,8 @@ typedef enum {
     NSLog(@"ConferenceViewController dealloc");
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    
+    [self removeKeyboardObserver];
 }
 
 - (void)viewDidLoad {
@@ -267,9 +272,6 @@ typedef enum {
     
     [self configForCustom];
     
-    // 获取会议详情
-    [self getMeetingDetail];
-
 }
 
 - (void)viewWillLayoutSubviews {
@@ -962,6 +964,10 @@ typedef enum {
     [self.preview bringSubviewToFront:self.myBackBtn];
     [self.preview bringSubviewToFront:self.myToolBarBtn];
     
+    // 获取会议详情
+    [self getMeetingDetail];
+
+    [self addKeyboardObserver];
 }
 
 
@@ -981,6 +987,36 @@ typedef enum {
 
 
     [super touchesBegan:touches withEvent:event];
+}
+
+#pragma mark - 键盘
+
+- (void)addKeyboardObserver {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)handleKeyboardWillShowNotification:(NSNotification *)noti {
+    UIButton *btn = [[UIButton alloc]initWithFrame:self.view.bounds];
+    btn.backgroundColor = [UIColor yellowColor];
+    [btn addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventTouchUpInside];
+    btn.tag = 999;
+//    [self.view addSubview:btn];
+    [self.preview insertSubview:btn belowSubview:self.tabBar];
+}
+
+- (void)hideKeyboard {
+    [self.view endEditing:YES];
+}
+
+- (void)handleKeyboardWillHideNotification:(NSNotification *)noti {
+    UIButton *btn = [self.view viewWithTag:999];
+    [btn removeFromSuperview];
+}
+
+- (void)removeKeyboardObserver {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 @end

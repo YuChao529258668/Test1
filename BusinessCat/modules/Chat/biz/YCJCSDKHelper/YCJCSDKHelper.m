@@ -10,7 +10,8 @@
 
 // 视频会议
 #import <JCApi/JCApi.h>
-#define kJCKey @"5f523868f54c24aa8fdc5096"
+#define kJCKey @"5f523868f54c24aa8fdc5096" // 生意猫
+//#define kJCKey @"97346350260773bfd2544096" // 安卓的
 //#define kJCKey @"6c06d1b0d9015e47ec144097" // 官方 demo
 //#import "RoomViewController.h"
 
