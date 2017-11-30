@@ -257,8 +257,8 @@ typedef enum {
     [self addChildViewController:self.whiteBoardViewController];
     [_preview addSubview:self.whiteBoardViewController.view];
     self.whiteBoardViewController.view.frame = _preview.bounds;
-    self.whiteBoardViewController.view.layer.borderWidth = 4;
-    self.whiteBoardViewController.view.layer.borderColor = [UIColor colorWithRed:255.0/255.0 green:221.0/255.0 blue:40.0/255.0 alpha:1.0].CGColor;
+//    self.whiteBoardViewController.view.layer.borderWidth = 4;
+//    self.whiteBoardViewController.view.layer.borderColor = [UIColor colorWithRed:255.0/255.0 green:221.0/255.0 blue:40.0/255.0 alpha:1.0].CGColor;
     [self.whiteBoardViewController.view addSubview:self.stopButton];
     
     [self addChildViewController:self.participantViewController];

@@ -51,16 +51,18 @@
     
     if (_contentView) {
         
-        CGFloat w = self.bounds.size.width;
-        CGFloat h = self.bounds.size.height;
+//        CGFloat w = self.bounds.size.width;
+//        CGFloat h = self.bounds.size.height;
         
-        CGFloat scale = 16.0 / 9.0;
+//        CGFloat scale = 16.0 / 9.0;
+//
+//        if ((w / h) < scale) {
+//            _contentView.frame = CGRectMake(0, (h - w / scale) / 2, w, w / scale);
+//        } else {
+//            _contentView.frame = CGRectMake((w - h * scale) / 2, 0, h * scale, h);
+//        }
         
-        if ((w / h) < scale) {
-            _contentView.frame = CGRectMake(0, (h - w / scale) / 2, w, w / scale);
-        } else {
-            _contentView.frame = CGRectMake((w - h * scale) / 2, 0, h * scale, h);
-        }
+        _contentView.frame = self.bounds;
     }
     
     if (_renderView) {
@@ -94,7 +96,11 @@
 
 @property (nonatomic, assign) NSInteger itemCount;
 
+@property (nonatomic,strong) NSMutableArray<UIImageView *> *imageViews;
+
+
 @end
+
 
 @implementation JCSplitScreenView
 
@@ -108,6 +114,8 @@
     [super awakeFromNib];
     
     [self initData];
+    
+    [self setupImageViews];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -115,6 +123,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self initData];
+        [self setupImageViews];
     }
     return self;
 }
@@ -217,15 +226,19 @@
     [_visibleItems removeAllObjects];
     [_visibleItems addObjectsFromArray:_reloadItems];
     
-    CGFloat w = self.bounds.size.width;
-    CGFloat h = self.bounds.size.height;
+//    CGFloat w = self.bounds.size.width;
+//    CGFloat h = self.bounds.size.height;
+    CGFloat w = self.bounds.size.width/2;
+    CGFloat h = self.bounds.size.height/2;
+    
     if (_itemCount == 1) {
         if (_visibleItems.count > 0) {
             UITapGestureRecognizer *doubleTapGesure = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapGesture:)];
             doubleTapGesure.numberOfTapsRequired = 2;
             
             UIView *view = [_visibleItems firstObject];
-            view.frame = self.bounds;
+//            view.frame = self.bounds;
+            view.frame = CGRectMake(0, 0, w, h);
             
             [view addGestureRecognizer:doubleTapGesure];
         }
@@ -236,8 +249,9 @@
                 doubleTapGesure.numberOfTapsRequired = 2;
 
                 UIView *view = [_visibleItems objectAtIndex:i];
-                view.frame = CGRectMake(i * w / 2, 0, w / 2, h);
-                
+//                view.frame = CGRectMake(i * w / 2, 0, w / 2, h);
+                view.frame = CGRectMake(i * w, 0, w, h);
+
                 [view addGestureRecognizer:doubleTapGesure];
             }
         }
@@ -249,11 +263,14 @@
                 
                 UIView *view = [_visibleItems objectAtIndex:i];
                 if (i == 0) {
-                    view.frame = CGRectMake(0, 0, w, h / 2);
+//                    view.frame = CGRectMake(0, 0, w, h / 2);
+                    view.frame = CGRectMake(0, 0, w, h);
                 } else if (i == 1) {
-                    view.frame = CGRectMake(0, h / 2, w / 2, h / 2);
+//                    view.frame = CGRectMake(0, h / 2, w / 2, h / 2);
+                    view.frame = CGRectMake(w, 0, w, h);
                 } else {
-                    view.frame = CGRectMake(w / 2, h / 2, w / 2, h / 2);
+//                    view.frame = CGRectMake(w / 2, h / 2, w / 2, h / 2);
+                    view.frame = CGRectMake(0, h, w, h);
                 }
                 [view addGestureRecognizer:doubleTapGesture];
             }
@@ -268,8 +285,9 @@
                 int row = i / 2; //行
                 int line = i % 2; //列
                 
-                view.frame = CGRectMake(line * w / 2, row * h / 2, w / 2, h / 2);
-                
+//                view.frame = CGRectMake(line * w / 2, row * h / 2, w / 2, h / 2);
+                view.frame = CGRectMake(line * w, row * h, w, h);
+
                 [view addGestureRecognizer:doubleTapGesture];
             }
         }
@@ -301,6 +319,38 @@
     
     if (_dataSource) {
         [_dataSource didDoubleSelectRowAtIndex:[_reloadItems indexOfObject:view]];
+    }
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [self layoutImageViews];
+}
+
+#pragma mark -
+
+- (void)layoutImageViews {
+    CGFloat w = self.bounds.size.width/2;
+    CGFloat h = self.bounds.size.height/2;
+
+    for (int i = 0; i < 4; i ++) {
+        int row = i / 2; //行
+        int line = i % 2; //列
+        self.imageViews[i].frame = CGRectMake(line * w, row * h, w, h);
+    }
+}
+
+- (void)setupImageViews {
+    self.imageViews = [NSMutableArray arrayWithCapacity:4];
+    UIImage *image;
+    
+    for (int i = 0; i < 4; i ++) {
+        UIImageView *iv = [UIImageView imageViewWithImage:image];
+        iv.contentMode = UIViewContentModeScaleAspectFill;
+        iv.clipsToBounds = YES;
+        [self.imageViews addObject:iv];
+        [self addSubview:iv];
     }
 }
 

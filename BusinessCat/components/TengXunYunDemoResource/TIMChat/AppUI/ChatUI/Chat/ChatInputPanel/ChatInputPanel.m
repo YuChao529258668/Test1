@@ -24,6 +24,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onKeyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onKeyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onKeyboardDidShow:) name:UIKeyboardDidChangeFrameNotification object:nil];
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -44,6 +45,7 @@
         [self.KVOController observe:_toolBar keyPath:@"contentHeight" options:NSKeyValueObservingOptionNew |NSKeyValueObservingOptionOld block:^(id observer, id object, NSDictionary *change) {
             [ws onToolBarContentHeightChanged:change];
         }];
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -70,7 +72,8 @@
     {
         CGRect rect = self.frame;
 //        rect.origin.y = kMainScreenHeight - 64 - contentHeight;
-        rect.origin.y = kMainScreenHeight - contentHeight;
+//        rect.origin.y = kMainScreenHeight - contentHeight;
+        rect.origin.y = self.superview.frame.size.height - contentHeight;
         rect.size.height = contentHeight;
         
         [UIView animateWithDuration:duration animations:^{
@@ -97,7 +100,8 @@
         {
             CGRect rect = self.frame;
 //            rect.origin.y = endFrame.origin.y - [_toolBar contentHeight] - 64;
-            rect.origin.y = endFrame.origin.y - [_toolBar contentHeight];
+//            rect.origin.y = endFrame.origin.y - [_toolBar contentHeight];
+            rect.origin.y = self.superview.frame.size.height - endFrame.size.height - [_toolBar contentHeight];
             rect.size.height = contentHeight;
             
             [UIView animateWithDuration:duration animations:^{

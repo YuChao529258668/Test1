@@ -116,9 +116,8 @@
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Meeting" bundle:nil];
         self = (YCBookMeetingController *)[sb instantiateViewControllerWithIdentifier:@"YCBookMeetingController"];
         NSDate *now = [NSDate date];
-        NSDate *after = [NSDate dateWithTimeInterval:30*60+59 sinceDate:now];
-        self.beginDate = now;
-        self.endDate = after;
+        self.beginDate = [NSDate dateWithTimeInterval:5*60 sinceDate:now];
+        self.endDate = [NSDate dateWithTimeInterval:30*60+59 sinceDate:now];
         self.style = YCBookMeetingControllerStyleCreate;
         self.meetingTimeAvailable = NO;
     }

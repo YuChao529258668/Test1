@@ -6,7 +6,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             scope = "0"
@@ -20,7 +20,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/modules/Chat/biz/YCJCSDKHelper/YCJCSDKHelper.m"
-            timestampString = "533567016.755203"
+            timestampString = "533637787.173035"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "102"
@@ -36,109 +36,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/components/JCDemoResource/Module/base/JCBaseMeetingReformer.m"
-            timestampString = "533567016.755627"
+            timestampString = "533637787.173401"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
             endingLineNumber = "69"
             landmarkName = "-onParticipantUpdated:"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/Meeting/Biz/YCMeetingBiz.m"
-            timestampString = "533567016.755897"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "-checkMeetingDateValidWithBeginDate:endDate:roomID:OnSuccess:fail:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[YCMeetingBiz checkMeetingDateValidWithBeginDate:endDate:roomID:OnSuccess:fail:]"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/Meeting/Biz/YCMeetingBiz.m"
-                  timestampString = "533565010.469846"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "532">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__81-[YCMeetingBiz checkMeetingDateValidWithBeginDate:endDate:roomID:OnSuccess:fail:]_block_invoke"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/Meeting/Biz/YCMeetingBiz.m"
-                  timestampString = "533565010.472205"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/Meeting/Biz/YCMeetingBiz.m"
-            timestampString = "533567016.756135"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "-getMeetingDetailWithMeetingID:success:fail:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[YCMeetingBiz getMeetingDetailWithMeetingID:success:fail:]"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/Meeting/Biz/YCMeetingBiz.m"
-                  timestampString = "533565010.478171"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "108"
-                  endingLineNumber = "108"
-                  offsetFromSymbolStart = "308">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__59-[YCMeetingBiz getMeetingDetailWithMeetingID:success:fail:]_block_invoke"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/Meeting/Biz/YCMeetingBiz.m"
-                  timestampString = "533565010.480765"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "108"
-                  endingLineNumber = "108"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

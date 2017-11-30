@@ -31,7 +31,7 @@
 
 #define kVideoViewHeight (kMainScreenHeight * 0.4) // splitScreenViewController的高度
 #define kTabBarHeight 40
-#define kBtnLineHeight 1
+#define kBtnLineHeight 3
 
 // 显示相关界面
 typedef enum {
@@ -231,8 +231,8 @@ typedef enum {
     [self addChildViewController:self.whiteBoardViewController];
     [_preview addSubview:self.whiteBoardViewController.view];
     self.whiteBoardViewController.view.frame = _preview.bounds;
-    self.whiteBoardViewController.view.layer.borderWidth = 4;
-    self.whiteBoardViewController.view.layer.borderColor = [UIColor colorWithRed:255.0/255.0 green:221.0/255.0 blue:40.0/255.0 alpha:1.0].CGColor;
+//    self.whiteBoardViewController.view.layer.borderWidth = 4;
+//    self.whiteBoardViewController.view.layer.borderColor = [UIColor colorWithRed:255.0/255.0 green:221.0/255.0 blue:40.0/255.0 alpha:1.0].CGColor;
     [self.whiteBoardViewController.view addSubview:self.stopButton];
     
     //    Zmf_VideoCaptureListenRotation(0, 90);
@@ -267,6 +267,9 @@ typedef enum {
     
     [self configForCustom];
     
+    // 获取会议详情
+    [self getMeetingDetail];
+
 }
 
 - (void)viewWillLayoutSubviews {
@@ -307,9 +310,6 @@ typedef enum {
     
     //更新界面
     [self showCurrentShowMode:ShowSplitScreen];
-    
-    // 获取会议详情
-    [self getMeetingDetail];
 }
 
 - (void)joinFailedWithReason:(ErrorReason)reason
@@ -514,7 +514,15 @@ typedef enum {
 #pragma mark - Button action
 // 取消加入会议事件
 - (IBAction)cancel:(id)sender {
-    [_meetingReformer leave];
+    // 点击按钮输出： 0 -[JCEngineManager leave] no confEngine ，界面不消失
+    int success = [_meetingReformer leave];
+    if (success != JCOK) {
+        if (self.presentingViewController) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
 }
 
 // 会议信息
@@ -589,7 +597,8 @@ typedef enum {
         [[MJPopTool sharedInstance] closeAnimated:YES];
         _doodleShareUserId = nil;
         [JCDoodleManager stopDoodle];
-        [_meetingReformer leave];
+//        [_meetingReformer leave];
+        [self cancel:nil];
     }];
     [alert addAction:action];
     
@@ -605,13 +614,6 @@ typedef enum {
     [[MJPopTool sharedInstance] closeAnimated:YES];
     JCStatisticsViewController *statsVc = [[JCStatisticsViewController alloc] init];
     [self presentViewController:statsVc animated:YES completion:nil];
-}
-
-- (IBAction)myToolBarBtnClick:(UIButton *)sender {
-//    sender.selected = !sender.isSelected;
-    BOOL hidden = !self.myBackBtn.hidden;
-    self.myBackBtn.hidden = hidden;
-    self.conferenceToolBar.hidden = hidden;
 }
 
 
@@ -756,7 +758,7 @@ typedef enum {
 
 - (void)setupTarBar {
     self.btnLine = [UIView new];
-    self.btnLine.backgroundColor = [UIColor blueColor];
+    self.btnLine.backgroundColor = TEXT_MAIN_CLR;
     
     self.whiteBoardTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.chatTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -772,13 +774,15 @@ typedef enum {
     [self.chatTabBtn setTitle:@"讨论" forState:UIControlStateNormal];
     [self.menberTabBtn setTitle:@"成员" forState:UIControlStateNormal];
     
-    [self.whiteBoardTabBtn setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
-    [self.chatTabBtn setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
-    [self.menberTabBtn setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+    UIColor *colorS = TEXT_MAIN_CLR;
+    [self.whiteBoardTabBtn setTitleColor:colorS forState:UIControlStateSelected];
+    [self.chatTabBtn setTitleColor:colorS forState:UIControlStateSelected];
+    [self.menberTabBtn setTitleColor:colorS forState:UIControlStateSelected];
     
-    [self.whiteBoardTabBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.chatTabBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.menberTabBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    UIColor *colorN = TEXT_GRAY_CLR;
+    [self.whiteBoardTabBtn setTitleColor:colorN forState:UIControlStateNormal];
+    [self.chatTabBtn setTitleColor:colorN forState:UIControlStateNormal];
+    [self.menberTabBtn setTitleColor:colorN forState:UIControlStateNormal];
     
     self.tabBar = [UIView new];
     self.tabBar.backgroundColor = [UIColor whiteColor];
@@ -802,6 +806,8 @@ typedef enum {
     self.menberTabBtn.selected = NO;
     
     [self layoutBtnLine:self.whiteBoardTabBtn];
+    
+    [self.view endEditing:YES];
 }
 
 - (void)chatTabBtnClick {
@@ -814,6 +820,7 @@ typedef enum {
     self.menberTabBtn.selected = NO;
     
     [self layoutBtnLine:self.chatTabBtn];
+    [self.view endEditing:YES];
 }
 
 - (void)menberTabBtnClick {
@@ -826,6 +833,12 @@ typedef enum {
     self.menberTabBtn.selected = YES;
     
     [self layoutBtnLine:self.menberTabBtn];
+    [self.view endEditing:YES];
+}
+
+- (IBAction)myToolBarBtnClick:(UIButton *)sender {
+    self.myBackBtn.hidden = !self.myBackBtn.hidden;
+    self.conferenceToolBar.hidden = !self.conferenceToolBar.hidden;
 }
 
 
@@ -842,12 +855,16 @@ typedef enum {
     //    [groupList addObject:@"TGID1JYSZEAEQ"];
     [groupList addObject:groupId];
     
-    [[TIMGroupManager sharedInstance] getGroupInfo:groupList succ:^(NSArray * groups) {
+    int fail = [[TIMGroupManager sharedInstance] getGroupInfo:groupList succ:^(NSArray * groups) {
         TIMGroupInfo * info = groups.firstObject;
         [self addChatViewControllerWith:info];
     } fail:^(int code, NSString* err) {
         [CTToast showWithText: [NSString stringWithFormat:@"获取群信息失败 %d %@ groupId:%@", code, err, groupId]];
     }];
+    
+    if (fail) {
+        [CTToast showWithText:@"获取群信息失败， 可能聊天功能未登录"];
+    }
 }
 
 // 会议详情
@@ -944,6 +961,26 @@ typedef enum {
     
     [self.preview bringSubviewToFront:self.myBackBtn];
     [self.preview bringSubviewToFront:self.myToolBarBtn];
+    
+}
+
+
+#pragma mark -
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    BOOL isEditing = [self.view endEditing:YES];
+//    if (isEditing) {
+//        self.myBackBtn.hidden = YES;
+//        self.conferenceToolBar.hidden = YES;
+//    } else {
+//        self.myBackBtn.hidden = !self.myBackBtn.hidden;
+//        self.conferenceToolBar.hidden = !self.conferenceToolBar.hidden;
+//    }
+    self.myBackBtn.hidden = !self.myBackBtn.hidden;
+    self.conferenceToolBar.hidden = !self.conferenceToolBar.hidden;
+
+
+    [super touchesBegan:touches withEvent:event];
 }
 
 @end

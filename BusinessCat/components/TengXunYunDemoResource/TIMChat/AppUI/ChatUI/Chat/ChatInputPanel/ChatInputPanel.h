@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class ChatInputPanel;
+
+@protocol ChatInputPanelDelegate<NSObject>
+- (void)didChangeFrame:(ChatInputPanel *)panel;
+@end
+
+
 @interface ChatInputPanel : ChatInputBaseView<ChatInputToolBarDelegate>
 {
 @protected
@@ -19,6 +26,9 @@
     UIView<ChatInputAbleView>           *_emojPanel;
     UIView<ChatInputAbleView>           *_funcPanel;
 }
+
+@property (nonatomic,weak) id<ChatInputPanelDelegate> myDelegate ;
+
 
 - (instancetype)initRichChatInputPanel;
 

@@ -19,6 +19,7 @@
 {
     [self.KVOController unobserveAll];
     
+    [self removeObserverForKeyboard];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -34,6 +35,9 @@
     if (self.navigationController) {
         [self createCustomNavi];
     }
+    [self addObserverForKeyboard];
+    self.tableView.clipsToBounds = YES;
+    self.view.clipsToBounds = YES;
 }
 
 #pragma mark - 适配旧代码
@@ -78,18 +82,44 @@
         y = 0;
     }
     float barH = _inputView.contentHeight; // 聊天界面底部栏高度
-//    float height = self.tableView.frame.size.height - y;
-    float height = [UIScreen mainScreen].bounds.size.height - y - barH;
+//    float height = [UIScreen mainScreen].bounds.size.height - y - barH;
+    float height = self.view.frame.size.height - y - barH;
     CGRect rect = self.tableView.frame;
     rect.size.height = height;
     rect.origin.y = y;
     self.tableView.frame = rect;
+//    self.tableView.contentSize = CGSizeMake(rect.size.width, height);
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [self layoutTableView];
 }
+
+#pragma mark - 修复表视图滚动范围的 bug
+
+- (void)addObserverForKeyboard {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboard:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboard:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboard:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboard:) name:UIKeyboardDidHideNotification object:nil];
+}
+
+- (void)removeObserverForKeyboard {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification  object:nil];
+}
+
+- (void)handleKeyboard:(NSNotification *)noti {
+    // handleKeyboardShow: handleKeyboardHide:
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self layoutTableView];
+//        [self.tableView reloadData];
+    });
+}
+
 
 #pragma mark - 
 

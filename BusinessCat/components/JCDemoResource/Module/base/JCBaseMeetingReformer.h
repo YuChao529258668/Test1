@@ -33,7 +33,7 @@
 
 - (BOOL)joinWithRommId:(NSString *)roomId displayName:(NSString *)name;
 
-- (void)leave;
+- (int)leave;
 
 - (int)setAudioEnabled:(BOOL)enabled completion:(void (^)(BOOL isAudioEnabled))completion;
 

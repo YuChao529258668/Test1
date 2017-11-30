@@ -21,6 +21,7 @@
 
 @end
 
+
 @interface JCSplitScreenViewCell : UIView
 
 @property (nonatomic, readonly, strong) UIView *contentView;

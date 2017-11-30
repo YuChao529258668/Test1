@@ -95,13 +95,13 @@
     return ret == JCOK;
 }
 
-- (void)leave
+- (int)leave
 {
     if (self.mode == JoinModeVideo) {
         [_confManager stopCamera];
     }
     
-    [_confManager leave];
+    return [_confManager leave];
 }
 
 - (int)setAudioEnabled:(BOOL)enabled completion:(void (^)(BOOL isAudioEnabled))completion
