@@ -285,7 +285,7 @@
 //3）修改预约：创建者，并未开始显示为修改预约。
 - (void)configCell:(CGMeetingListCell *)cell withMeeting:(CGMeeting *)meeting {
     NSString *title;
-    NSString *imageName; // 蓝色 work_clock, 黄色 work_meeting, 灰色 work_temporary
+    NSString *imageName; // 蓝色 work_icon_3, 黄色 work_icon_1, 灰色 work_temporary
     int state = meeting.meetingState;
     
     switch (state) {
@@ -294,22 +294,22 @@
             if ([self isMeetingCreater:meeting]) {
                 title = @"修改预约";
             }
-            imageName = @"work_clock";
+            imageName = @"work_icon_3";
             break;
         case 1: // 进行中
             title = @"会议详情";
             if ([self isMeetingCreater:meeting]) {
                 title = @"修改预约";
             }
-            imageName = @"work_meeting";
+            imageName = @"work_icon_1";
             break;
         case 2: // 已结束
             title = @"再次召开";
-            imageName = @"work_temporary";
+            imageName = @"work_icon_2";
             break;
         case 3: // 已取消
             title = @"再次召开";
-            imageName = @"work_temporary";
+            imageName = @"work_icon_2";
             break;
     }
     [cell.button setTitle:title forState:UIControlStateNormal];

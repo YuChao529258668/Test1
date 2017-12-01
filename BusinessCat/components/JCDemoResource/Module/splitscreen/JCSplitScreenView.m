@@ -411,7 +411,9 @@
     float w = self.frame.size.width;
     float h = self.frame.size.height;
     self.scrollView.contentSize = CGSizeMake([self pageCount] * w, h);
-    //    self.scrollView.contentSize = CGSizeMake(w * 6, h);
+//        self.scrollView.contentSize = CGSizeMake(w * 6, h);
+    NSLog(@"%@, pageCount  = %@", NSStringFromSelector(_cmd), @([self pageCount]));
+    NSLog(@"%@, contentSize  = %@", NSStringFromSelector(_cmd), NSStringFromCGSize(self.scrollView.contentSize));
 }
 
 - (void)setupImageViews {

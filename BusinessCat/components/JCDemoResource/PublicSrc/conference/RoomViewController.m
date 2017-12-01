@@ -994,6 +994,12 @@ typedef enum {
     [self addKeyboardObserver];
     [self setupHideKeyboardBtn];
 //    [self addPPT];
+    
+//    [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
+//    [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
+//    [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
+//    [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
+//    [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
 }
 
 
