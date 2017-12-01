@@ -963,6 +963,15 @@ typedef enum {
     return NO;
 }
 
+- (void)addPPT {
+    NSMutableArray *images = [NSMutableArray arrayWithCapacity:4];
+    [images addObject:[UIImage imageNamed:@"1"]];
+    [images addObject:[UIImage imageNamed:@"2"]];
+    [images addObject:[UIImage imageNamed:@"3"]];
+    [images addObject:[UIImage imageNamed:@"4"]];
+    [self.whiteBoardViewController setBackgroundImages:images];
+}
+
 // viewDidLoad 的时候调用
 - (void)configForCustom {
     self.whiteBoardViewController.view.hidden = NO;
@@ -984,6 +993,7 @@ typedef enum {
 
     [self addKeyboardObserver];
     [self setupHideKeyboardBtn];
+//    [self addPPT];
 }
 
 
