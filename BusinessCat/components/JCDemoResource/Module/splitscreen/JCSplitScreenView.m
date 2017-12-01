@@ -427,7 +427,7 @@
 }
 
 - (UIImageView *)createImageView {
-    UIImage *image = [UIImage imageNamed:@"1"];
+    UIImage *image = [UIImage imageNamed:@"meeting_pic"];
     UIImageView *iv = [[UIImageView alloc]initWithImage:image];
     iv.backgroundColor = [UIColor greenColor];
     iv.contentMode = UIViewContentModeScaleAspectFill;

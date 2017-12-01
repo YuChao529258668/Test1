@@ -585,11 +585,11 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 - (CGSize)getScaleSize {
     CGSize viewSize = _doodleView.bounds.size;
     
-    if (viewSize.width * 9 > viewSize.height * 16) {
-        viewSize.height = viewSize.width * 9 / 16;
-    } else {
-        viewSize.width = viewSize.height * 16 / 9;
-    }
+//    if (viewSize.width * 9 > viewSize.height * 16) {
+//        viewSize.height = viewSize.width * 9 / 16;
+//    } else {
+//        viewSize.width = viewSize.height * 16 / 9;
+//    }
     
     return viewSize;
 }
@@ -599,6 +599,9 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     CGSize size = [self getScaleSize];
     CGFloat x = 2 * point.x / size.width - 1.0;
     CGFloat y = 2 * point.y / size.height - 1.0;
+    
+    x = point.x / size.width;
+    y = point.y / size.height;
     return CGPointMake(x, y);
 }
 
@@ -607,6 +610,9 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     CGSize size = [self getScaleSize];
     CGFloat nX = (x + 1.0) * size.width / 2;
     CGFloat nY = (y + 1.0) * size.height / 2;
+    
+    nX = x * size.width;
+    nY = y * size.height;
     return CGPointMake(nX, nY);
 }
 

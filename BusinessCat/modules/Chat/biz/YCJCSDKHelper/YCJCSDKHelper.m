@@ -99,23 +99,25 @@ static YCJCSDKHelper * helper;
 //    /** 发起连接服务端失败，原因为超时 */
 //    ErrorCodeErrLoginTimeout,
 
-    NSString *error;
-    switch (errorReason) {
-        case ErrorCodeErrLoginNetUnavailable:
-            error = @"发起连接服务端失败，原因为无效的网络";
-            break;
-        case ErrorCodeErrLoginAuthFailed:
-            error = @"发起连接服务端失败，原因为密码错误";
-            break;
-        case ErrorCodeErrLoginTimeout:
-            error = @"发起连接服务端失败，原因为超时";
-            break;
-        default:
-            error = @"未知原因";
-            break;
-    }
+//    NSString *error;
+//    switch (errorReason) {
+//        case ErrorCodeErrLoginNetUnavailable:
+//            error = @"发起连接服务端失败，原因为无效的网络";
+//            break;
+//        case ErrorCodeErrLoginAuthFailed:
+//            error = @"发起连接服务端失败，原因为密码错误";
+//            break;
+//        case ErrorCodeErrLoginTimeout:
+//            error = @"发起连接服务端失败，原因为超时";
+//            break;
+//        default:
+//            error = @"未知原因";
+//            break;
+//    }
+//
+//    NSLog(@"失败 JCEngine error %@", error);
     
-    NSLog(@"失败 JCEngine error %@", error);
+    [CTToast showWithText:[YCJCSDKHelper errorStringOfErrorCode:errorReason]];
 }
 
 
@@ -209,6 +211,103 @@ static YCJCSDKHelper * helper;
 //        NSLog(@"腾讯云初始化成功");
 //    }
 //}
+
+#pragma mark - 错误码
+
+// 返回错误字符串。错误码定义在 JCEngineManager.h。ErrorNone = 0
++ (NSString *)errorStringOfErrorCode:(NSInteger)code {
+    NSArray *errors = @[
+        /** 默认值, 0 */
+        @"ErrorNone",
+        /** 其他错误 */
+        @"ErrorOther",
+        /** 其他错误 */
+        @"ErrorRoomOther",
+        /** 与服务器断开连接，主动断开 */
+        @"DisconnectReasonActive",
+        /** 与服务器断开连接，相同 userId 在别的设备登录 */
+        @"DisconnectReasonDeacted",
+        /** 与服务器断开连接，其他原因 */
+        @"DisconnectReasonOther",
+        /** 发起连接服务器失败，鉴权错误。只有当开发者将鉴权模式设置为 RSA 鉴权时才会通知此错误 */
+        @"ErrorConnectFailAuth",
+        /** 发起连接服务端失败，原因为无效的网络 */
+        @"ErrorCodeErrLoginNetUnavailable",
+        /** 发起连接服务端失败，原因为密码错误 */
+        @"ErrorCodeErrLoginAuthFailed",
+        /** 发起连接服务端失败，原因为超时 */
+        @"ErrorCodeErrLoginTimeout",
+        /** 加入房间失败，原因会议不存在 */
+        @"ErrorJoinFailNotExist",
+        /** 加入房间失败，原因房间已满 */
+        @"ErrorJoinFailFull",
+        /** 加入房间失败，原因密码错误 */
+        @"ErrorJoinFailInvalidPassword",
+        /** 加入房间失败，连接到服务器时失败 */
+        @"ErrorJoinFailConnect",
+        /** 加入房间失败，原因会议加入超时 */
+        @"ErrorJoinFailTimeout",
+        /** 加入房间失败，roomid不可用 */
+        @"ErrorJoinFailRInvalidRoomID",
+        /** 加入房间失败，当前网络异常 */
+        @"ErrorJoinFailNetUnavailabile",
+        /** 加入房间失败，当前已经在一个房间中 */
+        @"ErrorJoinFailBusy",
+        /** 媒体操作失败 */
+        @"ErrorMediaChangeFail",
+        /** 离开房间的原因，主动退出（调用离开房间的接口）*/
+        @"ErrorEndQuit",
+        /** 离开房间的原因，掉线 */
+        @"ErrorEndOffline",
+        /** 离开房间的原因，房间已关闭 */
+        @"ErrorEndOver",
+        /** 离开房间原因，被移出 */
+        @"ErrorEndKicked",
+        /** 离开房间的原因，其他原因 */
+        @"ErrorEndOther",
+        /** 日志打印级别，打印调试信息 */
+        @"LogLevelDebug",
+        /** 日志打印级别，仅打印必要信息 */
+        @"LogLevelInfo",
+        /** 日志打印级别，关闭 */
+        @"LogLeaveOff",
+        /** 日志类型，调试信息 */
+        @"LogTypeDebug",
+        /** 日志类型，错误信息 */
+        @"LogTypeError",
+        /** 日志类型，必要信息 */
+        @"LogTypeInfo",
+        /** 房间模式，直播模式 */
+        @"RoomModeBroadcast",
+        /** 房间模式，通信模式 */
+        @"RoomModeCommunication",
+        /** 房间状态，闲置 */
+        @"RoomStateIdle",
+        /** 房间状态，正在进入房间 */
+        @"RoomStateJoining",
+        /** 房间状态，正在离开房间 */
+        @"RoomStateLeaving",
+        /** 房间状态，已进入房间 */
+        @"RoomStateOnAir",
+        /** 房间状态，已就绪，正在等待连接至服务器的通知 */
+        @"RoomStateReady",
+        /** 自己发起屏幕共享失败（iOS 暂不支持发起屏幕共享）*/
+        @"ScreenShareFailed",
+        /** 有成员发起屏幕共享 */
+        @"ScreenShareStart",
+        /** 发起的成员取消了屏幕共享 */
+        @"ScreenShareStop",
+        /** 自己修改房间主题失败 */
+        @"TitleFailed",
+        /** 房间主题被修改（自己或其他成员修改）*/
+        @"TitleChanged"
+    ];
+    
+    code = code < 0? 1: code;
+    code = code > errors.count? 1: code;
+    
+    return errors[code];
+}
 
 
 

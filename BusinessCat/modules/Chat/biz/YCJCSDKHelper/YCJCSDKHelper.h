@@ -36,5 +36,8 @@
 #pragma mark - 白板模块
 
 
+#pragma mark - 错误码
+
++ (NSString *)errorStringOfErrorCode:(NSInteger)code;
 
 @end

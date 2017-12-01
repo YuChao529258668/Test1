@@ -28,10 +28,11 @@
 #import "CGMeeting.h"
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoomMembersController.h"
+#import "YCJCSDKHelper.h"
 
 #define kVideoViewHeight (kMainScreenHeight * 0.4) // splitScreenViewController的高度
 #define kTabBarHeight 40
-#define kBtnLineHeight 3
+#define kBtnLineHeight 1.4
 
 // 显示相关界面
 typedef enum {
@@ -95,6 +96,8 @@ typedef enum {
 @property (nonatomic,strong) UIView *btnLine; // 按钮下面的线
 @property (weak, nonatomic) IBOutlet UIButton *myBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *myToolBarBtn;
+@property (nonatomic,strong) UIButton *hideKeyboardBtn; // 隐藏键盘的按钮，覆盖全屏
+
 @property (nonatomic,strong) IMAChatViewController *chatVC;
 @property (nonatomic,strong) YCMeetingRoomMembersController *membersVC;
 
@@ -195,7 +198,7 @@ typedef enum {
 
 - (void)dealloc
 {
-    NSLog(@"ConferenceViewController dealloc");
+    NSLog(@"RoomViewController dealloc");
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     
@@ -279,6 +282,7 @@ typedef enum {
     
     [self layoutViewControllers];
     [self layoutTabBar];
+    self.hideKeyboardBtn.frame = self.view.bounds;
 }
 
 
@@ -312,11 +316,14 @@ typedef enum {
     
     //更新界面
     [self showCurrentShowMode:ShowSplitScreen];
+    [CTToast showWithText:@"加入会议成功"];
 }
 
 - (void)joinFailedWithReason:(ErrorReason)reason
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"join failed", nil) message:nil preferredStyle:UIAlertControllerStyleAlert];
+    NSString *message = [YCJCSDKHelper errorStringOfErrorCode:reason];
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"join failed", nil) message:message preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"confirm", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -646,7 +653,7 @@ typedef enum {
 //设置当前大窗口显示的内容
 - (void)showMode:(ShowMode)mode
 {
-    //    [_previewViewController stopShowPreview];
+//        [_previewViewController stopShowPreview];
     //    _previewViewController.view.hidden = YES;
     //    [_splitScreenViewController stopShowSplitSreenView];
     //    _splitScreenViewController.view.hidden = YES;
@@ -794,6 +801,14 @@ typedef enum {
     [self.tabBar addSubview:self.menberTabBtn];
     [self.tabBar addSubview:self.btnLine];
     [self.preview addSubview:self.tabBar];
+}
+
+- (void)setupHideKeyboardBtn {
+    UIButton *btn = [[UIButton alloc]initWithFrame:self.view.bounds];
+        btn.backgroundColor = [UIColor clearColor];
+//    btn.backgroundColor = [UIColor yellowColor];
+    [btn addTarget:self action:@selector(hideKeyboard:) forControlEvents:UIControlEventTouchUpInside];
+    self.hideKeyboardBtn = btn;
 }
 
 #pragma mark - yc_Action
@@ -968,55 +983,45 @@ typedef enum {
     [self getMeetingDetail];
 
     [self addKeyboardObserver];
+    [self setupHideKeyboardBtn];
 }
 
 
-#pragma mark -
+//#pragma mark - 隐藏菜单
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    BOOL isEditing = [self.view endEditing:YES];
-//    if (isEditing) {
-//        self.myBackBtn.hidden = YES;
-//        self.conferenceToolBar.hidden = YES;
-//    } else {
-//        self.myBackBtn.hidden = !self.myBackBtn.hidden;
-//        self.conferenceToolBar.hidden = !self.conferenceToolBar.hidden;
-//    }
-    self.myBackBtn.hidden = !self.myBackBtn.hidden;
-    self.conferenceToolBar.hidden = !self.conferenceToolBar.hidden;
-
-
-    [super touchesBegan:touches withEvent:event];
-}
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+//    BOOL isEditing = [self.view endEditing:YES];
+////    if (isEditing) {
+////        self.myBackBtn.hidden = YES;
+////        self.conferenceToolBar.hidden = YES;
+////    } else {
+////        self.myBackBtn.hidden = !self.myBackBtn.hidden;
+////        self.conferenceToolBar.hidden = !self.conferenceToolBar.hidden;
+////    }
+//    self.myBackBtn.hidden = !self.myBackBtn.hidden;
+//    self.conferenceToolBar.hidden = !self.conferenceToolBar.hidden;
+//
+//
+//    [super touchesBegan:touches withEvent:event];
+//}
 
 #pragma mark - 键盘
 
 - (void)addKeyboardObserver {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)handleKeyboardWillShowNotification:(NSNotification *)noti {
-    UIButton *btn = [[UIButton alloc]initWithFrame:self.view.bounds];
-    btn.backgroundColor = [UIColor yellowColor];
-    [btn addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventTouchUpInside];
-    btn.tag = 999;
-//    [self.view addSubview:btn];
-    [self.preview insertSubview:btn belowSubview:self.tabBar];
+    [self.preview insertSubview:self.hideKeyboardBtn belowSubview:self.tabBar];
 }
 
-- (void)hideKeyboard {
+- (void)hideKeyboard:(UIButton *)btn {
     [self.view endEditing:YES];
-}
-
-- (void)handleKeyboardWillHideNotification:(NSNotification *)noti {
-    UIButton *btn = [self.view viewWithTag:999];
     [btn removeFromSuperview];
 }
 
 - (void)removeKeyboardObserver {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 @end

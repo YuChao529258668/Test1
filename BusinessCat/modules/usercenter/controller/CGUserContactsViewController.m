@@ -452,9 +452,9 @@
         return;
     }
     
-//    [self handleSelectCellAtIndexPath:indexPath With:entity];
+    [self handleSelectCellAtIndexPath:indexPath With:entity];
     
-    [self jumpToChatViewControllerWith:entity];
+//    [self jumpToChatViewControllerWith:entity];
 }
 
 
@@ -477,6 +477,11 @@
     CGUserOrganizaJoinEntity *organiza = self.organzias[self.currentIndex];
     if(organiza.companyAdmin == 1&&organiza.companyType !=4){//当前登录的用户为超级管理员
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *chat = [UIAlertAction actionWithTitle:@"聊天" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self jumpToChatViewControllerWith:entity];
+        }];
+        [alertController addAction:chat];
+        
         [alertController addAction:[UIAlertAction actionWithTitle:@"拨打电话" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             if(!weakSelf.isCLickCalling && entity.phone){
                 weakSelf.isCLickCalling = YES;
@@ -504,15 +509,35 @@
             
         }]];
         [weakSelf presentViewController:alertController animated:YES completion:nil];
-    }else{
-        if(entity.phone){
-            if(!weakSelf.isCLickCalling){
+    }
+    else {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *chat = [UIAlertAction actionWithTitle:@"聊天" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self jumpToChatViewControllerWith:entity];
+        }];
+        [alertController addAction:chat];
+
+        [alertController addAction:[UIAlertAction actionWithTitle:@"拨打电话" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            if(!weakSelf.isCLickCalling && entity.phone){
                 weakSelf.isCLickCalling = YES;
                 NSString *allString = [NSString stringWithFormat:@"tel:%@",entity.phone];
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:allString]];
                 [weakSelf performSelector:@selector(setCallingState) withObject:nil afterDelay:3];
             }
-        }
+        }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            
+        }]];
+        [weakSelf presentViewController:alertController animated:YES completion:nil];
+
+//        if(entity.phone){
+//            if(!weakSelf.isCLickCalling){
+//                weakSelf.isCLickCalling = YES;
+//                NSString *allString = [NSString stringWithFormat:@"tel:%@",entity.phone];
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:allString]];
+//                [weakSelf performSelector:@selector(setCallingState) withObject:nil afterDelay:3];
+//            }
+//        }
     }
 }
 

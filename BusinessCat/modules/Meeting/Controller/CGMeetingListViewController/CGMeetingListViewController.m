@@ -226,6 +226,7 @@
         [self.tableView.mj_header endRefreshing];
     } fail:^(NSError *error) {
         [self.tableView.mj_header endRefreshing];
+        [CTToast showWithText:[NSString stringWithFormat:@"获取会议列表失败 : %@", error]];
     }];
 }
 
@@ -243,6 +244,7 @@
         [self.tableView.mj_footer endRefreshing];
     } fail:^(NSError *error) {
         [self.tableView.mj_footer endRefreshing];
+        [CTToast showWithText:[NSString stringWithFormat:@"获取更多会议列表失败 : %@", error]];
     }];
 }
 
