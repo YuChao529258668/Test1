@@ -416,16 +416,16 @@
     _itemCount = [_dataSource numberOfItemsInSplitScreenView:self];
     float w = self.frame.size.width;
     float h = self.frame.size.height;
-//    self.scrollView.contentSize = CGSizeMake([self pageCount] * w, h);
-    self.scrollView.contentSize = CGSizeMake([_dataSource numberOfItemsInSplitScreenView:self] * w, h);
+    self.scrollView.contentSize = CGSizeMake([self pageCount] * w, h);
+//    self.scrollView.contentSize = CGSizeMake([_dataSource numberOfItemsInSplitScreenView:self] * w, h);
 //        self.scrollView.contentSize = CGSizeMake(w * 6, h);
     NSLog(@"%@, pageCount  = %@", NSStringFromSelector(_cmd), @([self pageCount]));
     NSLog(@"%@, contentSize  = %@", NSStringFromSelector(_cmd), NSStringFromCGSize(self.scrollView.contentSize));
 }
 
 - (void)updatePageControl {
-    //    self.pageControl.numberOfPages = [self pageCount];
-    self.pageControl.numberOfPages = [_dataSource numberOfItemsInSplitScreenView:self];
+        self.pageControl.numberOfPages = [self pageCount];
+//    self.pageControl.numberOfPages = [_dataSource numberOfItemsInSplitScreenView:self];
     self.pageControl.currentPage = self.scrollView.contentOffset.x / self.frame.size.width;
 }
 
