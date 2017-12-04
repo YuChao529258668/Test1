@@ -26,6 +26,11 @@
     
     [self configCollectionView];
     [self.button addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.countLabel.textColor = [CTCommonUtil convert16BinaryColor:@"#999999"];
+    self.timeLabel.textColor = [CTCommonUtil convert16BinaryColor:@"#999999"];
+    [self.button setTitleColor:[CTCommonUtil convert16BinaryColor:@"#999999"] forState:UIControlStateNormal];
+    self.backgroundColor = [CTCommonUtil convert16BinaryColor:@"#ebebeb"];
 }
 
 - (void)buttonClick {

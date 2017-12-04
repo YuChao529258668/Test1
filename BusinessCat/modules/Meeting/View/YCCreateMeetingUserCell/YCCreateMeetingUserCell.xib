@@ -20,20 +20,20 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7bC-3r-NcU">
-                        <rect key="frame" x="34" y="5" width="42" height="42"/>
+                        <rect key="frame" x="32" y="5" width="42" height="42"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="42" id="DK0-wf-Xfk"/>
                             <constraint firstAttribute="height" constant="42" id="py8-d5-Jyh"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="嘉" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="byp-3M-sRl">
-                        <rect key="frame" x="78" y="12" width="13.5" height="16"/>
+                        <rect key="frame" x="84" y="6.5" width="13.5" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未知职位" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dHB-gw-jG7">
-                        <rect key="frame" x="78" y="27.5" width="49.5" height="14.5"/>
+                        <rect key="frame" x="84" y="27.5" width="49.5" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -44,18 +44,18 @@
                             <constraint firstAttribute="width" constant="56" id="cVb-Aj-6Ug"/>
                             <constraint firstAttribute="height" constant="34" id="rV8-ym-xzS"/>
                         </constraints>
-                        <state key="normal" image="work_btn_reduce"/>
+                        <state key="normal" image="remove_minus"/>
                     </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="7bC-3r-NcU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="2hU-2J-5OE"/>
                     <constraint firstAttribute="trailing" secondItem="ePN-am-4UV" secondAttribute="trailing" constant="11" id="8QH-Uu-ft0"/>
                     <constraint firstItem="ePN-am-4UV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="Mgy-oG-esJ"/>
-                    <constraint firstItem="7bC-3r-NcU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="34" id="Q5K-FY-SYR"/>
-                    <constraint firstItem="byp-3M-sRl" firstAttribute="leading" secondItem="7bC-3r-NcU" secondAttribute="trailing" constant="2" id="XnO-QR-dvt"/>
+                    <constraint firstItem="7bC-3r-NcU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="32" id="Q5K-FY-SYR"/>
+                    <constraint firstItem="dHB-gw-jG7" firstAttribute="top" secondItem="byp-3M-sRl" secondAttribute="bottom" constant="5" id="V0Q-12-YDg"/>
+                    <constraint firstItem="byp-3M-sRl" firstAttribute="leading" secondItem="7bC-3r-NcU" secondAttribute="trailing" constant="10" id="XnO-QR-dvt"/>
                     <constraint firstAttribute="bottomMargin" secondItem="dHB-gw-jG7" secondAttribute="bottom" constant="1" id="ddd-tg-p0H"/>
-                    <constraint firstItem="byp-3M-sRl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="1" id="gIG-bb-fK4"/>
-                    <constraint firstItem="dHB-gw-jG7" firstAttribute="leading" secondItem="7bC-3r-NcU" secondAttribute="trailing" constant="2" id="piO-eV-Pj4"/>
+                    <constraint firstItem="dHB-gw-jG7" firstAttribute="leading" secondItem="7bC-3r-NcU" secondAttribute="trailing" constant="10" id="piO-eV-Pj4"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -67,6 +67,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="work_btn_reduce" width="22" height="22"/>
+        <image name="remove_minus" width="16" height="16"/>
     </resources>
 </document>

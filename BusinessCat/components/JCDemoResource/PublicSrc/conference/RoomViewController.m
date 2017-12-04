@@ -400,8 +400,13 @@ typedef enum {
         //更新当前发起涂鸦的成员
         _doodleShareUserId = userId;
         
+        NSString *ownUserId = [[JCEngineManager sharedManager] getOwnUserId];
+        if (!ownUserId) {
+            ownUserId = [ObjectShareTool currentUserID];
+        }
         //如果是自己发起
-        if ([userId isEqualToString:[_confManager getOwnUserId]]) {
+        if ([userId isEqualToString:ownUserId]) {
+            
         } else {
             self.stopButton.enabled = NO;
             self.stopButton.alpha = 0.5;

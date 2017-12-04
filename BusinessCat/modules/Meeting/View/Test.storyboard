@@ -100,8 +100,33 @@
             </objects>
             <point key="canvasLocation" x="772" y="-174.06296851574214"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="WO4-5V-Oud">
+            <objects>
+                <viewController id="hMF-ct-Ysm" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vKr-UK-Xr6"/>
+                        <viewControllerLayoutGuide type="bottom" id="Y4n-Ko-MaM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EEo-Ta-94P">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="work_line_1" translatesAutoresizingMaskIntoConstraints="NO" id="dkW-f0-cdj">
+                                <rect key="frame" x="79" y="126" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="743-j5-OcB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1456" y="-25"/>
+        </scene>
     </scenes>
     <resources>
         <image name="030102.工作_会议_有会议.png" width="1242" height="2420"/>
+        <image name="work_line_1" width="1" height="1"/>
     </resources>
 </document>

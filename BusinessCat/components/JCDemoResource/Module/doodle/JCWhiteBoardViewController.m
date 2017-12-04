@@ -320,11 +320,22 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
             break;
         case DoodleToolbarButtonTypeRevoke:
         {
-            if ([_doodlePathCache containsPathWithUserId:[[JCEngineManager sharedManager] getOwnUserId] pageNumber:_currentPage]) {
+            NSString *ownUserId = [[JCEngineManager sharedManager] getOwnUserId];
+            if (!ownUserId) {
+                ownUserId = [ObjectShareTool currentUserID];
+            }
+
+            if ([_doodlePathCache containsPathWithUserId:ownUserId pageNumber:_currentPage]) {
                 if ([JCDoodleManager undoWithPageNumber:_currentPage] == JCOK) {
-                    [self undoDrawPathWithUserId:[[JCEngineManager sharedManager] getOwnUserId] pageNumber:_currentPage];
+                    [self undoDrawPathWithUserId:ownUserId pageNumber:_currentPage];
                 }
             }
+            
+//            if ([_doodlePathCache containsPathWithUserId:[[JCEngineManager sharedManager] getOwnUserId] pageNumber:_currentPage]) {
+//                if ([JCDoodleManager undoWithPageNumber:_currentPage] == JCOK) {
+//                    [self undoDrawPathWithUserId:[[JCEngineManager sharedManager] getOwnUserId] pageNumber:_currentPage];
+//                }
+//            }
         }
             break;
         default:
@@ -404,7 +415,12 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
             }
         }
     } else if (type == JCDoodleActionFetch) {
-        if ([[JCDoodleManager getUserIdOfDoodleOnwer] isEqualToString:[[JCEngineManager sharedManager] getOwnUserId]]) {
+        NSString *ownUserId = [[JCEngineManager sharedManager] getOwnUserId];
+        if (!ownUserId) {
+            ownUserId = [ObjectShareTool currentUserID];
+        }
+
+        if ([[JCDoodleManager getUserIdOfDoodleOnwer] isEqualToString:ownUserId]) {
             JCDoodleAction *selectDoodle = [[JCDoodleAction alloc] init];
             selectDoodle.actionType = JCDoodleActionSelectPage;
             selectDoodle.pageNumber = _currentPage;
@@ -438,7 +454,11 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         }
         
         _doodleDraw.actionType = _actionMode == TouchActionDraw ? JCDoodleActionDraw : JCDoodleActionErase;
-        _doodleDraw.userId = [[JCEngineManager sharedManager] getOwnUserId];
+        NSString *ownUserId = [[JCEngineManager sharedManager] getOwnUserId];
+        if (!ownUserId) {
+            ownUserId = [ObjectShareTool currentUserID];
+        }
+        _doodleDraw.userId = ownUserId;
         _doodleDraw.brushColor = _brushColor;
         if (_actionMode == TouchActionDraw) {
             _doodleDraw.brushWidth = _brushWidth / [self getScaleSize].width;

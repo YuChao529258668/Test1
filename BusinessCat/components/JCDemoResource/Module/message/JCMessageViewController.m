@@ -153,7 +153,11 @@ static NSString *messageCellId = @"MessageCellId";
 {
     [[JCEngineManager sharedManager] sendData:kDataTypeMessage content:message toReceiver:nil];
     
-    [self updateMessage:message fromSender:[[JCEngineManager sharedManager] getOwnUserId] send:YES];
+    NSString *ownUserId = [[JCEngineManager sharedManager] getOwnUserId];
+    if (!ownUserId) {
+        ownUserId = [ObjectShareTool currentUserID];
+    }
+    [self updateMessage:message fromSender:ownUserId send:YES];
 }
 
 - (void)updateMessage:(NSString *)message fromSender:(NSString *)userId send:(BOOL)send

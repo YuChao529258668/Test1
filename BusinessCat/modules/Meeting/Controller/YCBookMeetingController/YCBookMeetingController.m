@@ -160,7 +160,7 @@
     self.modifyMeetingBtn.hidden = YES;
     self.cancelMeetingBtn.hidden = YES;
     self.tickBtn.hidden = YES;
-    [self.createMeetingBtn setBackgroundColor:CTThemeMainColor];
+//    [self.createMeetingBtn setBackgroundColor:CTThemeMainColor];
     
     [self setupCurrentMeetingUser];
     self.users = [NSMutableArray arrayWithObject:self.currentMeetingUser];
@@ -195,7 +195,7 @@
     self.modifyMeetingBtn.hidden = YES;
     self.cancelMeetingBtn.hidden = YES;
     self.tickBtn.hidden = YES;
-    [self.createMeetingBtn setBackgroundColor:CTThemeMainColor];
+//    [self.createMeetingBtn setBackgroundColor:CTThemeMainColor];
     
     [self setupCurrentMeetingUser];
     //    self.users = [NSMutableArray arrayWithObject:self.currentMeetingUser];
@@ -274,8 +274,8 @@
     }
     self.createMeetingBtn.hidden = YES;
     self.tickBtn.hidden = YES;
-    [self.modifyMeetingBtn setBackgroundColor:CTThemeMainColor];
-    [self.cancelMeetingBtn setBackgroundColor:CTThemeMainColor];
+//    [self.modifyMeetingBtn setBackgroundColor:CTThemeMainColor];
+//    [self.cancelMeetingBtn setBackgroundColor:CTThemeMainColor];
     
     [self setupCurrentMeetingUser];
     self.meetingTimeAvailable = YES;

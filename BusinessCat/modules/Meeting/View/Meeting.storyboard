@@ -145,13 +145,14 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqQ-vX-4cj">
-                                            <rect key="frame" x="324" y="422" width="22" height="22"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqQ-vX-4cj">
+                                            <rect key="frame" x="309" y="414" width="38" height="38"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="22" id="aaB-am-GYb"/>
-                                                <constraint firstAttribute="width" constant="22" id="m1Y-Yc-eeK"/>
+                                                <constraint firstAttribute="height" constant="38" id="aaB-am-GYb"/>
+                                                <constraint firstAttribute="width" constant="38" id="m1Y-Yc-eeK"/>
                                             </constraints>
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <state key="normal" image="remove_add"/>
                                             <connections>
                                                 <action selector="addPeopleBtnClick:" destination="uTT-xd-1bK" eventType="touchUpInside" id="VMm-u0-t1W"/>
                                             </connections>
@@ -171,7 +172,7 @@
                                                 <constraint firstAttribute="height" constant="22" id="6Lm-Qx-lKG"/>
                                                 <constraint firstAttribute="width" constant="22" id="ZbR-4b-fk2"/>
                                             </constraints>
-                                            <state key="normal" image="work_radio_yes"/>
+                                            <state key="normal" image="work_rb_yes"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xIg-Qg-XV0" userLabel="JianTouBtn">
                                             <rect key="frame" x="329" y="348" width="22" height="22"/>
@@ -179,7 +180,7 @@
                                                 <constraint firstAttribute="height" constant="22" id="5IM-Qh-KCF"/>
                                                 <constraint firstAttribute="width" constant="22" id="XSO-HV-0dZ"/>
                                             </constraints>
-                                            <state key="normal" image="work_right_icon"/>
+                                            <state key="normal" image="remove_right"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LEW-Eb-aqF" userLabel="JianTouBtn2">
                                             <rect key="frame" x="329" y="142" width="22" height="22"/>
@@ -189,7 +190,7 @@
                                                 <constraint firstAttribute="width" constant="22" id="wFb-0e-TnG"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="xRq-oc-npa"/>
                                             </constraints>
-                                            <state key="normal" image="work_right_icon"/>
+                                            <state key="normal" image="remove_right"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aqP-Jz-PpR">
                                             <rect key="frame" x="0.0" y="136" width="367" height="30"/>
@@ -293,13 +294,13 @@
                                         <constraint firstItem="aqP-Jz-PpR" firstAttribute="top" secondItem="veI-nv-0pz" secondAttribute="bottom" constant="82" id="f5A-5H-Ybe"/>
                                         <constraint firstAttribute="trailing" secondItem="SBh-d9-LCp" secondAttribute="trailing" constant="30" id="fVu-Dn-Xkm"/>
                                         <constraint firstItem="eUC-i7-4z9" firstAttribute="top" secondItem="hIt-fB-5ke" secondAttribute="bottom" constant="22" id="fc9-fi-qg9"/>
-                                        <constraint firstAttribute="trailing" secondItem="AqQ-vX-4cj" secondAttribute="trailing" constant="29" id="gWy-9m-2rV"/>
+                                        <constraint firstAttribute="trailing" secondItem="AqQ-vX-4cj" secondAttribute="trailing" constant="28" id="gWy-9m-2rV"/>
                                         <constraint firstItem="rlt-4j-8PE" firstAttribute="leading" secondItem="6ph-Z5-Jn3" secondAttribute="leading" id="haT-cD-h4i"/>
                                         <constraint firstAttribute="trailing" secondItem="jrX-dH-TtZ" secondAttribute="trailing" constant="21" id="kTT-JV-gZP"/>
                                         <constraint firstItem="ADa-Tb-x3E" firstAttribute="top" secondItem="veI-nv-0pz" secondAttribute="bottom" constant="19" id="kgr-Ht-Zew"/>
                                         <constraint firstAttribute="trailing" secondItem="ADa-Tb-x3E" secondAttribute="trailing" constant="24" id="nY9-zc-3cV"/>
                                         <constraint firstItem="h3q-r9-P8i" firstAttribute="leading" secondItem="CPH-9H-oTc" secondAttribute="leading" constant="15" id="noB-bc-fMI"/>
-                                        <constraint firstAttribute="bottom" secondItem="AqQ-vX-4cj" secondAttribute="bottom" constant="18" id="oSL-ZT-Vvf"/>
+                                        <constraint firstAttribute="bottom" secondItem="AqQ-vX-4cj" secondAttribute="bottom" constant="10" id="oSL-ZT-Vvf"/>
                                         <constraint firstItem="y1D-iz-6wA" firstAttribute="top" secondItem="veI-nv-0pz" secondAttribute="bottom" constant="88" id="ozx-sC-MrT"/>
                                         <constraint firstItem="SBh-d9-LCp" firstAttribute="leading" secondItem="CPH-9H-oTc" secondAttribute="leading" id="p4r-Th-QCE"/>
                                         <constraint firstItem="6J1-mT-k3e" firstAttribute="centerX" secondItem="CPH-9H-oTc" secondAttribute="centerX" constant="108" id="rfu-Bn-6SJ"/>
@@ -310,39 +311,42 @@
                                     </constraints>
                                 </view>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aaw-fy-u0k">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aaw-fy-u0k">
                                 <rect key="frame" x="16" y="615" width="343" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="343" id="jlB-X6-SUR"/>
                                     <constraint firstAttribute="height" constant="46" id="uwz-n5-yTf"/>
                                 </constraints>
-                                <state key="normal" title="发起预约">
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="发起预约" backgroundImage="remove_btn">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="createMeetingBtnClick:" destination="uTT-xd-1bK" eventType="touchUpInside" id="PUW-5P-VAM"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOg-y6-rVo">
-                                <rect key="frame" x="43.5" y="619" width="134" height="38"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOg-y6-rVo">
+                                <rect key="frame" x="44" y="619" width="134" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="134" id="dkt-w4-2WC"/>
                                     <constraint firstAttribute="height" constant="38" id="yos-c4-hpB"/>
                                 </constraints>
-                                <state key="normal" title="修改预约">
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="修改预约" backgroundImage="remove_btn">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="modifyMeetingBtnClick:" destination="uTT-xd-1bK" eventType="touchUpInside" id="FoO-oM-ooz"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NaO-iO-b1Y">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NaO-iO-b1Y">
                                 <rect key="frame" x="197.5" y="619" width="134" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="134" id="0vG-77-u9a"/>
                                     <constraint firstAttribute="height" constant="38" id="Q59-t8-jka"/>
                                 </constraints>
-                                <state key="normal" title="取消会议">
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="取消会议" backgroundImage="remove_btn">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -665,7 +669,9 @@
         <image name="030106.工作_会议_预约会议_免费会议室_会议室可用时间.png" width="1242" height="2420"/>
         <image name="030112.工作_会议_修改预约_未开始.png" width="1242" height="2420"/>
         <image name="meetingBackground" width="250" height="272"/>
-        <image name="work_radio_yes" width="22" height="22"/>
-        <image name="work_right_icon" width="22" height="22"/>
+        <image name="remove_add" width="22" height="22"/>
+        <image name="remove_btn" width="121" height="37"/>
+        <image name="remove_right" width="5" height="10"/>
+        <image name="work_rb_yes" width="22" height="22"/>
     </resources>
 </document>

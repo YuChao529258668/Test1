@@ -145,10 +145,10 @@
     
     btn.layer.cornerRadius = kCreateMeetingBtnHeight / 2;
     btn.clipsToBounds = YES;
-    btn.backgroundColor = CTThemeMainColor;
+//    btn.backgroundColor = CTThemeMainColor;
     
-    UIImage *image = [UIImage imageNamed:@"common_add_white"];
-    image = [image imageWithTintColor:[UIColor blackColor]];
+    UIImage *image = [UIImage imageNamed:@"work_add"];
+//    image = [image imageWithTintColor:[UIColor blackColor]];
     [btn setImage:image forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(createMeetingBtnClick) forControlEvents:UIControlEventTouchUpInside];
     

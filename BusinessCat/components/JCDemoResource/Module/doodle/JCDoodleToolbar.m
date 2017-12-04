@@ -41,8 +41,12 @@
 
 - (void)initView
 {
-    NSArray *backgroundNormals = @[@"brush_off",@"colour",@"clean",@"undo"];
-    NSArray *backgourndHighlights = @[@"brush_off_highlighted",@"",@"clean_highlighted",@"undo_highlighted"];
+//    NSArray *backgroundNormals = @[@"brush_off",@"colour",@"clean",@"undo"];
+//    NSArray *backgourndHighlights = @[@"brush_off_highlighted",@"",@"clean_highlighted",@"undo_highlighted"];
+
+//    NSArray *backgroundNormals = @[@"icon_pan_normal",@"icon_color_normal",@"icon_clear_normal",@"icon_revoke_normal"];
+    NSArray *backgroundNormals = @[@"icon_pan_normal",@"icon_color_normal",@"icon_clear_highlight",@"icon_revoke_highlight"];
+    NSArray *backgourndHighlights = @[@"icon_pan_highlight",@"icon_color_highlight",@"icon_clear_highlight",@"icon_revoke_highlight"];
     _buttonArray = [NSMutableArray array];
     _buttonSize = CGSizeMake(35, 35);
     _buttonSpacing = 13;
@@ -54,8 +58,8 @@
         [button setImage:[UIImage imageNamed:backgroundNormals[i]] forState:UIControlStateNormal];
         [button setImage:[UIImage imageNamed:backgourndHighlights[i]] forState:UIControlStateHighlighted];
         if (i == 0) {
-            [button setImage:[UIImage imageNamed:@"brush_on"] forState:UIControlStateSelected];
-            [button setImage:[UIImage imageNamed:@"brush_on_highlighted"] forState:UIControlStateHighlighted | UIControlStateSelected];
+            [button setImage:[UIImage imageNamed:@"icon_pan_highlight"] forState:UIControlStateSelected];
+//            [button setImage:[UIImage imageNamed:@"brush_on_highlighted"] forState:UIControlStateHighlighted | UIControlStateSelected];
         }
         [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:button];
@@ -70,6 +74,7 @@
 
 - (void)buttonAction:(UIButton *)sender
 {
+    // DoodleToolbarDelegate
     if (_delegate)
     {
         [_delegate doodleToolbar:self clickButton:sender buttonType:[_buttonArray indexOfObject:sender]];
