@@ -13,7 +13,7 @@
 #import "JCPreviewViewController.h"
 
 #import "JCScreenShareViewController.h"
-#import "JCSplitScreenViewController.h"
+#import "JCSplitScreenViewController.h" // 视频
 #import "JCWhiteBoardViewController.h"
 
 #import "JCStatisticsViewController.h"

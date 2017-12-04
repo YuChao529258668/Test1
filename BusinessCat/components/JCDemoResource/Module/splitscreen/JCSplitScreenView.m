@@ -406,65 +406,26 @@
     self.scrollView.frame = frame;
 }
 
-- (void)updateScrollViewContentSize {
-    _itemCount = [_dataSource numberOfItemsInSplitScreenView:self];
-    float w = self.frame.size.width;
-    float h = self.frame.size.height;
-    self.scrollView.contentSize = CGSizeMake([self pageCount] * w, h);
-//        self.scrollView.contentSize = CGSizeMake(w * 6, h);
-    NSLog(@"%@, pageCount  = %@", NSStringFromSelector(_cmd), @([self pageCount]));
-    NSLog(@"%@, contentSize  = %@", NSStringFromSelector(_cmd), NSStringFromCGSize(self.scrollView.contentSize));
-}
-
-- (void)setupImageViews {
-    self.imageViews = [NSMutableArray arrayWithCapacity:4];
-    
-    for (int i = 0; i < 4; i ++) {
-        UIImageView *iv = [self createImageView];
-        [self.imageViews addObject:iv];
-        //        [self addSubview:iv];
-        [self.scrollView addSubview:iv];
-        [self.scrollView sendSubviewToBack:iv];
-    }
-}
-
-- (UIImageView *)createImageView {
-    UIImage *image = [UIImage imageNamed:@"meeting_pic"];
-    UIImageView *iv = [[UIImageView alloc]initWithImage:image];
-    iv.backgroundColor = [UIColor greenColor];
-    iv.contentMode = UIViewContentModeScaleAspectFill;
-    iv.clipsToBounds = YES;
-    return iv;
-}
-
-- (void)setupScrollView {
-    UIScrollView *sv = [UIScrollView new];
-    [self addSubview:sv];
-    self.scrollView = sv;
-    
-    sv.pagingEnabled = YES;
-    sv.delegate = self;
-    //    sv.backgroundColor = [UIColor blueColor];
-    
-}
-
-- (void)setupPageControl {
-    UIPageControl *pc = [UIPageControl new];
-    [self addSubview:pc];
-    self.pageControl = pc;
-    
-    pc.numberOfPages = 4;
-    pc.hidesForSinglePage = YES;
-}
-
 - (void)layoutPageControl {
     float x = self.frame.size.width / 2;
     float y = self.frame.size.height - 10;
     self.pageControl.center = CGPointMake(x, y);
 }
 
+- (void)updateScrollViewContentSize {
+    _itemCount = [_dataSource numberOfItemsInSplitScreenView:self];
+    float w = self.frame.size.width;
+    float h = self.frame.size.height;
+//    self.scrollView.contentSize = CGSizeMake([self pageCount] * w, h);
+    self.scrollView.contentSize = CGSizeMake([_dataSource numberOfItemsInSplitScreenView:self] * w, h);
+//        self.scrollView.contentSize = CGSizeMake(w * 6, h);
+    NSLog(@"%@, pageCount  = %@", NSStringFromSelector(_cmd), @([self pageCount]));
+    NSLog(@"%@, contentSize  = %@", NSStringFromSelector(_cmd), NSStringFromCGSize(self.scrollView.contentSize));
+}
+
 - (void)updatePageControl {
-    self.pageControl.numberOfPages = [self pageCount];
+    //    self.pageControl.numberOfPages = [self pageCount];
+    self.pageControl.numberOfPages = [_dataSource numberOfItemsInSplitScreenView:self];
     self.pageControl.currentPage = self.scrollView.contentOffset.x / self.frame.size.width;
 }
 
@@ -499,6 +460,48 @@
     
     [self layoutImageViews];
 }
+
+- (UIImageView *)createImageView {
+    UIImage *image = [UIImage imageNamed:@"meeting_pic"];
+    UIImageView *iv = [[UIImageView alloc]initWithImage:image];
+    iv.backgroundColor = [UIColor greenColor];
+    iv.contentMode = UIViewContentModeScaleAspectFill;
+    iv.clipsToBounds = YES;
+    return iv;
+}
+
+- (void)setupImageViews {
+    self.imageViews = [NSMutableArray arrayWithCapacity:4];
+    
+    for (int i = 0; i < 4; i ++) {
+        UIImageView *iv = [self createImageView];
+        [self.imageViews addObject:iv];
+        //        [self addSubview:iv];
+        [self.scrollView addSubview:iv];
+        [self.scrollView sendSubviewToBack:iv];
+    }
+}
+
+- (void)setupScrollView {
+    UIScrollView *sv = [UIScrollView new];
+    [self addSubview:sv];
+    self.scrollView = sv;
+    
+    sv.pagingEnabled = YES;
+    sv.delegate = self;
+    //    sv.backgroundColor = [UIColor blueColor];
+    
+}
+
+- (void)setupPageControl {
+    UIPageControl *pc = [UIPageControl new];
+    [self addSubview:pc];
+    self.pageControl = pc;
+    
+    pc.numberOfPages = 0;
+    pc.hidesForSinglePage = YES;
+}
+
 
 #pragma mark - UIScrollViewDelegate
 

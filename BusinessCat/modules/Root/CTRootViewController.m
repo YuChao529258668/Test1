@@ -22,14 +22,14 @@
 
 
 // 消息、工作、学院、百宝箱(发现)、我的
-#define kTabCount 5
+#define kTabCount 3
 #define kWork 1
 #define kChat 0
 #define kKnowledgeMeal 5
 #define kKnowledgeBase 6
 #define kDiscoverMain 3
-#define kMyMain 4
-#define kCollege 2
+#define kMyMain 2
+#define kCollege 4
 
 @interface CTRootViewController ()<SSZipArchiveDelegate>
 

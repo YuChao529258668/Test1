@@ -50,29 +50,39 @@
                               @"camera_switch_normal",
                               @"volume_on",
                               @"microphone_off"];
-    
-    NSArray *highlightImages = @[@"camera_off_highlighted",
-                                 @"camera_switch_highlighted",
-                                 @"volume_on_highlighted",
-                                 @"microphone_off_highlighted"];
-    
+
     NSArray *selectImages = @[@"camera_on",
                               @"",
                               @"volume_off",
                               @"microphone_on"];
+
+//    NSArray *normalImages = @[@"camera_off",
+//                              @"camera_switch_normal",
+//                              @"volume_on",
+//                              @"microphone_off"];
     
-    NSArray *selecthighlightImages = @[@"camera_on_highlighted",
-                                       @"",
-                                       @"volume_off_highlighted",
-                                       @"microphone_on_highlighted"];
+//    NSArray *highlightImages = @[@"camera_off_highlighted",
+//                                 @"camera_switch_highlighted",
+//                                 @"volume_on_highlighted",
+//                                 @"microphone_off_highlighted"];
+    
+//    NSArray *selectImages = @[@"camera_on",
+//                              @"",
+//                              @"volume_off",
+//                              @"microphone_on"];
+    
+//    NSArray *selecthighlightImages = @[@"camera_on_highlighted",
+//                                       @"",
+//                                       @"volume_off_highlighted",
+//                                       @"microphone_on_highlighted"];
     
     for (int i = 0; i < kToolBarButtonCount; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         
         [button setImage:[UIImage imageNamed:normalImages[i]] forState:UIControlStateNormal];
-        [button setImage:[UIImage imageNamed:highlightImages[i]] forState:UIControlStateHighlighted];
+//        [button setImage:[UIImage imageNamed:highlightImages[i]] forState:UIControlStateHighlighted];
         [button setImage:[UIImage imageNamed:selectImages[i]] forState:UIControlStateSelected];
-        [button setImage:[UIImage imageNamed:selecthighlightImages[i]] forState:UIControlStateSelected | UIControlStateHighlighted];
+//        [button setImage:[UIImage imageNamed:selecthighlightImages[i]] forState:UIControlStateSelected | UIControlStateHighlighted];
         
         [button addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:button];
