@@ -84,10 +84,10 @@ NSString * const kScreenShare = @"kScreenShare";
         }
     }
     
-    if (_splitScreenData.count < 4) {
+//    if (_splitScreenData.count < 4) {
         [_splitScreenData addObject:userId];
         [_splitScreenView insertItemAtIndex:[_splitScreenData indexOfObject:userId]];
-    }
+//    }
 }
 
 - (void)onParticipantLeft:(ErrorReason)eventReason userId:(NSString *)userId
@@ -251,16 +251,16 @@ NSString * const kScreenShare = @"kScreenShare";
     
     for (JCParticipantModel *model in confInfo.participants) {
         [_splitScreenData addObject:model.userId];
-        if (_splitScreenData.count == 4) {
-            break;
-        }
+//        if (_splitScreenData.count == 4) {
+//            break;
+//        }
     }
     
     //如果会议中有成员发起屏幕共享
     if (confInfo.screenSharer) {
-        if (_splitScreenData.count == 4) {
-            [_splitScreenData removeLastObject];
-        }
+//        if (_splitScreenData.count == 4) {
+//            [_splitScreenData removeLastObject];
+//        }
         
         [_splitScreenData addObject:kScreenShare];
     }
