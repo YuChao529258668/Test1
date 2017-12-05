@@ -859,7 +859,7 @@ typedef enum {
 }
 
 - (IBAction)myToolBarBtnClick:(UIButton *)sender {
-    self.myBackBtn.hidden = !self.myBackBtn.hidden;
+//    self.myBackBtn.hidden = !self.myBackBtn.hidden;
     self.conferenceToolBar.hidden = !self.conferenceToolBar.hidden;
 }
 
@@ -987,7 +987,7 @@ typedef enum {
     [self.sidebar removeFromSuperview]; // 右边栏
     
     self.conferenceToolBar.hidden = YES;
-    self.myBackBtn.hidden = YES;
+//    self.myBackBtn.hidden = YES;
     self.myToolBarBtn.hidden = NO;
     
     [self.preview bringSubviewToFront:self.myBackBtn];

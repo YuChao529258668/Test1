@@ -89,7 +89,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="odT-iL-qQ2">
-                            <rect key="frame" x="9" y="20" width="48" height="48"/>
+                            <rect key="frame" x="4" y="9" width="48" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="48" id="Imq-nw-Z1q"/>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="48" id="w20-0e-ofF"/>
@@ -102,8 +102,8 @@
                     </subviews>
                     <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="odT-iL-qQ2" firstAttribute="top" secondItem="TQc-XJ-ugl" secondAttribute="top" constant="20" id="2aq-Vb-Rvq"/>
-                        <constraint firstItem="odT-iL-qQ2" firstAttribute="leading" secondItem="TQc-XJ-ugl" secondAttribute="leading" constant="9" id="HlK-uD-ffk"/>
+                        <constraint firstItem="odT-iL-qQ2" firstAttribute="top" secondItem="TQc-XJ-ugl" secondAttribute="top" constant="9" id="2aq-Vb-Rvq"/>
+                        <constraint firstItem="odT-iL-qQ2" firstAttribute="leading" secondItem="TQc-XJ-ugl" secondAttribute="leading" constant="4" id="HlK-uD-ffk"/>
                         <constraint firstItem="evu-Rr-8hv" firstAttribute="centerX" secondItem="TQc-XJ-ugl" secondAttribute="centerX" id="rUw-0G-CZ2"/>
                         <constraint firstItem="evu-Rr-8hv" firstAttribute="centerY" secondItem="TQc-XJ-ugl" secondAttribute="centerY" id="yYh-MG-T05"/>
                     </constraints>
@@ -114,8 +114,30 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="291-gr-U7Q" userLabel="Preview">
                             <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                             <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Q5-Fn-WXR">
+                                    <rect key="frame" x="626" y="20" width="26" height="26"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="26" id="90t-qi-lBy"/>
+                                        <constraint firstAttribute="width" constant="26" id="JEI-FS-Zgw"/>
+                                    </constraints>
+                                    <state key="normal" image="video_multifunctional"/>
+                                    <connections>
+                                        <action selector="myToolBarBtnClick:" destination="-1" eventType="touchUpInside" id="L2p-Dc-R0q"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wvv-WW-vkI">
+                                    <rect key="frame" x="4" y="9" width="48" height="48"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="48" id="iav-IV-9iU"/>
+                                        <constraint firstAttribute="height" constant="48" id="uxR-lO-2vC"/>
+                                    </constraints>
+                                    <state key="normal" image="video_left"/>
+                                    <connections>
+                                        <action selector="leave:" destination="-1" eventType="touchUpInside" id="wex-RA-Nhy"/>
+                                    </connections>
+                                </button>
                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oOy-UW-4SB" userLabel="Sidebar">
-                                    <rect key="frame" x="594" y="112" width="65" height="172"/>
+                                    <rect key="frame" x="25" y="101" width="65" height="172"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yOH-ew-jwx" userLabel="Info Button">
@@ -149,54 +171,32 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Q5-Fn-WXR">
-                                    <rect key="frame" x="608" y="20" width="56" height="48"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="48" id="90t-qi-lBy"/>
-                                        <constraint firstAttribute="width" constant="56" id="JEI-FS-Zgw"/>
-                                    </constraints>
-                                    <state key="normal" image="function.png"/>
-                                    <connections>
-                                        <action selector="myToolBarBtnClick:" destination="-1" eventType="touchUpInside" id="L2p-Dc-R0q"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wvv-WW-vkI">
-                                    <rect key="frame" x="8" y="20" width="48" height="48"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="48" id="iav-IV-9iU"/>
-                                        <constraint firstAttribute="height" constant="48" id="uxR-lO-2vC"/>
-                                    </constraints>
-                                    <state key="normal" image="video_left"/>
-                                    <connections>
-                                        <action selector="leave:" destination="-1" eventType="touchUpInside" id="wex-RA-Nhy"/>
-                                    </connections>
-                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstItem="Wvv-WW-vkI" firstAttribute="top" secondItem="291-gr-U7Q" secondAttribute="top" constant="20" id="6dB-J7-85Q"/>
-                                <constraint firstAttribute="trailing" secondItem="1Q5-Fn-WXR" secondAttribute="trailing" constant="3" id="86p-sZ-Af9"/>
+                                <constraint firstItem="Wvv-WW-vkI" firstAttribute="top" secondItem="291-gr-U7Q" secondAttribute="top" constant="9" id="6dB-J7-85Q"/>
+                                <constraint firstAttribute="trailing" secondItem="1Q5-Fn-WXR" secondAttribute="trailing" constant="15" id="86p-sZ-Af9"/>
                                 <constraint firstItem="1Q5-Fn-WXR" firstAttribute="top" secondItem="291-gr-U7Q" secondAttribute="top" constant="20" id="hbG-nm-Dtk"/>
-                                <constraint firstItem="Wvv-WW-vkI" firstAttribute="leading" secondItem="291-gr-U7Q" secondAttribute="leading" constant="8" id="iD9-AV-amT"/>
+                                <constraint firstItem="Wvv-WW-vkI" firstAttribute="leading" secondItem="291-gr-U7Q" secondAttribute="leading" constant="4" id="iD9-AV-amT"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fyf-ui-gwJ" userLabel="ToolBar" customClass="ConferenceToolBar">
-                            <rect key="frame" x="0.0" y="331" width="667" height="44"/>
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <rect key="frame" x="626" y="56" width="26" height="134"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="44" id="Xeb-aX-s9a"/>
+                                <constraint firstAttribute="height" constant="134" id="j4R-Rd-DbC"/>
+                                <constraint firstAttribute="width" constant="26" id="n6c-Z0-jEh"/>
                             </constraints>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="Fyf-ui-gwJ" secondAttribute="bottom" id="2fQ-zf-vrJ"/>
                         <constraint firstAttribute="trailing" secondItem="291-gr-U7Q" secondAttribute="trailing" id="3l3-kv-krS"/>
                         <constraint firstItem="291-gr-U7Q" firstAttribute="leading" secondItem="DPW-CP-NW3" secondAttribute="leading" id="FVw-yv-QyB"/>
-                        <constraint firstItem="Fyf-ui-gwJ" firstAttribute="leading" secondItem="DPW-CP-NW3" secondAttribute="leading" id="MQ4-5d-XxV"/>
                         <constraint firstItem="291-gr-U7Q" firstAttribute="top" secondItem="DPW-CP-NW3" secondAttribute="top" id="N21-1z-wCU"/>
-                        <constraint firstAttribute="trailing" secondItem="Fyf-ui-gwJ" secondAttribute="trailing" id="Yy4-ui-e6X"/>
+                        <constraint firstItem="Fyf-ui-gwJ" firstAttribute="top" secondItem="DPW-CP-NW3" secondAttribute="top" constant="56" id="csM-Gm-3Zw"/>
                         <constraint firstAttribute="bottom" secondItem="291-gr-U7Q" secondAttribute="bottom" id="ctw-8q-74D"/>
+                        <constraint firstAttribute="trailing" secondItem="Fyf-ui-gwJ" secondAttribute="trailing" constant="15" id="dAT-KD-WzT"/>
                     </constraints>
                 </view>
             </subviews>
@@ -222,5 +222,6 @@
         <image name="leave_normal.png" width="44" height="44"/>
         <image name="user_waiting.png" width="85" height="85"/>
         <image name="video_left" width="26" height="26"/>
+        <image name="video_multifunctional" width="26" height="26"/>
     </resources>
 </document>
