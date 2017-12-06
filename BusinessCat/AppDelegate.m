@@ -89,6 +89,7 @@
     // 初始化 JCSDK
 //    [YCJCSDKHelper initializeVideoCall]; // 视频
     [YCJCSDKHelper initializeMultiCall]; // 语音
+    [YCJCSDKHelper initializeDocShare]; // 文档共享
     
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];

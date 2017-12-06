@@ -35,6 +35,8 @@
 
 #pragma mark - 白板模块
 
++ (void)initializeDocShare;
+
 
 #pragma mark - 错误码
 

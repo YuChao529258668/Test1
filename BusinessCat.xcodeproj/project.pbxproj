@@ -35,6 +35,26 @@
 		0D57A5461FC5A737008C30C7 /* 030106.工作_会议_预约会议_免费会议室_会议室可用时间.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D57A5451FC5A736008C30C7 /* 030106.工作_会议_预约会议_免费会议室_会议室可用时间.png */; };
 		0D5D3C5C1FC6B61500B5380E /* YCCreateMeetingUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5D3C5A1FC6B61500B5380E /* YCCreateMeetingUserCell.m */; };
 		0D5D3C5D1FC6B61500B5380E /* YCCreateMeetingUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D5D3C5B1FC6B61500B5380E /* YCCreateMeetingUserCell.xib */; };
+		0D5F94731FD68B6300E69143 /* math1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94611FD68B6300E69143 /* math1.jpg */; };
+		0D5F94741FD68B6300E69143 /* math2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94621FD68B6300E69143 /* math2.jpg */; };
+		0D5F94751FD68B6300E69143 /* math3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94631FD68B6300E69143 /* math3.jpg */; };
+		0D5F94761FD68B6300E69143 /* math4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94641FD68B6300E69143 /* math4.jpg */; };
+		0D5F94771FD68B6300E69143 /* math5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94651FD68B6300E69143 /* math5.jpg */; };
+		0D5F94781FD68B6300E69143 /* math6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94661FD68B6300E69143 /* math6.jpg */; };
+		0D5F94791FD68B6300E69143 /* math7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94671FD68B6300E69143 /* math7.jpg */; };
+		0D5F947A1FD68B6300E69143 /* physics1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94681FD68B6300E69143 /* physics1.jpg */; };
+		0D5F947B1FD68B6300E69143 /* physics2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94691FD68B6300E69143 /* physics2.jpg */; };
+		0D5F947C1FD68B6300E69143 /* physics3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F946A1FD68B6300E69143 /* physics3.jpg */; };
+		0D5F947D1FD68B6300E69143 /* physics4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F946B1FD68B6300E69143 /* physics4.jpg */; };
+		0D5F947E1FD68B6300E69143 /* physics5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F946C1FD68B6300E69143 /* physics5.jpg */; };
+		0D5F947F1FD68B6300E69143 /* physics6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F946D1FD68B6300E69143 /* physics6.jpg */; };
+		0D5F94801FD68B6300E69143 /* ppt1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F946E1FD68B6300E69143 /* ppt1.jpg */; };
+		0D5F94811FD68B6300E69143 /* ppt2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F946F1FD68B6300E69143 /* ppt2.jpg */; };
+		0D5F94821FD68B6300E69143 /* ppt3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94701FD68B6300E69143 /* ppt3.jpg */; };
+		0D5F94831FD68B6300E69143 /* ppt4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94711FD68B6300E69143 /* ppt4.jpg */; };
+		0D5F94841FD68B6300E69143 /* ppt5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94721FD68B6300E69143 /* ppt5.jpg */; };
+		0D5F94871FD6A65A00E69143 /* JusDoodle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F94851FD6A65800E69143 /* JusDoodle.bundle */; };
+		0D5F94881FD6A65A00E69143 /* JusDoodle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5F94861FD6A65900E69143 /* JusDoodle.framework */; };
 		0D7430FC1FB6FC61002867FA /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7430FB1FB6FC5D002867FA /* PushKit.framework */; };
 		0D7430FF1FB93BAC002867FA /* YCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7430FE1FB93BAC002867FA /* YCBaseViewController.m */; };
 		0D7431061FB93D91002867FA /* CGMeetingListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7431051FB93D91002867FA /* CGMeetingListViewController.m */; };
@@ -361,8 +381,6 @@
 		0D9113AE1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D9113AC1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.xib */; };
 		0DA9C38B1FA8270D00A91427 /* CGChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA9C38A1FA8270D00A91427 /* CGChatListViewController.m */; };
 		0DA9C38E1FA8492B00A91427 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA9C38D1FA8492B00A91427 /* StoreKit.framework */; };
-		0DBF462B1FB3053600707C12 /* JusDoodle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0DBF45E31FB3053500707C12 /* JusDoodle.bundle */; };
-		0DBF462C1FB3053600707C12 /* JusDoodle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF45E41FB3053500707C12 /* JusDoodle.framework */; };
 		0DBF462D1FB3053600707C12 /* JusLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF45E51FB3053500707C12 /* JusLogin.framework */; };
 		0DBF462E1FB3053600707C12 /* JCApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF46241FB3053500707C12 /* JCApi.framework */; };
 		0DBF46321FB3057200707C12 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF46311FB3056D00707C12 /* VideoToolbox.framework */; };
@@ -1425,6 +1443,26 @@
 		0D5D3C591FC6B61500B5380E /* YCCreateMeetingUserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCreateMeetingUserCell.h; sourceTree = "<group>"; };
 		0D5D3C5A1FC6B61500B5380E /* YCCreateMeetingUserCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCreateMeetingUserCell.m; sourceTree = "<group>"; };
 		0D5D3C5B1FC6B61500B5380E /* YCCreateMeetingUserCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCCreateMeetingUserCell.xib; sourceTree = "<group>"; };
+		0D5F94611FD68B6300E69143 /* math1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = math1.jpg; sourceTree = "<group>"; };
+		0D5F94621FD68B6300E69143 /* math2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = math2.jpg; sourceTree = "<group>"; };
+		0D5F94631FD68B6300E69143 /* math3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = math3.jpg; sourceTree = "<group>"; };
+		0D5F94641FD68B6300E69143 /* math4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = math4.jpg; sourceTree = "<group>"; };
+		0D5F94651FD68B6300E69143 /* math5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = math5.jpg; sourceTree = "<group>"; };
+		0D5F94661FD68B6300E69143 /* math6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = math6.jpg; sourceTree = "<group>"; };
+		0D5F94671FD68B6300E69143 /* math7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = math7.jpg; sourceTree = "<group>"; };
+		0D5F94681FD68B6300E69143 /* physics1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = physics1.jpg; sourceTree = "<group>"; };
+		0D5F94691FD68B6300E69143 /* physics2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = physics2.jpg; sourceTree = "<group>"; };
+		0D5F946A1FD68B6300E69143 /* physics3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = physics3.jpg; sourceTree = "<group>"; };
+		0D5F946B1FD68B6300E69143 /* physics4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = physics4.jpg; sourceTree = "<group>"; };
+		0D5F946C1FD68B6300E69143 /* physics5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = physics5.jpg; sourceTree = "<group>"; };
+		0D5F946D1FD68B6300E69143 /* physics6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = physics6.jpg; sourceTree = "<group>"; };
+		0D5F946E1FD68B6300E69143 /* ppt1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ppt1.jpg; sourceTree = "<group>"; };
+		0D5F946F1FD68B6300E69143 /* ppt2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ppt2.jpg; sourceTree = "<group>"; };
+		0D5F94701FD68B6300E69143 /* ppt3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ppt3.jpg; sourceTree = "<group>"; };
+		0D5F94711FD68B6300E69143 /* ppt4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ppt4.jpg; sourceTree = "<group>"; };
+		0D5F94721FD68B6300E69143 /* ppt5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ppt5.jpg; sourceTree = "<group>"; };
+		0D5F94851FD6A65800E69143 /* JusDoodle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JusDoodle.bundle; sourceTree = "<group>"; };
+		0D5F94861FD6A65900E69143 /* JusDoodle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JusDoodle.framework; sourceTree = "<group>"; };
 		0D7430FB1FB6FC5D002867FA /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		0D7430FD1FB93BAC002867FA /* YCBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCBaseViewController.h; sourceTree = "<group>"; };
 		0D7430FE1FB93BAC002867FA /* YCBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCBaseViewController.m; sourceTree = "<group>"; };
@@ -2110,8 +2148,6 @@
 		0DA9C38A1FA8270D00A91427 /* CGChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGChatListViewController.m; sourceTree = "<group>"; };
 		0DA9C38C1FA8492700A91427 /* BusinessCat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BusinessCat.entitlements; sourceTree = "<group>"; };
 		0DA9C38D1FA8492B00A91427 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		0DBF45E31FB3053500707C12 /* JusDoodle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JusDoodle.bundle; sourceTree = "<group>"; };
-		0DBF45E41FB3053500707C12 /* JusDoodle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JusDoodle.framework; sourceTree = "<group>"; };
 		0DBF45E51FB3053500707C12 /* JusLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JusLogin.framework; sourceTree = "<group>"; };
 		0DBF45EB1FB3053500707C12 /* zpios_osenv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zpios_osenv.h; sourceTree = "<group>"; };
 		0DBF45EC1FB3053500707C12 /* zos_osenv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zos_osenv.h; sourceTree = "<group>"; };
@@ -3797,13 +3833,13 @@
 				D7D07B561E790CF2002E746E /* QuartzCore.framework in Frameworks */,
 				D7D07B541E790CDC002E746E /* AudioToolbox.framework in Frameworks */,
 				D7D07B521E790CC9002E746E /* AddressBook.framework in Frameworks */,
-				0DBF462C1FB3053600707C12 /* JusDoodle.framework in Frameworks */,
 				D7D07B501E790CBE002E746E /* AVFoundation.framework in Frameworks */,
 				D7D07B4E1E790CA7002E746E /* CoreLocation.framework in Frameworks */,
 				D79BE2001D9E003D008DBB34 /* libz.1.dylib in Frameworks */,
 				0DCD73341FB3F3EB00972501 /* IMGroupExt.framework in Frameworks */,
 				0DCD73391FB3F3EB00972501 /* IMFriendshipExt.framework in Frameworks */,
 				D7F44CDC1DABBB04004393C2 /* libc++abi.dylib in Frameworks */,
+				0D5F94881FD6A65A00E69143 /* JusDoodle.framework in Frameworks */,
 				D718B59C1E613FFF00B9EDAF /* libc++abi.tbd in Frameworks */,
 				D7B6DDA21DB9B8FD00FE62BA /* Photos.framework in Frameworks */,
 				0D90E07B1FB5470D00EDB7CF /* JusMultiCall.framework in Frameworks */,
@@ -3950,6 +3986,31 @@
 				0D5D3C5B1FC6B61500B5380E /* YCCreateMeetingUserCell.xib */,
 			);
 			path = YCCreateMeetingUserCell;
+			sourceTree = "<group>";
+		};
+		0D5F94601FD68B6300E69143 /* testImage */ = {
+			isa = PBXGroup;
+			children = (
+				0D5F94611FD68B6300E69143 /* math1.jpg */,
+				0D5F94621FD68B6300E69143 /* math2.jpg */,
+				0D5F94631FD68B6300E69143 /* math3.jpg */,
+				0D5F94641FD68B6300E69143 /* math4.jpg */,
+				0D5F94651FD68B6300E69143 /* math5.jpg */,
+				0D5F94661FD68B6300E69143 /* math6.jpg */,
+				0D5F94671FD68B6300E69143 /* math7.jpg */,
+				0D5F94681FD68B6300E69143 /* physics1.jpg */,
+				0D5F94691FD68B6300E69143 /* physics2.jpg */,
+				0D5F946A1FD68B6300E69143 /* physics3.jpg */,
+				0D5F946B1FD68B6300E69143 /* physics4.jpg */,
+				0D5F946C1FD68B6300E69143 /* physics5.jpg */,
+				0D5F946D1FD68B6300E69143 /* physics6.jpg */,
+				0D5F946E1FD68B6300E69143 /* ppt1.jpg */,
+				0D5F946F1FD68B6300E69143 /* ppt2.jpg */,
+				0D5F94701FD68B6300E69143 /* ppt3.jpg */,
+				0D5F94711FD68B6300E69143 /* ppt4.jpg */,
+				0D5F94721FD68B6300E69143 /* ppt5.jpg */,
+			);
+			path = testImage;
 			sourceTree = "<group>";
 		};
 		0D7431001FB93CF3002867FA /* Meeting */ = {
@@ -5364,10 +5425,10 @@
 		0DBF45E01FB3053500707C12 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D5F94851FD6A65800E69143 /* JusDoodle.bundle */,
+				0D5F94861FD6A65900E69143 /* JusDoodle.framework */,
 				0D90E0781FB5470B00EDB7CF /* JusMultiCall.bundle */,
 				0D90E0791FB5470D00EDB7CF /* JusMultiCall.framework */,
-				0DBF45E31FB3053500707C12 /* JusDoodle.bundle */,
-				0DBF45E41FB3053500707C12 /* JusDoodle.framework */,
 				0DBF45E51FB3053500707C12 /* JusLogin.framework */,
 			);
 			path = Frameworks;
@@ -6622,6 +6683,7 @@
 		D71142771D59CC720037F633 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0D5F94601FD68B6300E69143 /* testImage */,
 				D71142831D59CC720037F633 /* Assets.xcassets */,
 				D71142881D59CC720037F633 /* Info.plist */,
 				D710B7B31D9903D300688D72 /* BusinessCat-Prefix.pch */,
@@ -7897,17 +7959,20 @@
 				18A6D2EF1E67F3660076D02E /* CGExceptionalViewController.xib in Resources */,
 				0D90E0531FB43C3A00EDB7CF /* 00.caf in Resources */,
 				0DCD73371FB3F3EB00972501 /* TLSUI.bundle in Resources */,
+				0D5F94791FD68B6300E69143 /* math7.jpg in Resources */,
 				181C551B1EC307270064354D /* CGMessageDetailMoreGraphicTableViewCell.xib in Resources */,
 				1834BB5F1DB7141E008F4685 /* CGUserFireChoseTableViewCell.xib in Resources */,
 				18427D521DC723A500E19BC0 /* CGDiscoverPartSeeAddressViewController.xib in Resources */,
 				1835D9F81DB9EF750006ED07 /* CGUserSearchViewController.xib in Resources */,
+				0D5F94831FD68B6300E69143 /* ppt4.jpg in Resources */,
 				D7799E3E1ED82C7D009107E4 /* HeadlineCatalogTableViewCell.xib in Resources */,
 				1842BE301E2CC0B900697332 /* CGOtherCompanySelectTableViewCell.xib in Resources */,
 				181C55201EC30CB60064354D /* CGMessageDetailImageTextTableViewCell.xib in Resources */,
 				0DBF47B11FB3087400707C12 /* camera_on@2x.png in Resources */,
 				0DBF47DC1FB3087400707C12 /* screen_share_close_highlighted@3x.png in Resources */,
-				0DBF462B1FB3053600707C12 /* JusDoodle.bundle in Resources */,
+				0D5F94821FD68B6300E69143 /* ppt3.jpg in Resources */,
 				D73749F21DB46305002FD9EE /* CGTopicMainViewController.xib in Resources */,
+				0D5F947D1FD68B6300E69143 /* physics4.jpg in Resources */,
 				0DBF47601FB3087300707C12 /* brush_off@2x.png in Resources */,
 				0DBF47581FB3087300707C12 /* status_camera_off_24@2x.png in Resources */,
 				18BD83C91F1DAC5F00FE0008 /* CGPlatformManagementViewController.xib in Resources */,
@@ -7931,6 +7996,7 @@
 				183CDE651F2733230099520F /* CGCorrectionTableViewCell.xib in Resources */,
 				181A9CF31E8E38190009104A /* MonitoringNoDataTableViewCell.xib in Resources */,
 				1835D9841DB8B25C0006ED07 /* CGUserCreateGroupViewController.xib in Resources */,
+				0D5F94811FD68B6300E69143 /* ppt2.jpg in Resources */,
 				1871248D1E77BD4900C16E9C /* AttentionSearchTableViewCell.xib in Resources */,
 				18427D571DC7258800E19BC0 /* CGDiscoverPartSeeAddressTableViewCell.xib in Resources */,
 				0DBF47F41FB3087400707C12 /* volume_off@3x.png in Resources */,
@@ -8009,6 +8075,7 @@
 				0DBF47F71FB3087400707C12 /* volume_on@2x.png in Resources */,
 				0DBF48181FB3087400707C12 /* SettingsViewController.xib in Resources */,
 				0D90DFD11FB43C3A00EDB7CF /* 16.gif in Resources */,
+				0D5F94871FD6A65A00E69143 /* JusDoodle.bundle in Resources */,
 				18ED53351F4AB34200EB2D64 /* CGDetailTableViewCell.xib in Resources */,
 				0DBF47F11FB3087400707C12 /* video_window_on_pressed@2x.png in Resources */,
 				1841E1891E1BA7F40030376A /* HeadlineTopicMyReplyCell.xib in Resources */,
@@ -8021,6 +8088,7 @@
 				181A9CE91E8DF3850009104A /* CGSearchTitleTableViewCell.xib in Resources */,
 				0D90DFE51FB43C3A00EDB7CF /* 34.gif in Resources */,
 				182CC0731ECDA05B008B19B9 /* CGInterfaceViewController.xib in Resources */,
+				0D5F94841FD68B6300E69143 /* ppt5.jpg in Resources */,
 				0DBF47E61FB3087400707C12 /* splitscreen_selected@3x.png in Resources */,
 				0DBF47A61FB3087400707C12 /* logo@3x.png in Resources */,
 				0DBF478B1FB3087400707C12 /* status_host_on@3x.png in Resources */,
@@ -8069,10 +8137,12 @@
 				0D90E0271FB43C3A00EDB7CF /* MicroVideoSource.xcassets in Resources */,
 				0DBF47671FB3087300707C12 /* clean_highlighted@3x.png in Resources */,
 				180F33A91E8264910007D7F8 /* CGUserChangeDepartmentViewController.xib in Resources */,
+				0D5F94781FD68B6300E69143 /* math6.jpg in Resources */,
 				1836B84B1ED98175001A1F19 /* CGInterfaceDetailViewController.xib in Resources */,
 				183EBAAC1F17499100D6157D /* CGEnterpriseArchivesViewController.xib in Resources */,
 				D73208881EA64EE4006BC285 /* Scan_Success@2x.png in Resources */,
 				187124801E76741400C16E9C /* CGAttentionSearchKeyWordViewController.xib in Resources */,
+				0D5F947E1FD68B6300E69143 /* physics5.jpg in Resources */,
 				0DBF476C1FB3087300707C12 /* undo_highlighted@2x.png in Resources */,
 				1834BB411DB640AA008F4685 /* CGUserSettingSwitchTableViewCell.xib in Resources */,
 				0DBF477D1FB3087400707C12 /* video_conference@2x.png in Resources */,
@@ -8095,6 +8165,7 @@
 				181C55251EC4425D0064354D /* CGProductReviewViewController.xib in Resources */,
 				18427D5F1DC72D6000E19BC0 /* CGDiscoverOtherCompanyViewController.xib in Resources */,
 				0D57A53E1FC559E5008C30C7 /* YCSelectRoomHeaderView.xib in Resources */,
+				0D5F947F1FD68B6300E69143 /* physics6.jpg in Resources */,
 				1835D9891DB8B3A60006ED07 /* CGUserCreateGroupTableViewCell.xib in Resources */,
 				187F1CCC1F5422A00098D1CE /* CGCollectUrlViewController.xib in Resources */,
 				1832844E1EDEA4DB00964D0B /* CGInterfaceDetailTopTableViewCell.xib in Resources */,
@@ -8150,6 +8221,7 @@
 				1838CF6A1EA859F8005480B3 /* CGKnowledgeBaseTableViewCell.xib in Resources */,
 				D7F44D381DB1FD67004393C2 /* 项目简介.txt in Resources */,
 				D7E4175E1D9A1F0200048E57 /* HeadlineRightPicTableViewCell.xib in Resources */,
+				0D5F94771FD68B6300E69143 /* math5.jpg in Resources */,
 				D732084C1EA64EE3006BC285 /* unicode_to_hanyu_pinyin.txt in Resources */,
 				183CDE6D1F2746C40099520F /* CGChooseClassificationViewController.xib in Resources */,
 				0DBF47F31FB3087400707C12 /* volume_off@2x.png in Resources */,
@@ -8175,6 +8247,7 @@
 				1877240E1DEBD58C00D38E8A /* CGSkillTagsViewController.xib in Resources */,
 				18CEA6A11E5D6B8E00D9D17F /* CommentaryTableViewCell.xib in Resources */,
 				181C54FC1EC2E5020064354D /* CGMessageViewController.xib in Resources */,
+				0D5F94741FD68B6300E69143 /* math2.jpg in Resources */,
 				0D90DFBE1FB43C3A00EDB7CF /* Assets.xcassets in Resources */,
 				184839361DFAAD3800531C5A /* CGIndustryViewController.xib in Resources */,
 				0DBF47991FB3087400707C12 /* split_status_microphone@3x.png in Resources */,
@@ -8213,6 +8286,7 @@
 				0DBF476F1FB3087300707C12 /* white@3x.png in Resources */,
 				0D90DFCD1FB43C3A00EDB7CF /* 12.gif in Resources */,
 				0DBF47B51FB3087400707C12 /* camera_switch_highlighted@2x.png in Resources */,
+				0D5F94731FD68B6300E69143 /* math1.jpg in Resources */,
 				0DBF47C31FB3087400707C12 /* message_highlighted@2x.png in Resources */,
 				0D90DFE41FB43C3A00EDB7CF /* 33.gif in Resources */,
 				182DC8301E7127DD00E9E982 /* UserWalletTableViewCell.xib in Resources */,
@@ -8274,6 +8348,7 @@
 				180F339F1E8220090007D7F8 /* CGAttentionDynamicViewController.xib in Resources */,
 				0DBF47651FB3087300707C12 /* clean@3x.png in Resources */,
 				1836B8381ED53CBB001A1F19 /* CTKnowledgeMealViewController.xib in Resources */,
+				0D5F94751FD68B6300E69143 /* math3.jpg in Resources */,
 				0DBF47E71FB3087400707C12 /* splitscreen_selected_highlighted@2x.png in Resources */,
 				0DBF476A1FB3087300707C12 /* undo@2x.png in Resources */,
 				0DBF47691FB3087300707C12 /* colour@3x.png in Resources */,
@@ -8286,12 +8361,14 @@
 				0DBF47BE1FB3087400707C12 /* information_highlighted@3x.png in Resources */,
 				0DBF47781FB3087300707C12 /* doodle@3x.png in Resources */,
 				0D90DFEB1FB43C3A00EDB7CF /* 9.gif in Resources */,
+				0D5F94801FD68B6300E69143 /* ppt1.jpg in Resources */,
 				180F5A301EE6A35500BCB07F /* CGToolTableViewCell.xib in Resources */,
 				1836B8501ED982EC001A1F19 /* CGInterfaceDetailCollectionViewCell.xib in Resources */,
 				18CC89501E692F2A00A0E7D1 /* UserNickNameTableViewCell.xib in Resources */,
 				0DBF47E41FB3087400707C12 /* splitscreen_normal_highlighted@3x.png in Resources */,
 				183CDE721F277DF20099520F /* CGInterfaceAppIconCollectionViewCell.xib in Resources */,
 				D73208861EA64EE4006BC285 /* FlashLightCloseNormal@2x.png in Resources */,
+				0D5F94761FD68B6300E69143 /* math4.jpg in Resources */,
 				18D773EE1F317041000654E8 /* CGTutorialViewController.xib in Resources */,
 				187124851E768ADD00C16E9C /* CGAttentionSearchViewController.xib in Resources */,
 				0DBF475C1FB3087300707C12 /* status_camera_off_50@2x.png in Resources */,
@@ -8357,10 +8434,13 @@
 				0D90DFDF1FB43C3A00EDB7CF /* 29.gif in Resources */,
 				0DBF47D11FB3087400707C12 /* paint_normal_highlighted@2x.png in Resources */,
 				0D90DFCA1FB43C3A00EDB7CF /* 1.gif in Resources */,
+				0D5F947A1FD68B6300E69143 /* physics1.jpg in Resources */,
 				0D90DFCE1FB43C3A00EDB7CF /* 13.gif in Resources */,
 				18ED53431F4C36AA00EB2D64 /* htmlDetailTemplate.html in Resources */,
+				0D5F947B1FD68B6300E69143 /* physics2.jpg in Resources */,
 				0DBF47B91FB3087400707C12 /* function@2x.png in Resources */,
 				1834BB551DB70E07008F4685 /* CGUserFireTextTableViewCell.xib in Resources */,
+				0D5F947C1FD68B6300E69143 /* physics3.jpg in Resources */,
 				0D27CE761FD13E25008C8972 /* 4.png in Resources */,
 				0DBF47EA1FB3087400707C12 /* user_waiting@3x.png in Resources */,
 				181C54871EBC511C0064354D /* CGOrderCollectionViewCell.xib in Resources */,

@@ -15,4 +15,7 @@
 
 @property (nonatomic,strong) NSString *meetingID;
 
+//保存文档的url
+@property (nonatomic, strong) NSArray<NSString *> *urls;
+
 @end

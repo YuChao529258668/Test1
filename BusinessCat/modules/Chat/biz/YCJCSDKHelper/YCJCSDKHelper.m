@@ -25,6 +25,9 @@
 //#import <JusDoodle/JusDoodle.h>
 #import <PushKit/PushKit.h>
 
+// 文档共享
+//#import <JusDoc/JusDoc.h>
+
 #define userID1 @"18362970827"
 #define userID2 @"1837"
 
@@ -308,6 +311,27 @@ static YCJCSDKHelper * helper;
     
     return errors[code];
 }
+
+
+#pragma mark - 文档共享
+
++ (void)initializeDocShare {
+//    [JusDocManager init];
+}
+
+//+ (void)init;
+//+ (void)setDelegate:(id<JusDocDelegate>)delegate;
+////用于全屏显示
+//+ (void)start:(NSString *)docUri;
+////用于添加到其他 view 的时候来显示，需要传入对应 view 的 size
+//+ (UIViewController *)start:(NSString *)docUri displayViewSize:(CGSize)size;
+//+ (void)stop;
+
+//@protocol JusDocDelegate
+//- (void)didCreate;
+//- (void)requestToStart:(NSString *)docUri;
+//- (void)requestToStop;
+//@end
 
 
 

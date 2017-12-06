@@ -16,6 +16,8 @@
 
 @property (nonatomic, strong) NSMutableArray<UIButton *> *buttonArray;  // 按钮的数组
 
+@property (nonatomic,strong) UIImageView *lineIV;
+
 @end;
 
 @implementation JCDoodleToolbar
@@ -41,17 +43,19 @@
 
 - (void)initView
 {
+    self.backgroundColor = [UIColor whiteColor];
+    
 //    NSArray *backgroundNormals = @[@"brush_off",@"colour",@"clean",@"undo"];
 //    NSArray *backgourndHighlights = @[@"brush_off_highlighted",@"",@"clean_highlighted",@"undo_highlighted"];
 
-//    NSArray *backgroundNormals = @[@"icon_pan_normal",@"icon_color_normal",@"icon_clear_normal",@"icon_revoke_normal"];
-    NSArray *backgroundNormals = @[@"icon_pan_normal",@"icon_color_normal",@"icon_clear_highlight",@"icon_revoke_highlight"];
-    NSArray *backgourndHighlights = @[@"icon_pan_highlight",@"icon_color_highlight",@"icon_clear_highlight",@"icon_revoke_highlight"];
+    NSArray *backgroundNormals = @[@"icon_pan_normal",@"icon_color_normal",@"icon_clear_highlight",@"icon_revoke_highlight", @"icon_official_highlight"];
+    NSArray *backgourndHighlights = @[@"icon_pan_highlight",@"icon_color_highlight",@"icon_clear_highlight",@"icon_revoke_highlight", @"icon_official_highlight"];
     _buttonArray = [NSMutableArray array];
     _buttonSize = CGSizeMake(35, 35);
     _buttonSpacing = 13;
-    _count = 4;
-    
+//    _count = 4;
+    _count = 5;
+
     for (int i = 0; i < _count; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.backgroundColor = [UIColor clearColor];
@@ -65,6 +69,15 @@
         [self addSubview:button];
         [_buttonArray addObject:button];
     }
+    
+    
+    // 线
+    UIImageView *iv = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"work_line_1"]];
+    iv.contentMode = UIViewContentModeScaleToFill;
+    iv.clipsToBounds = YES;
+    [self addSubview:iv];
+    self.lineIV = iv;
+    
 }// 初始化View
 
 - (NSArray *)buttons
@@ -85,20 +98,34 @@
 {
     [super layoutSubviews];
     
-    CGFloat viewWidth = self.frame.size.width;
-    CGFloat viewHeight = self.frame.size.height;
-    CGFloat leftSide = _buttonSpacing;
-    CGFloat totalWidth = _buttonSize.width * _count + _buttonSpacing * (_count - 1);
-    if (_horizontalCenter) {
-        leftSide = (viewWidth - totalWidth) / 2;
-    }
+//    CGFloat viewWidth = self.frame.size.width;
+//    CGFloat viewHeight = self.frame.size.height;
+//    CGFloat leftSide = _buttonSpacing;
+//    CGFloat totalWidth = _buttonSize.width * _count + _buttonSpacing * (_count - 1);
+//    if (_horizontalCenter) {
+//        leftSide = (viewWidth - totalWidth) / 2;
+//    }
     
+//    for (int i = 0; i < _count; i++) {
+//        UIButton *button = [_buttonArray objectAtIndex:i];
+//        button.frame = CGRectMake(leftSide + (_buttonSpacing + _buttonSize.width) * i,
+//                                  ((viewHeight - _buttonSize.height) / 2),
+//                                  _buttonSize.width,
+//                                  _buttonSize.height);
+//    }
+    
+    CGFloat viewHeight = self.frame.size.height;
+    float btnW = 30;
     for (int i = 0; i < _count; i++) {
         UIButton *button = [_buttonArray objectAtIndex:i];
-        button.frame = CGRectMake(leftSide + (_buttonSpacing + _buttonSize.width) * i,
-                                  ((viewHeight - _buttonSize.height) / 2),
-                                  _buttonSize.width,
-                                  _buttonSize.height);
+        button.frame = CGRectMake(10 * (i + 1) + i * btnW,
+                                  ((viewHeight - btnW) / 2),
+                                  btnW,
+                                  btnW);
     }
+    
+    // 线
+    self.lineIV.frame = CGRectMake(0, 0, self.frame.size.width, 1);
 }
+
 @end

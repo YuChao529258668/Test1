@@ -10,6 +10,8 @@
 #import "JCDoodleToolbar.h"
 #import "JCColourToolbar.h"
 
+
+
 @interface JCWhiteBoardViewController : UIViewController
 
 //涂鸦操作的工具栏
@@ -38,5 +40,7 @@
 
 //清除轨迹
 - (void)cleanAllPath;
+
+- (void)updatePageLabel;
 
 @end

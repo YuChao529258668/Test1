@@ -34,6 +34,11 @@
 #define kTabBarHeight 40
 #define kBtnLineHeight 1.4
 
+NSString * const kCoursewareJuphoon = @"COURSEWARE_JUPHOON";
+NSString * const kCoursewareMath = @"COURSEWARE_MATH";
+NSString * const kCoursewarePhysics = @"COURSEWARE_PHYSICS";
+
+
 // 显示相关界面
 typedef enum {
     ShowNone = 0,
@@ -92,7 +97,7 @@ typedef enum {
 @property (nonatomic,strong) UIView *tabBar; // 中间栏，切换 画板、聊天等
 @property (nonatomic,strong) UIButton *whiteBoardTabBtn; // 切换白板
 @property (nonatomic,strong) UIButton *chatTabBtn;// 切换 讨论
-@property (nonatomic,strong) UIButton *menberTabBtn; // 切换 成员
+@property (nonatomic,strong) UIButton *memberTabBtn; // 切换 成员
 @property (nonatomic,strong) UIView *btnLine; // 按钮下面的线
 @property (weak, nonatomic) IBOutlet UIButton *myBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *myToolBarBtn;
@@ -317,6 +322,7 @@ typedef enum {
     //更新界面
     [self showCurrentShowMode:ShowSplitScreen];
     [CTToast showWithText:@"加入会议成功"];
+//    [self setDoc]; // 设置课件
 }
 
 - (void)joinFailedWithReason:(ErrorReason)reason
@@ -434,6 +440,9 @@ typedef enum {
         
         //更新当前发起涂鸦的成员
         _doodleShareUserId = nil;
+    } else if (type == JCDoodleActionCourseware) { // 修改课件
+        [self handleCoursewareChange];
+
     }
 }
 
@@ -753,12 +762,15 @@ typedef enum {
     float btnWidth = kMainScreenWidth / 3;
     self.whiteBoardTabBtn.frame = CGRectMake(0, 0, btnWidth, kTabBarHeight);
     self.chatTabBtn.frame = CGRectMake(btnWidth, 0, btnWidth, kTabBarHeight);
-    self.menberTabBtn.frame = CGRectMake(btnWidth * 2, 0, btnWidth, kTabBarHeight);
+    self.memberTabBtn.frame = CGRectMake(btnWidth * 2, 0, btnWidth, kTabBarHeight);
     
     CGRect frame = self.btnLine.frame;
     frame.origin.y = kTabBarHeight - kBtnLineHeight;
     frame.size = CGSizeMake(btnWidth, kBtnLineHeight);
     self.btnLine.frame = frame;
+    
+    UIImageView *iv = [self.tabBar viewWithTag:999];
+    iv.frame = CGRectMake(0, self.tabBar.size.height-1, self.tabBar.size.width, 1);
 }
 
 - (void)layoutBtnLine:(UIButton *)btn {
@@ -776,35 +788,48 @@ typedef enum {
     
     self.whiteBoardTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.chatTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.menberTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.memberTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     
     self.whiteBoardTabBtn.selected = YES;
     
     [self.whiteBoardTabBtn addTarget:self action:@selector(whiteBoardTabBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.chatTabBtn addTarget:self action:@selector(chatTabBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.menberTabBtn addTarget:self action:@selector(menberTabBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.memberTabBtn addTarget:self action:@selector(memberTabBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
     [self.whiteBoardTabBtn setTitle:@"白板" forState:UIControlStateNormal];
     [self.chatTabBtn setTitle:@"讨论" forState:UIControlStateNormal];
-    [self.menberTabBtn setTitle:@"成员" forState:UIControlStateNormal];
+    [self.memberTabBtn setTitle:@"成员" forState:UIControlStateNormal];
     
+    UIFont *font= [UIFont systemFontOfSize:15];
+    self.whiteBoardTabBtn.titleLabel.font = font;
+    self.chatTabBtn.titleLabel.font = font;
+    self.memberTabBtn.titleLabel.font = font;
+
     UIColor *colorS = TEXT_MAIN_CLR;
     [self.whiteBoardTabBtn setTitleColor:colorS forState:UIControlStateSelected];
     [self.chatTabBtn setTitleColor:colorS forState:UIControlStateSelected];
-    [self.menberTabBtn setTitleColor:colorS forState:UIControlStateSelected];
+    [self.memberTabBtn setTitleColor:colorS forState:UIControlStateSelected];
     
     UIColor *colorN = TEXT_GRAY_CLR;
     [self.whiteBoardTabBtn setTitleColor:colorN forState:UIControlStateNormal];
     [self.chatTabBtn setTitleColor:colorN forState:UIControlStateNormal];
-    [self.menberTabBtn setTitleColor:colorN forState:UIControlStateNormal];
+    [self.memberTabBtn setTitleColor:colorN forState:UIControlStateNormal];
     
+    // 线
+    UIImageView *iv = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"work_line_1"]];
+    iv.contentMode = UIViewContentModeScaleToFill;
+    iv.clipsToBounds = YES;
+    iv.tag = 999;
+
     self.tabBar = [UIView new];
     self.tabBar.backgroundColor = [UIColor whiteColor];
     
     [self.tabBar addSubview:self.whiteBoardTabBtn];
     [self.tabBar addSubview:self.chatTabBtn];
-    [self.tabBar addSubview:self.menberTabBtn];
+    [self.tabBar addSubview:self.memberTabBtn];
     [self.tabBar addSubview:self.btnLine];
+    [self.tabBar addSubview:iv];
+    
     [self.preview addSubview:self.tabBar];
 }
 
@@ -825,11 +850,13 @@ typedef enum {
 
     self.whiteBoardTabBtn.selected = YES;
     self.chatTabBtn.selected = NO;
-    self.menberTabBtn.selected = NO;
+    self.memberTabBtn.selected = NO;
     
     [self layoutBtnLine:self.whiteBoardTabBtn];
     
     [self.view endEditing:YES];
+    
+//    [self.tabBar sendSubviewToBack:self.whiteBoardTabBtn];
 }
 
 - (void)chatTabBtnClick {
@@ -839,23 +866,27 @@ typedef enum {
 
     self.whiteBoardTabBtn.selected = NO;
     self.chatTabBtn.selected = YES;
-    self.menberTabBtn.selected = NO;
+    self.memberTabBtn.selected = NO;
     
     [self layoutBtnLine:self.chatTabBtn];
     [self.view endEditing:YES];
+    
+//    [self.tabBar sendSubviewToBack:self.chatTabBtn];
 }
 
-- (void)menberTabBtnClick {
+- (void)memberTabBtnClick {
     self.whiteBoardViewController.view.hidden = YES;
     self.chatVC.view.hidden = YES;
     self.membersVC.view.hidden = NO;
 
     self.whiteBoardTabBtn.selected = NO;
     self.chatTabBtn.selected = NO;
-    self.menberTabBtn.selected = YES;
+    self.memberTabBtn.selected = YES;
     
-    [self layoutBtnLine:self.menberTabBtn];
+    [self layoutBtnLine:self.memberTabBtn];
     [self.view endEditing:YES];
+    
+//    [self.tabBar sendSubviewToBack:self.menuButton];
 }
 
 - (IBAction)myToolBarBtnClick:(UIButton *)sender {
@@ -913,7 +944,7 @@ typedef enum {
 - (void)addMembersControllerWithUsers:(NSArray *)users {
     self.membersVC = [YCMeetingRoomMembersController new];
     self.membersVC.users = users;
-    self.membersVC.view.hidden = !self.menberTabBtn.isSelected;
+    self.membersVC.view.hidden = !self.memberTabBtn.isSelected;
     [self.preview addSubview:self.membersVC.view];
     // 布局
     [self layoutViewControllers];
@@ -1043,6 +1074,66 @@ typedef enum {
 
 - (void)removeKeyboardObserver {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+}
+
+
+#pragma mark - 文档共享
+
+// 设置课件
+- (void)setDoc {
+//    NSString *url = _urls[indexPath.row];
+    NSString *url = @"COURSEWARE_MATH";
+    [JCDoodleManager sendCoursewareUrl:url];
+}
+
+- (void)handleCoursewareChange {
+    NSString *url = [JCDoodleManager getCoursewareUrl];
+    
+    //        _blackboardView.hidden = YES;
+    
+    NSArray *array = nil;
+    if ([url isEqualToString:kCoursewareJuphoon]) {
+        array = @[[UIImage imageNamed:@"ppt1.jpg"],
+                  [UIImage imageNamed:@"ppt2.jpg"],
+                  [UIImage imageNamed:@"ppt3.jpg"],
+                  [UIImage imageNamed:@"ppt4.jpg"],
+                  [UIImage imageNamed:@"ppt5.jpg"]];
+        
+        
+    } else if ([url isEqualToString:kCoursewareMath]) {
+        array = @[[UIImage imageNamed:@"math1.jpg"],
+                  [UIImage imageNamed:@"math2.jpg"],
+                  [UIImage imageNamed:@"math3.jpg"],
+                  [UIImage imageNamed:@"math4.jpg"],
+                  [UIImage imageNamed:@"math5.jpg"],
+                  [UIImage imageNamed:@"math6.jpg"],
+                  [UIImage imageNamed:@"math7.jpg"]];
+        
+    } else if ([url isEqualToString:kCoursewarePhysics]) {
+        array = @[[UIImage imageNamed:@"physics1.jpg"],
+                  [UIImage imageNamed:@"physics2.jpg"],
+                  [UIImage imageNamed:@"physics3.jpg"],
+                  [UIImage imageNamed:@"physics4.jpg"],
+                  [UIImage imageNamed:@"physics5.jpg"],
+                  [UIImage imageNamed:@"physics6.jpg"]];
+        
+    } else {
+        array = nil;
+    }
+    
+    [_whiteBoardViewController cleanAllPath];
+    _whiteBoardViewController.pageCount = array.count;
+    [_whiteBoardViewController setBackgroundImages:array];
+    
+    //        if (self.isTeacher) {
+    _whiteBoardViewController.currentPage = 0;
+    //        }
+    
+    //        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    //            self.pageLabel.text =[NSString stringWithFormat:@"%ld / %ld", (long)_whiteBoardViewController.currentPage + 1, (long)_whiteBoardViewController.pageCount];
+    [self.whiteBoardViewController updatePageLabel];
+    //        }
+
 }
 
 @end

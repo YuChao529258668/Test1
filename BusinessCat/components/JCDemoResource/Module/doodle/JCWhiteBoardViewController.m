@@ -10,8 +10,14 @@
 #import <JCApi/JCApi.h>
 #import "JCDoodleView.h"
 
-#define kDoodletoolbarHeight 35
-#define kDoodletoolbarWidth  [UIScreen mainScreen].bounds.size.width //179
+#define kDoodletoolbarHeight 44
+#define kDoodletoolbarWidth  [UIScreen mainScreen].bounds.size.width //原来179
+
+// 课件名称
+NSString * const kkCoursewareJuphoon = @"COURSEWARE_JUPHOON";
+NSString * const kkCoursewareMath = @"COURSEWARE_MATH";
+NSString * const kkCoursewarePhysics = @"COURSEWARE_PHYSICS";
+
 
 typedef NS_ENUM(NSInteger, TouchActionMode) {
     TouchActionNone = 0,
@@ -136,7 +142,16 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 @property (strong, nonatomic)  UIButton *brushButton;
 @property (strong, nonatomic)  UIButton *colourButton;
 
+// PPT 相关
+@property (nonatomic,strong) UIButton *nextBtn;
+@property (nonatomic,strong) UIButton *prevBtn;
+@property (nonatomic,strong) UILabel *pageLabel;
+@property (nonatomic,strong) UIButton *closeDocBtn;
+
+
 @end
+
+
 
 @implementation JCWhiteBoardViewController
 
@@ -250,7 +265,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         CGFloat y = self.view.bounds.size.height - kDoodletoolbarHeight;
         self.doodletoolbar.frame = CGRectMake(x, y, kDoodletoolbarWidth, kDoodletoolbarHeight);
         
-        self.doodletoolbar.backgroundColor = [UIColor lightGrayColor];
+//        self.doodletoolbar.backgroundColor = [UIColor lightGrayColor];
     }
     
     {
@@ -258,6 +273,8 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         CGFloat y = self.view.bounds.size.height - 28 - 87;
         self.colorsToolbar.frame = CGRectMake(x, y, 308, 28);
     }
+    
+    [self layoutPPTViews];
 }
 
 - (void)viewDidLoad {
@@ -278,7 +295,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     
     //设置colourButton的初始颜色
     _brushColor = [_colorsToolbar currentColor];
-    UIImage *image = [UIImage imageNamed:@"colour"];
+    UIImage *image = [UIImage imageNamed:@"icon_color_highlight"];
     UIImage *tintImage = [self imageWithColor:_brushColor originalImage:image];
     _colourButton = [_doodletoolbar.buttons objectAtIndex:1];
     [_colourButton setImage:tintImage forState:UIControlStateNormal];
@@ -287,6 +304,8 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     _brushButton.selected = YES;
     
     [self loadDoodleViewWithPageNumber:_currentPage];
+    
+    [self setupPPTViews];
 }
 
 #pragma mark - DoodleToolbar delegate
@@ -338,6 +357,11 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 //            }
         }
             break;
+        case DoodleToolbarButtonTypeFile:
+        {
+            [self fileBtnClick];
+        }
+            break;
         default:
             break;
     }
@@ -346,7 +370,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 #pragma mark - ColourToolbar delegate
 
 - (void)colourToolbar:(JCColourToolbar *)colourToolbar color:(UIColor *)color {
-    UIImage *image = [UIImage imageNamed:@"colour"];
+    UIImage *image = [UIImage imageNamed:@"icon_color_highlight"];
     UIImage *tintImage = [self imageWithColor:color originalImage:image];
     [_colourButton setImage:tintImage forState:UIControlStateNormal];
     
@@ -413,6 +437,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
                 _currentPage = doodle.pageNumber;
                 [self loadDoodleViewWithPageNumber:_currentPage];
             }
+            [self updatePageLabel];
         }
     } else if (type == JCDoodleActionFetch) {
         NSString *ownUserId = [[JCEngineManager sharedManager] getOwnUserId];
@@ -752,6 +777,131 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 }
 
 
+#pragma mark - yc_PPT
+
+// 上一页、下一页、页码、关闭文档按钮
+- (void)setupPPTViews {
+    
+    UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [closeBtn setImage:[UIImage imageNamed:@"video_close"] forState:UIControlStateNormal];
+    [closeBtn addTarget:self action:@selector(closeDocBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:closeBtn];
+    self.closeDocBtn = closeBtn;
+    
+    UIButton *nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [nextBtn setImage:[UIImage imageNamed:@"icon_right_highlight"] forState:UIControlStateNormal];
+    [nextBtn addTarget:self action:@selector(nextPageBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:nextBtn];
+    self.nextBtn = nextBtn;
+    
+    UIButton *prevBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [prevBtn setImage:[UIImage imageNamed:@"icon_left_highlight"] forState:UIControlStateNormal];
+    [prevBtn addTarget:self action:@selector(previousPageBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:prevBtn];
+    self.prevBtn = prevBtn;
+
+    UILabel *pageLabel = [UILabel new];
+    pageLabel.numberOfLines = 1;
+    pageLabel.textColor =[CTCommonUtil convert16BinaryColor:@"#777777"];
+    pageLabel.font = [UIFont systemFontOfSize:14];
+    [self.view addSubview:pageLabel];
+    self.pageLabel = pageLabel;
+    [self updatePageLabel];
+}
+
+#pragma mark - yc_Actions
+
+- (void)nextPageBtnClick {
+    int page = self.currentPage + 1;
+    page = page > self.pageCount? self.pageCount: page;
+    self.currentPage = page;
+    [self updatePageLabel];
+}
+
+- (void)previousPageBtnClick {
+    int page = self.currentPage - 1;
+    page = page < 0? 0: page;
+    self.currentPage = page;
+    [self updatePageLabel];
+}
+
+- (void)updatePageLabel {
+    self.pageLabel.text = [NSString stringWithFormat:@"%ld/%ld", self.currentPage + 1, self.pageCount];
+    self.closeDocBtn.hidden = NO;
+    if (_backgroundImages.count == 0) {
+        self.pageLabel.text = @"0/0";
+        self.closeDocBtn.hidden = YES;
+    }
+    [self layoutPPTViews];
+}
+
+- (void)closeDocBtnClick {
+    [JCDoodleManager sendCoursewareUrl:@""];
+    [self updatePageLabel];
+    self.closeDocBtn.hidden = YES;
+}
+
+- (void)layoutPPTViews {
+    // 上一页、下一页、页码、关闭文档按钮
+    
+    float sw = self.view.frame.size.width; // 父视图宽度
+    float btnW = 22; // 按钮宽度
+    
+    float barH = 44; // 底部栏高度
+    float y = self.view.frame.size.height - (barH / 2 + btnW / 2);
+    
+    float nextX = sw - btnW - 15;
+    self.nextBtn.frame = CGRectMake(nextX, y, btnW, btnW);
+
+    CGSize labelSize = [self.pageLabel sizeThatFits:CGSizeMake(100, btnW)];
+    float labelX = nextX - 10 - labelSize.width;
+    self.pageLabel.frame = CGRectMake(labelX, y, labelSize.width, btnW) ;
+    
+    float prevX = labelX - 10 - btnW;
+    self.prevBtn.frame = CGRectMake(prevX, y, btnW, btnW);
+    
+    float closeBtnW = 26;
+    float closeX = sw - closeBtnW - 15;
+    self.closeDocBtn.frame = CGRectMake(closeX, 15, closeBtnW, closeBtnW);
+}
+
+
+- (void)fileBtnClick {
+//      kkCoursewareJuphoon
+//      kkCoursewareMath
+//      kkCoursewarePhysics
+    
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"选择文件" message: nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *qita = [UIAlertAction actionWithTitle:@"网络" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        [JCDoodleManager sendCoursewareUrl:url];
+
+    }];
+    
+    UIAlertAction *wuli = [UIAlertAction actionWithTitle:@"物理" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [JCDoodleManager sendCoursewareUrl:kkCoursewarePhysics];
+
+    }];
+
+    UIAlertAction *juphoon = [UIAlertAction actionWithTitle:@"PPT" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [JCDoodleManager sendCoursewareUrl:kkCoursewareJuphoon];
+
+    }];
+
+    UIAlertAction *shuxue = [UIAlertAction actionWithTitle:@"数学" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [JCDoodleManager sendCoursewareUrl:kkCoursewareMath];
+
+    }];
+    
+    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+    
+    [ac addAction:qita];
+    [ac addAction:wuli];
+    [ac addAction:juphoon];
+    [ac addAction:shuxue];
+    [ac addAction:cancle];
+
+    [self presentViewController:ac animated:YES completion:nil];
+}
 
 @end
 

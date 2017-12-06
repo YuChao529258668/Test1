@@ -14,7 +14,8 @@ typedef NS_ENUM(NSUInteger, DoodleToolbarButtonType) {
     DoodleToolbarButtonTypeDraw = 0,         //  涂鸦
     DoodleToolbarButtonTypeColour,           //  画笔颜色
     DoodleToolbarButtonTypeClear,            //  清除
-    DoodleToolbarButtonTypeRevoke            //  撤回
+    DoodleToolbarButtonTypeRevoke,            //  撤回
+    DoodleToolbarButtonTypeFile                 // 文件
 };
 
 @protocol DoodleToolbarDelegate <NSObject>
