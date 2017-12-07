@@ -104,9 +104,12 @@ typedef NS_ENUM(NSInteger, IMAConType)
 
 //==============================
 // IMA内部使用的字休
-#define kIMALargeTextFont       [UIFont systemFontOfSize:16]
-#define kIMAMiddleTextFont      [UIFont systemFontOfSize:14]
-#define kIMASmallTextFont       [UIFont systemFontOfSize:12]
+//#define kIMALargeTextFont       [UIFont systemFontOfSize:16]
+//#define kIMAMiddleTextFont      [UIFont systemFontOfSize:14]
+//#define kIMASmallTextFont       [UIFont systemFontOfSize:12]
+#define kIMALargeTextFont       [UIFont systemFontOfSize:18]
+#define kIMAMiddleTextFont      [UIFont systemFontOfSize:16]
+#define kIMASmallTextFont       [UIFont systemFontOfSize:14]
 
 
 

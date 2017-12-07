@@ -23,6 +23,7 @@
                 <outlet property="myToolBarBtn" destination="1Q5-Fn-WXR" id="uRc-vz-1JM"/>
                 <outlet property="preview" destination="291-gr-U7Q" id="xuQ-NY-FYh"/>
                 <outlet property="sidebar" destination="oOy-UW-4SB" id="UmA-4y-b7q"/>
+                <outlet property="titleBtn" destination="jQg-ND-N9v" id="KQ5-ac-lQH"/>
                 <outlet property="view" destination="9Z1-6u-LJD" id="2ze-1P-LNK"/>
                 <outlet property="waitInfoView" destination="TQc-XJ-ugl" id="aNy-DJ-Gt8"/>
             </connections>
@@ -114,28 +115,6 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="291-gr-U7Q" userLabel="Preview">
                             <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Q5-Fn-WXR">
-                                    <rect key="frame" x="626" y="20" width="26" height="26"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="26" id="90t-qi-lBy"/>
-                                        <constraint firstAttribute="width" constant="26" id="JEI-FS-Zgw"/>
-                                    </constraints>
-                                    <state key="normal" image="video_multifunctional"/>
-                                    <connections>
-                                        <action selector="myToolBarBtnClick:" destination="-1" eventType="touchUpInside" id="L2p-Dc-R0q"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wvv-WW-vkI">
-                                    <rect key="frame" x="4" y="9" width="48" height="48"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="48" id="iav-IV-9iU"/>
-                                        <constraint firstAttribute="height" constant="48" id="uxR-lO-2vC"/>
-                                    </constraints>
-                                    <state key="normal" image="video_left"/>
-                                    <connections>
-                                        <action selector="leave:" destination="-1" eventType="touchUpInside" id="wex-RA-Nhy"/>
-                                    </connections>
-                                </button>
                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oOy-UW-4SB" userLabel="Sidebar">
                                     <rect key="frame" x="25" y="101" width="65" height="172"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
@@ -171,11 +150,42 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jQg-ND-N9v">
+                                    <rect key="frame" x="50" y="20" width="65" height="28"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <state key="normal" title="2分(2/5人)">
+                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Q5-Fn-WXR">
+                                    <rect key="frame" x="626" y="20" width="26" height="26"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="26" id="90t-qi-lBy"/>
+                                        <constraint firstAttribute="width" constant="26" id="JEI-FS-Zgw"/>
+                                    </constraints>
+                                    <state key="normal" image="video_multifunctional"/>
+                                    <connections>
+                                        <action selector="myToolBarBtnClick:" destination="-1" eventType="touchUpInside" id="L2p-Dc-R0q"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wvv-WW-vkI">
+                                    <rect key="frame" x="4" y="9" width="48" height="48"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="48" id="iav-IV-9iU"/>
+                                        <constraint firstAttribute="height" constant="48" id="uxR-lO-2vC"/>
+                                    </constraints>
+                                    <state key="normal" image="video_left"/>
+                                    <connections>
+                                        <action selector="leave:" destination="-1" eventType="touchUpInside" id="wex-RA-Nhy"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstItem="jQg-ND-N9v" firstAttribute="top" secondItem="291-gr-U7Q" secondAttribute="top" constant="20" id="2WI-s0-oxP"/>
                                 <constraint firstItem="Wvv-WW-vkI" firstAttribute="top" secondItem="291-gr-U7Q" secondAttribute="top" constant="9" id="6dB-J7-85Q"/>
                                 <constraint firstAttribute="trailing" secondItem="1Q5-Fn-WXR" secondAttribute="trailing" constant="15" id="86p-sZ-Af9"/>
+                                <constraint firstItem="jQg-ND-N9v" firstAttribute="leading" secondItem="Wvv-WW-vkI" secondAttribute="trailing" constant="-2" id="gCj-Mu-gb5"/>
                                 <constraint firstItem="1Q5-Fn-WXR" firstAttribute="top" secondItem="291-gr-U7Q" secondAttribute="top" constant="20" id="hbG-nm-Dtk"/>
                                 <constraint firstItem="Wvv-WW-vkI" firstAttribute="leading" secondItem="291-gr-U7Q" secondAttribute="leading" constant="4" id="iD9-AV-amT"/>
                             </constraints>

@@ -33,7 +33,7 @@
 
 #import "CGUrlView.h"
 
-@interface CGDiscoverMainController ()<SDCycleScrollViewDelegate>
+@interface CGDiscoverMainController ()<SDCycleScrollViewDelegate, UITableViewDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *topView;
 
@@ -222,7 +222,7 @@
   return ishave;
 }
 
-#pragma UITableView Delegate
+#pragma mark - UITableView Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
@@ -252,11 +252,23 @@
     }
     return 0;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 0;
+    } else {
+        return 28;
+    }
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return self.listArray.count+1;
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    if (section == 0) {
+//        return nil;
+//    }
     UIView *view = [[UIView alloc]init];
     view.backgroundColor = [UIColor clearColor];
     return view;

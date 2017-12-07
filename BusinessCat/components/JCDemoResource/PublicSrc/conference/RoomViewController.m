@@ -32,7 +32,7 @@
 
 #define kVideoViewHeight (kMainScreenHeight * 0.4) // splitScreenViewController的高度
 #define kTabBarHeight 40
-#define kBtnLineHeight 1.4
+#define kBtnLineHeight 2
 
 NSString * const kCoursewareJuphoon = @"COURSEWARE_JUPHOON";
 NSString * const kCoursewareMath = @"COURSEWARE_MATH";
@@ -101,6 +101,7 @@ typedef enum {
 @property (nonatomic,strong) UIView *btnLine; // 按钮下面的线
 @property (weak, nonatomic) IBOutlet UIButton *myBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *myToolBarBtn;
+@property (weak, nonatomic) IBOutlet UIButton *titleBtn;
 @property (nonatomic,strong) UIButton *hideKeyboardBtn; // 隐藏键盘的按钮，覆盖全屏
 
 @property (nonatomic,strong) IMAChatViewController *chatVC;
@@ -295,11 +296,18 @@ typedef enum {
 - (void)onParticipantJoin:(NSString *)userId {
     _count = (int)[_confManager getRoomInfo].participants.count;
     _textLabel.text = [NSString stringWithFormat:@"RoomID:%@ 参与人数:%d 会议号码:%ld", _roomId, _count, _confNumber];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // 文档翻页
+        [JCDoodleManager selectPage:self.whiteBoardViewController.currentPage];
+    });
+    [self updateTitleBtn];
 }
 
 - (void)onParticipantLeft:(ErrorReason)errorReason userId:(NSString *)userId {
     _count = (int)[_confManager getRoomInfo].participants.count;
     _textLabel.text = [NSString stringWithFormat:@"RoomID:%@ 参与人数:%d 会议号码:%ld", _roomId, _count, _confNumber];
+    [self updateTitleBtn];
 }
 
 #pragma mark - BaseMeetingDelegate
@@ -323,6 +331,7 @@ typedef enum {
     [self showCurrentShowMode:ShowSplitScreen];
     [CTToast showWithText:@"加入会议成功"];
 //    [self setDoc]; // 设置课件
+    [self updateTitleBtn];
 }
 
 - (void)joinFailedWithReason:(ErrorReason)reason
@@ -841,6 +850,14 @@ typedef enum {
     self.hideKeyboardBtn = btn;
 }
 
+- (void)setupTitleBtn {
+    [self.titleBtn.superview bringSubviewToFront:self.titleBtn];
+    [self.titleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    UIImage *image = [UIImage imageNamed:@"video_block"];
+    image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 30, 0, 30)];
+    [self.titleBtn setBackgroundImage:image forState:UIControlStateNormal];
+}
+
 #pragma mark - yc_Action
 
 - (void)whiteBoardTabBtnClick {
@@ -999,13 +1016,9 @@ typedef enum {
     return NO;
 }
 
-- (void)addPPT {
-    NSMutableArray *images = [NSMutableArray arrayWithCapacity:4];
-    [images addObject:[UIImage imageNamed:@"1"]];
-    [images addObject:[UIImage imageNamed:@"2"]];
-    [images addObject:[UIImage imageNamed:@"3"]];
-    [images addObject:[UIImage imageNamed:@"4"]];
-    [self.whiteBoardViewController setBackgroundImages:images];
+- (void)updateTitleBtn {
+    NSString *title = [NSString stringWithFormat:@"  %@分钟(%d/%d人)  ", self.meeting.meetingDuration, (int)[[JCEngineManager sharedManager] getRoomInfo].participants.count, self.meeting.attendance];
+    [self.titleBtn setTitle:title forState:UIControlStateNormal];
 }
 
 // viewDidLoad 的时候调用
@@ -1029,13 +1042,8 @@ typedef enum {
 
     [self addKeyboardObserver];
     [self setupHideKeyboardBtn];
-//    [self addPPT];
     
-//    [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
-//    [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
-//    [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
-//    [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
-//    [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
+    [self setupTitleBtn];
 }
 
 
@@ -1126,7 +1134,7 @@ typedef enum {
     [_whiteBoardViewController setBackgroundImages:array];
     
     //        if (self.isTeacher) {
-    _whiteBoardViewController.currentPage = 0;
+//    _whiteBoardViewController.currentPage = 0;
     //        }
     
     //        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {

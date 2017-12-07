@@ -90,6 +90,11 @@
     NSInteger hp = (rect.size.width - faceSize.width * 7 - margin.width * (7 - 1))/2;
     NSInteger vp = (rect.size.height - faceSize.height * 3 - margin.height * (3 - 1))/2;
     
+    hp = 10;
+    vp = (rect.size.height - faceSize.height * 3) / 4;
+    float marginH = (rect.size.width - faceSize.width * 7 - hp * 2) / 6;
+    margin = CGSizeMake(marginH, vp);
+    
     CGRect faceRect = CGRectInset(rect, hp, vp);
     [self gridViews:self.subviews inColumn:7 size:faceSize margin:margin inRect:faceRect];
 }

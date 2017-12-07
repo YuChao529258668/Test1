@@ -131,8 +131,6 @@ IMAUser *user = [[IMAPlatform sharedInstance].contactMgr getUserByUserId:sender]
 TIM_GROUP 分支也修改了。
 
 
-ipad，从微信登录跳转回来，会打开手机登录界面，？？？关掉应用重新打开，一直提示6017.
-
 
 获取当期用户
 [ObjectShareTool sharedInstance].currentUser
@@ -145,4 +143,19 @@ ipad，从微信登录跳转回来，会打开手机登录界面，？？？关�
 
 课件翻页 JCDoodleDelegate JCDoodleActionSelectPage
 [JCDoodleManager selectPage:_currentPage];
+
+ 会议人数
+_maxCount = (int)[[JCEngineManager sharedManager] getRoomInfo].participants.count;
+
+聊天字体
+kIMAMiddleTextFont
+
+聊天表情面板
+ChatSystemFacePageView，
+聊天表情面板布局
+- (UIView *)gridViews:(NSArray *)views inColumn:(NSInteger)column size:(CGSize)cellSize margin:(CGSize)margin inRect:(CGRect)rect
+
+
+
+
 

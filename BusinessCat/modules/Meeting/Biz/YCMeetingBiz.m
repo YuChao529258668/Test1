@@ -141,4 +141,15 @@
     }];
 }
 
+//- (void)cancelMeetingWithMeetingID:(NSString *)mid cancelType:(int)type success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+//    NSDictionary *dic = @{@"meetingId": mid, @"type": @(type)};
+//    [self.component UIPostRequestWithURL:URL_Meeting_Cancel param:dic success:^(id data) {
+//        success(data);
+//    } fail:^(NSError *error) {
+//        fail(error);
+//    }];
+//}
+
+
+
 @end
