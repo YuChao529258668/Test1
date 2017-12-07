@@ -24,7 +24,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onKeyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onKeyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onKeyboardDidShow:) name:UIKeyboardDidChangeFrameNotification object:nil];
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor colorWithRed:245.0/255 green:245.0/255 blue:247.0/255 alpha:1];// 表情颜色 r245 g245 b247
     }
     return self;
 }
@@ -45,7 +45,7 @@
         [self.KVOController observe:_toolBar keyPath:@"contentHeight" options:NSKeyValueObservingOptionNew |NSKeyValueObservingOptionOld block:^(id observer, id object, NSDictionary *change) {
             [ws onToolBarContentHeightChanged:change];
         }];
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor colorWithRed:245.0/255 green:245.0/255 blue:247.0/255 alpha:1];// 表情颜色 r245 g245 b247
     }
     return self;
 }

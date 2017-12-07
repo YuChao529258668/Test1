@@ -86,8 +86,8 @@
         }
         else if(i ==  kWork){
             tabEntity.title = @"工作";
-            tabEntity.normalImage = @"tab_word_normal";
-            tabEntity.selectedName = @"tab_word_normal_Highlighted";
+            tabEntity.normalImage = @"tab_college_normal";
+            tabEntity.selectedName = @"tab_college_highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
@@ -147,9 +147,9 @@
             [self.baseVC.view setFrame:self.contentView.bounds];
             [self.contentView addSubview:self.baseVC.view];
         }else if(i == kDiscoverMain){
-            tabEntity.title = @"百宝箱"; // 发现
-            tabEntity.normalImage = @"tab_college_normal";
-            tabEntity.selectedName = @"tab_college_highlighted";
+            tabEntity.title = @"发现"; // 发现
+            tabEntity.normalImage = @"tab_word_normal";
+            tabEntity.selectedName = @"tab_word_normal_Highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];

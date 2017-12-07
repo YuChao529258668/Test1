@@ -136,6 +136,7 @@ TIM_GROUP 分支也修改了。
 [ObjectShareTool sharedInstance].currentUser
 
 腾讯云 刷新票据失败
+此时注销的话，会无限菊花“正在退出”
 
 
 修改课件 JCDoodleDelegate JCDoodleActionCourseware
@@ -154,7 +155,8 @@ kIMAMiddleTextFont
 ChatSystemFacePageView，
 聊天表情面板布局
 - (UIView *)gridViews:(NSArray *)views inColumn:(NSInteger)column size:(CGSize)cellSize margin:(CGSize)margin inRect:(CGRect)rect
-
+聊天表情面板背景色
+ChatInputPanel.m
 
 
 

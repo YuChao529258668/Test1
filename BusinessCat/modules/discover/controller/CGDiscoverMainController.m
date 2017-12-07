@@ -84,7 +84,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"百宝箱";//发现
+    self.title = @"发现";//发现
     [self hideCustomBackBtn];
     self.tableview.separatorStyle = NO;
     UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-42.5f, 22, 40, 40)];

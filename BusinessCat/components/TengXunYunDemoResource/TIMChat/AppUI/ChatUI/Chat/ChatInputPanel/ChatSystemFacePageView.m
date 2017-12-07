@@ -90,13 +90,38 @@
     NSInteger hp = (rect.size.width - faceSize.width * 7 - margin.width * (7 - 1))/2;
     NSInteger vp = (rect.size.height - faceSize.height * 3 - margin.height * (3 - 1))/2;
     
-    hp = 10;
-    vp = (rect.size.height - faceSize.height * 3) / 4;
-    float marginH = (rect.size.width - faceSize.width * 7 - hp * 2) / 6;
-    margin = CGSizeMake(marginH, vp);
-    
     CGRect faceRect = CGRectInset(rect, hp, vp);
+    // x, 9列
     [self gridViews:self.subviews inColumn:7 size:faceSize margin:margin inRect:faceRect];
+    
+    
+    
+    int row = 3;
+    int column = 9; // x、 plus, 9。
+    hp = 10;
+    vp = (rect.size.height - faceSize.height * row) / (row + 1);
+    float marginH = (rect.size.width - faceSize.width * column - hp * 2) / (column - 1);
+
+    int index = 0;
+    float x = 0;
+    float y = 0;
+    
+    for (int i = 0; i < row; i ++) {
+        y = i * vp + vp + i * faceSize.height;
+        
+        for (int j = 0; j < column; j ++) {
+            index = i * column + j;
+            if (index >= self.subviews.count) {
+                break;
+            }
+            x = hp + j * faceSize.width + j * marginH;
+            self.subviews[index].frame = CGRectMake(x, y, faceSize.width, faceSize.height);
+        }
+    }
+    
+    y = row * vp + (row - 1) * faceSize.height;
+    x = hp + (column - 1) * faceSize.width + (column - 1) * marginH;
+    self.subviews.lastObject.frame = CGRectMake(x, y, faceSize.width, faceSize.height);
 }
 
 
