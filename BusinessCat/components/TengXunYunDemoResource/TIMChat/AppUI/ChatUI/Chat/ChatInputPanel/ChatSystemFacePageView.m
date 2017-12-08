@@ -84,22 +84,23 @@
 - (void)relayoutFrameOfSubViews
 {
     CGSize faceSize = CGSizeMake(32, 32);
-    CGSize margin = CGSizeMake(kDefaultMargin, kDefaultMargin);
+//    CGSize margin = CGSizeMake(kDefaultMargin, kDefaultMargin);
     
     CGRect rect = self.bounds;
-    NSInteger hp = (rect.size.width - faceSize.width * 7 - margin.width * (7 - 1))/2;
-    NSInteger vp = (rect.size.height - faceSize.height * 3 - margin.height * (3 - 1))/2;
+//    NSInteger hp = (rect.size.width - faceSize.width * 7 - margin.width * (7 - 1))/2;
+//    NSInteger vp = (rect.size.height - faceSize.height * 3 - margin.height * (3 - 1))/2;
     
-    CGRect faceRect = CGRectInset(rect, hp, vp);
-    // x, 9列
-    [self gridViews:self.subviews inColumn:7 size:faceSize margin:margin inRect:faceRect];
+//    CGRect faceRect = CGRectInset(rect, hp, vp);
+
+    //    [self gridViews:self.subviews inColumn:7 size:faceSize margin:margin inRect:faceRect];
     
     
     
     int row = 3;
-    int column = 9; // x、 plus, 9。
-    hp = 10;
-    vp = (rect.size.height - faceSize.height * row) / (row + 1);
+//    int column = 9; // x、 plus, 9。
+    int column = (self.frame.size.width <= 320)? 7: 9;
+    int hp = 10;
+    int vp = (rect.size.height - faceSize.height * row) / (row + 1);
     float marginH = (rect.size.width - faceSize.width * column - hp * 2) / (column - 1);
 
     int index = 0;

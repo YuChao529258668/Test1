@@ -100,7 +100,7 @@
 
 - (void)getMeetingDetailWithMeetingID:(NSString *)mid  success:(void(^)(CGMeeting *meeting))success fail:(void(^)(NSError *error))fail {
     if (!mid) {
-        [CTToast showWithText:@"参数为空，请稍后再试"];
+        [CTToast showWithText:@"获取会议详情失败: 会议id为空"];
         return;
     }
 
@@ -146,6 +146,11 @@
 
 // 会议当前文件
 - (void)getCurrentFileWithMeetingID:(NSString *)mid success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+    if (!mid) {
+        [CTToast showWithText:@"获取会议文件失败：会议 id 为空"];
+        return;
+    }
+
     NSDictionary *dic = @{@"meetingId": mid};
     [self.component UIPostRequestWithURL:URL_Meeting_Current_File param:dic success:^(id data) {
         success(data);
@@ -156,6 +161,11 @@
 
 // 会议使用文件
 - (void)updateMeetingFileWithMeetingID:(NSString *)mid fileType:(int)type toId:(NSString *)toID success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+    if (!mid || !toID ) {
+        [CTToast showWithText:[NSString stringWithFormat:@"更新会议文件失败。会议id:%@, 文件id:%@", mid, toID]];
+        return;
+    }
+
     NSDictionary *dic = @{@"meetingId": mid, @"fileType": @(type), @"toId": toID};
     [self.component UIPostRequestWithURL:URL_Meeting_Use_File param:dic success:^(id data) {
         success(data);

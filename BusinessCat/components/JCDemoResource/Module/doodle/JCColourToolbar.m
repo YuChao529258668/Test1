@@ -63,13 +63,16 @@
     _buttonSize = CGSizeMake(28, 28);
     _buttonSpacing = 28;
     
+    // 颜色图片
     //加颜色按钮
     for (int i = 0; i < _brushColorsArray.count; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIImage *image = [UIImage imageNamed:@"white"];
+//        UIImage *image = [UIImage imageNamed:@"white"];
+        UIImage *image = [UIImage imageNamed:@"icon_pan_normal"];
         UIImage *tintImage = [self imageWithColor:[self colorWithHexString:[_brushColorsArray objectAtIndex:i]] originalImage:image];
         [btn setImage:tintImage forState:UIControlStateNormal];
-        UIImage *selImage = [UIImage imageNamed:@"white_selected"];
+//        UIImage *selImage = [UIImage imageNamed:@"white_selected"];
+        UIImage *selImage = [UIImage imageNamed:@"icon_pan_highlight"];
         UIImage *selTintImage = [self imageWithColor:[self colorWithHexString:[_brushColorsArray objectAtIndex:i]] originalImage:selImage];
         [btn setImage:selTintImage forState:UIControlStateSelected];
         [btn addTarget:self action:@selector(chooseColorAction:) forControlEvents:UIControlEventTouchUpInside];

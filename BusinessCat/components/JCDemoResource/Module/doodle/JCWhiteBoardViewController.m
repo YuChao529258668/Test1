@@ -10,6 +10,10 @@
 #import <JCApi/JCApi.h>
 #import "JCDoodleView.h"
 
+#import "YCMeetingBiz.h"
+#import "YCSelectMeetingFileController.h"
+#import "CGInfoHeadEntity.h"
+
 #define kDoodletoolbarHeight 44
 #define kDoodletoolbarWidth  [UIScreen mainScreen].bounds.size.width //原来179
 
@@ -295,12 +299,14 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     
     //设置colourButton的初始颜色
     _brushColor = [_colorsToolbar currentColor];
-    UIImage *image = [UIImage imageNamed:@"icon_color_highlight"];
+    UIImage *image = [UIImage imageNamed:@"icon_pan_highlight"];
     UIImage *tintImage = [self imageWithColor:_brushColor originalImage:image];
-    _colourButton = [_doodletoolbar.buttons objectAtIndex:1];
+//    _colourButton = [_doodletoolbar.buttons objectAtIndex:1];
+    _colourButton = [_doodletoolbar.buttons objectAtIndex:DoodleToolbarButtonTypeColour];
     [_colourButton setImage:tintImage forState:UIControlStateNormal];
     
-    _brushButton = [_doodletoolbar.buttons objectAtIndex:0];
+//    _brushButton = [_doodletoolbar.buttons objectAtIndex:0];
+    _brushButton = nil;
     _brushButton.selected = YES;
     
     [self loadDoodleViewWithPageNumber:_currentPage];
@@ -370,7 +376,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 #pragma mark - ColourToolbar delegate
 
 - (void)colourToolbar:(JCColourToolbar *)colourToolbar color:(UIColor *)color {
-    UIImage *image = [UIImage imageNamed:@"icon_color_highlight"];
+    UIImage *image = [UIImage imageNamed:@"icon_pan_highlight"];
     UIImage *tintImage = [self imageWithColor:color originalImage:image];
     [_colourButton setImage:tintImage forState:UIControlStateNormal];
     
@@ -611,6 +617,11 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         _backgroundImages = images;
         [self loadDoodleViewWithPageNumber:_currentPage];
     }
+    
+    BOOL hidden = images.count == 0? YES: NO;
+    self.prevBtn.hidden = hidden;
+    self.nextBtn.hidden = hidden;
+    self.pageLabel.hidden = hidden;
 }
 
 - (void)cleanAllPath {
@@ -807,6 +818,11 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     [self.view addSubview:pageLabel];
     self.pageLabel = pageLabel;
     [self updatePageLabel];
+    
+    BOOL hidden = YES;
+    self.prevBtn.hidden = hidden;
+    self.nextBtn.hidden = hidden;
+    self.pageLabel.hidden = hidden;
 }
 
 #pragma mark - yc_Actions
@@ -866,7 +882,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 }
 
 
-- (void)fileBtnClick {
+- (void)fileBtnClick0 {
 //      kkCoursewareJuphoon
 //      kkCoursewareMath
 //      kkCoursewarePhysics
@@ -901,6 +917,38 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     [ac addAction:cancle];
 
     [self presentViewController:ac animated:YES completion:nil];
+}
+
+// 选择文件
+- (void)fileBtnClick {
+    __weak typeof(self) weakself = self;
+    YCSelectMeetingFileController *vc = [YCSelectMeetingFileController new];
+    vc.didSelectBlock = ^(id entity) {
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"确定使用此文档吗？" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [ac addAction:cancel];
+        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakself.navigationController popViewControllerAnimated:YES];
+            [weakself downMeetingFileWith:entity];
+            [weakself updateMeetingFileWith:entity];
+        }];
+        [ac addAction:sure];
+        [weakself presentViewController:ac animated:YES completion:nil];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)downMeetingFileWith:(CGInfoHeadEntity *)info {
+    NSString *infoId = info.infoId;
+
+}
+
+- (void)updateMeetingFileWith:(CGInfoHeadEntity *)info {
+    [[YCMeetingBiz new] updateMeetingFileWithMeetingID:self.meetingID fileType:info.type toId:info.infoId success:^(id data) {
+        
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 @end

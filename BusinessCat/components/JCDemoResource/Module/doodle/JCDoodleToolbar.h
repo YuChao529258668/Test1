@@ -11,11 +11,12 @@
 @class JCDoodleToolbar;
 
 typedef NS_ENUM(NSUInteger, DoodleToolbarButtonType) {
-    DoodleToolbarButtonTypeDraw = 0,         //  涂鸦
+//    DoodleToolbarButtonTypeDraw = 0,         //  涂鸦
     DoodleToolbarButtonTypeColour,           //  画笔颜色
     DoodleToolbarButtonTypeClear,            //  清除
     DoodleToolbarButtonTypeRevoke,            //  撤回
-    DoodleToolbarButtonTypeFile                 // 文件
+    DoodleToolbarButtonTypeFile,                 // 文件
+    DoodleToolbarButtonTypeDraw         //  涂鸦
 };
 
 @protocol DoodleToolbarDelegate <NSObject>

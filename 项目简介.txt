@@ -158,6 +158,14 @@ ChatSystemFacePageView，
 聊天表情面板背景色
 ChatInputPanel.m
 
+管家
+CGUserCollectController
+
+选择文件
+YCSelectMeetingFileController
+
+
+
 
 
 

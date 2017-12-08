@@ -157,6 +157,8 @@ static YCJCSDKHelper * helper;
     NSString *server = @"http:router.justalkcloud.com:8080";
     if ([MtcLoginManager Login:userID password:@"jp580" network:server] == ZOK) {
         NSLog(@"调用语音登录成功");
+    } else {
+        [CTToast showWithText:@"会议功能无法登录"];
     }
 }
 

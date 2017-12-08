@@ -43,4 +43,7 @@
 
 - (void)updatePageLabel;
 
+@property (nonatomic,strong) NSString *meetingID;
+
+
 @end

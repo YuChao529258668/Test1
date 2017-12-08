@@ -13,7 +13,7 @@
 #import "JCPreviewViewController.h"
 
 #import "JCScreenShareViewController.h"
-#import "JCSplitScreenViewController.h" // 视频
+#import "JCSplitScreenViewController.h"
 #import "JCWhiteBoardViewController.h"
 
 #import "JCStatisticsViewController.h"
@@ -26,6 +26,7 @@
 
 
 #import "CGMeeting.h"
+#import "YCMeetingFile.h"
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoomMembersController.h"
 #import "YCJCSDKHelper.h"
@@ -98,6 +99,8 @@ typedef enum {
 @property (nonatomic,strong) UIButton *whiteBoardTabBtn; // 切换白板
 @property (nonatomic,strong) UIButton *chatTabBtn;// 切换 讨论
 @property (nonatomic,strong) UIButton *memberTabBtn; // 切换 成员
+@property (nonatomic,strong) UIButton *desktopBtn; // 切换 桌面
+
 @property (nonatomic,strong) UIView *btnLine; // 按钮下面的线
 @property (weak, nonatomic) IBOutlet UIButton *myBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *myToolBarBtn;
@@ -301,13 +304,13 @@ typedef enum {
         // 文档翻页
         [JCDoodleManager selectPage:self.whiteBoardViewController.currentPage];
     });
-    [self updateTitleBtn];
+    [self updateMemberBtn];
 }
 
 - (void)onParticipantLeft:(ErrorReason)errorReason userId:(NSString *)userId {
     _count = (int)[_confManager getRoomInfo].participants.count;
     _textLabel.text = [NSString stringWithFormat:@"RoomID:%@ 参与人数:%d 会议号码:%ld", _roomId, _count, _confNumber];
-    [self updateTitleBtn];
+    [self updateMemberBtn];
 }
 
 #pragma mark - BaseMeetingDelegate
@@ -332,6 +335,7 @@ typedef enum {
     [CTToast showWithText:@"加入会议成功"];
 //    [self setDoc]; // 设置课件
     [self updateTitleBtn];
+    [self updateMemberBtn];
 }
 
 - (void)joinFailedWithReason:(ErrorReason)reason
@@ -768,10 +772,11 @@ typedef enum {
 - (void)layoutTabBar {
     self.tabBar.frame = CGRectMake(0, kVideoViewHeight, kMainScreenWidth, kTabBarHeight);
     
-    float btnWidth = kMainScreenWidth / 3;
+    float btnWidth = kMainScreenWidth / 4;
     self.whiteBoardTabBtn.frame = CGRectMake(0, 0, btnWidth, kTabBarHeight);
-    self.chatTabBtn.frame = CGRectMake(btnWidth, 0, btnWidth, kTabBarHeight);
-    self.memberTabBtn.frame = CGRectMake(btnWidth * 2, 0, btnWidth, kTabBarHeight);
+    self.desktopBtn.frame = CGRectMake(btnWidth * 1, 0, btnWidth, kTabBarHeight);
+    self.chatTabBtn.frame = CGRectMake(btnWidth * 2, 0, btnWidth, kTabBarHeight);
+    self.memberTabBtn.frame = CGRectMake(btnWidth * 3, 0, btnWidth, kTabBarHeight);
     
     CGRect frame = self.btnLine.frame;
     frame.origin.y = kTabBarHeight - kBtnLineHeight;
@@ -796,31 +801,37 @@ typedef enum {
     self.btnLine.backgroundColor = TEXT_MAIN_CLR;
     
     self.whiteBoardTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.desktopBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.chatTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.memberTabBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     
     self.whiteBoardTabBtn.selected = YES;
     
     [self.whiteBoardTabBtn addTarget:self action:@selector(whiteBoardTabBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.desktopBtn addTarget:self action:@selector(desktopBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.chatTabBtn addTarget:self action:@selector(chatTabBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.memberTabBtn addTarget:self action:@selector(memberTabBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
     [self.whiteBoardTabBtn setTitle:@"白板" forState:UIControlStateNormal];
+    [self.desktopBtn setTitle:@"桌面" forState:UIControlStateNormal];
     [self.chatTabBtn setTitle:@"讨论" forState:UIControlStateNormal];
     [self.memberTabBtn setTitle:@"成员" forState:UIControlStateNormal];
     
     UIFont *font= [UIFont systemFontOfSize:15];
     self.whiteBoardTabBtn.titleLabel.font = font;
+    self.desktopBtn.titleLabel.font = font;
     self.chatTabBtn.titleLabel.font = font;
     self.memberTabBtn.titleLabel.font = font;
 
     UIColor *colorS = TEXT_MAIN_CLR;
     [self.whiteBoardTabBtn setTitleColor:colorS forState:UIControlStateSelected];
+    [self.desktopBtn setTitleColor:colorS forState:UIControlStateSelected];
     [self.chatTabBtn setTitleColor:colorS forState:UIControlStateSelected];
     [self.memberTabBtn setTitleColor:colorS forState:UIControlStateSelected];
     
     UIColor *colorN = TEXT_GRAY_CLR;
     [self.whiteBoardTabBtn setTitleColor:colorN forState:UIControlStateNormal];
+    [self.desktopBtn setTitleColor:colorN forState:UIControlStateNormal];
     [self.chatTabBtn setTitleColor:colorN forState:UIControlStateNormal];
     [self.memberTabBtn setTitleColor:colorN forState:UIControlStateNormal];
     
@@ -834,6 +845,7 @@ typedef enum {
     self.tabBar.backgroundColor = [UIColor whiteColor];
     
     [self.tabBar addSubview:self.whiteBoardTabBtn];
+    [self.tabBar addSubview:self.desktopBtn];
     [self.tabBar addSubview:self.chatTabBtn];
     [self.tabBar addSubview:self.memberTabBtn];
     [self.tabBar addSubview:self.btnLine];
@@ -852,6 +864,7 @@ typedef enum {
 
 - (void)setupTitleBtn {
     [self.titleBtn.superview bringSubviewToFront:self.titleBtn];
+    [self.titleBtn setTitle:@" 0分钟 " forState:UIControlStateNormal];
     [self.titleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     UIImage *image = [UIImage imageNamed:@"video_block"];
     image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 30, 0, 30)];
@@ -866,6 +879,7 @@ typedef enum {
     self.membersVC.view.hidden = YES;
 
     self.whiteBoardTabBtn.selected = YES;
+    self.desktopBtn.selected = NO;
     self.chatTabBtn.selected = NO;
     self.memberTabBtn.selected = NO;
     
@@ -876,12 +890,29 @@ typedef enum {
 //    [self.tabBar sendSubviewToBack:self.whiteBoardTabBtn];
 }
 
+- (void)desktopBtnClick {
+    self.whiteBoardViewController.view.hidden = YES;
+//    self.desktopBtn.
+    self.chatVC.view.hidden = YES;
+    self.membersVC.view.hidden = YES;
+    
+    self.whiteBoardTabBtn.selected = NO;
+    self.desktopBtn.selected = YES;
+    self.chatTabBtn.selected = NO;
+    self.memberTabBtn.selected = NO;
+    
+    [self layoutBtnLine:self.desktopBtn];
+    [self.view endEditing:YES];
+
+}
+
 - (void)chatTabBtnClick {
     self.whiteBoardViewController.view.hidden = YES;
     self.chatVC.view.hidden = NO;
     self.membersVC.view.hidden = YES;
 
     self.whiteBoardTabBtn.selected = NO;
+    self.desktopBtn.selected = NO;
     self.chatTabBtn.selected = YES;
     self.memberTabBtn.selected = NO;
     
@@ -897,6 +928,7 @@ typedef enum {
     self.membersVC.view.hidden = NO;
 
     self.whiteBoardTabBtn.selected = NO;
+    self.desktopBtn.selected = NO;
     self.chatTabBtn.selected = NO;
     self.memberTabBtn.selected = YES;
     
@@ -939,17 +971,14 @@ typedef enum {
 
 // 会议详情
 - (void)getMeetingDetail {
-    if (!self.meetingID) {
-        [CTToast showWithText:@"获取会议详情失败: 会议id为空"];
-        return;
-    }
-    
     [[YCMeetingBiz new] getMeetingDetailWithMeetingID:self.meetingID success:^(CGMeeting *meeting) {
         self.meeting = meeting;
         // 获取群聊
         [self getGroupWithGroupID:self.meeting.groupId];
         // 成员
         [self addMembersControllerWithUsers:meeting.meetingUserList];
+        [self updateTitleBtn];
+        [self getCurrentMeetingFile];
     } fail:^(NSError *error) {
         [CTToast showWithText:[NSString stringWithFormat:@"获取会议详情失败 : %@", error]];
     }];
@@ -1017,8 +1046,13 @@ typedef enum {
 }
 
 - (void)updateTitleBtn {
-    NSString *title = [NSString stringWithFormat:@"  %@分钟(%d/%d人)  ", self.meeting.meetingDuration, (int)[[JCEngineManager sharedManager] getRoomInfo].participants.count, self.meeting.attendance];
+    NSString *title = [NSString stringWithFormat:@" %@分钟 ", self.meeting.meetingDuration];
     [self.titleBtn setTitle:title forState:UIControlStateNormal];
+}
+
+- (void)updateMemberBtn {
+    NSString *title = [NSString stringWithFormat:@"成员(%d/%d人) ", (int)[[JCEngineManager sharedManager] getRoomInfo].participants.count, self.meeting.attendance];
+    [self.memberTabBtn setTitle:title forState:UIControlStateNormal];
 }
 
 // viewDidLoad 的时候调用
@@ -1044,6 +1078,12 @@ typedef enum {
     [self setupHideKeyboardBtn];
     
     [self setupTitleBtn];
+    [self updateTitleBtn];
+    
+    self.whiteBoardViewController.meetingID = self.meetingID;
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.preview.backgroundColor = [UIColor whiteColor];
 }
 
 
@@ -1085,7 +1125,7 @@ typedef enum {
 }
 
 
-#pragma mark - 文档共享
+#pragma mark - 课件
 
 // 设置课件
 - (void)setDoc {
@@ -1143,6 +1183,27 @@ typedef enum {
     //        }
 
 }
+
+
+#pragma mark - 课件接口
+
+- (void)getCurrentMeetingFile {
+    __weak typeof(self) weakself = self;
+    [[YCMeetingBiz new] getCurrentFileWithMeetingID:self.meetingID success:^(id data) {
+        YCMeetingFile *file = [YCMeetingFile mj_objectWithKeyValues:data];
+        [weakself getImagesOfURLs:file.imageUrls complete:^(NSArray *images) {
+            [weakself.whiteBoardViewController setBackgroundImages:images];
+        }];
+    } fail:^(NSError *error) {
+        
+    }];
+}
+
+- (void)getImagesOfURLs:(NSArray<NSString *> *)urls complete:(void (^)(NSArray *images))block{
+    
+}
+
+
 
 @end
 
