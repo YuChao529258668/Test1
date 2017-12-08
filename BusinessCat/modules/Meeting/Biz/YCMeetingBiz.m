@@ -141,14 +141,38 @@
     }];
 }
 
-//- (void)cancelMeetingWithMeetingID:(NSString *)mid cancelType:(int)type success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
-//    NSDictionary *dic = @{@"meetingId": mid, @"type": @(type)};
-//    [self.component UIPostRequestWithURL:URL_Meeting_Cancel param:dic success:^(id data) {
-//        success(data);
-//    } fail:^(NSError *error) {
-//        fail(error);
-//    }];
-//}
+
+#pragma mark - 文件
+
+// 会议当前文件
+- (void)getCurrentFileWithMeetingID:(NSString *)mid success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+    NSDictionary *dic = @{@"meetingId": mid};
+    [self.component UIPostRequestWithURL:URL_Meeting_Current_File param:dic success:^(id data) {
+        success(data);
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
+// 会议使用文件
+- (void)updateMeetingFileWithMeetingID:(NSString *)mid fileType:(int)type toId:(NSString *)toID success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+    NSDictionary *dic = @{@"meetingId": mid, @"fileType": @(type), @"toId": toID};
+    [self.component UIPostRequestWithURL:URL_Meeting_Use_File param:dic success:^(id data) {
+        success(data);
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
+// 会议文件页码
+- (void)updateMeetingPageWithMeetingID:(NSString *)mid currentPage:(int)page success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+    NSDictionary *dic = @{@"meetingId": mid, @"pageIn": @(page)};
+    [self.component UIPostRequestWithURL:URL_Meeting_File_Page param:dic success:^(id data) {
+        success(data);
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
 
 
 
