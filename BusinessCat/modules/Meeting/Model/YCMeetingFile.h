@@ -13,14 +13,17 @@
 
 @interface YCMeetingFile : NSObject
 
+// 后台返回的数据
 @property (nonatomic,strong) NSString *fileName;
 @property (nonatomic,assign) int fileType;
-@property (nonatomic,assign) int pageCount;
-@property (nonatomic,assign) int pageIn;
+@property (nonatomic,assign) int pageCount; // 总页数
+@property (nonatomic,assign) int pageIn; // 当前页数。服务器默认 1 开始。所以拿到要-1，上传要+1
 @property (nonatomic,strong) NSString *picName; // 所有图片地址用英文逗号连接
 @property (nonatomic,strong) NSString *picPath; // 第一张图片的地址
 
+// 自定义数据
 @property (nonatomic,strong) NSArray<NSString *> *imageUrls;
+@property (nonatomic,strong) NSArray<NSString *> *imageNames;
 
 @end
 //

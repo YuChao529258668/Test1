@@ -152,14 +152,14 @@
     }
 
     NSDictionary *dic = @{@"meetingId": mid};
-    [self.component UIPostRequestWithURL:URL_Meeting_Current_File param:dic success:^(id data) {
+    [self.component sendPostRequestWithURL:URL_Meeting_Current_File param:dic success:^(id data) {
         success(data);
     } fail:^(NSError *error) {
         fail(error);
     }];
 }
 
-// 会议使用文件
+// 会议使用文件。关闭课件，toId = @"0"
 - (void)updateMeetingFileWithMeetingID:(NSString *)mid fileType:(int)type toId:(NSString *)toID success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
     if (!mid || !toID ) {
         [CTToast showWithText:[NSString stringWithFormat:@"更新会议文件失败。会议id:%@, 文件id:%@", mid, toID]];
@@ -167,7 +167,7 @@
     }
 
     NSDictionary *dic = @{@"meetingId": mid, @"fileType": @(type), @"toId": toID};
-    [self.component UIPostRequestWithURL:URL_Meeting_Use_File param:dic success:^(id data) {
+    [self.component sendPostRequestWithURL:URL_Meeting_Use_File param:dic success:^(id data) {
         success(data);
     } fail:^(NSError *error) {
         fail(error);
@@ -176,11 +176,15 @@
 
 // 会议文件页码
 - (void)updateMeetingPageWithMeetingID:(NSString *)mid currentPage:(int)page success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
-    NSDictionary *dic = @{@"meetingId": mid, @"pageIn": @(page)};
-    [self.component UIPostRequestWithURL:URL_Meeting_File_Page param:dic success:^(id data) {
-        success(data);
+    NSDictionary *dic = @{@"meetingId": mid, @"pageIn": @(page+1)};
+    [self.component sendPostRequestWithURL:URL_Meeting_File_Page param:dic success:^(id data) {
+        if (success) {
+            success(data);
+        }
     } fail:^(NSError *error) {
-        fail(error);
+        if (fail) {
+            fail(error);
+        }
     }];
 }
 

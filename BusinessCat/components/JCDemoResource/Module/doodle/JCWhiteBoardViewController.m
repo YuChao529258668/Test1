@@ -11,6 +11,8 @@
 #import "JCDoodleView.h"
 
 #import "YCMeetingBiz.h"
+#import "YCMeetingFile.h"
+#import "YCMeetingFileManager.h"
 #import "YCSelectMeetingFileController.h"
 #import "CGInfoHeadEntity.h"
 
@@ -120,7 +122,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 @end
 
 
-@interface JCWhiteBoardViewController () <JCEngineDelegate, JCDoodleDelegate, DoodleToolbarDelegate, ColourToolbarDelegate>
+@interface JCWhiteBoardViewController () <JCEngineDelegate, JCDoodleDelegate, DoodleToolbarDelegate, ColourToolbarDelegate, YCMeetingFileManagerDelegate>
 {
     NSArray<UIColor *> *_backgroundColors;
     NSArray<UIImage *> *_backgroundImages;
@@ -151,6 +153,10 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 @property (nonatomic,strong) UIButton *prevBtn;
 @property (nonatomic,strong) UILabel *pageLabel;
 @property (nonatomic,strong) UIButton *closeDocBtn;
+@property (nonatomic,strong) YCMeetingFile *meetingFile; // 课件信息
+//@property (nonatomic,strong) NSString *currentFileName; // 当前显示的课件名字
+@property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic,strong) YCMeetingFileManager *fileManager;
 
 
 @end
@@ -160,6 +166,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 @implementation JCWhiteBoardViewController
 
 #pragma mark - Setter and Getter
+
 
 - (void)setCurrentPage:(NSUInteger)currentPage {
     if (currentPage >= _pageCount) {
@@ -243,6 +250,9 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         _doodlePathCache = [[DoodlePathCache alloc] init];
         [[JCEngineManager sharedManager] setDelegate:self];
         [JCDoodleManager setDelegate:self];
+        
+        _fileManager = [YCMeetingFileManager shareManager];
+        _fileManager.delegate = self;
     }
     return self;
 }
@@ -281,6 +291,13 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     [self layoutPPTViews];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self.timer invalidate];
+    self.timer = nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -312,6 +329,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     [self loadDoodleViewWithPageNumber:_currentPage];
     
     [self setupPPTViews];
+    [self beginCheckCurrentMeetingFile];
 }
 
 #pragma mark - DoodleToolbar delegate
@@ -622,6 +640,9 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     self.prevBtn.hidden = hidden;
     self.nextBtn.hidden = hidden;
     self.pageLabel.hidden = hidden;
+    self.closeDocBtn.hidden = hidden;
+    self.pageCount = images.count;
+    [self updatePageLabel];
 }
 
 - (void)cleanAllPath {
@@ -700,9 +721,19 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     _doodleView.backgroundColor = color;
     
     UIImage *image = _backgroundImage;
-    if (page < _backgroundImages.count) {
-        image = _backgroundImages[page];
+//    if (page < _backgroundImages.count) {
+//        image = _backgroundImages[page];
+//    }
+    NSUInteger count = self.meetingFile.imageUrls.count;
+    if (count > 0) {
+        page = page >= count? count - 1: page;
+//        image = [self.fileManager getImageWithURLStr:self.meetingFile.imageUrls[page]];
+        
+        NSString *urlStr = self.meetingFile.imageUrls[page];
+        NSString *imageName = self.meetingFile.imageNames[page];
+        image = [self.fileManager getImageWithURLStr:urlStr imageName:imageName fileName:self.meetingFile.fileName];
     }
+
     _doodleView.backgroundImage = image;
     
     [self drawCachePathWithPageNumber:page];
@@ -828,17 +859,35 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 #pragma mark - yc_Actions
 
 - (void)nextPageBtnClick {
+    if (self.pageCount == 0) {
+        return;
+    }
+    
+    if (self.currentPage == self.pageCount - 1) {
+        return;
+    }
+    
     int page = self.currentPage + 1;
-    page = page > self.pageCount? self.pageCount: page;
+    page = page >= self.pageCount? self.pageCount - 1: page;
     self.currentPage = page;
     [self updatePageLabel];
+    [[YCMeetingBiz new] updateMeetingPageWithMeetingID:self.meetingID currentPage:page success:nil fail:nil];
 }
 
 - (void)previousPageBtnClick {
+    if (self.pageCount == 0) {
+        return;
+    }
+
+    if (self.currentPage == 0) {
+        return;
+    }
+    
     int page = self.currentPage - 1;
     page = page < 0? 0: page;
     self.currentPage = page;
     [self updatePageLabel];
+    [[YCMeetingBiz new] updateMeetingPageWithMeetingID:self.meetingID currentPage:page success:nil fail:nil];
 }
 
 - (void)updatePageLabel {
@@ -852,9 +901,17 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 }
 
 - (void)closeDocBtnClick {
-    [JCDoodleManager sendCoursewareUrl:@""];
+//    [JCDoodleManager sendCoursewareUrl:@""];
+    self.meetingFile = nil;
+    self.pageCount = 0;
+    self.currentPage = 0;
+    [self setBackgroundImages:nil];
     [self updatePageLabel];
     self.closeDocBtn.hidden = YES;
+    
+    CGInfoHeadEntity *info = [CGInfoHeadEntity new];
+    info.infoId = @"0";
+    [self updateMeetingFileWith:info withSuccess:nil];
 }
 
 - (void)layoutPPTViews {
@@ -927,10 +984,19 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"确定使用此文档吗？" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         [ac addAction:cancel];
+        
         UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [weakself.navigationController popViewControllerAnimated:YES];
-            [weakself downMeetingFileWith:entity];
-            [weakself updateMeetingFileWith:entity];
+            
+            CGInfoHeadEntity *info = (CGInfoHeadEntity *)entity;
+            if ([info.title isEqualToString:self.meetingFile.fileName]) {
+                return ;
+            } else {
+                // 更新服务器
+                [weakself updateMeetingFileWith:entity withSuccess:^{
+                    [weakself checkCurrentMeetingFile];
+                }];
+            }
         }];
         [ac addAction:sure];
         [weakself presentViewController:ac animated:YES completion:nil];
@@ -938,17 +1004,132 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)downMeetingFileWith:(CGInfoHeadEntity *)info {
-    NSString *infoId = info.infoId;
-
+- (void)updateMeetingFileWith:(CGInfoHeadEntity *)info withSuccess:(void(^)())success {
+    [[YCMeetingBiz new] updateMeetingFileWithMeetingID:self.meetingID fileType:info.type toId:info.infoId success:^(id data) {
+        if (success) {
+            success();
+        }
+    } fail:^(NSError *error) {
+        [CTToast showWithText:[NSString stringWithFormat:@"更新会议文件失败 : %@", error]];
+    }];
 }
 
-- (void)updateMeetingFileWith:(CGInfoHeadEntity *)info {
-    [[YCMeetingBiz new] updateMeetingFileWithMeetingID:self.meetingID fileType:info.type toId:info.infoId success:^(id data) {
+
+#pragma mark - 课件接口
+
+- (void)beginCheckCurrentMeetingFile {
+//    NSTimer *timer = [NSTimer timerWithTimeInterval:2 target:self selector:@selector(checkCurrentMeetingFile) userInfo:nil repeats:YES];
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(checkCurrentMeetingFile) userInfo:nil repeats:YES];
+    self.timer = timer;
+    [timer fire];
+}
+
+// 获取服务器保存的课件
+- (void)checkCurrentMeetingFile {
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
+    
+    __weak typeof(self) weakself = self;
+    [[YCMeetingBiz new] getCurrentFileWithMeetingID:self.meetingID success:^(id data) {
+        YCMeetingFile *file = [YCMeetingFile mj_objectWithKeyValues:data];
+        
+        if ([file.fileName isEqualToString:weakself.meetingFile.fileName]) {
+            return ;
+        }
+        if (file.pageCount == 0) {
+            return;
+        }
+        
+        weakself.meetingFile = file;
+        weakself.pageCount = file.pageCount;
+        weakself.currentPage = file.pageIn;
+        
+//        NSArray *images = [weakself.fileManager getImagesWithURLStrings:file.imageUrls];
+        NSArray *images = [weakself.fileManager getImagesWithURLStrings:file.imageUrls imageNames:file.imageNames fileName:file.fileName];
+        [weakself setBackgroundImages:images];
+
+//        [weakself getImagesOfURLs:file.imageUrls complete:^(NSArray *images) {
+//            [weakself setBackgroundImages:images];
+//            [weakself saveImages:images withFileName:file.fileName imageNames:file.imageNames];
+//        }];
         
     } fail:^(NSError *error) {
-        
+        [CTToast showWithText:[NSString stringWithFormat:@"获取当前课件失败 : %@", error]];
     }];
+}
+
+
+//
+//- (void)getImagesOfURLs:(NSArray<NSString *> *)imageUrls complete:(void (^)(NSArray *images))block {
+////    // 假图片，提示正在下载
+////    UIImage *image = [UIImage imageNamed:@"meeting_download_ing"];
+////    NSMutableArray *images = [NSMutableArray arrayWithCapacity:imageUrls.count];
+////    [imageUrls enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+////        [images addObject:image];
+////    }];
+////    [self setBackgroundImages:images];
+//
+//    // 假图片，提示下载错误
+//    UIImage *errorImage = [UIImage imageNamed:@"meeting_download_error"];
+//
+//    // 下载图片
+//    [self getImagesOfURLs:imageUrls falseImage:errorImage complete:^(NSArray *images) {
+//        if (block) {
+//            block(images);
+//        }
+//    }];
+//}
+//
+//// falseImage 假图片，下载错误时用到
+//- (void)getImagesOfURLs:(NSArray<NSString *> *)urls falseImage:(UIImage *)falseImage complete:(void (^)(NSArray *images))block {
+//    NSMutableArray *images = [NSMutableArray new];
+//    dispatch_group_t group = dispatch_group_create();
+//
+//    for (NSString *urlStr in urls) {
+//        NSURL *url = [NSURL URLWithString:urlStr];
+//
+//        dispatch_group_enter(group);
+//        [[SDWebImageManager sharedManager].imageDownloader downloadImageWithURL:url options:SDWebImageDownloaderUseNSURLCache progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
+//            if (image) {
+//                [images addObject:image];
+//            } else {
+//                [images addObject:falseImage];
+//            }
+//            dispatch_group_leave(group);
+//        }];
+//    }
+//
+//    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+//        if (block) {
+//            block(images);
+//        }
+//    });
+//}
+//
+//- (void)saveImages:(NSArray *)images withFileName:(NSString *)name imageNames:(NSArray *)names {
+//    //Document目录
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *path = [paths objectAtIndex:0];
+//    path = [path stringByAppendingPathComponent:name];
+//
+//    // 创建目录
+//
+//    // 查找目录
+//
+//
+//    //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
+//    //    NSString *imagePath;
+//    //    for (int i = 0; i < images.count; i ++) {
+//    //        imagePath = [path stringByAppendingPathComponent:names[i]];
+//    //        [UIImagePNGRepresentation(images[i]) writeToFile:imagePath atomically:YES];
+//    //    }
+//}
+
+
+#pragma mark - YCMeetingFileManagerDelegate
+
+- (void)meetingFileManager:(YCMeetingFileManager *)manager didDownloadImage:(UIImage *)image imageUrlStr:(NSString *)urlStr {
+//    [self.fileManager getImageWithURLStr:urlStr];
+    [self loadDoodleViewWithPageNumber:self.currentPage];
 }
 
 @end

@@ -45,5 +45,7 @@
 
 @property (nonatomic,strong) NSString *meetingID;
 
+//// 更新要显示的课件
+//- (void)updateMeetingFile;
 
 @end

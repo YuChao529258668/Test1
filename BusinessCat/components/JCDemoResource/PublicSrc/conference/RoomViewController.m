@@ -26,7 +26,6 @@
 
 
 #import "CGMeeting.h"
-#import "YCMeetingFile.h"
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoomMembersController.h"
 #import "YCJCSDKHelper.h"
@@ -150,6 +149,7 @@ typedef enum {
 {
     if (!_whiteBoardViewController) {
         _whiteBoardViewController = [[JCWhiteBoardViewController alloc] init];
+        _whiteBoardViewController.meetingID = self.meetingID;
     }
     return _whiteBoardViewController;
 }
@@ -336,6 +336,7 @@ typedef enum {
 //    [self setDoc]; // 设置课件
     [self updateTitleBtn];
     [self updateMemberBtn];
+    
 }
 
 - (void)joinFailedWithReason:(ErrorReason)reason
@@ -978,7 +979,6 @@ typedef enum {
         // 成员
         [self addMembersControllerWithUsers:meeting.meetingUserList];
         [self updateTitleBtn];
-        [self getCurrentMeetingFile];
     } fail:^(NSError *error) {
         [CTToast showWithText:[NSString stringWithFormat:@"获取会议详情失败 : %@", error]];
     }];
@@ -1080,8 +1080,6 @@ typedef enum {
     [self setupTitleBtn];
     [self updateTitleBtn];
     
-    self.whiteBoardViewController.meetingID = self.meetingID;
-    
     self.view.backgroundColor = [UIColor whiteColor];
     self.preview.backgroundColor = [UIColor whiteColor];
 }
@@ -1179,29 +1177,11 @@ typedef enum {
     
     //        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
     //            self.pageLabel.text =[NSString stringWithFormat:@"%ld / %ld", (long)_whiteBoardViewController.currentPage + 1, (long)_whiteBoardViewController.pageCount];
-    [self.whiteBoardViewController updatePageLabel];
+//    [self.whiteBoardViewController updatePageLabel];
     //        }
 
 }
 
-
-#pragma mark - 课件接口
-
-- (void)getCurrentMeetingFile {
-    __weak typeof(self) weakself = self;
-    [[YCMeetingBiz new] getCurrentFileWithMeetingID:self.meetingID success:^(id data) {
-        YCMeetingFile *file = [YCMeetingFile mj_objectWithKeyValues:data];
-        [weakself getImagesOfURLs:file.imageUrls complete:^(NSArray *images) {
-            [weakself.whiteBoardViewController setBackgroundImages:images];
-        }];
-    } fail:^(NSError *error) {
-        
-    }];
-}
-
-- (void)getImagesOfURLs:(NSArray<NSString *> *)urls complete:(void (^)(NSArray *images))block{
-    
-}
 
 
 

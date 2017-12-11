@@ -20,7 +20,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/components/JCDemoResource/Module/splitscreen/JCSplitScreenReformer.m"
-            timestampString = "534425636.250551"
+            timestampString = "534682328.447759"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "75"
@@ -52,109 +52,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
-            timestampString = "534425636.250692"
+            timestampString = "534682328.447897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "948"
-            endingLineNumber = "948"
-            landmarkName = "-updateMeetingFileWith:"
+            startingLineNumber = "1047"
+            endingLineNumber = "1047"
+            landmarkName = "-checkCurrentMeetingFile"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__52-[JCWhiteBoardViewController updateMeetingFileWith:]_block_invoke"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
-                  timestampString = "534418845.30405"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "948"
-                  endingLineNumber = "948"
-                  offsetFromSymbolStart = "56">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__52-[JCWhiteBoardViewController updateMeetingFileWith:]_block_invoke_2"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
-                  timestampString = "534418845.309536"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "950"
-                  endingLineNumber = "950"
-                  offsetFromSymbolStart = "56">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
-            timestampString = "534425636.251117"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "950"
-            endingLineNumber = "950"
-            landmarkName = "-updateMeetingFileWith:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BusinessCat/components/JCDemoResource/PublicSrc/conference/RoomViewController.m"
-            timestampString = "534425636.251368"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1193"
-            endingLineNumber = "1193"
-            landmarkName = "-getCurrentMeetingFile"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__43-[RoomViewController getCurrentMeetingFile]_block_invoke"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/components/JCDemoResource/PublicSrc/conference/RoomViewController.m"
-                  timestampString = "534418922.283142"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1189"
-                  endingLineNumber = "1189"
-                  offsetFromSymbolStart = "56">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__43-[RoomViewController getCurrentMeetingFile]_block_invoke_2"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/components/JCDemoResource/PublicSrc/conference/RoomViewController.m"
-                  timestampString = "534418922.28667"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1191"
-                  endingLineNumber = "1191"
-                  offsetFromSymbolStart = "56">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

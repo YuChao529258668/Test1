@@ -47,6 +47,7 @@
 		0D5F948B1FDA3A8500E69143 /* YCSelectMeetingFileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F948A1FDA3A8500E69143 /* YCSelectMeetingFileController.m */; };
 		0D5F948E1FDA3CD000E69143 /* YCSelectMeetingFileController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F948D1FDA3CCF00E69143 /* YCSelectMeetingFileController.xib */; };
 		0D5F94911FDA888100E69143 /* YCMeetingFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F94901FDA888100E69143 /* YCMeetingFile.m */; };
+		0D5F94941FDB95D500E69143 /* YCMeetingFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F94931FDB95D500E69143 /* YCMeetingFileManager.m */; };
 		0D7430FC1FB6FC61002867FA /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7430FB1FB6FC5D002867FA /* PushKit.framework */; };
 		0D7430FF1FB93BAC002867FA /* YCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7430FE1FB93BAC002867FA /* YCBaseViewController.m */; };
 		0D7431061FB93D91002867FA /* CGMeetingListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7431051FB93D91002867FA /* CGMeetingListViewController.m */; };
@@ -1449,6 +1450,8 @@
 		0D5F948D1FDA3CCF00E69143 /* YCSelectMeetingFileController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YCSelectMeetingFileController.xib; sourceTree = "<group>"; };
 		0D5F948F1FDA888100E69143 /* YCMeetingFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingFile.h; sourceTree = "<group>"; };
 		0D5F94901FDA888100E69143 /* YCMeetingFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingFile.m; sourceTree = "<group>"; };
+		0D5F94921FDB95D500E69143 /* YCMeetingFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingFileManager.h; sourceTree = "<group>"; };
+		0D5F94931FDB95D500E69143 /* YCMeetingFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingFileManager.m; sourceTree = "<group>"; };
 		0D7430FB1FB6FC5D002867FA /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		0D7430FD1FB93BAC002867FA /* YCBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCBaseViewController.h; sourceTree = "<group>"; };
 		0D7430FE1FB93BAC002867FA /* YCBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCBaseViewController.m; sourceTree = "<group>"; };
@@ -3871,6 +3874,8 @@
 			children = (
 				0D15EE921FC28AD70088CE11 /* YCMeetingBiz.h */,
 				0D15EE931FC28AD70088CE11 /* YCMeetingBiz.m */,
+				0D5F94921FDB95D500E69143 /* YCMeetingFileManager.h */,
+				0D5F94931FDB95D500E69143 /* YCMeetingFileManager.m */,
 			);
 			path = Biz;
 			sourceTree = "<group>";
@@ -9181,6 +9186,7 @@
 				186853391EA70BFA00B79EFD /* LWHTMLNode.m in Sources */,
 				0D90E04E1FB43C3A00EDB7CF /* UserProfileViewController.m in Sources */,
 				0D90E01A1FB43C3A00EDB7CF /* MCCameraDynamicView.m in Sources */,
+				0D5F94941FDB95D500E69143 /* YCMeetingFileManager.m in Sources */,
 				1828CFD51DD32E1E00887CDD /* ZYShareSheetCell.m in Sources */,
 				1835DA151DBA17FD0006ED07 /* CGUserCompanySearchTableViewCell.m in Sources */,
 				182CC0721ECDA05B008B19B9 /* CGInterfaceViewController.m in Sources */,
