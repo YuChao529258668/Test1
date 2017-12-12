@@ -36,15 +36,18 @@
 
 #import <ImSDK/ImSDK.h>
 
-@interface CGChatListViewController ()<TLSRefreshTicketListener>
-{
-    //微信、QQ、游客登录现在Demo中不再支持，如有需要，请用户自行完成
-    //    __weak id<WXApiDelegate>    _tlsuiwx;
-    //    TencentOAuth                *_openQQ;
-    IMALoginParam               *_loginParam;
-}
+//@interface CGChatListViewController ()<TLSRefreshTicketListener>
+//{
+//    //微信、QQ、游客登录现在Demo中不再支持，如有需要，请用户自行完成
+//    //    __weak id<WXApiDelegate>    _tlsuiwx;
+//    //    TencentOAuth                *_openQQ;
+//    IMALoginParam               *_loginParam;
+//}
+
+@interface CGChatListViewController ()
 @property(nonatomic,strong)UIView *navi;
 @property(nonatomic,strong)UILabel *titleView;
+@property (nonatomic,strong) IMALoginParam *loginParam;
 
 @end
 
@@ -59,7 +62,8 @@
     [super viewDidLoad];
     
     [self addObserverForLoginLogout];
-    [self onViewDidLoad];
+//    [self onViewDidLoad];
+    [self loginTengXunYun];
     
     [self createCustomNavi];
     [self setupCreateGroupChatBtn];
@@ -277,16 +281,19 @@
 }
 
 - (void)handleLoginSuccessNotification {
-    [self onViewDidLoad]; // 腾讯云登录
+//    [self onViewDidLoad]; // 腾讯云登录
+    [self loginTengXunYun]; // 腾讯云登录
 }
 
 - (void)handleLogoutSuccessNotification {
-    [[HUDHelper sharedInstance] syncLoading:@"正在退出"];
+//    [[HUDHelper sharedInstance] syncLoading:@"正在退出"];
     [[IMAPlatform sharedInstance] logout:^{
-        [[HUDHelper sharedInstance] syncStopLoadingMessage:@"退出成功" delay:2 completion:^{
-            [[AppDelegate sharedAppDelegate] enterLoginUI];
-            [self configOwnViews];
-        }];
+//        [[HUDHelper sharedInstance] syncStopLoadingMessage:@"退出成功" delay:2 completion:^{
+//            [[AppDelegate sharedAppDelegate] enterLoginUI];
+//            [self configOwnViews];
+//        }];
+        [[AppDelegate sharedAppDelegate] enterLoginUI];
+        [self configOwnViews];
         
     } fail:^(int code, NSString *err) {
         [[HUDHelper sharedInstance] syncStopLoadingMessage:IMALocalizedError(code, err) delay:2 completion:^{
@@ -304,94 +311,135 @@
 
 #pragma mark - 腾讯云登录
 
-// 进行腾讯云登录
-- (void)onViewDidLoad {
-    
+- (void)loginTengXunYun {
     // 如果用户没有登录，跳过腾讯云登录
     if (![ObjectShareTool sharedInstance].currentUser.isLogin) {
         return;
     }
     
-//    [WXApi registerApp:WX_APP_ID];
-    
-    //demo暂不提供微博登录
-    //[WeiboSDK registerApp:WB_APPKEY];
-    
-    // 因TLSSDK在IMSDK里面初始化，必须先初始化IMSDK，才能使用TLS登录
-    // 导致登出然后使用相同的帐号登录，config会清掉
-    
-    BOOL isAutoLogin = [IMAPlatform isAutoLogin];
-    if (isAutoLogin)
-    {
-        _loginParam = [IMALoginParam loadFromLocal];
-    }
-    else
-    {
-        _loginParam = [[IMALoginParam alloc] init];
-    }
-    
+    _loginParam = [[IMALoginParam alloc] init];
     [IMAPlatform configWith:_loginParam.config];
     
-    if (isAutoLogin && [_loginParam isVailed])
-    {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self autoLogin];
-        });
-    }
-    else
-    {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self pullLoginUI];
-        });
-        
-    }
+    CGUserEntity *currentUser = [[ObjectShareTool sharedInstance] currentUser];
+    
+    //    TLSUserInfo *userinfo = [TLSUserInfo new];
+    //    userinfo.accountType = 0;
+    //    userinfo.identifier = currentUser.txyIdentifier;
+    
+    _loginParam.identifier = currentUser.txyIdentifier;
+    _loginParam.userSig = currentUser.txyUsersig;
+    _loginParam.tokenTime = [[NSDate date] timeIntervalSince1970];
+    
+    __weak typeof(self) weakself = self;
+    [[IMAPlatform sharedInstance] login:_loginParam succ:^{
+        [weakself registNotification];
+        [weakself onLoginTengXunYunSuccess];
+    } fail:^(int code, NSString *msg) {
+        [[HUDHelper sharedInstance] syncStopLoadingMessage:IMALocalizedError(code, msg) delay:2 completion:^{
+            [CTToast showWithText:[NSString stringWithFormat:@"聊天功能登录失败 : %@", msg]];
+        }];
+    }];
 }
+
+- (void)onLoginTengXunYunSuccess {
+    // 复制 函数 enterMainUI 的代码
+    [[IMAPlatform sharedInstance] configOnLoginSucc:_loginParam];
+    
+    // 拉取会话列表
+    [self pinHeaderView];
+    [self configOwnViews];
+}
+
+
+// 进行腾讯云登录
+//- (void)onViewDidLoad {
+//
+//    // 如果用户没有登录，跳过腾讯云登录
+//    if (![ObjectShareTool sharedInstance].currentUser.isLogin) {
+//        return;
+//    }
+//
+//
+////    [WXApi registerApp:WX_APP_ID];
+//
+//    //demo暂不提供微博登录
+//    //[WeiboSDK registerApp:WB_APPKEY];
+//
+//    // 因TLSSDK在IMSDK里面初始化，必须先初始化IMSDK，才能使用TLS登录
+//    // 导致登出然后使用相同的帐号登录，config会清掉
+//
+//    BOOL isAutoLogin = [IMAPlatform isAutoLogin];
+//    if (isAutoLogin)
+//    {
+//        _loginParam = [IMALoginParam loadFromLocal];
+//    }
+//    else
+//    {
+//        _loginParam = [[IMALoginParam alloc] init];
+//    }
+//
+//    [IMAPlatform configWith:_loginParam.config];
+//
+//    if (isAutoLogin && [_loginParam isVailed])
+//    {
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [self autoLogin];
+//        });
+//    }
+//    else
+//    {
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [self pullLoginUI];
+//        });
+//
+//    }
+//}
 
 /**
  *  自动登录
  */
-- (void)autoLogin
-{
-    if ([_loginParam isExpired])
-    {
-//        [[HUDHelper sharedInstance] syncLoading:@"刷新票据。。。"];
-        //刷新票据
-        int success = [[TLSHelper getInstance] TLSRefreshTicket:_loginParam.identifier andTLSRefreshTicketListener:self];
-        // 0表示调用成功；其它表示调用失败
-        if (success != 0) {
-//            [[HUDHelper sharedInstance] syncStopLoading];
-//            [[HUDHelper sharedInstance] syncStopLoadingMessage:@"刷新票据失败"];
-//            NSLog(@"刷新票据失败");
-            [CTToast showWithText:@"聊天功能：刷新票据失败"];
-        }
-    }
-    else
-    {
-        [self loginIMSDK];
-    }
-}
+//- (void)autoLogin
+//{
+//    if ([_loginParam isExpired])
+//    {
+////        [[HUDHelper sharedInstance] syncLoading:@"刷新票据。。。"];
+//        //刷新票据
+//        int success = [[TLSHelper getInstance] TLSRefreshTicket:_loginParam.identifier andTLSRefreshTicketListener:self];
+//        // 0表示调用成功；其它表示调用失败
+//        if (success != 0) {
+////            [[HUDHelper sharedInstance] syncStopLoading];
+////            [[HUDHelper sharedInstance] syncStopLoadingMessage:@"刷新票据失败"];
+////            NSLog(@"刷新票据失败");
+//            [CTToast showWithText:@"聊天功能：刷新票据失败"];
+//        }
+//    }
+//    else
+//    {
+//        [self loginIMSDK];
+//    }
+//}
 
 
 /**
  *  登录IMSDK
  */
-- (void)loginIMSDK
-{
-    //直接登录
-    __weak CGChatListViewController *weakSelf = self;
-//    [[HUDHelper sharedInstance] syncLoading:@"正在登录"];
-    [[IMAPlatform sharedInstance] login:_loginParam succ:^{
-//        [[HUDHelper sharedInstance] syncStopLoadingMessage:@"登录成功"];
-        [weakSelf registNotification];
-        [weakSelf enterMainUI];
-    } fail:^(int code, NSString *msg) {
-        [[HUDHelper sharedInstance] syncStopLoadingMessage:IMALocalizedError(code, msg) delay:2 completion:^{
-//            [weakSelf pullLoginUI];
-            NSLog(@"腾讯云登录失败 %@, %@", msg, NSStringFromSelector(_cmd));
-            [CTToast showWithText:@"聊天功能登录失败"];
-        }];
-    }];
-}
+//- (void)loginIMSDK
+//{
+//    //直接登录
+//    __weak CGChatListViewController *weakSelf = self;
+////    [[HUDHelper sharedInstance] syncLoading:@"正在登录"];
+//    [[IMAPlatform sharedInstance] login:_loginParam succ:^{
+////        [[HUDHelper sharedInstance] syncStopLoadingMessage:@"登录成功"];
+//        [weakSelf registNotification];
+//        [weakSelf enterMainUI];
+//    } fail:^(int code, NSString *msg) {
+//        [[HUDHelper sharedInstance] syncStopLoadingMessage:IMALocalizedError(code, msg) delay:2 completion:^{
+////            [weakSelf pullLoginUI];
+//            NSLog(@"腾讯云登录失败 %@, %@", msg, NSStringFromSelector(_cmd));
+//            [CTToast showWithText:@"聊天功能登录失败"];
+//        }];
+//    }];
+//}
 
 //必须在登录之后上传token.在登录之后注册通知，保证通知回调也在登录之后，在通知的回调中上传的token。（回调在IMAAppDelegate的didRegisterForRemoteNotificationsWithDeviceToken中）
 - (void)registNotification
@@ -408,97 +456,83 @@
 }
 
 // 登录成功之后调用
-- (void)enterMainUI
-{
-    //    _tlsuiwx = nil;
-    //    _openQQ = nil;
-    //    [[IMAAppDelegate sharedAppDelegate] enterMainUI];
-    
-    [[IMAPlatform sharedInstance] configOnLoginSucc:_loginParam];
-    
-    //    // 拉取会话列表
-    //    [super viewDidLoad];
-    [self pinHeaderView];
-    //    [self onRefresh];
-    [self configOwnViews];
-}
+//- (void)enterMainUI
+//{
+//    //    _tlsuiwx = nil;
+//    //    _openQQ = nil;
+//    //    [[IMAAppDelegate sharedAppDelegate] enterMainUI];
+//
+//    [[IMAPlatform sharedInstance] configOnLoginSucc:_loginParam];
+//
+//    //    // 拉取会话列表
+//    [self pinHeaderView];
+//    [self configOwnViews];
+//}
 
 
-- (void)pullLoginUI
-{
-    CGUserEntity *currentUser = [[ObjectShareTool sharedInstance] currentUser];
-    
-    TLSUserInfo *userinfo = [TLSUserInfo new];
-    userinfo.accountType = 0;
-//    if (SCREEN_WIDTH == 375) {
-//        // iPhone 8是375，8plus 是540
-//        userinfo.identifier = kTestUserID;
-//    } else {
-//        userinfo.identifier = currentUser.txyIdentifier;
-//    }
-    userinfo.identifier = currentUser.txyIdentifier;
-
-    [self loginWith:userinfo]; // acctype:0 userid:yc529258668
-}
+//- (void)pullLoginUI
+//{
+//    CGUserEntity *currentUser = [[ObjectShareTool sharedInstance] currentUser];
+//
+//    TLSUserInfo *userinfo = [TLSUserInfo new];
+//    userinfo.accountType = 0;
+//    userinfo.identifier = currentUser.txyIdentifier;
+//
+//    [self loginWith:userinfo]; // acctype:0 userid:yc529258668
+//}
 
 /**
  *  成功登录TLS之后，再登录IMSDK
  *
  *  @param userinfo 登录TLS成功之后回调回来的用户信息
  */
-- (void)loginWith:(TLSUserInfo *)userinfo
-{
-    //    _openQQ = nil;
-    //    _tlsuiwx = nil;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (userinfo)
-        {
-            CGUserEntity *currentUser = [[ObjectShareTool sharedInstance] currentUser];
-            
-            _loginParam.identifier = userinfo.identifier;
-            //            _loginParam.userSig = [[TLSHelper getInstance] getTLSUserSig:userinfo.identifier];
-            
-//            if (SCREEN_WIDTH == 375) {
-//                // iPhone 8 是375，8 plus 是540
-//                _loginParam.userSig = kUserSig;
-//            } else {
-//                _loginParam.userSig = currentUser.txyUsersig;
-//            }
-            _loginParam.userSig = currentUser.txyUsersig;
-
-            _loginParam.tokenTime = [[NSDate date] timeIntervalSince1970];
-            
-            // 获取本地的登录config
-            [self loginIMSDK];
-        }
-    });
-}
+//- (void)loginWith:(TLSUserInfo *)userinfo
+//{
+//    //    _openQQ = nil;
+//    //    _tlsuiwx = nil;
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        if (userinfo)
+//        {
+//            CGUserEntity *currentUser = [[ObjectShareTool sharedInstance] currentUser];
+//
+//            _loginParam.identifier = userinfo.identifier;
+//            //            _loginParam.userSig = [[TLSHelper getInstance] getTLSUserSig:userinfo.identifier];
+//
+//            _loginParam.userSig = currentUser.txyUsersig;
+//
+//            _loginParam.tokenTime = [[NSDate date] timeIntervalSince1970];
+//
+//            // 获取本地的登录config
+//            [self loginIMSDK];
+//        }
+//    });
+//}
 
 
-#pragma mark - TLSRefreshTicketListener
-
-- (void)OnRefreshTicketSuccess:(TLSUserInfo *)userInfo
-{
-    [[HUDHelper sharedInstance] syncStopLoading];
-    [self loginWith:userInfo];
-}
-
-- (void)OnRefreshTicketFail:(TLSErrInfo *)errInfo
-{
-    _loginParam.tokenTime = 0;
-    NSString *err = [[NSString alloc] initWithFormat:@"刷新票据失败\ncode:%d, error:%@", errInfo.dwErrorCode, errInfo.sErrorTitle];
-    
-    __weak CGChatListViewController *ws = self;
-    [[HUDHelper sharedInstance] syncStopLoadingMessage:err delay:2 completion:^{
-        [ws pullLoginUI];
-    }];
-    
-}
-
-- (void)OnRefreshTicketTimeout:(TLSErrInfo *)errInfo
-{
-    [self OnRefreshTicketFail:errInfo];
-}
+//#pragma mark - TLSRefreshTicketListener
+//
+//- (void)OnRefreshTicketSuccess:(TLSUserInfo *)userInfo
+//{
+//    [[HUDHelper sharedInstance] syncStopLoading];
+//    [self loginWith:userInfo];
+//}
+//
+//- (void)OnRefreshTicketFail:(TLSErrInfo *)errInfo
+//{
+//    _loginParam.tokenTime = 0;
+//    NSString *err = [[NSString alloc] initWithFormat:@"刷新票据失败\ncode:%d, error:%@", errInfo.dwErrorCode, errInfo.sErrorTitle];
+//
+//    __weak CGChatListViewController *ws = self;
+//    [[HUDHelper sharedInstance] syncStopLoadingMessage:err delay:2 completion:^{
+//        [ws pullLoginUI];
+//    }];
+//
+//}
+//
+//- (void)OnRefreshTicketTimeout:(TLSErrInfo *)errInfo
+//{
+//    [self OnRefreshTicketFail:errInfo];
+//}
 
 
 #pragma mark - 创建视频会议

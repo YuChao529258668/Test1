@@ -72,7 +72,7 @@
 - (void)offlineKicked:(TIMLoginParam *)param succ:(TIMLoginSucc)succ fail:(TIMFail)fail
 {
     __weak typeof(self) ws = self;
-    UIAlertView *alert = [UIAlertView bk_showAlertViewWithTitle:@"下线通知" message:@"您的帐号于另一台手机上登录。" cancelButtonTitle:@"退出" otherButtonTitles:@[@"重新登录"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+    UIAlertView *alert = [UIAlertView bk_showAlertViewWithTitle:@"下线通知" message:@"聊天功能: 您的帐号于另一台手机上登录。" cancelButtonTitle:@"退出" otherButtonTitles:@[@"重新登录"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex == 0)
         {
             // 退出
