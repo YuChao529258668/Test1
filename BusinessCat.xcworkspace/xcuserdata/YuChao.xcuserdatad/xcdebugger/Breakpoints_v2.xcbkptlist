@@ -20,7 +20,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/components/JCDemoResource/Module/splitscreen/JCSplitScreenReformer.m"
-            timestampString = "534740369.83765"
+            timestampString = "534849090.21607"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "75"
@@ -51,13 +51,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
-            timestampString = "534740369.837965"
+            filePath = "BusinessCat/modules/headline/controller/CGHeadlineInfoDetailController.m"
+            timestampString = "534845652.494286"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1047"
-            endingLineNumber = "1047"
-            landmarkName = "-checkCurrentMeetingFile"
+            startingLineNumber = "1731"
+            endingLineNumber = "1731"
+            landmarkName = "-updateimageList"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -67,44 +67,108 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/Chat/controller/CGChatListViewController.m"
-            timestampString = "534740369.838133"
+            filePath = "BusinessCat/modules/headline/controller/CGHeadlineInfoDetailController.m"
+            timestampString = "534845707.444045"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
-            landmarkName = "-loginTengXunYun"
+            startingLineNumber = "656"
+            endingLineNumber = "656"
+            landmarkName = "-getData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/modules/headline/controller/CGHeadlineInfoDetailController.m"
+            timestampString = "534845801.424869"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "686"
+            endingLineNumber = "686"
+            landmarkName = "-getData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
+            timestampString = "534950177.647452"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "-queryUserDetailInfoWithCode:success:fail:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/modules/usercenter/controller/CGLoginController.m"
+            timestampString = "534950977.115513"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
+            landmarkName = "-login"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
+            timestampString = "534950393.832154"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "-queryUserDetailInfoWithCode:success:fail:"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__43-[CGChatListViewController loginTengXunYun]_block_invoke.253"
+                  symbolName = "__60-[CGUserCenterBiz queryUserDetailInfoWithCode:success:fail:]_block_invoke"
                   moduleName = "BusinessCat"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/Chat/controller/CGChatListViewController.m"
-                  timestampString = "534740379.834543"
+                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
+                  timestampString = "534950628.140497"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "338"
-                  endingLineNumber = "338"
-                  offsetFromSymbolStart = "57">
+                  startingLineNumber = "111"
+                  endingLineNumber = "111"
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__43-[CGChatListViewController loginTengXunYun]_block_invoke_2"
+                  symbolName = "__60-[CGUserCenterBiz queryUserDetailInfoWithCode:success:fail:]_block_invoke_2"
                   moduleName = "BusinessCat"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/Chat/controller/CGChatListViewController.m"
-                  timestampString = "534740379.837436"
+                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
+                  timestampString = "534950628.142606"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "338"
-                  endingLineNumber = "338"
-                  offsetFromSymbolStart = "19">
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "28">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -115,13 +179,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/Chat/controller/CGChatListViewController.m"
-            timestampString = "534740369.8392"
+            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
+            timestampString = "534950532.739519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "335"
-            endingLineNumber = "335"
-            landmarkName = "-loginTengXunYun"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "-queryUserDetailInfoWithCode:success:fail:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -131,46 +195,30 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/Chat/controller/CGChatListViewController.m"
-            timestampString = "534740369.839999"
+            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
+            timestampString = "534950658.980176"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
-            landmarkName = "-handleLogoutSuccessNotification"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "-queryUserDetailInfoWithCode:success:fail:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__59-[CGChatListViewController handleLogoutSuccessNotification]_block_invoke.204"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/Chat/controller/CGChatListViewController.m"
-                  timestampString = "534740379.848567"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "299"
-                  endingLineNumber = "299"
-                  offsetFromSymbolStart = "50">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__59-[CGChatListViewController handleLogoutSuccessNotification]_block_invoke_2"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/Chat/controller/CGChatListViewController.m"
-                  timestampString = "534740379.851568"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "300"
-                  endingLineNumber = "300"
-                  offsetFromSymbolStart = "16">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
+            timestampString = "534950903.42664"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "-queryUserDetailInfoWithCode:success:fail:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -33,10 +33,13 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_bg" translatesAutoresizingMaskIntoConstraints="NO" id="dFe-mj-bUG">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1rC-Qd-heR">
                     <rect key="frame" x="60" y="248.5" width="255" height="290"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="businessCat" translatesAutoresizingMaskIntoConstraints="NO" id="7cJ-hX-6aS">
+                        <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="businessCat" translatesAutoresizingMaskIntoConstraints="NO" id="7cJ-hX-6aS">
                             <rect key="frame" x="85" y="0.0" width="85" height="85"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="85" id="1iS-Fu-UPy"/>
@@ -97,7 +100,7 @@
                                 <constraint firstAttribute="height" constant="45" id="bs4-g9-JA4"/>
                             </constraints>
                             <nil key="textColor"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="UOp-yp-gpN"/>
@@ -108,7 +111,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="hV3-6a-bdo"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -117,7 +120,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="Gqf-hh-9EK"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -156,8 +159,12 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="dFe-mj-bUG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="H6Y-vf-OF2"/>
                 <constraint firstItem="1rC-Qd-heR" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="60" id="ZV7-IG-MFf"/>
                 <constraint firstItem="1rC-Qd-heR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="60" id="fim-2L-RQe"/>
+                <constraint firstAttribute="trailing" secondItem="dFe-mj-bUG" secondAttribute="trailing" id="sDz-7x-A38"/>
+                <constraint firstAttribute="bottom" secondItem="dFe-mj-bUG" secondAttribute="bottom" id="vXq-Ec-FqD"/>
+                <constraint firstItem="dFe-mj-bUG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xQV-KQ-5lx"/>
                 <constraint firstAttribute="trailing" secondItem="1rC-Qd-heR" secondAttribute="trailing" constant="60" id="zW6-k0-TCd"/>
             </constraints>
             <point key="canvasLocation" x="80.5" y="130.5"/>
@@ -165,5 +172,6 @@
     </objects>
     <resources>
         <image name="businessCat" width="512" height="512"/>
+        <image name="login_bg" width="375" height="667"/>
     </resources>
 </document>

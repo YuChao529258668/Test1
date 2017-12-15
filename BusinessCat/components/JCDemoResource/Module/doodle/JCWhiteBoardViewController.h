@@ -48,4 +48,7 @@
 //// 更新要显示的课件
 //- (void)updateMeetingFile;
 
+//// 双击变成全屏或恢复
+//- (void)handleDoubleTap;
+
 @end

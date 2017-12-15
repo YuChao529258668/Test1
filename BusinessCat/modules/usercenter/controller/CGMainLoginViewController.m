@@ -35,17 +35,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-  self.title = @"登录";
-  self.WXButton.layer.cornerRadius = 4;
-  self.WXButton.layer.masksToBounds = YES;
-  self.WXButton.layer.borderColor = CTThemeMainColor.CGColor;
-  self.WXButton.layer.borderWidth = 1;
-  [self.WXButton setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
-  self.phoneButton.layer.cornerRadius = 4;
-  self.phoneButton.layer.masksToBounds = YES;
-  self.phoneButton.layer.borderColor = CTThemeMainColor.CGColor;
-  self.phoneButton.layer.borderWidth = 1;
-  [self.phoneButton setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
+//  self.title = @"登录";
+    
+//  self.WXButton.layer.cornerRadius = 4;
+//  self.WXButton.layer.masksToBounds = YES;
+//  self.WXButton.layer.borderColor = CTThemeMainColor.CGColor;
+//  self.WXButton.layer.borderWidth = 1;
+//  [self.WXButton setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
+//  self.phoneButton.layer.cornerRadius = 4;
+//  self.phoneButton.layer.masksToBounds = YES;
+//  self.phoneButton.layer.borderColor = CTThemeMainColor.CGColor;
+//  self.phoneButton.layer.borderWidth = 1;
+//  [self.phoneButton setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
   if ([WXApi isWXAppInstalled]) {
     //微信
     self.WXButton.hidden = NO;
@@ -57,6 +58,8 @@
   self.userBiz = [[CGUserCenterBiz alloc]init];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccess_token:) name:NOTIFICATION_GETWEIXINCODE object:nil];
     // Do any additional setup after loading the view from its nib.
+    
+    self.navi.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning {

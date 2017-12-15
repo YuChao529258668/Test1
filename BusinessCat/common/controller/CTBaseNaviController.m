@@ -86,6 +86,8 @@
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
     [self setState:NSStringFromClass([viewController class])];
+    
+    NSLog(@"viewController = %@ %@", viewController, NSStringFromSelector(_cmd));
 }
 
 -(void)setState:(NSString *)controllerName{

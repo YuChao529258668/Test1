@@ -58,15 +58,23 @@
     self.title.selected = flag;
     [self.title setTitle:self.entity.title forState:UIControlStateNormal];
     [self.title setTitle:self.entity.title forState:UIControlStateSelected];
-//    UIImage *image = [UIImage imageNamed:flag?self.entity.selectedName:self.entity.normalImage];
-
-    if (flag) {
-        UIImage *image = [UIImage imageNamed:self.entity.selectedName];
-        self.image.image = image;
-    } else {
-        UIImage *image = [UIImage imageNamed:self.entity.normalImage];
-        self.image.image = image;
-    }
+    self.image.image = [UIImage imageNamed:flag?self.entity.selectedName:self.entity.normalImage];
+    
+    // 调试
+//    NSLog(@"测试测试");
+//    NSString *imageName = flag?self.entity.selectedName:self.entity.normalImage;
+//    NSString *state = flag?@"selected":@"normal";
+//    NSString *s = [NSString stringWithFormat:@"%@: %@: %@", self.entity.title, state, imageName];
+//    NSLog(@"%@", s);
+//    BOOL b1 = (flag == YES);
+//    BOOL b2 = (flag == 1);
+//    BOOL b3 = (2 == 2);
+//    NSLog(@"flag == YES: %d, flag == 1: %d, b3 = %d", b1, b2, b3);
+//    NSLog(@"flag = %d", flag);
+//    [CTToast showWithText:s];
+//    [self.title setTitle:self.entity.normalImage forState:UIControlStateNormal];
+//    [self.title setTitle:self.entity.selectedName forState:UIControlStateSelected];
+//    self.title.titleLabel.font = [UIFont systemFontOfSize:5];
 }
 
 -(void)tabbarClickItemAction:(UITapGestureRecognizer *)recognizer{

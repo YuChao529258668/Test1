@@ -23,13 +23,14 @@
 
 // 消息、工作、学院、百宝箱(发现)、我的
 #define kTabCount 4
-#define kWork 1
+#define kWork 7
 #define kChat 0
 #define kKnowledgeMeal 5
 #define kKnowledgeBase 6
 #define kDiscoverMain 2
 #define kMyMain 3
 #define kCollege 4
+#define kMeeting 1
 
 @interface CTRootViewController ()<SSZipArchiveDelegate>
 
@@ -83,6 +84,23 @@
             [self.contentView addSubview:self.chatListVC.view];
             tabView.hidden = NO;
             [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
+        }
+        else if(i ==  kMeeting){
+            tabEntity.title = @"会议";
+            tabEntity.normalImage = @"tab_phone_normal";
+            tabEntity.selectedName = @"tab_phone_highlighted";
+            [self.tabEntitys addObject:tabEntity];
+            
+            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
+            [self.tabbarView addSubview:tabView];
+            [self.tabViews addObject:tabView];
+            
+            self.meetingListVC = [[CGMeetingListViewController alloc]init];
+            [self addChildViewController:self.meetingListVC];
+            [self.meetingListVC.view setFrame:self.contentView.bounds];
+            [self.contentView addSubview:self.meetingListVC.view];
+            //            tabView.hidden = NO;
+            //            [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
         }
         else if(i ==  kWork){
             tabEntity.title = @"工作";
@@ -149,7 +167,7 @@
         }else if(i == kDiscoverMain){
             tabEntity.title = @"发现"; // 发现
             tabEntity.normalImage = @"tab_word_normal";
-            tabEntity.selectedName = @"tab_word_normal_Highlighted";
+            tabEntity.selectedName = @"tab_word_highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
@@ -418,7 +436,12 @@
             //            for (CTBaseViewController *vc in weakSelf.childViewControllers) {
             //                [vc tokenCheckComplete:YES];
             //            }
-            [weakSelf.childViewControllers makeObjectsPerformSelector:@selector(tokenCheckComplete:) withObject:@(YES)];
+
+            for (UIViewController *vc in weakSelf.childViewControllers) {
+                if ([vc respondsToSelector:@selector(tokenCheckComplete:)]) {
+                    [vc performSelector:@selector(tokenCheckComplete:) withObject:@(YES)];
+                }
+            }
         } fail:^(NSError *error) {
             weakSelf.checkTokenState = 3;//失败
             //            [weakSelf.firstController tokenCheckComplete:NO];
@@ -426,8 +449,13 @@
             //            [weakSelf.thirdController tokenCheckComplete:NO];
             //            [weakSelf.fourthController tokenCheckComplete:NO];
             
-            [weakSelf.childViewControllers makeObjectsPerformSelector:@selector(tokenCheckComplete:) withObject:@(NO)];
-            
+//            [weakSelf.childViewControllers makeObjectsPerformSelector:@selector(tokenCheckComplete:) withObject:@(NO)];
+            for (UIViewController *vc in weakSelf.childViewControllers) {
+                if ([vc respondsToSelector:@selector(tokenCheckComplete:)]) {
+                    [vc performSelector:@selector(tokenCheckComplete:) withObject:@(NO)];
+                }
+            }
+
         }];
     }
 }
@@ -497,7 +525,12 @@
     //    [tabView tabbarUpdateItemState:NO];
     //    [tabView tabbarUpdateItemState:NO];
     //    [tabView tabbarUpdateItemState:NO];
-    [self.tabViews makeObjectsPerformSelector:@selector(tabbarUpdateItemState:) withObject:@(NO)];
+    
+//    [self.tabViews makeObjectsPerformSelector:@selector(tabbarUpdateItemState:) withObject:@(NO)];
+//    [self.tabViews makeObjectsPerformSelector:@selector(tabbarUpdateItemState:) withObject:[NSNumber numberWithBool:NO]];
+    for (CGTabbarView *view in self.tabViews) {
+        [view tabbarUpdateItemState:NO];
+    }
     
     //    if(selectedEntity.index == 0){
     //        [tabView tabbarUpdateItemState:YES];
@@ -526,7 +559,9 @@
     UIViewController *vc = self.childViewControllers[selectedEntity.index];
     [vc.view setFrame:self.contentView.bounds];
     [self.contentView addSubview:vc.view];
-    [vc performSelector:@selector(tabbarSelectedItemAction:) withObject:dict];
+    if ([vc respondsToSelector:@selector(tabbarSelectedItemAction:)]) {
+        [vc performSelector:@selector(tabbarSelectedItemAction:) withObject:dict];
+    }
 }
 
 //登录或者退出登录后调用更新“我的”tabbar的状态

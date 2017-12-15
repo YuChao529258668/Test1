@@ -8,6 +8,7 @@
 
 #import "CGMeetingListViewController.h"
 #import "YCBookMeetingController.h"
+#import "CGMainLoginViewController.h"
 
 #import "CGMeetingListCell.h"
 
@@ -21,7 +22,7 @@
 
 #define kHeaderViewHeight 46
 #define kHeaderViewBtnHeight 36
-#define kCreateMeetingBtnHeight 50
+#define kCreateMeetingBtnHeight 56
 #define kCreateMeetingBtnRightSpace 10
 #define kCreateMeetingBtnBottomSpace 30
 
@@ -51,6 +52,9 @@
     [self setupHeaderView];
     [self setupCreateMeetingBtn];
 //    [self getMeetingModels];
+//    self.title = @"会议";
+    
+    [self createCustomNavi];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -61,13 +65,16 @@
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-//    NSLog(@"%@", NSStringFromCGRect(self.view.frame));
-//    NSLog(@"%@", @(self.navigationController.navigationBar.frame.size.height));
 
     {
         CGRect frame = self.view.frame;
         frame.origin = CGPointZero;
-//        frame.size.height -= kMeetingListBottomBarHeight;
+        self.tableView.frame = frame;
+        
+        // 适配旧代码
+        float naviH = self.navi.frame.size.height;
+        frame.origin = CGPointMake(0, naviH);
+        frame.size = CGSizeMake(frame.size.width, frame.size.height - naviH);
         self.tableView.frame = frame;
     }
     
@@ -77,16 +84,29 @@
         CGRect frame = CGRectMake(x, y, kCreateMeetingBtnHeight, kCreateMeetingBtnHeight);
         self.createMeetingBtn.frame = frame;
     }
-
-    
-//    底部栏，放创建会议按钮
-//    float y = self.view.frame.size.height - kMeetingListBottomBarHeight;
-//    float width = self.view.frame.size.width;
-//    self.bottomBar.frame = CGRectMake(0, y, width, kMeetingListBottomBarHeight);
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - 适配旧代码
+
+-(void)createCustomNavi{
+    self.titleStr = @"会议";
+    
+    if(!self.navi){
+        self.navi = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, TOPBARHEIGHT)];
+        self.navi.backgroundColor = CTThemeMainColor;
+        self.titleView = [[UILabel alloc]initWithFrame:CGRectMake(TOPBARCONTENTHEIGHT+5, CTMarginTop, SCREEN_WIDTH-2*(TOPBARCONTENTHEIGHT+5), TOPBARCONTENTHEIGHT)];
+        self.titleView.backgroundColor = [UIColor clearColor];
+        self.titleView.textColor = [UIColor blackColor];
+        self.titleView.textAlignment = NSTextAlignmentCenter;
+        self.titleView.font = [UIFont systemFontOfSize:18];
+        [self.navi addSubview:self.titleView];
+    }
+    self.titleView.text = _titleStr;
+    [self.view addSubview:self.navi];
 }
 
 
@@ -205,8 +225,13 @@
 }
 
 - (void)createMeetingBtnClick {
-    YCBookMeetingController *vc = [YCBookMeetingController new];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([ObjectShareTool currentUserID]) {
+        YCBookMeetingController *vc = [YCBookMeetingController new];
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        CGMainLoginViewController *controller = [[CGMainLoginViewController alloc]init];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 
 

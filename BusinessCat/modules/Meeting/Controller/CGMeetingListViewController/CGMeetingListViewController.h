@@ -10,4 +10,9 @@
 
 @interface CGMeetingListViewController : YCBaseViewController
 
+// 适配旧代码
+@property(nonatomic, strong)NSString *titleStr;
+@property(nonatomic,strong)UIView *navi;
+@property(nonatomic,strong)UILabel *titleView;
+
 @end

@@ -157,6 +157,10 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 //@property (nonatomic,strong) NSString *currentFileName; // 当前显示的课件名字
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic,strong) YCMeetingFileManager *fileManager;
+//@property (nonatomic,assign) CGRect oldFrame;
+//@property (nonatomic,assign) BOOL isFullScreen;
+//@property (nonatomic,assign) CGSize viewWillTransitionToSize;
+
 
 
 @end
@@ -257,17 +261,12 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     return self;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)dealloc {
     NSLog(@"WhiteBoardViewController dealloc");
 }
 
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
+- (void)layoutViews {
+//    NSLog(@"%@", NSStringFromCGRect(self.view.frame));
     
     {
         float height = self.view.bounds.size.height - kDoodletoolbarHeight;
@@ -278,8 +277,6 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         CGFloat x = 0;
         CGFloat y = self.view.bounds.size.height - kDoodletoolbarHeight;
         self.doodletoolbar.frame = CGRectMake(x, y, kDoodletoolbarWidth, kDoodletoolbarHeight);
-        
-//        self.doodletoolbar.backgroundColor = [UIColor lightGrayColor];
     }
     
     {
@@ -289,11 +286,51 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     }
     
     [self layoutPPTViews];
+    
+//
+//    NSLog(@"%@", self.view.subviews);
+//    self.doodleView.frame = CGRectMake(0, 0, 200, 200);
+//    self.doodletoolbar.frame = CGRectMake(0, 200, 200, 40);
+//    self.view.frame = CGRectMake(0, 0, 200, 240);
+//
+//
+//    self.doodleView.backgroundColor = [UIColor yellowColor];
+//    self.doodletoolbar.backgroundColor = [UIColor greenColor];
+//    self.view.backgroundColor = [UIColor redColor];
+}
+
+//- (void)viewDidLayoutSubviews {
+//    [super viewDidLayoutSubviews];
+//
+//    NSLog(@"%@", NSStringFromCGRect(self.view.frame));
+//}
+
+//- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+//    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+//
+////    [self layoutViews];
+//    self.viewWillTransitionToSize = size;
+//}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+//    NSLog(@"%@", NSStringFromCGRect(self.view.frame));
+    
+//    if (CGSizeEqualToSize(CGSizeZero, self.viewWillTransitionToSize) ) {
+//        [self layoutViews];
+//    }
+//
+//    if (CGSizeEqualToSize(self.view.frame.size, self.viewWillTransitionToSize) ) {
+//        [self layoutViews];
+//    }
+    
+    [self layoutViews];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
+    NSLog(@"viewDidDisappear 白板");
     [self.timer invalidate];
     self.timer = nil;
 }
@@ -405,7 +442,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     [JCDoodleManager fetchAllDrawAction];
 }
 
-#pragma mark - JCDoodleDelegate
+#pragma mark - JCDoodleDelegate 命令
 
 - (void)receiveActionType:(JCDoodleActionType)type doodle:(JCDoodleAction *)doodle fromSender:(NSString *)userId {
     if (type == JCDoodleActionStop) {
@@ -903,9 +940,9 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 - (void)closeDocBtnClick {
 //    [JCDoodleManager sendCoursewareUrl:@""];
     self.meetingFile = nil;
+    [self setBackgroundImages:nil];
     self.pageCount = 0;
     self.currentPage = 0;
-    [self setBackgroundImages:nil];
     [self updatePageLabel];
     self.closeDocBtn.hidden = YES;
     
@@ -1019,6 +1056,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 
 - (void)beginCheckCurrentMeetingFile {
 //    NSTimer *timer = [NSTimer timerWithTimeInterval:2 target:self selector:@selector(checkCurrentMeetingFile) userInfo:nil repeats:YES];
+//    timer add
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(checkCurrentMeetingFile) userInfo:nil repeats:YES];
     self.timer = timer;
     [timer fire];
@@ -1026,31 +1064,32 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 
 // 获取服务器保存的课件
 - (void)checkCurrentMeetingFile {
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSLog(@"%@", NSStringFromSelector(_cmd));
     
     __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] getCurrentFileWithMeetingID:self.meetingID success:^(id data) {
         YCMeetingFile *file = [YCMeetingFile mj_objectWithKeyValues:data];
         
+        // 同一个课件
         if ([file.fileName isEqualToString:weakself.meetingFile.fileName]) {
             return ;
         }
+        // 没有课件
         if (file.pageCount == 0) {
+            [self.closeDocBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
             return;
         }
+        
+//        if (weakself.meetingFile) {
+            [weakself cleanAllPath]; // 清除轨迹
+//        }
         
         weakself.meetingFile = file;
         weakself.pageCount = file.pageCount;
         weakself.currentPage = file.pageIn;
         
-//        NSArray *images = [weakself.fileManager getImagesWithURLStrings:file.imageUrls];
         NSArray *images = [weakself.fileManager getImagesWithURLStrings:file.imageUrls imageNames:file.imageNames fileName:file.fileName];
         [weakself setBackgroundImages:images];
-
-//        [weakself getImagesOfURLs:file.imageUrls complete:^(NSArray *images) {
-//            [weakself setBackgroundImages:images];
-//            [weakself saveImages:images withFileName:file.fileName imageNames:file.imageNames];
-//        }];
         
     } fail:^(NSError *error) {
         [CTToast showWithText:[NSString stringWithFormat:@"获取当前课件失败 : %@", error]];
@@ -1131,6 +1170,22 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 //    [self.fileManager getImageWithURLStr:urlStr];
     [self loadDoodleViewWithPageNumber:self.currentPage];
 }
+
+
+//#pragma mark - 全屏
+//
+//- (void)handleDoubleTap {
+//    if (self.isFullScreen) {
+//        self.view.frame = self.oldFrame;
+//        self.isFullScreen = NO;
+//    } else {
+//        self.oldFrame = self.view.frame;
+//        self.view.frame = self.view.superview.frame;
+//        self.isFullScreen = YES;
+//    }
+//}
+
+
 
 @end
 

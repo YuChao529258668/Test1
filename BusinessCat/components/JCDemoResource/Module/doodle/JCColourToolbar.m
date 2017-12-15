@@ -119,6 +119,15 @@
                                   _buttonSize.width,
                                   _buttonSize.height);
     }
+    
+    for (int i = 0 ; i < _brushColorsArray.count; i++) {
+        UIButton *button = [_buttonArray objectAtIndex:i];
+        button.frame = CGRectMake((viewWidth - totalWidth) / 2 + (_buttonSpacing + _buttonSize.width) * i,
+                                  ((viewHeight - _buttonSize.height) / 2),
+                                  _buttonSize.width,
+                                  _buttonSize.height);
+    }
+
 }
 
 #pragma mark - util function

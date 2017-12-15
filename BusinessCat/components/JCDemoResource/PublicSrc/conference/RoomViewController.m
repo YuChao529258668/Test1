@@ -111,6 +111,8 @@ typedef enum {
 
 //@property (nonatomic,strong) NSString *charRoomID; // 聊天室 id
 @property (nonatomic,strong) CGMeeting *meeting; // 会议详情
+//@property (nonatomic,assign) BOOL isAutorotate; // 是否支持自动旋转。白板全屏时支持旋转
+@property (nonatomic,assign) BOOL isFullScreen; // 白板是否全屏显示
 
 
 
@@ -150,6 +152,7 @@ typedef enum {
     if (!_whiteBoardViewController) {
         _whiteBoardViewController = [[JCWhiteBoardViewController alloc] init];
         _whiteBoardViewController.meetingID = self.meetingID;
+        [self setupGesture];
     }
     return _whiteBoardViewController;
 }
@@ -300,10 +303,10 @@ typedef enum {
     _count = (int)[_confManager getRoomInfo].participants.count;
     _textLabel.text = [NSString stringWithFormat:@"RoomID:%@ 参与人数:%d 会议号码:%ld", _roomId, _count, _confNumber];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        // 文档翻页
-        [JCDoodleManager selectPage:self.whiteBoardViewController.currentPage];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        // 文档翻页
+//        [JCDoodleManager selectPage:self.whiteBoardViewController.currentPage];
+//    });
     [self updateMemberBtn];
 }
 
@@ -322,9 +325,9 @@ typedef enum {
     
     _confNumber = [_confManager getConfNumber];
     
-    if (_doodleShareUserId) {
-        return;
-    }
+//    if (_doodleShareUserId) {
+//        return;
+//    }
     
     _count = (int)[_confManager getRoomInfo].participants.count;
     
@@ -332,7 +335,7 @@ typedef enum {
     
     //更新界面
     [self showCurrentShowMode:ShowSplitScreen];
-    [CTToast showWithText:@"加入会议成功"];
+//    [CTToast showWithText:@"加入会议成功"];
 //    [self setDoc]; // 设置课件
     [self updateTitleBtn];
     [self updateMemberBtn];
@@ -740,24 +743,6 @@ typedef enum {
     [_splitScreenViewController stopShowSplitSreenView];
 }
 
-
-#pragma mark - 屏幕方向
-
-//旋转时，支持的方向（如果用户会议界面竖屏的时候，可以修改下面两个方法的返回值）
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait;
-    //    return UIInterfaceOrientationMaskLandscapeRight;
-}
-
-//被present时，首选的方向
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationPortrait;
-    //    return UIInterfaceOrientationLandscapeRight;
-}
-
-
 #pragma mark - yc_Layout
 
 - (void)layoutViewControllers {
@@ -765,9 +750,15 @@ typedef enum {
     self.splitScreenViewController.view.frame = frame;
     
     float y = kVideoViewHeight + kTabBarHeight;
-    self.whiteBoardViewController.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
     self.chatVC.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
     self.membersVC.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
+    
+    // 白板全屏的时候，允许自动旋转
+    if (self.isFullScreen) {
+        self.whiteBoardViewController.view.frame = CGRectMake(0, 0, kMainScreenWidth, kMainScreenHeight);
+    } else {
+        self.whiteBoardViewController.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
+    }
 }
 
 - (void)layoutTabBar {
@@ -1183,6 +1174,43 @@ typedef enum {
 }
 
 
+#pragma mark - 全屏
+
+- (void)setupGesture {
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapForWhiteBoardVC)];
+    tap.numberOfTapsRequired = 2;
+    [self.whiteBoardViewController.view addGestureRecognizer:tap];
+}
+
+- (void)handleDoubleTapForWhiteBoardVC {
+    self.isFullScreen = !self.isFullScreen;
+    [self.whiteBoardViewController.view.superview bringSubviewToFront:self.whiteBoardViewController.view];
+//    [self.whiteBoardViewController handleDoubleTap];
+    [self layoutViewControllers];
+}
+
+
+//#pragma mark - 屏幕方向
+//
+//- (BOOL)shouldAutorotate {
+////    return YES;
+//    return self.isAutorotate;
+//}
+//
+////旋转时，支持的方向（如果用户会议界面竖屏的时候，可以修改下面两个方法的返回值）
+//- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+//{
+////    return UIInterfaceOrientationMaskPortrait;
+//    //    return UIInterfaceOrientationMaskLandscapeRight;
+//    return UIInterfaceOrientationMaskAll;
+//}
+
+////被present时，首选的方向
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+//{
+//    return UIInterfaceOrientationPortrait;
+//    //    return UIInterfaceOrientationLandscapeRight;
+//}
 
 
 @end

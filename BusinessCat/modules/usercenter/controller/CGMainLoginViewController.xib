@@ -13,7 +13,6 @@
             <connections>
                 <outlet property="WXButton" destination="P7m-Ef-xpv" id="8kt-MO-Oqd"/>
                 <outlet property="phoneButton" destination="JcJ-Fa-Mxk" id="Y0u-fY-3H3"/>
-                <outlet property="phoneY" destination="7JF-Xi-GMb" id="iFl-OH-oYL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,60 +21,68 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Llu-nV-Qfl">
-                    <rect key="frame" x="0.0" y="218.5" width="375" height="230"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="businessCat" translatesAutoresizingMaskIntoConstraints="NO" id="nvy-Kg-whm">
-                            <rect key="frame" x="145" y="0.0" width="85" height="85"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="85" id="QI3-Js-lcT"/>
-                                <constraint firstAttribute="height" constant="85" id="oyZ-if-vwe"/>
-                            </constraints>
-                        </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P7m-Ef-xpv">
-                            <rect key="frame" x="20" y="125" width="335" height="40"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="FBl-5s-1V0"/>
-                            </constraints>
-                            <state key="normal" title="微信登录"/>
-                            <connections>
-                                <action selector="WXClick:" destination="-1" eventType="touchUpInside" id="3VQ-M2-W6S"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JcJ-Fa-Mxk">
-                            <rect key="frame" x="20" y="195" width="335" height="40"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="00G-az-Rwx"/>
-                            </constraints>
-                            <state key="normal" title="手机登录"/>
-                            <connections>
-                                <action selector="phoneClick:" destination="-1" eventType="touchUpInside" id="ffb-NY-ljg"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_bg" translatesAutoresizingMaskIntoConstraints="NO" id="GtE-u7-cr3">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P7m-Ef-xpv">
+                    <rect key="frame" x="91" y="292.5" width="192" height="34"/>
                     <constraints>
-                        <constraint firstItem="JcJ-Fa-Mxk" firstAttribute="top" secondItem="nvy-Kg-whm" secondAttribute="bottom" constant="110" id="7JF-Xi-GMb"/>
-                        <constraint firstItem="nvy-Kg-whm" firstAttribute="centerX" secondItem="Llu-nV-Qfl" secondAttribute="centerX" id="7Uh-T5-zLT"/>
-                        <constraint firstAttribute="trailing" secondItem="P7m-Ef-xpv" secondAttribute="trailing" constant="20" id="LN7-h9-dsX"/>
-                        <constraint firstItem="P7m-Ef-xpv" firstAttribute="leading" secondItem="Llu-nV-Qfl" secondAttribute="leading" constant="20" id="OaX-K9-eB6"/>
-                        <constraint firstItem="P7m-Ef-xpv" firstAttribute="top" secondItem="nvy-Kg-whm" secondAttribute="bottom" constant="40" id="VuL-Rp-eNr"/>
-                        <constraint firstAttribute="trailing" secondItem="JcJ-Fa-Mxk" secondAttribute="trailing" constant="20" id="ZLY-xc-C6Z"/>
-                        <constraint firstItem="JcJ-Fa-Mxk" firstAttribute="leading" secondItem="Llu-nV-Qfl" secondAttribute="leading" constant="20" id="aWt-68-MAO"/>
-                        <constraint firstItem="nvy-Kg-whm" firstAttribute="top" secondItem="Llu-nV-Qfl" secondAttribute="top" id="kFE-9Y-8ba"/>
-                        <constraint firstAttribute="height" constant="230" id="ktb-Wm-6Af"/>
+                        <constraint firstAttribute="height" constant="34" id="FBl-5s-1V0"/>
                     </constraints>
-                </view>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="微信登录" backgroundImage="btn_yellow">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="WXClick:" destination="-1" eventType="touchUpInside" id="3VQ-M2-W6S"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JcJ-Fa-Mxk">
+                    <rect key="frame" x="91" y="351.5" width="192" height="34"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="34" id="00G-az-Rwx"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="手机登录" backgroundImage="btn_yellow">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="phoneClick:" destination="-1" eventType="touchUpInside" id="ffb-NY-ljg"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 欢迎来到会议猫，请选择" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHJ-Ss-I9G">
+                    <rect key="frame" x="118.5" y="209" width="138.5" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="登录方式" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bW8-84-Nbi">
+                    <rect key="frame" x="163" y="226" width="49.5" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Llu-nV-Qfl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="IVb-A9-Nce"/>
-                <constraint firstAttribute="trailing" secondItem="Llu-nV-Qfl" secondAttribute="trailing" id="JLn-AZ-xYW"/>
-                <constraint firstItem="Llu-nV-Qfl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="YTl-5p-QDJ"/>
+                <constraint firstItem="GtE-u7-cr3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2mc-zR-Uux"/>
+                <constraint firstItem="bW8-84-Nbi" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="CNV-sK-Mnm"/>
+                <constraint firstItem="P7m-Ef-xpv" firstAttribute="top" secondItem="bW8-84-Nbi" secondAttribute="bottom" constant="52" id="Fwu-4z-Ntx"/>
+                <constraint firstAttribute="trailing" secondItem="GtE-u7-cr3" secondAttribute="trailing" id="MBM-k7-LFm"/>
+                <constraint firstAttribute="bottom" secondItem="GtE-u7-cr3" secondAttribute="bottom" id="MeO-G4-cgz"/>
+                <constraint firstItem="JHJ-Ss-I9G" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="209" id="YCU-m8-kTu"/>
+                <constraint firstItem="P7m-Ef-xpv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Z0O-Qa-bRP"/>
+                <constraint firstItem="GtE-u7-cr3" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="aUt-hh-46k"/>
+                <constraint firstItem="bW8-84-Nbi" firstAttribute="top" secondItem="JHJ-Ss-I9G" secondAttribute="bottom" constant="2.5" id="b07-SY-ZPA"/>
+                <constraint firstItem="JHJ-Ss-I9G" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="gmk-47-4JM"/>
+                <constraint firstItem="JcJ-Fa-Mxk" firstAttribute="top" secondItem="P7m-Ef-xpv" secondAttribute="bottom" constant="25" id="lvr-a7-iZj"/>
+                <constraint firstItem="JcJ-Fa-Mxk" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="wmX-tr-uFk"/>
             </constraints>
+            <point key="canvasLocation" x="33.5" y="101.5"/>
         </view>
     </objects>
     <resources>
-        <image name="businessCat" width="512" height="512"/>
+        <image name="btn_yellow" width="192" height="34"/>
+        <image name="login_bg" width="375" height="667"/>
     </resources>
 </document>

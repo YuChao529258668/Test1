@@ -68,7 +68,8 @@
             break;
         case 1:{
             self.operator.enabled = YES;
-            self.operator.textColor = CTThemeMainColor;
+//            self.operator.textColor = CTThemeMainColor;
+            self.operator.textColor = [UIColor blackColor];
             title = @"获取验证码";
         }
             break;
@@ -80,7 +81,8 @@
             break;
         case 3:{
             self.operator.enabled = YES;
-            self.operator.textColor = CTThemeMainColor;
+//            self.operator.textColor = CTThemeMainColor;
+            self.operator.textColor = [UIColor blackColor];
             title = @"重新获取";
         }
             break;
@@ -132,7 +134,8 @@
     self.icon.hidden = YES;
     self.tipsLabel.hidden = NO;
   }else{
-   self.title = @"手机登录"; 
+//   self.title = @"手机登录";
+      self.title = @"";
   }
     [super viewDidLoad];
   
@@ -161,7 +164,8 @@
     
     
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:self.voiceBtn.text];
-    [str addAttribute:NSForegroundColorAttributeName value:CTThemeMainColor range:NSMakeRange(8,5)]; //设置字体颜色
+//    [str addAttribute:NSForegroundColorAttributeName value:CTThemeMainColor range:NSMakeRange(8,5)]; //设置字体颜色
+    [str addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(8,5)]; //设置字体颜色
     self.voiceBtn.attributedText = str;
     
     operatorTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(messageClick)];
@@ -180,6 +184,9 @@
         [self changeView:1];
         self.voiceBtn.hidden = NO;
     }
+    
+    self.navi.backgroundColor= [UIColor clearColor];
+    [self setupTap];
 }
 
 //倒计时通知
@@ -202,7 +209,8 @@
 -(CALayer *)generatorLayerWithFrame:(CGRect)frame{
     CALayer *borderView = [CALayer layer];
     borderView.frame = frame;
-    borderView.backgroundColor = CTThemeMainColor.CGColor;
+//    borderView.backgroundColor = CTThemeMainColor.CGColor; // 输入框横线
+    borderView.backgroundColor = [UIColor blackColor].CGColor; // 输入框横线
     return borderView;
 }
 
@@ -324,7 +332,8 @@
         } fail:^(NSError *error) {
             [weakSelf.userBiz.component stopBlockAnimation];
             weakSelf.operator.enabled = YES;
-            weakSelf.operator.textColor = CTThemeMainColor;
+//            weakSelf.operator.textColor = CTThemeMainColor;
+            weakSelf.operator.textColor = [UIColor blackColor];
         }];
     }
 }
@@ -453,6 +462,15 @@
 
 - (IBAction)verifyCodeClick:(UIButton *)sender {
   [self.verifyCode becomeFirstResponder];
+}
+
+- (void)handleTap {
+    [self.view endEditing:YES];
+}
+
+- (void)setupTap {
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
+    [self.view addGestureRecognizer:tap];
 }
 
 @end
