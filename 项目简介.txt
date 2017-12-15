@@ -164,20 +164,16 @@ CGUserCollectController
 选择文件
 YCSelectMeetingFileController
 
-<<<<<<< HEAD
 浏览图片改成网页链接
 CGHeadlineInfoDetailController
 
 登录
 CGMainLoginViewController
-=======
-网页修改
->>>>>>> 69b4099be670aa8e673d72441dac5ec00c8e8dbf
+
 
 调试输出
 #define NSLog
 
-啦啦啦啦
 
 
 
