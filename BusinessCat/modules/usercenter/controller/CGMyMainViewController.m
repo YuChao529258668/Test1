@@ -434,7 +434,8 @@
                 [self.userLevel removeFromSuperview];
                 [self.editUserInfoBtn removeFromSuperview];
                 
-                [self.toBeVIPBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//                [self.toBeVIPBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [self.toBeVIPBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 [self.toBeVIPBtn setTitle:@"成为VIP" forState:UIControlStateNormal];
                 [self.toBeVIPBtn setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
                 

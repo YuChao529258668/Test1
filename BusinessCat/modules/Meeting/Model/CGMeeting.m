@@ -45,5 +45,16 @@
 
 }
 
+- (void)setMeetingUserList:(NSMutableArray<YCMeetingUser *> *)meetingUserList {
+    _meetingUserList = meetingUserList;
+    
+    [_meetingUserList enumerateObjectsUsingBlock:^(YCMeetingUser * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.compere) {
+            [_meetingUserList exchangeObjectAtIndex:0 withObjectAtIndex:idx];
+            *stop = YES;
+        }
+    }];
+}
+
 
 @end

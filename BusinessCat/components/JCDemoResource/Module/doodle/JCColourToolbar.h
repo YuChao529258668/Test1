@@ -30,4 +30,6 @@
 // 当前颜色值
 @property (nonatomic, readonly, strong) UIColor *currentColor;
 
+- (CGSize)mySize;
+
 @end

@@ -16,10 +16,37 @@
     
     self.avatarIV.layer.cornerRadius = self.avatarIV.frame.size.width / 2;
     self.avatarIV.clipsToBounds = YES;
+    
+    self.allowBtn.layer.cornerRadius = 4;
+    self.allowBtn.clipsToBounds = YES;
+    
+    self.endBtn.layer.cornerRadius = 4;
+    self.endBtn.clipsToBounds = YES;
+    self.endBtn.hidden = YES;
+    
+    [self.allowBtn addTarget:self action:@selector(clickAllowBtn) forControlEvents:UIControlEventTouchUpInside];
+    [self.endBtn addTarget:self action:@selector(clickEndBtn) forControlEvents:UIControlEventTouchUpInside];
 }
 
 + (float)cellHeight {
-    return 54;
+    return 60;
 }
+
+- (void)clickAllowBtn {
+    [[NSNotificationCenter defaultCenter] postNotificationName:[YCMeetingRoomMembersCell allowNotificationName] object:self];
+}
+
+- (void)clickEndBtn {
+    [[NSNotificationCenter defaultCenter] postNotificationName:[YCMeetingRoomMembersCell endNotificationName] object:self];
+}
+
++ (NSString *)allowNotificationName {
+    return @"YCMeetingRoomMembersCelAllowNotificationl";
+}
+
++ (NSString *)endNotificationName {
+    return @"YCMeetingRoomMembersCellEndNotification";
+}
+
 
 @end

@@ -99,13 +99,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
-            timestampString = "534950177.647452"
+            filePath = "BusinessCat/modules/Meeting/Controller/CGMeetingListViewController/CGMeetingListViewController.m"
+            timestampString = "535126507.258571"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "-queryUserDetailInfoWithCode:success:fail:"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "-createMeetingBtnClick"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/modules/usercenter/controller/CGMyMainViewController.m"
+            timestampString = "535126507.258899"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "430"
+            endingLineNumber = "430"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -115,109 +131,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/usercenter/controller/CGLoginController.m"
-            timestampString = "534950977.115513"
+            filePath = "BusinessCat/modules/usercenter/controller/CGMainLoginViewController.m"
+            timestampString = "535126507.259113"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
-            landmarkName = "-login"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
-            timestampString = "534950393.832154"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "-queryUserDetailInfoWithCode:success:fail:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__60-[CGUserCenterBiz queryUserDetailInfoWithCode:success:fail:]_block_invoke"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
-                  timestampString = "534950628.140497"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "111"
-                  endingLineNumber = "111"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__60-[CGUserCenterBiz queryUserDetailInfoWithCode:success:fail:]_block_invoke_2"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
-                  timestampString = "534950628.142606"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
-                  offsetFromSymbolStart = "28">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
-            timestampString = "534950532.739519"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "-queryUserDetailInfoWithCode:success:fail:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
-            timestampString = "534950658.980176"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
-            landmarkName = "-queryUserDetailInfoWithCode:success:fail:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
-            timestampString = "534950903.42664"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "-queryUserDetailInfoWithCode:success:fail:"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "-getAccess_token:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -283,6 +283,12 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         CGFloat x = (self.view.bounds.size.width - 308) / 2;
         CGFloat y = self.view.bounds.size.height - 28 - 87;
         self.colorsToolbar.frame = CGRectMake(x, y, 308, 28);
+        
+        CGSize size = self.colorsToolbar.mySize;
+//        x = self.doodletoolbar.buttons.firstObject.frame.origin.x;
+        x = self.doodletoolbar.buttons.firstObject.center.x - self.colorsToolbar.mySize.width / 2;
+        y = self.view.frame.size.height - kDoodletoolbarHeight - size.height;
+        self.colorsToolbar.frame = CGRectMake(x, y, size.width, size.height);
     }
     
     [self layoutPPTViews];
@@ -374,6 +380,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 - (void)doodleToolbar:(JCDoodleToolbar *)doodleToolbarView clickButton:(UIButton *)button buttonType:(DoodleToolbarButtonType)buttonType {
     
     switch (buttonType) {
+            // 画笔开关
         case DoodleToolbarButtonTypeDraw:
         {
             button.selected = !button.isSelected;
@@ -1185,6 +1192,14 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 //    }
 //}
 
+// 是否允许画画
+- (void)enableDraw:(BOOL)enable {
+    if (enable) {
+        _actionMode = TouchActionDraw;
+    } else {
+        _actionMode = TouchActionNone;
+    }
+}
 
 
 @end

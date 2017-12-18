@@ -6,6 +6,9 @@
 //  Copyright © 2017年 young. All rights reserved.
 //
 
+#define kBtnWidth 24
+#define kBtnSpace 10
+
 #import "JCColourToolbar.h"
 
 @interface JCColourToolbar ()
@@ -68,11 +71,14 @@
     for (int i = 0; i < _brushColorsArray.count; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
 //        UIImage *image = [UIImage imageNamed:@"white"];
+        // 图片
         UIImage *image = [UIImage imageNamed:@"icon_pan_normal"];
+//        UIImage *image = [UIImage imageNamed:@"icon_pan_blue"];
         UIImage *tintImage = [self imageWithColor:[self colorWithHexString:[_brushColorsArray objectAtIndex:i]] originalImage:image];
         [btn setImage:tintImage forState:UIControlStateNormal];
 //        UIImage *selImage = [UIImage imageNamed:@"white_selected"];
         UIImage *selImage = [UIImage imageNamed:@"icon_pan_highlight"];
+//        UIImage *selImage = [UIImage imageNamed:@"icon_pan_blue"];
         UIImage *selTintImage = [self imageWithColor:[self colorWithHexString:[_brushColorsArray objectAtIndex:i]] originalImage:selImage];
         [btn setImage:selTintImage forState:UIControlStateSelected];
         [btn addTarget:self action:@selector(chooseColorAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -108,26 +114,29 @@
 {
     [super layoutSubviews];
     
-    CGFloat viewWidth = self.frame.size.width;
-    CGFloat viewHeight = self.frame.size.height;
-    CGFloat totalWidth = _buttonSize.width * _brushColorsArray.count + _buttonSpacing * (_brushColorsArray.count - 1);
+//    CGFloat viewWidth = self.frame.size.width;
+//    CGFloat viewHeight = self.frame.size.height;
+//    CGFloat totalWidth = _buttonSize.width * _brushColorsArray.count + _buttonSpacing * (_brushColorsArray.count - 1);
+//
+//    for (int i = 0 ; i < _brushColorsArray.count; i++) {
+//        UIButton *button = [_buttonArray objectAtIndex:i];
+//        button.frame = CGRectMake((viewWidth - totalWidth) / 2 + (_buttonSpacing + _buttonSize.width) * i,
+//                                  ((viewHeight - _buttonSize.height) / 2),
+//                                  _buttonSize.width,
+//                                  _buttonSize.height);
+//    }
     
+    float y;
     for (int i = 0 ; i < _brushColorsArray.count; i++) {
+        y = i * (kBtnSpace + kBtnWidth);
         UIButton *button = [_buttonArray objectAtIndex:i];
-        button.frame = CGRectMake((viewWidth - totalWidth) / 2 + (_buttonSpacing + _buttonSize.width) * i,
-                                  ((viewHeight - _buttonSize.height) / 2),
-                                  _buttonSize.width,
-                                  _buttonSize.height);
-    }
-    
-    for (int i = 0 ; i < _brushColorsArray.count; i++) {
-        UIButton *button = [_buttonArray objectAtIndex:i];
-        button.frame = CGRectMake((viewWidth - totalWidth) / 2 + (_buttonSpacing + _buttonSize.width) * i,
-                                  ((viewHeight - _buttonSize.height) / 2),
-                                  _buttonSize.width,
-                                  _buttonSize.height);
+        button.frame = CGRectMake(0, y, kBtnWidth, kBtnWidth);
     }
 
+}
+
+- (CGSize)mySize {
+    return CGSizeMake(kBtnWidth, (kBtnWidth + kBtnSpace) * _brushColorsArray.count);
 }
 
 #pragma mark - util function

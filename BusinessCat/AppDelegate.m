@@ -234,6 +234,8 @@
 //授权后回调 WXApiDelegate
 -(void)onResp:(BaseReq *)resp
 {
+    [[CTNetWorkUtil sharedManager] stopBlockAnimation];
+
     /*
      ErrCode ERR_OK = 0(用户同意)
      ERR_AUTH_DENIED = -4（用户拒绝授权）

@@ -11,6 +11,10 @@
 #import "CGMeeting.h"
 
 @interface YCMeetingRoomMembersController : UIViewController
+
+// 会议主持人要放在第一个
 @property (nonatomic,strong) NSArray<YCMeetingUser *> *users;
+@property (nonatomic,strong) NSString *meetingCreatorID;// 主持人 id ，申请互动用到
+@property (nonatomic,assign) BOOL isMeetingCreator; // 当前用户是否主持人
 
 @end

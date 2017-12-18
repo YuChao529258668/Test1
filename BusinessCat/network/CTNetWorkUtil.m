@@ -239,6 +239,7 @@ static CTNetWorkUtil *_sharedManager;
     }
   }
   NSString *identifier = [CTDeviceTool getUniqueDeviceIdentifierAsString];
+//    NSLog(@"啦啦啦identifier =  %@", identifier);
   NSString *version = @"1.0";//会影响到数据的返回，不可乱改
   NSString *platform = @"IOS_APP";
   NSNumber *timestamp = [NSNumber numberWithLong:[[NSDate date] timeIntervalSince1970]*1000];

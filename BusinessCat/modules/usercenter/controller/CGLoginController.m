@@ -432,6 +432,9 @@
       
     }];
   } fail:^(NSError *error) {
+//      NSDictionary *dic = error.userInfo;
+//      [CTToast showWithText:[NSString stringWithFormat:@"绑定手机号失败 : %@",  dic[@"message"]]];
+      
     weakSelf.verifyCode.text = nil;
     [weakSelf setVerifyCode];
     if([ObjectShareTool sharedInstance].loginVerifyTimer){

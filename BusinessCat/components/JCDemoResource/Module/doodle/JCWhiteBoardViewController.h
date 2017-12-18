@@ -51,4 +51,7 @@
 //// 双击变成全屏或恢复
 //- (void)handleDoubleTap;
 
+// 是否允许画画
+- (void)enableDraw:(BOOL)enable;
+
 @end

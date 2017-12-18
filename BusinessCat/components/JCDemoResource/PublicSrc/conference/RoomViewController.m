@@ -152,7 +152,7 @@ typedef enum {
     if (!_whiteBoardViewController) {
         _whiteBoardViewController = [[JCWhiteBoardViewController alloc] init];
         _whiteBoardViewController.meetingID = self.meetingID;
-        [self setupGesture];
+//        [self setupGesture];
     }
     return _whiteBoardViewController;
 }
@@ -981,6 +981,8 @@ typedef enum {
 - (void)addMembersControllerWithUsers:(NSArray *)users {
     self.membersVC = [YCMeetingRoomMembersController new];
     self.membersVC.users = users;
+    self.membersVC.meetingCreatorID = self.meeting.createUser;
+    self.membersVC.isMeetingCreator = [self.meeting.createUser isEqualToString:[ObjectShareTool currentUserID]];
     self.membersVC.view.hidden = !self.memberTabBtn.isSelected;
     [self.preview addSubview:self.membersVC.view];
     // 布局
@@ -1190,28 +1192,48 @@ typedef enum {
 }
 
 
-//#pragma mark - 屏幕方向
-//
-//- (BOOL)shouldAutorotate {
-////    return YES;
-//    return self.isAutorotate;
-//}
-//
-////旋转时，支持的方向（如果用户会议界面竖屏的时候，可以修改下面两个方法的返回值）
-//- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-//{
-////    return UIInterfaceOrientationMaskPortrait;
-//    //    return UIInterfaceOrientationMaskLandscapeRight;
-//    return UIInterfaceOrientationMaskAll;
-//}
+#pragma mark - 互动
 
-////被present时，首选的方向
-//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-//{
-//    return UIInterfaceOrientationPortrait;
-//    //    return UIInterfaceOrientationLandscapeRight;
-//}
+- (void)onDataReceive:(NSString *)key content:(NSString *)content fromSender:(NSString *)userId {
+//    NSLog(@"%@, %@, %@", key, content, userId);// 命令类型, 命令内容, 57e93bad-a2c4-4e00-892f-adf2c090a55b
+    if ([key isEqualToString:kJCCommandType]) {
+        // 允许互动：可以画画、翻页 ppt
+        if ([content isEqualToString:kYCAllowInteraction]) {
+            [self.whiteBoardViewController enableDraw:YES];
+        } else if ([content isEqualToString:kYCEndInteraction]) {
+            [self.whiteBoardViewController enableDraw:NO];
+        } else if ([content isEqualToString:kYCRequestInteraction]) {
+            [self showRequsetForInteractionWithUserID:userId];
+        }
+    }
+}
 
+- (void)showRequsetForInteractionWithUserID:(NSString *)userID {
+    NSString *name = [self getNameWithUserID:userID];
+    NSString *message = [NSString stringWithFormat:@"是否允许 %@ 互动？", name];
+    
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"允许" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[JCEngineManager sharedManager] sendData:kJCCommandType content:kYCAllowInteraction toReceiver:userID];
+    }];
+    UIAlertAction *refuse = [UIAlertAction actionWithTitle:@"拒绝" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[JCEngineManager sharedManager] sendData:kJCCommandType content:kYCEndInteraction toReceiver:userID];
+    }];
+
+    [ac addAction:sure];
+    [ac addAction:refuse];
+    [self presentViewController:ac animated:YES completion:nil];
+}
+
+- (NSString *)getNameWithUserID:(NSString *)userID {
+    NSString *name;
+    for (YCMeetingUser *user in self.meeting.meetingUserList) {
+        if ([user.userid isEqualToString:userID]) {
+            return user.userName;
+        }
+    }
+    return name;
+}
 
 @end
 

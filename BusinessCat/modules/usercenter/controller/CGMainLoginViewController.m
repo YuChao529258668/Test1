@@ -68,6 +68,7 @@
 }
 
 - (IBAction)WXClick:(UIButton *)sender {
+    [[CTNetWorkUtil sharedManager] startBlockAnimation];
   SendAuthReq *req = [[SendAuthReq alloc] init];
   req.scope = @"snsapi_userinfo";
   req.state = @"App";
@@ -97,6 +98,7 @@
         weakSelf.cancel(error);
       }];
 //      [weakSelf presentViewController:controller animated:YES completion:nil];
+        controller.isChangePhone = 1;
       [weakSelf.navigationController pushViewController:controller animated:YES];
     }
     [weakSelf.userBiz userMessageTagsWithSuccess:^(NSMutableArray *result) {

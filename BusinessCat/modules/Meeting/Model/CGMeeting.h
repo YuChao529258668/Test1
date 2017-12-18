@@ -41,7 +41,7 @@
 @property (nonatomic,strong) NSString *meetingRoomId;
 @property (nonatomic,assign) int meetingState; // 会议状态 0:未开始 1：进行中 2：已结束 3：已取消
 @property (nonatomic,assign) int meetingType; // 会议形式（0：音频，1：视频）
-@property (nonatomic,strong) NSArray<YCMeetingUser *> *meetingUserList; // 开会成员列表
+@property (nonatomic,strong) NSMutableArray<YCMeetingUser *> *meetingUserList; // 开会成员列表。主持人在首位
 
 
 // http://doc.cgsays.com:50123/index.php?s=/1&page_id=389
@@ -68,4 +68,5 @@
 - (NSString *)meetingCreatorName;
 
 - (float)calculateMeetingCost;
+
 @end
