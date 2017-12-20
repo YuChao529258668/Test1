@@ -241,6 +241,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     cell.stateLabel.hidden = YES; // 开会中、未进入、已离开
     cell.requestingLabel.hidden = YES; // 申请互动中
     cell.interactingLabel.hidden = YES; // 互动中
+    cell.compereLabel.hidden = YES; // 主持人
 
     // 如果是会议主持人
     if (self.isMeetingCreator) {
@@ -265,6 +266,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
             cell.stateLabel.hidden = YES; // 开会中、未进入、已离开
             cell.requestingLabel.hidden = YES; // 申请互动中
             cell.interactingLabel.hidden = YES; // 互动中
+            cell.compereLabel.hidden = NO; // 主持人
         }
 
     } else { // 不是主持人
@@ -311,24 +313,33 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 
 // 点击底部申请互动
 - (void)clickRequestBtn {
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"是否申请互动？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self requeestInteraction];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [ac addAction:sure];
+    [ac addAction:cancel];
+    [self presentViewController:ac animated:YES completion:nil];
+
     // 主持人是否进入会议。否则提示稍后申请
-    if ([self isCompereExist]) {
-        UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"是否申请互动？" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self requeestInteraction];
-        }];
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [ac addAction:sure];
-        [ac addAction:cancel];
-        [self presentViewController:ac animated:YES completion:nil];
-    } else {
-        UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"主持人未进入会议，请稍后申请" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:nil];
+//    if ([self isCompereExist]) {
+//        UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"是否申请互动？" preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [self requeestInteraction];
+//        }];
 //        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [ac addAction:sure];
+//        [ac addAction:sure];
 //        [ac addAction:cancel];
-        [self presentViewController:ac animated:YES completion:nil];
-    }
+//        [self presentViewController:ac animated:YES completion:nil];
+//    } else {
+//        UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"主持人未进入会议，请稍后申请" preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:nil];
+////        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+//        [ac addAction:sure];
+////        [ac addAction:cancel];
+//        [self presentViewController:ac animated:YES completion:nil];
+//    }
 }
 
 - (void)clickEndInteractBtn {
@@ -390,8 +401,9 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         NSArray *users = [self convertCGUserCompanyContactsEntitysToYCMeetingUsers:contacts];
         [self onAddUserFinish:users];
     };
-    [self.navigationController pushViewController:vc animated:YES];
-
+//    [self.navigationController pushViewController:vc animated:YES];
+//    [self presentViewController:vc animated:YES completion:nil];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:vc animated:YES completion:nil];
 }
 
 - (void)onAddUserFinish:(NSArray<YCMeetingUser *> *)users {
@@ -416,7 +428,8 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
             [userDel addObject:uid];
         }
     }
-    
+    [userDel removeObject:[ObjectShareTool currentUserID]];
+
     // 旧集合没有的就是增加的
     for (NSString *uid in newUsers) {
         if (![oldUsers containsObject:uid]) {
@@ -477,16 +490,16 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 }
 
 
-- (BOOL)isCompereExist {
-    BOOL exist = NO;
-    NSArray *users = [[JCEngineManager sharedManager]getRoomInfo].participants;
-    for (JCParticipantModel *model in users) {
-        if ([model.userId isEqualToString:self.meetingCreatorID]) {
-            return YES;
-        }
-    }
-    return exist;
-}
+//- (BOOL)isCompereExist {
+//    BOOL exist = NO;
+//    NSArray *users = [[JCEngineManager sharedManager]getRoomInfo].participants;
+//    for (JCParticipantModel *model in users) {
+//        if ([model.userId isEqualToString:self.meetingCreatorID]) {
+//            return YES;
+//        }
+//    }
+//    return exist;
+//}
 
 - (void)requeestInteraction {
     if (!self.meetingCreatorID) {
@@ -739,6 +752,39 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
             }
         }
     }
+    
+    // 是否全员禁音或者全员禁频
+    if (self.isMeetingCreator) {
+        BOOL allVoiceDisable = YES;
+        BOOL allVideoDisable = YES;
+        for (YCMeetingUser *user in self.users) {
+            if ([user.userid isEqualToString:[ObjectShareTool currentUserID]]) {
+                continue;
+            }
+            if (user.soundState) {
+                allVoiceDisable = NO;
+                break;
+            }
+        }
+        for (YCMeetingUser *user in self.users) {
+            if ([user.userid isEqualToString:[ObjectShareTool currentUserID]]) {
+                continue;
+            }
+            if (user.videoState) {
+                allVideoDisable = NO;
+                break;
+            }
+        }
+        if (allVoiceDisable) {
+            self.enableVoiceBtn.selected = allVoiceDisable;
+            self.enableVoiceBtn.backgroundColor = CTThemeMainColor;
+        }
+        if (allVideoDisable) {
+            self.enableVideoBtn.selected = allVideoDisable;
+            self.enableVideoBtn.backgroundColor = CTThemeMainColor;
+        }
+    }
+
 }
 
 - (void)showRequsetForInteractionWithUserID:(NSString *)userID {

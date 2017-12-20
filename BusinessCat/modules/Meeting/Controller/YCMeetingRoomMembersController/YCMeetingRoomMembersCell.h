@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *stateLabel; // 未进入
 @property (weak, nonatomic) IBOutlet UILabel *requestingLabel; // 申请互动中
 @property (weak, nonatomic) IBOutlet UILabel *interactingLabel; // 互动中
+@property (weak, nonatomic) IBOutlet UILabel *compereLabel; // 主持人
 
 + (float)cellHeight;
 
