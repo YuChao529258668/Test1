@@ -15,4 +15,7 @@
 @property(nonatomic,strong)UIView *navi;
 @property(nonatomic,strong)UILabel *titleView;
 
+//点击tabitem事件
+- (void)tabbarSelectedItemAction:(NSDictionary *)dict;
+
 @end

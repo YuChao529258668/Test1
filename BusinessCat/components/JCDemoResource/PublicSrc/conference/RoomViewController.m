@@ -142,6 +142,11 @@ typedef enum {
 //@property (nonatomic,assign) BOOL isAutorotate; // 是否支持自动旋转。白板全屏时支持旋转
 @property (nonatomic,assign) BOOL isFullScreen; // 白板是否全屏显示
 
+// 主持人给予的权限
+@property (nonatomic,assign) long interactState; // 0 禁止互动，1 允许互动，2 申请互动中
+@property (nonatomic,assign) long soundState; // 麦克风
+@property (nonatomic,assign) long videoState; // 摄像头
+
 
 
 @end
@@ -349,8 +354,9 @@ typedef enum {
     _textLabel.text = [NSString stringWithFormat:@"RoomID:%@ 参与人数:%d 会议号码:%ld", _roomId, _count, _confNumber];
     [self updateMemberBtn];
     
-    // 更新服务器并且群发命令
-    [self.membersVC onUserLeft:userId];
+//     更新服务器并且群发命令
+//    [self.membersVC onUserLeft:userId];
+    [self.membersVC getMeetingUser];
 }
 
 #pragma mark - BaseMeetingDelegate
@@ -403,7 +409,11 @@ typedef enum {
         
         UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"confirm", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             [self stopAllRender];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            if (self.presentingViewController) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            } else {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
         }];
         [alert addAction:action];
         [self presentViewController:alert animated:YES completion:nil];
@@ -512,6 +522,10 @@ typedef enum {
     switch (type) {
         case ConferenceToolBarButtonVideo: {
             BOOL selected = !button.isSelected;
+            if (selected == YES && self.videoState == 0) {
+                [CTToast showWithText:@"全员禁频中"];
+                return;
+            }
             [_meetingReformer setVideoEnabled:selected completion:^(BOOL isVideoEnabled) {
                 button.selected = isVideoEnabled;
             }];
@@ -528,6 +542,11 @@ typedef enum {
         }
         case ConferenceToolBarButtonMicrophone: {
             BOOL selected = !button.isSelected;
+            if (selected == YES && self.soundState == 0) {
+                [CTToast showWithText:@"全员禁音中"];
+                return;
+            }
+
             int success = [_meetingReformer setAudioEnabled:selected completion:^(BOOL isAudioEnabled) {
                 button.selected = isAudioEnabled;
             }];
@@ -680,6 +699,13 @@ typedef enum {
         [JCDoodleManager stopDoodle];
 //        [_meetingReformer leave];
         [self cancel:nil];
+        
+        // 更新服务器的状态
+        [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:@"1" videoState:@"1" interactionState:@"0" compereState:nil userState:@"2" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+            
+        } fail:^(NSError *error) {
+            
+        }];
     }];
     [alert addAction:action];
     
@@ -900,7 +926,8 @@ typedef enum {
     [self.titleBtn setTitle:@" 0分钟 " forState:UIControlStateNormal];
     [self.titleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     UIImage *image = [UIImage imageNamed:@"video_block"];
-    image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 30, 0, 30)];
+    float inset = image.size.height;
+    image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, inset, 0, inset)];
     [self.titleBtn setBackgroundImage:image forState:UIControlStateNormal];
 }
 
@@ -1027,13 +1054,30 @@ typedef enum {
     self.membersVC.isMeetingCreator = [self isMeetingCreator:nil];
     
     __weak typeof(self) weakself = self;
-    self.membersVC.onStateChangeBlock = ^(long interactState) {
-        if (interactState > 1) {
+    self.membersVC.onStateChangeBlock = ^(long interactState, long soundState, long videoState) {
+        weakself.interactState = interactState;
+        weakself.soundState = soundState;
+        weakself.videoState = videoState;
+        
+        if (interactState > 1) { // 申请互动中
             return ;
         }
         BOOL enable = interactState?YES:NO;
         [weakself.whiteBoardViewController enableDraw:enable];
+        
+        enable = soundState?YES:NO;
+        UIButton *soundBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
+        if (enable == NO && soundBtn.isSelected == YES) {
+            [soundBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+        }
+        
+        enable = videoState?YES:NO;
+        UIButton *videoBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonVideo];
+        if (enable == NO && videoBtn.isSelected == YES) {
+            [videoBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+        }
     };
+    
     
     self.membersVC.view.hidden = !self.memberTabBtn.isSelected;
     [self.preview addSubview:self.membersVC.view];
@@ -1262,29 +1306,33 @@ typedef enum {
 //        [self.membersVC updateStates:content];
 //    }
 
-    if ([key isEqualToString:kkYCRequestInteractionKey]) {
-        [self showRequsetForInteractionWithUserID:userId];
-    } else if ([key isEqualToString:kkYCUpdateStatesKey]) {
+//    if ([key isEqualToString:kkYCRequestInteractionKey]) {
+//        [self showRequsetForInteractionWithUserID:userId];
+//    } else if ([key isEqualToString:kkYCUpdateStatesKey]) {
+//        [self.membersVC getMeetingUser];
+//    }
+    
+    if ([key isEqualToString:kkYCUpdateStatesKey]) {
         [self.membersVC getMeetingUser];
     }
 }
 
-- (void)showRequsetForInteractionWithUserID:(NSString *)userID {
-    NSString *name = [self getNameWithUserID:userID];
-    NSString *message = [NSString stringWithFormat:@"是否允许 %@ 互动？", name];
-    
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"允许" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self.membersVC updateUserInteractingState:1 withUserID:userID];
-    }];
-    UIAlertAction *refuse = [UIAlertAction actionWithTitle:@"拒绝" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self.membersVC updateUserInteractingState:0 withUserID:userID];
-    }];
-
-    [ac addAction:sure];
-    [ac addAction:refuse];
-    [self presentViewController:ac animated:YES completion:nil];
-}
+//- (void)showRequsetForInteractionWithUserID:(NSString *)userID {
+//    NSString *name = [self getNameWithUserID:userID];
+//    NSString *message = [NSString stringWithFormat:@"是否允许 %@ 互动？", name];
+//
+//    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"允许" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        [self.membersVC updateUserInteractingState:1 withUserID:userID];
+//    }];
+//    UIAlertAction *refuse = [UIAlertAction actionWithTitle:@"拒绝" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        [self.membersVC updateUserInteractingState:0 withUserID:userID];
+//    }];
+//
+//    [ac addAction:sure];
+//    [ac addAction:refuse];
+//    [self presentViewController:ac animated:YES completion:nil];
+//}
 
 - (NSString *)getNameWithUserID:(NSString *)userID {
     NSString *name;

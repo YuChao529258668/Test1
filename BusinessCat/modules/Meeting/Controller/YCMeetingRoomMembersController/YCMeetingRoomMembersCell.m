@@ -28,6 +28,8 @@
     [self.endBtn addTarget:self action:@selector(clickEndBtn) forControlEvents:UIControlEventTouchUpInside];
     
     self.interactingLabel.backgroundColor = CTThemeMainColor;
+    self.requestingLabel.backgroundColor = self.allowBtn.backgroundColor;
+    self.requestingLabel.textColor = [UIColor redColor];
 }
 
 + (float)cellHeight {

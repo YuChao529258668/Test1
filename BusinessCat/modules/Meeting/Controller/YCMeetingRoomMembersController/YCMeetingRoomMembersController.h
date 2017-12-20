@@ -18,7 +18,7 @@
 @property (nonatomic,strong) NSString *meetingID;
 
 //@property (nonatomic,strong) JCWhiteBoardViewController *whiteBoardVC;
-@property (nonatomic,copy) void (^onStateChangeBlock)(long interactState);
+@property (nonatomic,copy) void (^onStateChangeBlock)(long interactState, long soundState, long videoState);
 
 
 // 解析并更新所有人状态
@@ -33,6 +33,8 @@
 - (void)getMeetingUser;
 - (void)updateUserInteractingState:(long)interactState withUserID:(NSString *)userID;
 // 更新服务器并且群发命令
-- (void)onUserLeft:(NSString *)userID;
+//- (void)onUserLeft:(NSString *)userID;
+// 0或1，其他数字表示不修改
+- (void)updateUserVoiceState:(long)voiceState videoState:(long)videoState withUserID:(NSString *)userID;
 
 @end

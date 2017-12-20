@@ -224,7 +224,7 @@
 }
 
 - (void)createMeetingBtnClick {
-    if ([ObjectShareTool currentUserID]) {
+    if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
         YCBookMeetingController *vc = [YCBookMeetingController new];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
@@ -402,8 +402,9 @@
     [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message) {
 //        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已取消
         if (state == 1) {
-            [CTToast showWithText:message];
             [self goToVideoMeetingWithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId];
+        } else {
+            [CTToast showWithText:message];
         }
     } fail:^(NSError *error) {
         
@@ -431,6 +432,11 @@
     roomVc.roomId = @"111";
     roomVc.displayName = [ObjectShareTool sharedInstance].currentUser.username;
     [self.navigationController pushViewController:roomVc animated:YES];
+}
+
+//点击tabitem事件
+- (void)tabbarSelectedItemAction:(NSDictionary *)dict{
+    [self getMeetingModels];
 }
 
 

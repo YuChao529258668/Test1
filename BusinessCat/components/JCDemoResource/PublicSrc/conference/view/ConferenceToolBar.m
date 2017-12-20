@@ -49,12 +49,12 @@
     NSArray *normalImages = @[@"video_videobtn_normal",
                               @"video_turn",
                               @"video_volume_normal",
-                              @"video_speech_highlight"];
+                              @"video_speech_normal"];
 
     NSArray *selectImages = @[@"video_videobtn_highlight",
                               @"video_turn",
                               @"video_volume_highlight",
-                              @"video_speech_normal"];
+                              @"video_speech_highlight"];
 
 //    NSArray *normalImages = @[@"camera_off",
 //                              @"camera_switch_normal",
