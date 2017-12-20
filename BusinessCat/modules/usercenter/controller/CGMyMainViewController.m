@@ -948,7 +948,7 @@
   self.shareUtil = [[ShareUtil alloc]init];
   __weak typeof(self) weakSelf = self;
   UIImage *image = [UIImage imageNamed:@"login_image"];
-  [self.shareUtil showShareMenuWithTitle:@"好友邀请你使用荐识" desc:@"我正在使用荐识，它是非常棒的智能知识管家，现在也推荐给你" isqrcode:1 image:image url:url block:^(NSMutableArray *array) {
+  [self.shareUtil showShareMenuWithTitle:@"好友邀请你使用会议猫" desc:@"我正在使用会议猫，它是非常棒的智能知识管家，现在也推荐给你" isqrcode:1 image:image url:url block:^(NSMutableArray *array) {
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:array applicationActivities:nil];
     [weakSelf presentViewController:activityVC animated:YES completion:nil];
   }];

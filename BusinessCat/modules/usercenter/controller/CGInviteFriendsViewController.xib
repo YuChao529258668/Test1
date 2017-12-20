@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13528" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13526"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -274,19 +270,19 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WLO-Ii-PVb">
-                                            <rect key="frame" x="15" y="80" width="345" height="62.5"/>
+                                            <rect key="frame" x="15" y="80" width="345" height="78"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" priority="250" constant="100" id="Slm-Fw-Ltm"/>
                                             </constraints>
                                             <string key="text">· 邀请新用户注册可获取500知识币奖励、10天VIP会员、2张付费报告通用抵用券
-· 被邀请人在荐识的消费行为将对邀请人产生更多积分奖励
+· 被邀请人在会议猫的消费行为将对邀请人产生更多积分奖励
 · 邀请10位新用户即可获赠1年VIP奖励</string>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="被邀请人：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZG4-QJ-5ro">
-                                            <rect key="frame" x="15" y="152.5" width="100" height="20"/>
+                                            <rect key="frame" x="15" y="168" width="100" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="100" id="0qJ-Wb-mhT"/>
                                                 <constraint firstAttribute="height" constant="20" id="4fC-D7-lq4"/>
@@ -296,7 +292,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16Q-Fs-QcU">
-                                            <rect key="frame" x="15" y="177.5" width="345" height="31.5"/>
+                                            <rect key="frame" x="15" y="193" width="345" height="31.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" priority="250" constant="100" id="fvT-TG-Dyn"/>
                                             </constraints>

@@ -118,7 +118,7 @@
     [UMessage registerForRemoteNotifications];
     
     //注册微信支付
-    //    [WXApi registerApp:kWXAPP_ID withDescription:@"荐识"];
+    //    [WXApi registerApp:kWXAPP_ID withDescription:@"会议猫"];
     [WXApi registerApp:kWXAPP_ID withDescription:@"生意猫"];
     
     //注册科大讯飞语音
