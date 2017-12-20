@@ -7,7 +7,6 @@
 //
 
 #import "YCMultiCallHelper.h"
-#import "YCJCSDKHelper.h"
 #import "CGSelectContactsViewController.h" // 选择通讯录
 
 @interface YCMultiCallHelper()

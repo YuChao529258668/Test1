@@ -50,7 +50,6 @@
 // justalk
 #import "YCMultiCallHelper.h"
 #import "RoomViewController.h"
-#import "YCJCSDKHelper.h"
 
 
 //// 视频会议
@@ -67,7 +66,6 @@
 ////#import <JusDoodle/JusDoodle.h>
 //#import <PushKit/PushKit.h>
 
-#import "YCJCSDKHelper.h"
 
 @interface AppDelegate ()<UNUserNotificationCenterDelegate,WXApiDelegate>
 @property (nonatomic, copy) NSString *recordId;

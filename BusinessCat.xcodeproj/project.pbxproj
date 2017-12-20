@@ -11,6 +11,7 @@
 		0D07DE161FB94E4E000E2A1D /* CGUsersCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D07DE141FB94E4E000E2A1D /* CGUsersCollectionViewCell.m */; };
 		0D07DE171FB94E4E000E2A1D /* CGUsersCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D07DE151FB94E4E000E2A1D /* CGUsersCollectionViewCell.xib */; };
 		0D15EE941FC28AD70088CE11 /* YCMeetingBiz.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D15EE931FC28AD70088CE11 /* YCMeetingBiz.m */; };
+		0D1B9EE01FE7EEED00C41C3C /* YCMeetingState.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1B9EDF1FE7EEED00C41C3C /* YCMeetingState.m */; };
 		0D3EB2B71FBA9CC900DAE678 /* Meeting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */; };
 		0D3EB2E31FC1806900DAE678 /* YCBookMeetingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */; };
 		0D3EB2E71FC1825700DAE678 /* YCWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E61FC1825700DAE678 /* YCWorkViewController.m */; };
@@ -1387,6 +1388,8 @@
 		0D07DE151FB94E4E000E2A1D /* CGUsersCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CGUsersCollectionViewCell.xib; sourceTree = "<group>"; };
 		0D15EE921FC28AD70088CE11 /* YCMeetingBiz.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingBiz.h; sourceTree = "<group>"; };
 		0D15EE931FC28AD70088CE11 /* YCMeetingBiz.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingBiz.m; sourceTree = "<group>"; };
+		0D1B9EDE1FE7EEED00C41C3C /* YCMeetingState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingState.h; sourceTree = "<group>"; };
+		0D1B9EDF1FE7EEED00C41C3C /* YCMeetingState.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingState.m; sourceTree = "<group>"; };
 		0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Meeting.storyboard; sourceTree = "<group>"; };
 		0D3EB2E11FC1806900DAE678 /* YCBookMeetingController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCBookMeetingController.h; sourceTree = "<group>"; };
 		0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCBookMeetingController.m; sourceTree = "<group>"; };
@@ -4000,6 +4003,8 @@
 				0D57A52A1FC2B69A008C30C7 /* YCMeetingRoom.m */,
 				0D5F948F1FDA888100E69143 /* YCMeetingFile.h */,
 				0D5F94901FDA888100E69143 /* YCMeetingFile.m */,
+				0D1B9EDE1FE7EEED00C41C3C /* YCMeetingState.h */,
+				0D1B9EDF1FE7EEED00C41C3C /* YCMeetingState.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -8750,6 +8755,7 @@
 				D710B7EB1D99043100688D72 /* SecurityUtil.m in Sources */,
 				186853581EA70BFB00B79EFD /* LWImageItem.m in Sources */,
 				0DBF47561FB3087300707C12 /* JCBaseMeetingReformer.m in Sources */,
+				0D1B9EE01FE7EEED00C41C3C /* YCMeetingState.m in Sources */,
 				18D016501DDB2F6C002E6D91 /* ClassPushView.m in Sources */,
 				1871249B1E77D10800C16E9C /* AttentionMyGroupTableViewCell.m in Sources */,
 				181C550C1EC2F7640064354D /* CGMessageDetailEntity.m in Sources */,

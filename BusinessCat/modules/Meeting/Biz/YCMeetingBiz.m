@@ -9,6 +9,7 @@
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoom.h"
 #import "CGMeeting.h"
+#import "YCMeetingState.h"
 
 @implementation YCMeetingBiz
 
@@ -188,6 +189,57 @@
     }];
 }
 
+// 03.会议成员接口 - ShowDoc http://doc.cgsays.com:50123/index.php?s=/1&page_id=407
+// userId: 传all时代表所有人，除了主持人外
+// compereState: 更换主持人
+// userState: 参会状态 0未进入,1开会中,2已离开,4禁止
+- (void)meetingUserWithMeetingID:(NSString *)mid userId:(NSString *)userId soundState:(NSString *)soundState videoState:(NSString *)videoState interactionState:(NSString *)interactionState compereState:(NSString *)compereState userState:(NSString *)userState userAdd:(NSString *)userAdd userDel:(NSString *)userDel success:(void(^)(YCMeetingState *state))success fail:(void(^)(NSError *error))fail {
+
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObject:mid forKey:@"meetingId"];
+    
+    if (userId) {
+        dic[@"userId"] = userId;
+    }
+
+    if (soundState) {
+        dic[@"soundState"] = soundState;
+    }
+
+    if (videoState) {
+        dic[@"videoState"] = videoState;
+    }
+
+    if (interactionState) {
+        dic[@"interactionState"] = interactionState;
+    }
+
+    if (compereState) {
+        dic[@"compereState"] = compereState;
+    }
+
+    if (userState) {
+        dic[@"userState"] = userState;
+    }
+
+    if (userAdd) {
+        dic[@"userAdd"] = userAdd;
+    }
+    
+    if (userDel) {
+        dic[@"userDel"] = userDel;
+    }
+    
+    [self.component sendPostRequestWithURL:URL_Meeting_User param:dic success:^(id data) {
+        if (success) {
+            YCMeetingState *state = [YCMeetingState mj_objectWithKeyValues:data];
+            success(state);
+        }
+    } fail:^(NSError *error) {
+        if (fail) {
+            fail(error);
+        }
+    }];
+}
 
 
 @end

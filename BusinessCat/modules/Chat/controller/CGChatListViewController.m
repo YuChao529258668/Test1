@@ -26,7 +26,6 @@
 //#import <JusDoodle/JusDoodle.h>
 //#import <PushKit/PushKit.h>
 
-#import "YCJCSDKHelper.h"
 
 // 生意猫
 #define kTLSAppid       @"1400047877"

@@ -28,7 +28,6 @@
 #import "CGMeeting.h"
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoomMembersController.h"
-#import "YCJCSDKHelper.h"
 
 #define kVideoViewHeight (kMainScreenHeight * 0.4) // splitScreenViewController的高度
 #define kTabBarHeight 40
@@ -37,6 +36,35 @@
 NSString * const kCoursewareJuphoon = @"COURSEWARE_JUPHOON";
 NSString * const kCoursewareMath = @"COURSEWARE_MATH";
 NSString * const kCoursewarePhysics = @"COURSEWARE_PHYSICS";
+
+#pragma mark - 命令
+
+// - (int)sendData:(NSString *)key content:(NSString *)content toReceiver:(NSString *)userId;
+// - (void)onDataReceive:(NSString *)key content:(NSString *)content fromSender:(NSString *)userId;
+
+// 命令 key
+//NSString * const kJCCommandType = @"JC_Command_Type";
+
+// 申请互动
+NSString * const kkYCRequestInteractionKey = @"YC_Request_Interacton";
+// 允许互动。发送命令后要发送 kkYCUpdateStatesKey 命令
+NSString * const kkYCAllowInteractionKey = @"YC_Allow_Interaction";
+// 结束互动。发送命令后要发送 kkYCUpdateStatesKey 命令
+NSString * const kkYCEndInteractionKey = @"YC_End_Interaction";
+// 查询状态。加入成功或者有人加入会议时调用。然后收到命令时要发送 kkYCUpdateStatesKey 命令
+NSString * const kkYCQueryStateKey = @"YC_Query_State";
+// 更新状态。返回所有人的互动状态
+NSString * const kkYCUpdateStatesKey = @"YC_Update_States";
+
+//请求发言
+NSString * const kkYCRequestSpeak = @"YC_REQUEST_SPEAK";
+NSString * const kkYCAgreeSpeak = @"YC_AGREE_SPEAK";
+NSString * const kkYCDisagreeSpeak = @"YC_DISAGREE_SPEAK";
+
+//请求涂鸦
+NSString * const kkYCRequestDoodle = @"YC_REQUEST_DOODLE";
+NSString * const kkYCAgreeDoodle = @"YC_AGREE_DOODLE";
+NSString * const kkYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 
 
 // 显示相关界面
@@ -308,12 +336,21 @@ typedef enum {
 //        [JCDoodleManager selectPage:self.whiteBoardViewController.currentPage];
 //    });
     [self updateMemberBtn];
+    
+    
+//    if ([self isMeetingCreator:nil]) {
+//        [self.membersVC sendQueryInteractionStateCommand];
+//    }
+    [self.membersVC getMeetingUser];
 }
 
 - (void)onParticipantLeft:(ErrorReason)errorReason userId:(NSString *)userId {
     _count = (int)[_confManager getRoomInfo].participants.count;
     _textLabel.text = [NSString stringWithFormat:@"RoomID:%@ 参与人数:%d 会议号码:%ld", _roomId, _count, _confNumber];
     [self updateMemberBtn];
+    
+    // 更新服务器并且群发命令
+    [self.membersVC onUserLeft:userId];
 }
 
 #pragma mark - BaseMeetingDelegate
@@ -340,6 +377,10 @@ typedef enum {
     [self updateTitleBtn];
     [self updateMemberBtn];
     
+    // 如果不是主持人，就向主持人查询互动状态
+//    if (![self isMeetingCreator:nil]) {
+//        [self.membersVC sendQueryInteractionStateCommand];
+//    }
 }
 
 - (void)joinFailedWithReason:(ErrorReason)reason
@@ -980,9 +1021,20 @@ typedef enum {
 
 - (void)addMembersControllerWithUsers:(NSArray *)users {
     self.membersVC = [YCMeetingRoomMembersController new];
-    self.membersVC.users = users;
+//    self.membersVC.users = users;
     self.membersVC.meetingCreatorID = self.meeting.createUser;
-    self.membersVC.isMeetingCreator = [self.meeting.createUser isEqualToString:[ObjectShareTool currentUserID]];
+    self.membersVC.meetingID = self.meetingID;
+    self.membersVC.isMeetingCreator = [self isMeetingCreator:nil];
+    
+    __weak typeof(self) weakself = self;
+    self.membersVC.onStateChangeBlock = ^(long interactState) {
+        if (interactState > 1) {
+            return ;
+        }
+        BOOL enable = interactState?YES:NO;
+        [weakself.whiteBoardViewController enableDraw:enable];
+    };
+    
     self.membersVC.view.hidden = !self.memberTabBtn.isSelected;
     [self.preview addSubview:self.membersVC.view];
     // 布局
@@ -1196,15 +1248,24 @@ typedef enum {
 
 - (void)onDataReceive:(NSString *)key content:(NSString *)content fromSender:(NSString *)userId {
 //    NSLog(@"%@, %@, %@", key, content, userId);// 命令类型, 命令内容, 57e93bad-a2c4-4e00-892f-adf2c090a55b
-    if ([key isEqualToString:kJCCommandType]) {
-        // 允许互动：可以画画、翻页 ppt
-        if ([content isEqualToString:kYCAllowInteraction]) {
-            [self.whiteBoardViewController enableDraw:YES];
-        } else if ([content isEqualToString:kYCEndInteraction]) {
-            [self.whiteBoardViewController enableDraw:NO];
-        } else if ([content isEqualToString:kYCRequestInteraction]) {
-            [self showRequsetForInteractionWithUserID:userId];
-        }
+    // 允许互动：可以画画、翻页 ppt
+//    if ([key isEqualToString:kkYCAllowInteractionKey]) {
+//        [self.whiteBoardViewController enableDraw:YES];
+//    } else if ([key isEqualToString:kkYCEndInteractionKey]) {
+//        [self.whiteBoardViewController enableDraw:NO];
+//    } else if ([key isEqualToString:kkYCRequestInteractionKey]) {
+//        [self showRequsetForInteractionWithUserID:userId];
+//    } else if ([key isEqualToString:kkYCQueryStateKey]) {
+//        [self.membersVC sendUpdateStatesCommand];
+//    } else if ([key isEqualToString:kkYCUpdateStatesKey]) {
+//        // 更新所有人状态
+//        [self.membersVC updateStates:content];
+//    }
+
+    if ([key isEqualToString:kkYCRequestInteractionKey]) {
+        [self showRequsetForInteractionWithUserID:userId];
+    } else if ([key isEqualToString:kkYCUpdateStatesKey]) {
+        [self.membersVC getMeetingUser];
     }
 }
 
@@ -1214,10 +1275,10 @@ typedef enum {
     
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"允许" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [[JCEngineManager sharedManager] sendData:kJCCommandType content:kYCAllowInteraction toReceiver:userID];
+        [self.membersVC updateUserInteractingState:1 withUserID:userID];
     }];
     UIAlertAction *refuse = [UIAlertAction actionWithTitle:@"拒绝" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [[JCEngineManager sharedManager] sendData:kJCCommandType content:kYCEndInteraction toReceiver:userID];
+        [self.membersVC updateUserInteractingState:0 withUserID:userID];
     }];
 
     [ac addAction:sure];
@@ -1233,6 +1294,14 @@ typedef enum {
         }
     }
     return name;
+}
+
+// 判断是否会议主持人。userID 为 nil 表示当前用户
+- (BOOL)isMeetingCreator:(NSString *)userID {
+    if (!userID) {
+        userID = [ObjectShareTool currentUserID];
+    }
+    return [self.meeting.createUser isEqualToString:userID];
 }
 
 @end

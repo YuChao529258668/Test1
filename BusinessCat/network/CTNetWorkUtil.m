@@ -95,7 +95,8 @@ static CTNetWorkUtil *_sharedManager;
  *
  */
 - (void)sendRequestWithURL:(NSString *)urlString param:(NSDictionary *)param{
-//    NSLog(@"请求地址：%@,参数：%@",urlString,paramString);
+    NSLog(@"请求总出口 请求地址：%@, 参数：%@",urlString,param);
+    
   // 请求的manager
   NSDate *requestStartDate = [NSDate date];
   _request = [AFHTTPSessionManager manager];
@@ -107,7 +108,8 @@ static CTNetWorkUtil *_sharedManager;
     
   } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 //                NSString *responseString = responseObject;
-//            NSLog(@"%@, 请求接口：%@，返回数据：%@", NSStringFromSelector(_cmd),urlString,responseString);
+            NSLog(@"请求总出口 %@, 请求接口：%@，返回数据：%@", NSStringFromSelector(_cmd),urlString,responseObject);
+      
             NSDictionary *res = responseObject;
             if(res){
                 int errCode = [[res objectForKey:@"errcode"]intValue];

@@ -13,13 +13,19 @@
 @property (nonatomic,assign) NSInteger compere; // 主持人
 @property (nonatomic,strong) NSString *password;
 @property (nonatomic,strong) NSString *recordId;
-@property (nonatomic,assign) int state;
+@property (nonatomic,assign) int state; // 当前状态:0未进入,1开会中,2已离开,4禁止
 @property (nonatomic,strong) NSString *timeB;
 @property (nonatomic,strong) NSString *timeE;
 @property (nonatomic,strong) NSString *userIcon;
 @property (nonatomic,strong) NSString *userName;
 @property (nonatomic,strong) NSString *userid;
 @property (nonatomic,strong) NSString *position;// 职位
+
+// http://doc.cgsays.com:50123/index.php?s=/1&page_id=407
+#pragma mark - 会议成员接口返回的部分属性
+@property (nonatomic,assign) long soundState;
+@property (nonatomic,assign) long videoState;
+@property (nonatomic,assign) long interactionState;
 
 @end
 
@@ -34,7 +40,7 @@
 @property (nonatomic,strong) NSString *conferenceNumber; // 会议号(justalk)，justalk的 roomID
 @property (nonatomic,strong) NSString *endTime;
 @property (nonatomic,strong) NSString *startTime;
-@property (nonatomic,strong) NSString * meetingDuration; // 时长，可能是一句话，不能用来计算价格！
+@property (nonatomic,strong) NSString * meetingDuration; // 时长 分钟
 @property (nonatomic,strong) NSString *meetingId;
 @property (nonatomic,strong) NSString *meetingName;
 @property (nonatomic,strong) NSString *meetingPassword;
@@ -59,6 +65,9 @@
 @property (nonatomic,strong) NSString *usedTime;//实际开会用时(分钟)
 @property (nonatomic,assign) int roomCharge; // 费用(0免费1付费2包月)
 @property (nonatomic,strong) NSString *groupId; // 群聊 id，用于腾讯云获取群信息
+
+
+
 
 #pragma mark - 函数
 

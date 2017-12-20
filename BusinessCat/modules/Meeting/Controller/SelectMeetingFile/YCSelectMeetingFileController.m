@@ -172,7 +172,7 @@
 //每个UICollectionView展示的内容
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 3) {
+    if (indexPath.section == 1) { // 3
         NSString *identifier = [NSString stringWithFormat:@"Cell%ld",indexPath.section];
         //重用cell
         [collectionView registerNib:[UINib nibWithNibName:@"CGBoundaryCollectionViewCell"
@@ -180,17 +180,22 @@
         CGBoundaryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
         __weak typeof(self) weakSelf = self;
         [cell updateUIWithEntity:self.typeArray[indexPath.section] loadType:2 isCache:NO block:^(NSInteger index) {
-            //      NSMutableArray *array = [NSMutableArray array];
-            CGHorrolEntity *typeEntity = weakSelf.typeArray[3];
-            //      for (int i = 0; i<typeEntity.data.count; i++) {
-            //        CGProductInterfaceEntity *entity = typeEntity.data[i];
-            //        NSString *cover = entity.cover;
-            //        [array addObject:cover];
-            //      }
-            CGHeadlineBigImageViewController *vc = [[CGHeadlineBigImageViewController alloc]init];
-            vc.array = typeEntity.data;
-            vc.currentPage = index;
-            [weakSelf.navigationController pushViewController:vc animated:NO];
+            CGHorrolEntity *typeEntity = weakSelf.typeArray[1];// 3
+
+            // cell 点击事件处理
+            if (weakSelf.didSelectBlock) {
+                weakSelf.didSelectBlock(typeEntity);
+            }
+
+//            //      for (int i = 0; i<typeEntity.data.count; i++) {
+//            //        CGProductInterfaceEntity *entity = typeEntity.data[i];
+//            //        NSString *cover = entity.cover;
+//            //        [array addObject:cover];
+//            //      }
+//            CGHeadlineBigImageViewController *vc = [[CGHeadlineBigImageViewController alloc]init];
+//            vc.array = typeEntity.data;
+//            vc.currentPage = index;
+//            [weakSelf.navigationController pushViewController:vc animated:NO];
         }];
         return cell;
     }else{

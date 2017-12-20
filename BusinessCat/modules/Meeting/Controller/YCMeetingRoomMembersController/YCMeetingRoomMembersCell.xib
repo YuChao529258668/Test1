@@ -33,7 +33,7 @@
                             <constraint firstAttribute="height" constant="24" id="D0I-E8-V2Y"/>
                             <constraint firstAttribute="width" constant="80" id="we6-gz-tF8"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <state key="normal" title="结束互动">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -45,13 +45,44 @@
                             <constraint firstAttribute="width" constant="80" id="5C9-0t-M84"/>
                             <constraint firstAttribute="height" constant="24" id="ZdE-No-lBN"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <state key="normal" title="允许互动">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iY6-vs-d1r">
-                        <rect key="frame" x="65" y="24" width="33" height="16"/>
+                        <rect key="frame" x="65" y="21" width="33" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未进入" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S1a-b9-RVz">
+                        <rect key="frame" x="280" y="18" width="79" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="AwQ-Gb-PT5"/>
+                            <constraint firstAttribute="width" constant="79" id="K9C-nk-Z6e"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="申请互动中" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E7O-x1-rso">
+                        <rect key="frame" x="280" y="18" width="79" height="24"/>
+                        <color key="backgroundColor" red="0.76462173460000005" green="0.764754355" blue="0.76461333040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="79" id="KBu-uU-FX5"/>
+                            <constraint firstAttribute="height" constant="24" id="X38-QY-LAk"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.97568136449999998" green="0.084946401419999998" blue="0.079748310150000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="互动中" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lfk-sZ-Tv0">
+                        <rect key="frame" x="280" y="18" width="79" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="4qv-jz-UHl"/>
+                            <constraint firstAttribute="width" constant="79" id="mE6-ed-eVX"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -60,10 +91,16 @@
                 <constraints>
                     <constraint firstItem="WmJ-ec-9c0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="Otu-3Q-PS9"/>
                     <constraint firstItem="K1P-fZ-XCU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="PN2-K9-Eoe"/>
-                    <constraint firstItem="iY6-vs-d1r" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="24" id="W7X-Yb-M7M"/>
+                    <constraint firstItem="Lfk-sZ-Tv0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="QZC-cM-lUG"/>
+                    <constraint firstItem="S1a-b9-RVz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="Vxy-F5-v64"/>
+                    <constraint firstItem="iY6-vs-d1r" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21" id="W7X-Yb-M7M"/>
                     <constraint firstAttribute="trailing" secondItem="K1P-fZ-XCU" secondAttribute="trailing" constant="15" id="YEF-lq-qmX"/>
                     <constraint firstItem="z0r-NZ-B6b" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="ecD-Jv-7NH"/>
+                    <constraint firstItem="S1a-b9-RVz" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="jEr-Yq-oLY"/>
+                    <constraint firstItem="Lfk-sZ-Tv0" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="lZy-Pe-P2i"/>
+                    <constraint firstItem="E7O-x1-rso" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="mCx-HV-BLB"/>
                     <constraint firstItem="z0r-NZ-B6b" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="oNq-ym-zrI"/>
+                    <constraint firstItem="E7O-x1-rso" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="tVv-iI-Ixw"/>
                     <constraint firstAttribute="trailing" secondItem="WmJ-ec-9c0" secondAttribute="trailing" constant="15" id="zO6-Ja-gKk"/>
                     <constraint firstItem="iY6-vs-d1r" firstAttribute="leading" secondItem="z0r-NZ-B6b" secondAttribute="trailing" constant="11" id="zUE-lW-SMh"/>
                 </constraints>
@@ -72,7 +109,10 @@
                 <outlet property="allowBtn" destination="WmJ-ec-9c0" id="Xo5-Oj-u5T"/>
                 <outlet property="avatarIV" destination="z0r-NZ-B6b" id="9Vy-6b-7XN"/>
                 <outlet property="endBtn" destination="K1P-fZ-XCU" id="G4v-GC-vIu"/>
+                <outlet property="interactingLabel" destination="Lfk-sZ-Tv0" id="8wD-Ly-Ej1"/>
                 <outlet property="nameLabel" destination="iY6-vs-d1r" id="PJT-38-aST"/>
+                <outlet property="requestingLabel" destination="E7O-x1-rso" id="gqA-9G-jEy"/>
+                <outlet property="stateLabel" destination="S1a-b9-RVz" id="Gym-tZ-1EA"/>
             </connections>
             <point key="canvasLocation" x="102.5" y="101"/>
         </tableViewCell>

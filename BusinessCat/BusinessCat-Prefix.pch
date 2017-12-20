@@ -136,6 +136,7 @@
     #import "GiFHUD.h"
     #import "WKWebViewController.h"
     #import "CGCommonBiz.h"
+    #import "YCJCSDKHelper.h"
 #endif
 
 

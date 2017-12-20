@@ -17,7 +17,6 @@
 
 #import "YCMultiCallHelper.h"
 #import "RoomViewController.h"
-#import "YCJCSDKHelper.h"
 
 
 #define kHeaderViewHeight 46

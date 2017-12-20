@@ -158,7 +158,7 @@ static YCJCSDKHelper * helper;
     if ([MtcLoginManager Login:userID password:@"jp580" network:server] == ZOK) {
         NSLog(@"调用语音登录成功");
     } else {
-        [CTToast showWithText:@"会议功能无法登录"];
+//        [CTToast showWithText:@"会议功能无法登录"];
     }
 }
 

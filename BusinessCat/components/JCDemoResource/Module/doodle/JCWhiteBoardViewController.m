@@ -15,6 +15,7 @@
 #import "YCMeetingFileManager.h"
 #import "YCSelectMeetingFileController.h"
 #import "CGInfoHeadEntity.h"
+#import "CGHorrolEntity.h"
 
 #define kDoodletoolbarHeight 44
 #define kDoodletoolbarWidth  [UIScreen mainScreen].bounds.size.width //原来179
@@ -1032,8 +1033,19 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [weakself.navigationController popViewControllerAnimated:YES];
             
-            CGInfoHeadEntity *info = (CGInfoHeadEntity *)entity;
-            if ([info.title isEqualToString:self.meetingFile.fileName]) {
+            NSString *fileName;
+            // 文库是 CGInfoHeadEntity
+            CGInfoHeadEntity *info;
+            if ([entity isKindOfClass:[CGInfoHeadEntity class]]) {
+                info = (CGInfoHeadEntity *)entity;
+                fileName = info.title;
+            } else {
+                CGHorrolEntity *horrol = (CGHorrolEntity *)entity;
+                info = horrol.data.firstObject;
+                fileName = info.name;
+            }
+            
+            if ([fileName isEqualToString:self.meetingFile.fileName]) {
                 return ;
             } else {
                 // 更新服务器
@@ -1041,6 +1053,9 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
                     [weakself checkCurrentMeetingFile];
                 }];
             }
+            
+            // 素材是 CGHorrolEntity，data 数组里面存放 CGInfoHeadEntity
+            
         }];
         [ac addAction:sure];
         [weakself presentViewController:ac animated:YES completion:nil];
