@@ -112,22 +112,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/usercenter/controller/CGMainLoginViewController.m"
-            timestampString = "535126507.259113"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "-getAccess_token:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -148,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
-            timestampString = "535465346.625379"
+            timestampString = "535623077.411193"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1051"
-            endingLineNumber = "1051"
+            startingLineNumber = "1057"
+            endingLineNumber = "1057"
             landmarkName = "-fileBtnClick"
             landmarkType = "7">
             <Locations>
@@ -164,11 +148,11 @@
                   moduleName = "BusinessCat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
-                  timestampString = "535469630.16228"
+                  timestampString = "535618120.860018"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1052"
-                  endingLineNumber = "1052"
+                  startingLineNumber = "1054"
+                  endingLineNumber = "1054"
                   offsetFromSymbolStart = "680">
                </Location>
                <Location
@@ -179,14 +163,30 @@
                   moduleName = "BusinessCat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
-                  timestampString = "535469630.164763"
+                  timestampString = "535618120.863124"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1053"
-                  endingLineNumber = "1053"
+                  startingLineNumber = "1055"
+                  endingLineNumber = "1055"
                   offsetFromSymbolStart = "20">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/components/JCDemoResource/PublicSrc/conference/RoomViewController.m"
+            timestampString = "535623077.411634"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1067"
+            endingLineNumber = "1067"
+            landmarkName = "-addMembersControllerWithUsers:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

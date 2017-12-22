@@ -18,7 +18,7 @@
  @param button              UIButton对象
  @param color               选中的颜色
  */
-- (void)colourToolbar:(JCColourToolbar *)colourToolbar color:(UIColor *)color;
+- (void)colourToolbar:(JCColourToolbar *)colourToolbar color:(UIColor *)color colorImage:(UIImage *)image;
 
 @end
 
@@ -31,5 +31,8 @@
 @property (nonatomic, readonly, strong) UIColor *currentColor;
 
 - (CGSize)mySize;
+
+// 初始颜色图片
+- (UIImage *)initialColorImage;
 
 @end

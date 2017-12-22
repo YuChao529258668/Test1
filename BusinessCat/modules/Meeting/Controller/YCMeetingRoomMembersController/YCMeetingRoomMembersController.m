@@ -61,6 +61,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 @property (nonatomic,strong) UIButton *requestInteractBtn; // 申请互动
 @property (nonatomic,strong) UIButton *endInteractBtn; // 结束互动
 
+@property (nonatomic,strong) NSMutableArray<UITableViewRowAction *> *rowActions;
 
 
 
@@ -74,6 +75,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self setupRowActions];
     [self setupTableView];
     [self setupBar];
 //    self.view.backgroundColor = [UIColor redColor];
@@ -106,6 +108,69 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCellEndNotification:) name:[YCMeetingRoomMembersCell endNotificationName] object:nil];
 }
 
+- (void)setupRowActions {
+    NSMutableArray *rowActions = [NSMutableArray array];
+    self.rowActions = rowActions;
+    
+    // 修改成员
+    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"       " handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        self.tableView.editing = NO;
+        
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"是否删除成员？" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            __weak typeof(self) weakself = self;
+            NSString *userID = self.users[indexPath.row].userid;
+            [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:nil soundState:nil videoState:nil interactionState:nil compereState:nil userState:nil userAdd:nil userDel:userID success:^(YCMeetingState *state) {
+                weakself.meetingState = state;
+                weakself.users = state.meetingUserList;
+                [weakself.tableView reloadData];
+                [weakself sendUpdateStatesCommandWithUserID:userID];
+                if (weakself.onMembersChangeBlock) {
+                    weakself.onMembersChangeBlock(state.meetingUserList);
+                }
+            } fail:^(NSError *error) {
+                [CTToast showWithText:[NSString stringWithFormat:@"删除成员失败 : %@", error]];
+            }];
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [ac addAction:sure];
+        [ac addAction:cancel];
+        [self presentViewController:ac animated:YES completion:nil];
+    }];
+    UIImage *dimage = [YCMeetingRoomMembersCell deleteUserImage];
+    delete.backgroundColor = [UIColor colorWithPatternImage:dimage];
+    
+    // 更改主持人
+    UITableViewRowAction *change = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"       " handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        self.tableView.editing = NO;
+        
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"是否设置该成员为主持人？" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            __weak typeof(self) weakself = self;
+            NSString *userID = self.users[indexPath.row].userid;
+
+            [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:nil soundState:nil videoState:nil interactionState:nil compereState:userID userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+                weakself.meetingState = state;
+                weakself.users = state.meetingUserList;
+                [weakself sendUpdateStatesCommandWithUserID:userID];
+                [weakself updateIsMeetingCreatorAndCompereID];
+                [weakself.tableView reloadData];
+            } fail:^(NSError *error) {
+                [CTToast showWithText:[NSString stringWithFormat:@"更改主持人失败 : %@", error]];
+            }];
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [ac addAction:sure];
+        [ac addAction:cancel];
+        [self presentViewController:ac animated:YES completion:nil];
+    }];
+    UIImage *cimage = [YCMeetingRoomMembersCell changeCompereImage];
+    change.backgroundColor = [UIColor colorWithPatternImage:cimage];
+    
+    [rowActions addObject:delete];
+    [rowActions addObject:change];
+}
+
 - (void)setupBar {
     UIView *bar = [UIView new];
     self.toolBar = bar;
@@ -122,41 +187,48 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     
     if (self.isMeetingCreator) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.titleLabel.font = font;
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setBackgroundColor:color];
+//        btn.titleLabel.font = font;
+//        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        [btn setBackgroundColor:color];
         [bar addSubview:btn];
         [btn addTarget:self action:@selector(clickEnableVideoBtn) forControlEvents:UIControlEventTouchUpInside];
-        [btn setTitle:@"全员禁频" forState:UIControlStateNormal];
+//        [btn setTitle:@"全员禁频" forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"video_vi_normal"] forState:UIControlStateSelected];
+        [btn setImage:[UIImage imageNamed:@"video_vi_highlight"] forState:UIControlStateNormal];
 //        [btn setTitle:@"全员视频" forState:UIControlStateSelected];
         self.enableVideoBtn = btn;
         
         btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.titleLabel.font = font;
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setBackgroundColor:color];
+//        btn.titleLabel.font = font;
+//        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        [btn setBackgroundColor:color];
         [bar addSubview:btn];
         [btn addTarget:self action:@selector(clickEnableVoiceBtn) forControlEvents:UIControlEventTouchUpInside];
-        [btn setTitle:@"全员禁音" forState:UIControlStateNormal];
+//        [btn setTitle:@"全员禁音" forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"video_sound_normal"] forState:UIControlStateSelected];
+        [btn setImage:[UIImage imageNamed:@"video_sound_highlight"] forState:UIControlStateNormal];
+
 //        [btn setTitle:@"全员音频" forState:UIControlStateSelected];
         self.enableVoiceBtn = btn;
         
         btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.titleLabel.font = font;
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setBackgroundColor:color];
+//        btn.titleLabel.font = font;
+//        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        [btn setBackgroundColor:color];
         [bar addSubview:btn];
         [btn addTarget:self action:@selector(clickChangeCompereBtn) forControlEvents:UIControlEventTouchUpInside];
-        [btn setTitle:@"更换主持" forState:UIControlStateNormal];
+//        [btn setTitle:@"更换主持" forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"video_pr"] forState:UIControlStateNormal];
         self.changeCompereBtn = btn;
         
         btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.titleLabel.font = font;
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setBackgroundColor:color];
+//        btn.titleLabel.font = font;
+//        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        [btn setBackgroundColor:color];
         [bar addSubview:btn];
         [btn addTarget:self action:@selector(clickAddUserBtn) forControlEvents:UIControlEventTouchUpInside];
-        [btn setTitle:@"增加成员" forState:UIControlStateNormal];
+//        [btn setTitle:@"增加成员" forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"video_add"] forState:UIControlStateNormal];
         self.addUserBtn = btn;
         
     } else {
@@ -247,49 +319,79 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     if (self.isMeetingCreator) {
         // 已进入会议
         if (user.state == 1) {
-            // 交互按钮
-            if (user.interactionState == 1) { // 允许互动
-                cell.endBtn.hidden = NO; // 显示 结束互动按钮
-            }  else if (user.interactionState == 2) { // 申请互动中
-                cell.requestingLabel.hidden = NO; // 申请互动中
+            if (user.compere) {
+                cell.compereLabel.hidden = NO; // 主持人
             } else {
-                cell.allowBtn.hidden = NO;
+                // 交互按钮
+                if (user.interactionState == 1) { // 允许互动
+                    cell.endBtn.hidden = NO; // 显示 结束互动按钮
+                }  else if (user.interactionState == 2) { // 申请互动中
+                    cell.requestingLabel.hidden = NO; // 申请互动中
+                } else {
+                    cell.allowBtn.hidden = NO;
+                }
             }
         } else {
+            // 未进入、已离开
             [cell setUserState:user.state];
             cell.stateLabel.hidden = NO;
-        }
-        
-        if (indexPath.row == 0) {
-            cell.endBtn.hidden = YES; // 结束互动按钮
-            cell.allowBtn.hidden = YES; // 允许互动按钮
-            cell.stateLabel.hidden = YES; // 开会中、未进入、已离开
-            cell.requestingLabel.hidden = YES; // 申请互动中
-            cell.interactingLabel.hidden = YES; // 互动中
-            cell.compereLabel.hidden = NO; // 主持人
         }
 
     } else { // 不是主持人
         
         // 已进入会议
         if (user.state == 1) {
-            // 交互按钮
-            if (user.interactionState == 1) { // 允许互动
-                cell.interactingLabel.hidden = NO;
-            } else if (user.interactionState == 2) { // 申请互动中
-                cell.requestingLabel.hidden = NO;
+            // 显示主持人
+            if (user.compere) {
+                cell.compereLabel.hidden = NO;
             } else {
-                [cell setUserState:user.state];
-                cell.stateLabel.hidden = NO;
+                if (user.interactionState == 1) { // 允许互动
+                    cell.interactingLabel.hidden = NO;
+                } else if (user.interactionState == 2) { // 申请互动中
+                    cell.requestingLabel.hidden = NO;
+                } else {
+                    // 参会中
+                    [cell setUserState:user.state];
+                    cell.stateLabel.hidden = NO;
+                }
             }
         } else {
+            // 未进入、已离开
             [cell setUserState:user.state];
             cell.stateLabel.hidden = NO;
         }
         
     }
-
+    
     return cell;
+}
+
+
+#pragma mark - UITableViewDelegate
+
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//}
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (indexPath.row == 0) {
+////        return [NSArray new];
+//        return nil;
+//    }
+    return self.rowActions;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // 能否侧滑
+    if (self.isMeetingCreator) {
+        if (indexPath.row == 0) {
+            return NO;
+        } else {
+            return YES;
+        }
+    } else {
+        return NO;
+    }
 }
 
 
@@ -349,11 +451,11 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 - (void)clickEnableVoiceBtn {
     NSString *soundState = @"1";
     NSString *failStr = @"取消全员禁音失败";
-    UIColor *color = [CTCommonUtil convert16BinaryColor:@"#777777"];
+//    UIColor *color = [CTCommonUtil convert16BinaryColor:@"#777777"];
     BOOL selected = !self.enableVoiceBtn.isSelected;
     if (selected) {
         soundState = @"0";
-        color = CTThemeMainColor;
+//        color = CTThemeMainColor;
         failStr = @"全员禁音失败";
     }
     
@@ -361,7 +463,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:@"all" soundState:soundState videoState:nil interactionState:nil compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
         [weakself sendUpdateStatesCommandWithUserID:[ObjectShareTool currentUserID]];
         weakself.enableVoiceBtn.selected = selected;
-        weakself.enableVoiceBtn.backgroundColor = color;
+//        weakself.enableVoiceBtn.backgroundColor = color;
     } fail:^(NSError *error) {
         [CTToast showWithText: failStr];
     }];
@@ -370,11 +472,11 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 - (void)clickEnableVideoBtn {
     NSString *videoState = @"1";
     NSString *failStr = @"取消全员禁频失败";
-    UIColor *color = [CTCommonUtil convert16BinaryColor:@"#777777"];
+//    UIColor *color = [CTCommonUtil convert16BinaryColor:@"#777777"];
     BOOL selected = !self.enableVideoBtn.isSelected;
     if (selected) {
         videoState = @"0";
-        color = CTThemeMainColor;
+//        color = CTThemeMainColor;
         failStr = @"全员禁频失败";
     }
 
@@ -382,7 +484,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:@"all" soundState:nil videoState:videoState interactionState:nil compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
         [weakself sendUpdateStatesCommandWithUserID:[ObjectShareTool currentUserID]];
         weakself.enableVideoBtn.selected = selected;
-        weakself.enableVideoBtn.backgroundColor = color;
+//        weakself.enableVideoBtn.backgroundColor = color;
     } fail:^(NSError *error) {
         [CTToast showWithText:failStr];
     }];
@@ -455,6 +557,9 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         weakself.meetingState = state;
         weakself.users = state.meetingUserList;
         [weakself.tableView reloadData];
+        if (weakself.onMembersChangeBlock) {
+            weakself.onMembersChangeBlock(state.meetingUserList);
+        }
     } fail:^(NSError *error) {
         [CTToast showWithText:[NSString stringWithFormat:@"修改成员失败 : %@", error]];
     }];
@@ -666,8 +771,10 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         weakself.meetingState = state;
         weakself.users = weakself.meetingState.meetingUserList;
         [weakself.tableView.mj_header endRefreshing];
-        [weakself.tableView reloadData];
         [weakself updateAbility];
+        [weakself updateIsMeetingCreatorAndCompereID];
+        [weakself checkWhetherHasBeenRemove];
+        [weakself.tableView reloadData];
     } fail:^(NSError *error) {
         [weakself.tableView.mj_header endRefreshing];
     }];
@@ -777,11 +884,11 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         }
         if (allVoiceDisable) {
             self.enableVoiceBtn.selected = allVoiceDisable;
-            self.enableVoiceBtn.backgroundColor = CTThemeMainColor;
+//            self.enableVoiceBtn.backgroundColor = CTThemeMainColor;
         }
         if (allVideoDisable) {
             self.enableVideoBtn.selected = allVideoDisable;
-            self.enableVideoBtn.backgroundColor = CTThemeMainColor;
+//            self.enableVideoBtn.backgroundColor = CTThemeMainColor;
         }
     }
 
@@ -812,6 +919,52 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         }
     }
     return name;
+}
+
+- (void)updateIsMeetingCreatorAndCompereID {
+    YCMeetingState *state = self.meetingState;
+    self.isMeetingCreator = state.ycIsCompere;
+    self.meetingCreatorID = state.ycCompereID;
+    
+    // 更新底部工具栏
+    if (state.ycIsCompere) {
+        [self.requestInteractBtn removeFromSuperview];
+        [self.endInteractBtn removeFromSuperview];
+        [self.toolBar removeFromSuperview];
+        self.requestInteractBtn = nil;
+        self.endInteractBtn = nil;
+        self.toolBar = nil;
+        [self setupBar];
+    } else {
+        [self.enableVoiceBtn removeFromSuperview];
+        [self.enableVideoBtn removeFromSuperview];
+        [self.changeCompereBtn removeFromSuperview];
+        [self.addUserBtn removeFromSuperview];
+        [self.toolBar removeFromSuperview];
+        self.enableVoiceBtn = nil;
+        self.enableVideoBtn = nil;
+        self.changeCompereBtn = nil;
+        self.addUserBtn = nil;
+        self.toolBar = nil;
+        [self setupBar];
+    }
+}
+
+- (void)checkWhetherHasBeenRemove {
+    BOOL remove = YES;
+    
+    for (YCMeetingUser *user in self.users) {
+        if ([user.userid isEqualToString:[ObjectShareTool currentUserID]]) {
+            remove = NO;
+            break;
+        }
+    }
+    
+    if (remove) {
+        if (self.onBeRemoveFromMeetingBlock) {
+            self.onBeRemoveFromMeetingBlock();
+        }
+    }
 }
 
 @end

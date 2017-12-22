@@ -38,6 +38,10 @@
 
 - (void)getMeetingRoomListWithSuccess:(void(^)(NSArray *companyRooms, NSArray *otherRooms))success fail:(void(^)(NSError *error))fail {
     NSString *companyId = [[ObjectShareTool sharedInstance].currentUser getCompanyID];
+    if (!companyId) {
+        [CTToast showWithText:@"获取会议室列表失败，公司 id 为空"];
+        return;
+    }
     NSDictionary *dic = @{@"companyId":companyId};
     [self.component sendPostRequestWithURL:URL_Meeting_MeetingRoomList param:dic success:^(id data) {
         NSArray *companyData = [data objectForKey:@"companyData"];

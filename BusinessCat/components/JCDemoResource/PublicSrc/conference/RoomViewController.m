@@ -1049,11 +1049,40 @@ typedef enum {
 - (void)addMembersControllerWithUsers:(NSArray *)users {
     self.membersVC = [YCMeetingRoomMembersController new];
 //    self.membersVC.users = users;
-    self.membersVC.meetingCreatorID = self.meeting.createUser;
+    self.membersVC.meetingCreatorID = self.meeting.ycCompereID;
     self.membersVC.meetingID = self.meetingID;
-    self.membersVC.isMeetingCreator = [self isMeetingCreator:nil];
+    self.membersVC.isMeetingCreator = self.meeting.ycIsCompere;
     
     __weak typeof(self) weakself = self;
+    // 成员发生改变
+    self.membersVC.onMembersChangeBlock = ^(NSArray *users) {
+        weakself.meeting.meetingUserList = users.mutableCopy;
+        [weakself updateMemberBtn];
+    };
+    
+    // 被移出会议
+    self.membersVC.onBeRemoveFromMeetingBlock = ^{
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"您已被主持人移出会议" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[MJPopTool sharedInstance] closeAnimated:YES];
+            _doodleShareUserId = nil;
+            [JCDoodleManager stopDoodle];
+            [weakself cancel:nil];
+
+            // 更新服务器的状态
+            [[YCMeetingBiz new]meetingUserWithMeetingID:weakself.meetingID userId:nil soundState:nil videoState:nil interactionState:nil compereState:nil userState:nil userAdd:nil userDel:[ObjectShareTool currentUserID] success:^(YCMeetingState *state) {
+
+            } fail:^(NSError *error) {
+
+            }];
+
+        }];
+        [ac addAction:sure];
+//        [weakself presentViewController:ac animated:YES completion:nil];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+    };
+    
+    // 自身的权限发生改变
     self.membersVC.onStateChangeBlock = ^(long interactState, long soundState, long videoState) {
         weakself.interactState = interactState;
         weakself.soundState = soundState;
@@ -1064,6 +1093,7 @@ typedef enum {
         }
         BOOL enable = interactState?YES:NO;
         [weakself.whiteBoardViewController enableDraw:enable];
+        [weakself.whiteBoardViewController enableSwitchPage:enable];
         
         enable = soundState?YES:NO;
         UIButton *soundBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
@@ -1140,7 +1170,7 @@ typedef enum {
 }
 
 - (void)updateMemberBtn {
-    NSString *title = [NSString stringWithFormat:@"成员(%d/%d人) ", (int)[[JCEngineManager sharedManager] getRoomInfo].participants.count, self.meeting.attendance];
+    NSString *title = [NSString stringWithFormat:@"成员(%d/%ld人) ", (int)[[JCEngineManager sharedManager] getRoomInfo].participants.count, self.meeting.meetingUserList.count];
     [self.memberTabBtn setTitle:title forState:UIControlStateNormal];
 }
 
@@ -1344,12 +1374,18 @@ typedef enum {
     return name;
 }
 
-// 判断是否会议主持人。userID 为 nil 表示当前用户
-- (BOOL)isMeetingCreator:(NSString *)userID {
-    if (!userID) {
-        userID = [ObjectShareTool currentUserID];
-    }
-    return [self.meeting.createUser isEqualToString:userID];
+//// 判断是否会议主持人。userID 为 nil 表示当前用户
+//- (BOOL)isMeetingCreator:(NSString *)userID {
+//    if (!userID) {
+//        userID = [ObjectShareTool currentUserID];
+//    }
+//    return [self.meeting.createUser isEqualToString:userID];
+//}
+
+#pragma mark - 屏幕旋转
+
+- (BOOL)shouldAutorotate {
+    return NO;
 }
 
 @end

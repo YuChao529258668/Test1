@@ -162,6 +162,8 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 //@property (nonatomic,assign) BOOL isFullScreen;
 //@property (nonatomic,assign) CGSize viewWillTransitionToSize;
 
+@property (nonatomic,assign) BOOL isSyncSwitchPage; // 是否同步翻页给其他人
+
 
 
 @end
@@ -183,7 +185,11 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         [self loadDoodleViewWithPageNumber:currentPage];
     }
     
-    [JCDoodleManager selectPage:_currentPage];
+    if (self.isSyncSwitchPage) {
+        [JCDoodleManager selectPage:_currentPage];
+        [[YCMeetingBiz new] updateMeetingPageWithMeetingID:self.meetingID currentPage:currentPage success:nil fail:nil];
+    }
+
 }
 
 - (void)setPageCount:(NSUInteger)pageCount {
@@ -360,12 +366,13 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     
     //设置colourButton的初始颜色
     _brushColor = [_colorsToolbar currentColor];
-    UIImage *image = [UIImage imageNamed:@"icon_pan_highlight"];
-    UIImage *tintImage = [self imageWithColor:_brushColor originalImage:image];
+//    UIImage *image = [UIImage imageNamed:@"icon_pan_highlight"];
+//    UIImage *tintImage = [self imageWithColor:_brushColor originalImage:image];
 //    _colourButton = [_doodletoolbar.buttons objectAtIndex:1];
     _colourButton = [_doodletoolbar.buttons objectAtIndex:DoodleToolbarButtonTypeColour];
-    [_colourButton setImage:tintImage forState:UIControlStateNormal];
+    [_colourButton setImage:[_colorsToolbar initialColorImage] forState:UIControlStateNormal];
     
+    // 画笔开关按钮
 //    _brushButton = [_doodletoolbar.buttons objectAtIndex:0];
     _brushButton = nil;
     _brushButton.selected = YES;
@@ -438,11 +445,12 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 
 #pragma mark - ColourToolbar delegate
 
-- (void)colourToolbar:(JCColourToolbar *)colourToolbar color:(UIColor *)color {
-    UIImage *image = [UIImage imageNamed:@"icon_pan_highlight"];
-    UIImage *tintImage = [self imageWithColor:color originalImage:image];
-    [_colourButton setImage:tintImage forState:UIControlStateNormal];
-    
+- (void)colourToolbar:(JCColourToolbar *)colourToolbar color:(UIColor *)color colorImage:(UIImage *)image{
+//    UIImage *image = [UIImage imageNamed:@"icon_pan_highlight"];
+//    UIImage *tintImage = [self imageWithColor:color originalImage:image];
+//    [_colourButton setImage:tintImage forState:UIControlStateNormal];
+    [_colourButton setImage:image forState:UIControlStateNormal];
+
     _brushColor = color;
 }
 
@@ -916,7 +924,6 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     page = page >= self.pageCount? self.pageCount - 1: page;
     self.currentPage = page;
     [self updatePageLabel];
-    [[YCMeetingBiz new] updateMeetingPageWithMeetingID:self.meetingID currentPage:page success:nil fail:nil];
 }
 
 - (void)previousPageBtnClick {
@@ -932,7 +939,6 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     page = page < 0? 0: page;
     self.currentPage = page;
     [self updatePageLabel];
-    [[YCMeetingBiz new] updateMeetingPageWithMeetingID:self.meetingID currentPage:page success:nil fail:nil];
 }
 
 - (void)updatePageLabel {
@@ -1214,7 +1220,14 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     } else {
         _actionMode = TouchActionNone;
     }
+    [self.doodletoolbar enableInteraction:enable];
 }
+
+// 翻页是否同步给其他人
+- (void)enableSwitchPage:(BOOL)enable {
+    self.isSyncSwitchPage = enable;
+}
+
 
 
 @end

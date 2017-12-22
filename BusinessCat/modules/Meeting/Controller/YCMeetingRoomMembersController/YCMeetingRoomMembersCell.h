@@ -29,4 +29,7 @@
 
 - (void)setUserState:(long)state;
 
++ (UIImage *)deleteUserImage;
++ (UIImage *)changeCompereImage;
+
 @end

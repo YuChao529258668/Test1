@@ -189,3 +189,12 @@ _actionMode = TouchActionNone;
 会议 选择文件
 素材的 cell CGBoundaryCollectionViewCell
 文科的 cell CGUserCollectCollectionViewCell
+
+微信请求
+[WXApi sendReq:req];
+开始动画     [[CTNetWorkUtil sharedManager] startBlockAnimation];
+停止动画     [[CTNetWorkUtil sharedManager] stopBlockAnimation];
+
+微信回调
+NOTIFICATION_GETWEIXINCODE
+getAccess_token

@@ -80,6 +80,8 @@
   NSString *code = [info object];
   __weak typeof(self) weakSelf = self;
   [self.userBiz queryUserDetailInfoWithCode:code success:^(CGUserEntity *user) {
+      [[CTNetWorkUtil sharedManager] stopBlockAnimation]; // 停止发起微信登录时的菊花
+      
     if ([CTStringUtil stringNotBlank:user.phone]) {
 //      [WKWebViewController setPath:@"setUserInfoData" code:[ObjectShareTool sharedInstance].currentUser.mj_JSONString success:^(id response) {
 //        
@@ -117,7 +119,9 @@
 - (IBAction)phoneClick:(UIButton *)sender {
   __weak typeof(self) weakSelf = self;
   CGLoginController *controller = [[CGLoginController alloc]initWithBlock:^(CGUserEntity *user) {
-    weakSelf.loginSuccess(user);
+      if (weakSelf.loginSuccess) {
+          weakSelf.loginSuccess(user);
+      }
   } fail:^(NSError *error) {
     
   }];

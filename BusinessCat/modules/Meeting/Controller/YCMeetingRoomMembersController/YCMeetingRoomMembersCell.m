@@ -58,4 +58,76 @@
     self.stateLabel.text = titles[state];
 }
 
+#pragma mark - 侧滑显示的图片
+
++ (UIImage *)deleteUserImage {
+    float w = [self cellHeight];
+    CGSize size = CGSizeMake(w, w);
+    
+    UIImage *dimage = [self imageWithColor:CTThemeMainColor size:size];
+    UIImage *uimage = [UIImage imageNamed:@"video_icon_remove"];
+    UIImage *image = [self imageWithUpImage:uimage downImage:dimage size:size];
+    return image;
+}
+
++ (UIImage *)changeCompereImage {
+    float w = [self cellHeight];
+    CGSize size = CGSizeMake(w, w);
+    
+    UIImage *dimage = [self imageWithColor:CTThemeMainColor size:size];
+    UIImage *uimage = [UIImage imageNamed:@"video_icon_pr"];
+    UIImage *image = [self imageWithUpImage:uimage downImage:dimage size:size];
+
+    CGRect upRect = CGRectMake(size.width - 1, 0, size.width, size.height);
+    UIImage *line = [UIImage imageNamed:@"video_line"];
+    line = [line resizableImageWithCapInsets:UIEdgeInsetsZero];
+    image = [self imageWithUpImage:line upImageRect:upRect downImage:image size:size];
+    return image;
+}
+
+#pragma mark - 图片合成
+
++ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size
+{
+    CGRect rect=CGRectMake(0,0, size.width, size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
+
++ (UIImage *)imageWithUpImage:(UIImage *)upImage downImage:(UIImage *)downImage size:(CGSize)size {
+    CGRect rect=CGRectMake(0,0, size.width, size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextDrawImage(context, rect, downImage.CGImage);
+    
+    float x = (downImage.size.width - upImage.size.width) / 2;
+    float y = (downImage.size.height - upImage.size.height) / 2;
+    CGRect rect2 = CGRectMake(x, y, upImage.size.width, upImage.size.height);
+    CGContextDrawImage(context, rect2, upImage.CGImage);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
++ (UIImage *)imageWithUpImage:(UIImage *)upImage upImageRect:(CGRect)upRect downImage:(UIImage *)downImage size:(CGSize)size {
+    CGRect rect=CGRectMake(0,0, size.width, size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextDrawImage(context, rect, downImage.CGImage);
+    
+    CGContextDrawImage(context, upRect, upImage.CGImage);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 @end

@@ -291,7 +291,7 @@
         // 会议主题
         self.meetingTitleTF.text = self.meeting.meetingName;
         // 召集人
-        self.createrLabel.text = self.meeting.meetingCreatorName;
+        self.createrLabel.text = self.meeting.ycCompere.userName;
         // 会议室
         self.room = [self roomOfMeeting:self.meeting];
         self.meetingRoomNameL.text = self.room.roomname;
@@ -359,7 +359,7 @@
         // 会议主题
         self.meetingTitleTF.text = self.meeting.meetingName;
         // 召集人
-        self.createrLabel.text = self.meeting.meetingCreatorName;
+        self.createrLabel.text = self.meeting.ycCompere.userName;
         
         // 会议室
         self.room = [self roomOfMeeting:self.meeting];
@@ -734,7 +734,7 @@
             success(companyRooms, otherRooms);
         }
     } fail:^(NSError *error) {
-        [CTToast showWithText:@"获取会议室列表失败，请返回上一个界面"];
+        [CTToast showWithText:[NSString stringWithFormat:@"获取会议室列表失败 : %@", error]];
     }];
 }
 

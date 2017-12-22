@@ -17,8 +17,9 @@
 @property (nonatomic,assign) BOOL isMeetingCreator; // 当前用户是否主持人
 @property (nonatomic,strong) NSString *meetingID;
 
-//@property (nonatomic,strong) JCWhiteBoardViewController *whiteBoardVC;
 @property (nonatomic,copy) void (^onStateChangeBlock)(long interactState, long soundState, long videoState);
+@property (nonatomic,copy) void (^onMembersChangeBlock)(NSArray *users);
+@property (nonatomic,copy) void (^onBeRemoveFromMeetingBlock)();
 
 
 // 解析并更新所有人状态

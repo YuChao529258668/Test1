@@ -56,7 +56,7 @@
 @property (nonatomic,assign) float costVideo;
 @property (nonatomic,assign) float costVoice;
 @property (nonatomic,strong) NSString *createTime;
-@property (nonatomic,strong) NSString *createUser; // 创建者 id
+//@property (nonatomic,strong) NSString *createUser; // 创建者 id，客户端不能用！这是后台存根的。使用 user 的 compere 属性判断是否主持人。或者 ycCompereID 也可以判断
 @property (nonatomic,assign) float meetingCost;//语音/视频每分钟每人价格
 @property (nonatomic,strong) NSString *roomId;//会议室Id(justalk)
 @property (nonatomic,strong) NSString *roomName;
@@ -67,15 +67,20 @@
 @property (nonatomic,strong) NSString *groupId; // 群聊 id，用于腾讯云获取群信息
 
 
+// 客户端自定义的属性
+@property (nonatomic,strong) YCMeetingUser *ycCompere; // 主持人
+@property (nonatomic,strong) NSString *ycCompereID; // 主持人 id
+@property (nonatomic,assign) BOOL ycIsCompere; // 当前用户是否主持人
+
 
 
 #pragma mark - 函数
 
 + (NSDictionary *)mj_objectClassInArray;
-// 返回 id
-- (NSString *)meetingCreator;
-- (NSString *)meetingCreatorName;
 
-- (float)calculateMeetingCost;
+// 返回 id
+//- (NSString *)meetingCreator;
+//- (NSString *)meetingCreatorName;
+
 
 @end

@@ -50,6 +50,8 @@
 
     NSArray *backgroundNormals = @[@"icon_pan_normal",@"icon_clear_highlight",@"icon_revoke_highlight", @"icon_official_highlight"];
     NSArray *backgourndHighlights = @[@"icon_pan_highlight",@"icon_clear_highlight",@"icon_revoke_highlight", @"icon_official_highlight"];
+    NSArray *disableImages = @[@"icon_no_pan_normal", @"icon_no_clear_normal", @"icon_no_revoke_normal", @"icon_no_official_normal"];
+    
     _buttonArray = [NSMutableArray array];
     _buttonSize = CGSizeMake(35, 35);
     _buttonSpacing = 13;
@@ -61,6 +63,7 @@
         button.backgroundColor = [UIColor clearColor];
         [button setImage:[UIImage imageNamed:backgroundNormals[i]] forState:UIControlStateNormal];
         [button setImage:[UIImage imageNamed:backgourndHighlights[i]] forState:UIControlStateHighlighted];
+        [button setImage:[UIImage imageNamed:disableImages[i]] forState:UIControlStateDisabled];
 //        if (i == 0) {
 //            [button setImage:[UIImage imageNamed:@"icon_pan_highlight"] forState:UIControlStateSelected];
 ////            [button setImage:[UIImage imageNamed:@"brush_on_highlighted"] forState:UIControlStateHighlighted | UIControlStateSelected];
@@ -126,6 +129,13 @@
     
     // 线
     self.lineIV.frame = CGRectMake(0, 0, self.frame.size.width, 1);
+}
+
+// 禁用工具栏的所有按钮
+- (void)enableInteraction:(BOOL)enable {
+    for (UIButton *btn in self.buttonArray) {
+        btn.enabled = enable;
+    }
 }
 
 @end

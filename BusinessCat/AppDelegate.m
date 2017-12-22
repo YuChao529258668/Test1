@@ -118,8 +118,8 @@
     [UMessage registerForRemoteNotifications];
     
     //注册微信支付
-    //    [WXApi registerApp:kWXAPP_ID withDescription:@"会议猫"];
-    [WXApi registerApp:kWXAPP_ID withDescription:@"生意猫"];
+        [WXApi registerApp:kWXAPP_ID withDescription:@"会议猫"];
+//    [WXApi registerApp:kWXAPP_ID withDescription:@"生意猫"];
     
     //注册科大讯飞语音
     [IFlySpeechUtility createUtility:@"appid=58c81249"];
@@ -232,8 +232,6 @@
 //授权后回调 WXApiDelegate
 -(void)onResp:(BaseReq *)resp
 {
-    [[CTNetWorkUtil sharedManager] stopBlockAnimation];
-
     /*
      ErrCode ERR_OK = 0(用户同意)
      ERR_AUTH_DENIED = -4（用户拒绝授权）

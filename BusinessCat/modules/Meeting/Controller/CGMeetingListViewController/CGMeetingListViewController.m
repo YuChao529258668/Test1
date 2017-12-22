@@ -341,7 +341,7 @@
 }
 
 - (BOOL)isMeetingCreater:(CGMeeting *)meeting {
-    return [[ObjectShareTool sharedInstance].currentUser.uuid isEqualToString:[meeting meetingCreator]];
+    return [[ObjectShareTool currentUserID] isEqualToString:meeting.ycCompereID];
 }
 
 - (void)goToMeetingDetail:(CGMeeting *)meeting {

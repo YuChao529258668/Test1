@@ -41,4 +41,7 @@ typedef NS_ENUM(NSUInteger, DoodleToolbarButtonType) {
 //YES为按钮水平居中，NO为按钮左对齐，默认YES
 @property (nonatomic) BOOL horizontalCenter;
 
+// 禁用工具栏的所有按钮
+- (void)enableInteraction:(BOOL)enable;
+
 @end

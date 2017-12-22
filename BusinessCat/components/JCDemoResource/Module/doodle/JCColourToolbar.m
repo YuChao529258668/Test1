@@ -24,6 +24,8 @@
 // UIButton的对象数组
 @property (nonatomic, strong) NSMutableArray<UIButton *> *buttonArray;  // 按钮的数组
 
+@property (nonatomic,strong) NSArray *imageNames;
+
 @end;
 
 @implementation JCColourToolbar
@@ -66,21 +68,42 @@
     _buttonSize = CGSizeMake(28, 28);
     _buttonSpacing = 28;
     
+    NSArray *images = @[@"icon_pan_red", @"icon_pan_orange", @"icon_pan_yellow", @"icon_pan_green", @"icon_pan_blue", @"icon_pan_purple"];
+    self.imageNames = images;
+    
     // 颜色图片
     //加颜色按钮
     for (int i = 0; i < _brushColorsArray.count; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        UIImage *image = [UIImage imageNamed:@"white"];
-        // 图片
-        UIImage *image = [UIImage imageNamed:@"icon_pan_normal"];
-//        UIImage *image = [UIImage imageNamed:@"icon_pan_blue"];
-        UIImage *tintImage = [self imageWithColor:[self colorWithHexString:[_brushColorsArray objectAtIndex:i]] originalImage:image];
-        [btn setImage:tintImage forState:UIControlStateNormal];
-//        UIImage *selImage = [UIImage imageNamed:@"white_selected"];
-        UIImage *selImage = [UIImage imageNamed:@"icon_pan_highlight"];
-//        UIImage *selImage = [UIImage imageNamed:@"icon_pan_blue"];
-        UIImage *selTintImage = [self imageWithColor:[self colorWithHexString:[_brushColorsArray objectAtIndex:i]] originalImage:selImage];
-        [btn setImage:selTintImage forState:UIControlStateSelected];
+        UIImage *image = [UIImage imageNamed:images[i]];
+        [btn setImage:image forState:UIControlStateNormal];
+        
+////        UIImage *image = [UIImage imageNamed:@"white"];
+//        // 图片
+////        UIImage *image = [UIImage imageNamed:@"icon_pan_normal"];
+//        UIImage *image = [UIImage imageNamed:@"icon_pan_black"];
+//        UIColor *color = [self colorWithHexString:[_brushColorsArray objectAtIndex:i]];
+//        UIImage *tintImage;
+////        tintImage = [self imageWithColor:color originalImage:image];
+//        tintImage = [image imageWithColor:color];
+////        tintImage = [image imageWithTintColor:color];
+////        tintImage = image;
+////        btn.tintColor = color;
+//        [btn setImage:tintImage forState:UIControlStateNormal];
+        
+        
+        
+////        UIImage *selImage = [UIImage imageNamed:@"white_selected"];
+////        UIImage *selImage = [UIImage imageNamed:@"icon_pan_highlight"];
+//        UIImage *selImage = [UIImage imageNamed:@"icon_pan_black"];
+//        UIImage *selTintImage;
+////        selTintImage = [self imageWithColor:color originalImage:selImage];
+//        selTintImage = [selImage imageWithColor:color];
+////        selTintImage = [selImage imageWithTintColor:color];
+////        selTintImage = selImage;
+//        [btn setImage:selTintImage forState:UIControlStateSelected];
+        
+        
         [btn addTarget:self action:@selector(chooseColorAction:) forControlEvents:UIControlEventTouchUpInside];
         
         if (i == 0) {
@@ -95,18 +118,21 @@
 - (void)chooseColorAction:(UIButton *)sender
 {
     if (sender == _curBrushButton) {
+        self.hidden = YES;
         return;
     }
     _curBrushButton.selected = NO;
     sender.selected = YES;
     _curBrushButton = sender;
-    _brushColor = [self colorWithHexString:[_brushColorsArray objectAtIndex:[_buttonArray indexOfObject:sender]]];
+    NSUInteger index = [_buttonArray indexOfObject:sender];
+    _brushColor = [self colorWithHexString:[_brushColorsArray objectAtIndex:index]];
     
     self.hidden = YES;
     
     if (_delegate)
     {
-        [_delegate colourToolbar:self color:_brushColor];
+        UIImage *image = [UIImage imageNamed:self.imageNames[index]];
+        [_delegate colourToolbar:self color:_brushColor colorImage:image];
     }
 }// 按钮的触发事件
 
@@ -198,4 +224,10 @@
     
     return image;
 }
+
+// 初始颜色图片
+- (UIImage *)initialColorImage {
+    return [UIImage imageNamed:self.imageNames.firstObject];
+}
+
 @end
