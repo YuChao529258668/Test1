@@ -634,6 +634,11 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     [[JCEngineManager sharedManager] sendData:kYCUpdateStatesKey content:content toReceiver:nil];
 }
 
++ (void)sendUpdateStatesCommandWithMeetingID:(NSString *)mid {
+    NSString *content = [NSString stringWithFormat:@"%@", mid];
+    [[JCEngineManager sharedManager] sendData:kYCUpdateStatesKey content:content toReceiver:nil];
+}
+
 - (void)sendRequestInteractionCommand {
     NSString *userID = [ObjectShareTool currentUserID];
     
@@ -771,10 +776,14 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         weakself.meetingState = state;
         weakself.users = weakself.meetingState.meetingUserList;
         [weakself.tableView.mj_header endRefreshing];
-        [weakself updateAbility];
-        [weakself updateIsMeetingCreatorAndCompereID];
-        [weakself checkWhetherHasBeenRemove];
-        [weakself.tableView reloadData];
+        if (state.meetingState != 1) { // 1 进行中
+            [weakself checkMeetingState]; // 结束或取消会议
+        } else {
+            [weakself updateAbility];
+            [weakself updateIsMeetingCreatorAndCompereID];
+            [weakself checkWhetherHasBeenRemove];
+            [weakself.tableView reloadData];
+        }
     } fail:^(NSError *error) {
         [weakself.tableView.mj_header endRefreshing];
     }];
@@ -964,6 +973,12 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         if (self.onBeRemoveFromMeetingBlock) {
             self.onBeRemoveFromMeetingBlock();
         }
+    }
+}
+
+- (void)checkMeetingState {
+    if (self.onMeetingStateChangeBlock) {
+        self.onMeetingStateChangeBlock(self.meetingState.meetingState);
     }
 }
 

@@ -141,6 +141,11 @@ TIM_GROUP 分支也修改了。
 
 修改课件 JCDoodleDelegate JCDoodleActionCourseware
 [JCDoodleManager sendCoursewareUrl:kkCoursewareMath];
+[JCDoodleManager sendCoursewareUrl:url];
+NSString *url = [JCDoodleManager getCoursewareUrl];
+[_whiteBoardViewController cleanAllPath];
+_whiteBoardViewController.pageCount = array.count;
+[_whiteBoardViewController setBackgroundImages:array];
 
 课件翻页 JCDoodleDelegate JCDoodleActionSelectPage
 [JCDoodleManager selectPage:_currentPage];

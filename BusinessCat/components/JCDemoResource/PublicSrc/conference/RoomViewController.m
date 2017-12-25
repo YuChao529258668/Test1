@@ -379,7 +379,6 @@ typedef enum {
     //更新界面
     [self showCurrentShowMode:ShowSplitScreen];
 //    [CTToast showWithText:@"加入会议成功"];
-//    [self setDoc]; // 设置课件
     [self updateTitleBtn];
     [self updateMemberBtn];
     
@@ -691,28 +690,68 @@ typedef enum {
 
 // 离开房间
 - (IBAction)leave:(id)sender {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sure to quit", nil) message:nil preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"confirm", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [[MJPopTool sharedInstance] closeAnimated:YES];
-        _doodleShareUserId = nil;
-        [JCDoodleManager stopDoodle];
-//        [_meetingReformer leave];
-        [self cancel:nil];
+    if (!self.meeting.ycIsCompere) {
+        // 成员退出
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sure to quit", nil) message:nil preferredStyle:UIAlertControllerStyleAlert];
         
-        // 更新服务器的状态
-        [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:@"1" videoState:@"1" interactionState:@"0" compereState:nil userState:@"2" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"confirm", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[MJPopTool sharedInstance] closeAnimated:YES];
+            _doodleShareUserId = nil;
+            [JCDoodleManager stopDoodle];
+            //        [_meetingReformer leave];
+            [self cancel:nil];
             
-        } fail:^(NSError *error) {
-            
+            // 更新服务器的状态
+            [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:@"1" videoState:@"1" interactionState:@"0" compereState:nil userState:@"2" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+                
+            } fail:^(NSError *error) {
+                
+            }];
         }];
-    }];
-    [alert addAction:action];
+        [alert addAction:action];
+        
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:cancel];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+    } else {
+        // 主持人退出
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"退出还是结束会议？" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *finish = [UIAlertAction actionWithTitle:@"结束" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[MJPopTool sharedInstance] closeAnimated:YES];
+            _doodleShareUserId = nil;
+            [JCDoodleManager stopDoodle];
+            //        [_meetingReformer leave];
+            [self cancel:nil];
+            
+            // 结束会议
+            [[YCMeetingBiz new] cancelMeetingWithMeetingID:self.meetingID cancelType:1 success:^(id data) {
+                
+            } fail:^(NSError *error) {
+                [CTToast showWithText:[NSString stringWithFormat:@"结束会议失败 : %@", error]];
+            }];
+        }];
+        
+        UIAlertAction *quit = [UIAlertAction actionWithTitle:@"退出" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[MJPopTool sharedInstance] closeAnimated:YES];
+            _doodleShareUserId = nil;
+            [JCDoodleManager stopDoodle];
+            //        [_meetingReformer leave];
+            [self cancel:nil];
+            
+            // 更新服务器的状态
+            [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:@"1" videoState:@"1" interactionState:@"0" compereState:nil userState:@"2" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+
+            } fail:^(NSError *error) {
+
+            }];
+        }];
+        [ac addAction:finish];
+        [ac addAction:quit];
+        [self presentViewController:ac animated:YES completion:nil];
+    }
     
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:cancel];
-    
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 //显示统计
@@ -1060,6 +1099,31 @@ typedef enum {
         [weakself updateMemberBtn];
     };
     
+    // 会议结束或取消
+    self.membersVC.onMeetingStateChangeBlock = ^(int meetingState) {
+        weakself.meeting.meetingState = meetingState;
+        if (meetingState == 0 || meetingState == 1) {
+            return ;
+        }
+        
+        NSString *title = nil;
+        // 会议状态 0:未开始    1：进行中   2：已结束    3：已取消
+        if (meetingState == 2) {
+            title = @"会议已结束";
+        } else if (meetingState == 3) {
+            title = @"会议已取消";
+        }
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:title preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[MJPopTool sharedInstance] closeAnimated:YES];
+            _doodleShareUserId = nil;
+            [JCDoodleManager stopDoodle];
+            [weakself cancel:nil];
+        }];
+        [ac addAction:sure];
+        [weakself presentViewController:ac animated:YES completion:nil];
+    };
+    
     // 被移出会议
     self.membersVC.onBeRemoveFromMeetingBlock = ^{
         UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"您已被主持人移出会议" preferredStyle:UIAlertControllerStyleAlert];
@@ -1244,12 +1308,6 @@ typedef enum {
 
 #pragma mark - 课件
 
-// 设置课件
-- (void)setDoc {
-//    NSString *url = _urls[indexPath.row];
-    NSString *url = @"COURSEWARE_MATH";
-    [JCDoodleManager sendCoursewareUrl:url];
-}
 
 - (void)handleCoursewareChange {
     NSString *url = [JCDoodleManager getCoursewareUrl];

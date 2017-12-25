@@ -11,6 +11,7 @@
 #import "YCSelectMeetingRoomController.h"
 #import "YCSelectMeetingTimeController.h"
 #import "CGSelectContactsViewController.h"
+#import "YCMeetingRoomMembersController.h"
 
 #import "YCCreateMeetingUserCell.h"
 
@@ -816,6 +817,7 @@
 
     [[YCMeetingBiz new] bookMeetingWithMeetingID:meetingID MeetingType:self.meetingType MeetingName:meetingName users:users roomID:self.room.roomid beginDate:self.beginDate endDate:self.endDate Success:^(id data){
         [CTToast showWithText:successStr];
+        [YCMeetingRoomMembersController sendUpdateStatesCommandWithMeetingID:meetingID]; // 让已进入会议的成员收到命令
         [ws.navigationController popViewControllerAnimated:YES];
     } fail:^(NSError *error) {
         [CTToast showWithText:failStr];
@@ -831,6 +833,7 @@
     [[YCMeetingBiz new] cancelMeetingWithMeetingID:self.meeting.meetingId cancelType:type success:^(id data) {
         [CTToast showWithText:successStr];
 //        [self.navigationController popViewControllerAnimated:YES];
+        [YCMeetingRoomMembersController sendUpdateStatesCommandWithMeetingID:ws.meeting.meetingId]; // 让已进入会议的成员收到命令
         [ws.navigationController popViewControllerAnimated:YES];
     } fail:^(NSError *error) {
         [CTToast showWithText:failStr];
@@ -839,6 +842,5 @@
 //        self.cancelMeetingBtn.userInteractionEnabled = YES;
     }];
 }
-
 
 @end

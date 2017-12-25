@@ -25,6 +25,8 @@ NSString * const kkCoursewareJuphoon = @"COURSEWARE_JUPHOON";
 NSString * const kkCoursewareMath = @"COURSEWARE_MATH";
 NSString * const kkCoursewarePhysics = @"COURSEWARE_PHYSICS";
 
+//// 修改课件的命令
+//NSString * const kYCChangeCoursewareCommand = @"YC_CHANGE_COURSEWARE";
 
 typedef NS_ENUM(NSInteger, TouchActionMode) {
     TouchActionNone = 0,

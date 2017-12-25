@@ -20,6 +20,7 @@
 @property (nonatomic,copy) void (^onStateChangeBlock)(long interactState, long soundState, long videoState);
 @property (nonatomic,copy) void (^onMembersChangeBlock)(NSArray *users);
 @property (nonatomic,copy) void (^onBeRemoveFromMeetingBlock)();
+@property (nonatomic,copy) void (^onMeetingStateChangeBlock)(int meetingState); // 会议结束或取消
 
 
 // 解析并更新所有人状态
@@ -37,5 +38,7 @@
 //- (void)onUserLeft:(NSString *)userID;
 // 0或1，其他数字表示不修改
 - (void)updateUserVoiceState:(long)voiceState videoState:(long)videoState withUserID:(NSString *)userID;
+// 外部取消或者结束会议时，调用此方法
++ (void)sendUpdateStatesCommandWithMeetingID:(NSString *)mid;
 
 @end

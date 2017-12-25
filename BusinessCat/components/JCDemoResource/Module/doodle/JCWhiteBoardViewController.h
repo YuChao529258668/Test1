@@ -10,6 +10,8 @@
 #import "JCDoodleToolbar.h"
 #import "JCColourToolbar.h"
 
+// 修改课件的命令
+NSString * const kYCChangeCoursewareCommand = @"YC_CHANGE_COURSEWARE";
 
 
 @interface JCWhiteBoardViewController : UIViewController

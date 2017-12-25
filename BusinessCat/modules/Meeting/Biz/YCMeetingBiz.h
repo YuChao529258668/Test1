@@ -47,6 +47,9 @@
 // 会议文件页码
 - (void)updateMeetingPageWithMeetingID:(NSString *)mid currentPage:(int)page success:(void(^)(id data))success fail:(void(^)(NSError *error))fail;
 
+
+#pragma mark - 成员
+
 // 会议成员接口 - ShowDoc http://doc.cgsays.com:50123/index.php?s=/1&page_id=407
 // userId: 传all时代表所有人，除了主持人外
 // compereState: 更换主持人

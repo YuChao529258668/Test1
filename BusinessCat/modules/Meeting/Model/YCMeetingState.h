@@ -21,7 +21,7 @@
 @property (nonatomic,strong) NSString *meetingName;
 @property (nonatomic,assign) long roomNum;
 //@property (nonatomic,strong) NSString *createUser;
-@property (nonatomic,strong) NSString *meetingState; // 会议状态 0:未开始 1：进行中 2：已结束 3：已取消
+@property (nonatomic,assign) int meetingState; // 会议状态 0:未开始 1：进行中 2：已结束 3：已取消
 @property (nonatomic,assign) long attendance;
 @property (nonatomic,strong) NSMutableArray<YCMeetingUser *> *meetingUserList; // 当前状态:0未进入,1开会中,2已离开,4禁止
 
