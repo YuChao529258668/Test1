@@ -158,7 +158,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 @property (nonatomic,strong) UIButton *closeDocBtn;
 @property (nonatomic,strong) YCMeetingFile *meetingFile; // 课件信息
 //@property (nonatomic,strong) NSString *currentFileName; // 当前显示的课件名字
-@property (nonatomic,strong) NSTimer *timer;
+//@property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic,strong) YCMeetingFileManager *fileManager;
 //@property (nonatomic,assign) CGRect oldFrame;
 //@property (nonatomic,assign) BOOL isFullScreen;
@@ -342,13 +342,13 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     [self layoutViews];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    NSLog(@"viewDidDisappear 白板");
-    [self.timer invalidate];
-    self.timer = nil;
-}
+//- (void)viewDidDisappear:(BOOL)animated {
+//    [super viewDidDisappear:animated];
+//
+//    NSLog(@"viewDidDisappear 白板");
+//    [self.timer invalidate];
+//    self.timer = nil;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -382,7 +382,8 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     [self loadDoodleViewWithPageNumber:_currentPage];
     
     [self setupPPTViews];
-    [self beginCheckCurrentMeetingFile];
+//    [self beginCheckCurrentMeetingFile];
+    [self checkCurrentMeetingFile];
 }
 
 #pragma mark - DoodleToolbar delegate
@@ -962,9 +963,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     [self updatePageLabel];
     self.closeDocBtn.hidden = YES;
     
-    CGInfoHeadEntity *info = [CGInfoHeadEntity new];
-    info.infoId = @"0";
-    [self updateMeetingFileWith:info withSuccess:nil];
+    [self updateMeetingFile:nil fileType:0 withSuccess:nil];
 }
 
 - (void)layoutPPTViews {
@@ -1033,7 +1032,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 - (void)fileBtnClick {
     __weak typeof(self) weakself = self;
     YCSelectMeetingFileController *vc = [YCSelectMeetingFileController new];
-    vc.didSelectBlock = ^(id entity) {
+    vc.didSelectBlock = ^(CGInfoHeadEntity *entity, int fileType) {
         UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"确定使用此文档吗？" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         [ac addAction:cancel];
@@ -1041,38 +1040,61 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [weakself.navigationController popViewControllerAnimated:YES];
             
-            NSString *fileName;
-            // 文库是 CGInfoHeadEntity
-            CGInfoHeadEntity *info;
-            if ([entity isKindOfClass:[CGInfoHeadEntity class]]) {
-                info = (CGInfoHeadEntity *)entity;
-                fileName = info.title;
-            } else {
-                CGHorrolEntity *horrol = (CGHorrolEntity *)entity;
-                info = horrol.data.firstObject;
-                fileName = info.name;
-            }
-            
-            if ([fileName isEqualToString:self.meetingFile.fileName]) {
-                return ;
-            } else {
-                // 更新服务器
-                [weakself updateMeetingFileWith:entity withSuccess:^{
-                    [weakself checkCurrentMeetingFile];
-                }];
-            }
-            
-            // 素材是 CGHorrolEntity，data 数组里面存放 CGInfoHeadEntity
+            // 更新服务器
+            [weakself updateMeetingFile:entity fileType:fileType withSuccess:^{
+                [weakself sendChangeCoursewareCommand];
+                [weakself checkCurrentMeetingFile];
+            }];
             
         }];
         [ac addAction:sure];
         [weakself presentViewController:ac animated:YES completion:nil];
     };
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)updateMeetingFileWith:(CGInfoHeadEntity *)info withSuccess:(void(^)())success {
-    [[YCMeetingBiz new] updateMeetingFileWithMeetingID:self.meetingID fileType:info.type toId:info.infoId success:^(id data) {
+// 区分是要关闭文件，还是传的文库、素材。
+// fileType，0 文件，1 素材
+// 素材的图片地址 cover,  名字是 name
+// 文库的名字是 title，封面地址是 icon
+// 关闭文件传的 nil
+- (void)updateMeetingFile:(CGInfoHeadEntity *)entity fileType:(int)fileType withSuccess:(void(^)())success {
+    NSString *fileID = nil;
+    NSString *picURL = nil;
+    
+    if (entity) {
+//        NSString *fileName;
+//        if ([entity isKindOfClass:[CGInfoHeadEntity class]]) {
+//            // 文库是 CGInfoHeadEntity
+//            CGInfoHeadEntity *info = (CGInfoHeadEntity *)entity;
+//            fileID = info.infoId;
+//            fileName = info.title;
+//        } else if ([entity isKindOfClass:[CGInfoHeadEntity class]]) {
+//            // 素材是 CGHorrolEntity
+//            CGInfoHeadEntity *info = (CGInfoHeadEntity *)entity;
+//            fileID = info.infoId;
+//            picURL = info.cover;
+//            fileName = info.name;
+//        } else {
+//            [CTToast showWithText:@"未知文件类型，更新会议文件失败"];
+//            return;
+//        }
+        
+        fileID = entity.infoId;
+        picURL = entity.cover;
+        // 同一个文件不用更新
+        if ([entity.infoId isEqualToString:self.meetingFile.toId]) {
+            return;
+        }
+
+    } else {
+        // 关闭课件
+        fileID = @"0";
+    }
+    
+    // fileType，0 文件，1 素材
+    [[YCMeetingBiz new] updateMeetingFileWithMeetingID:self.meetingID fileType:fileType toId:fileID picUrl:picURL success:^(id data) {
         if (success) {
             success();
         }
@@ -1084,13 +1106,13 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 
 #pragma mark - 课件接口
 
-- (void)beginCheckCurrentMeetingFile {
+//- (void)beginCheckCurrentMeetingFile {
 //    NSTimer *timer = [NSTimer timerWithTimeInterval:2 target:self selector:@selector(checkCurrentMeetingFile) userInfo:nil repeats:YES];
 //    timer add
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(checkCurrentMeetingFile) userInfo:nil repeats:YES];
-    self.timer = timer;
-    [timer fire];
-}
+//    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(checkCurrentMeetingFile) userInfo:nil repeats:YES];
+//    self.timer = timer;
+//    [timer fire];
+//}
 
 // 获取服务器保存的课件
 - (void)checkCurrentMeetingFile {
@@ -1101,12 +1123,14 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         YCMeetingFile *file = [YCMeetingFile mj_objectWithKeyValues:data];
         
         // 同一个课件
-        if ([file.fileName isEqualToString:weakself.meetingFile.fileName]) {
+        if ([file.toId isEqualToString:weakself.meetingFile.toId]) {
             return ;
         }
         // 没有课件
         if (file.pageCount == 0) {
-            [self.closeDocBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+            if (weakself.closeDocBtn.hidden == NO) {
+                [weakself.closeDocBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+            }
             return;
         }
         
@@ -1231,6 +1255,13 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 }
 
 
+// 发送课件改变的命令，收到命令后问服务器给数据
+- (void)sendChangeCoursewareCommand {
+    int success = [[JCEngineManager sharedManager] sendData:kYCChangeCoursewareCommand content:@"YC_CHANGE_COURSEWARE" toReceiver:nil];
+    if (success != JCOK) {
+        [CTToast showWithText:@"发送更新会议文件消息失败"];
+    }
+}
 
 @end
 

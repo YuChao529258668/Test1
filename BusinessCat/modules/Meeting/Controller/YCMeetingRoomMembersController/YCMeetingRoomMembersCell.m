@@ -56,6 +56,11 @@
 - (void)setUserState:(long)state {
     NSArray *titles = @[@"未进入", @"开会中", @"已离开", @"未知状态", @"禁止"];
     self.stateLabel.text = titles[state];
+    if (state == 0 || state == 2) {
+        self.stateLabel.textColor = [UIColor lightGrayColor];
+    } else {
+        self.stateLabel.textColor = [UIColor blackColor];
+    }
 }
 
 #pragma mark - 侧滑显示的图片

@@ -73,7 +73,7 @@ static YCMeetingFileManager *manager;
 //    NSString *imagePath = [self imagePathWithURLString:urlStr];
     NSString *imagePath = [self imagePathWithImageName:imageName fileName:fileName];
     NSData *data = [NSData dataWithContentsOfFile:imagePath];
-    
+    NSLog(@"%@, url  = %@, imageName = %@, fileName = %@", NSStringFromSelector(_cmd), urlStr, imageName, fileName);
     if (data) {
         return [UIImage imageWithData:data];
     } else {

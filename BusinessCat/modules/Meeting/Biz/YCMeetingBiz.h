@@ -41,8 +41,10 @@
 // 会议当前文件
 - (void)getCurrentFileWithMeetingID:(NSString *)mid success:(void(^)(id data))success fail:(void(^)(NSError *error))fail;
 
-// 会议使用文件
-- (void)updateMeetingFileWithMeetingID:(NSString *)mid fileType:(int)type toId:(NSString *)toID success:(void(^)(id data))success fail:(void(^)(NSError *error))fail;
+// 会议使用文件。关闭课件，toId = @"0"
+// picUrl 素材图片 url，没有就传 nil。
+// fileType，0 文件，1 素材
+- (void)updateMeetingFileWithMeetingID:(NSString *)mid fileType:(int)type toId:(NSString *)toID picUrl:(NSString *)picUrl success:(void(^)(id data))success fail:(void(^)(NSError *error))fail;
 
 // 会议文件页码
 - (void)updateMeetingPageWithMeetingID:(NSString *)mid currentPage:(int)page success:(void(^)(id data))success fail:(void(^)(NSError *error))fail;

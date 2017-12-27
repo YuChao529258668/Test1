@@ -191,7 +191,7 @@ _actionMode = TouchActionNone;
 [_confManager getRoomInfo].participants
 
 
-会议 选择文件
+会议 选择文件 YCSelectMeetingFileController
 素材的 cell CGBoundaryCollectionViewCell
 文科的 cell CGUserCollectCollectionViewCell
 

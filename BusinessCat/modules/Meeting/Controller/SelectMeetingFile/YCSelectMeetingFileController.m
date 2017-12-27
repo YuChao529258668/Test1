@@ -172,6 +172,7 @@
 //每个UICollectionView展示的内容
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    // 素材在这边
     if (indexPath.section == 1) { // 3
         NSString *identifier = [NSString stringWithFormat:@"Cell%ld",indexPath.section];
         //重用cell
@@ -181,10 +182,11 @@
         __weak typeof(self) weakSelf = self;
         [cell updateUIWithEntity:self.typeArray[indexPath.section] loadType:2 isCache:NO block:^(NSInteger index) {
             CGHorrolEntity *typeEntity = weakSelf.typeArray[1];// 3
-
+            CGInfoHeadEntity *info = typeEntity.data[index];
+            
             // cell 点击事件处理
             if (weakSelf.didSelectBlock) {
-                weakSelf.didSelectBlock(typeEntity);
+                weakSelf.didSelectBlock(info, 1);// 1 是素材
             }
 
 //            //      for (int i = 0; i<typeEntity.data.count; i++) {
@@ -209,8 +211,9 @@
         
         // cell 点击事件处理
         [cell updateUIWithEntity:info block:^(id entity) {
+            // entity  是 CGInfoHeadEntity
             if (weakSelf.didSelectBlock) {
-                weakSelf.didSelectBlock(entity);
+                weakSelf.didSelectBlock(entity, 0);// 0 是文件
             }
         }];
         return cell;

@@ -36,22 +36,28 @@
 
 
 -(void)getToken:(void(^)(NSString * uuid,NSString *token))complete fail:(void (^)(NSError *error))fail{
-    NSLog(@"调用获取token接口进行token的检查。。。。。。");
+    NSLog(@"获取token");
     NSNumber *timestamp = [NSNumber numberWithLong:[[NSDate date] timeIntervalSince1970]*1000];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setObject:timestamp forKey:@"timestamp"];
-    if([CTStringUtil stringNotBlank:[ObjectShareTool sharedInstance].currentUser.secuCode]){
+    CGUserEntity *user = [ObjectShareTool sharedInstance].currentUser;
+    if([CTStringUtil stringNotBlank:user.secuCode]){
         NSString *secuCode = [ObjectShareTool sharedInstance].currentUser.secuCode;
         [param setObject:secuCode forKey:@"secuCode"];
+        NSLog(@"secuCode = %@", secuCode);
     }else{
 //      UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"没传secucode" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
 //      [al show];
-        NSLog(@"没传secucode %@", NSStringFromSelector(_cmd));
+        NSLog(@"secucode = nil %@", NSStringFromSelector(_cmd));
+        [CTToast showWithText:@"secucode 为空"];
     }
     [self.component sendPostRequestWithURL:URL_USER_TOKEN param:param success:^(id data) {
-        NSLog(@"获取token接口回调：%@",data);
+        NSLog(@"获取token成功：%@",data);
         NSString *secuCode = [data objectForKey:@"secuCode"];
         NSString *token = [data objectForKey:@"token"];
+//        NSLog(@"secuCode = %@", secuCode);
+//        NSLog(@"token = %@", token);
+
         if (token) {
             if([[[CGUserDao alloc]init] saveUserWithSecuCode:secuCode token:token]){
                 complete(secuCode,token);
@@ -60,7 +66,7 @@
             }
         }
     } fail:^(NSError *error){
-        NSLog(@"获取token接口失败回调：%@",error);
+        NSLog(@"获取token失败：%@",error);
         fail(error);
     }];
 }

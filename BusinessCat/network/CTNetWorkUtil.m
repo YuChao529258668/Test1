@@ -104,10 +104,10 @@ static CTNetWorkUtil *_sharedManager;
   [_request.requestSerializer setValue:@"application/x-www-form-urlencoded;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
   [_request.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
   __weak typeof(self) weakSelf = self;
+    
   [_request POST:urlString parameters:param progress:^(NSProgress * _Nonnull uploadProgress) {
     
   } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//                NSString *responseString = responseObject;
             NSLog(@"请求总出口 %@, 请求接口：%@，返回数据：%@", NSStringFromSelector(_cmd),urlString,responseObject);
       
             NSDictionary *res = responseObject;
@@ -126,20 +126,33 @@ static CTNetWorkUtil *_sharedManager;
                 }else if(errCode == 100002){//token过期,重新获取
                     [weakSelf autoLogin];
                 }else if(errCode == 110006){//非法uuid
-                  [ObjectShareTool sharedInstance].isloginState = 1;
-                  [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
+                    NSString *text = [NSString stringWithFormat:@"非法 UUID：%@", param[@"identity"]];
+//                    [CTToast showWithText:text];
+                    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:text preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+                    }];
+                    [ac addAction:sure];
+                    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+                    
+                    
+                    NSLog(@"%@ %@", text, _cmd);
+                    [weakSelf autoLogin];
+
+//                  [ObjectShareTool sharedInstance].isloginState = 1;
+//                  [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
 //                    [[[CGUserDao alloc]init] cleanLoginedUser];
-//                    [weakSelf autoLogin];
                 }else{
                     if(failcallback){
                         failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:errCode userInfo:res]);
 //                        failcallback = nil;
                     }
                     if (errCode == 110113) {//未登陆
-                        if ([ObjectShareTool sharedInstance].currentUser.isLogin == YES) {
-                          [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
-//                            [[[CGUserDao alloc]init] cleanLoginedUser];
-                        }
+//                        [CTToast showWithText:@"未登录：110113"];
+//                        if ([ObjectShareTool sharedInstance].currentUser.isLogin == YES) {
+//                          [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
+////                            [[[CGUserDao alloc]init] cleanLoginedUser];
+//                        }
                     }
                     if(errCode == 110131 || errCode == 110113 || errCode == 110005){//不弹提示
                         return;

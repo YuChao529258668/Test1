@@ -76,6 +76,9 @@ static ObjectShareTool *_sharedManager;
     NSString *filePath = [path stringByAppendingPathComponent:USER_DATA];
     // 解档
     _currentUser = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+      NSLog(@"解档 currentUser = %@", _currentUser);
+      NSLog(@"解档 secuCode = %@", _currentUser.secuCode);
+      NSLog(@"解档 token = %@", _currentUser.token);
   }
   return _currentUser;
 }

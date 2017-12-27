@@ -7,9 +7,11 @@
 //
 
 #import "CTBaseViewController.h"
+#import "CGInfoHeadEntity.h"
 
 @interface YCSelectMeetingFileController : CTBaseViewController
 
-@property (nonatomic,copy) void (^didSelectBlock)(id entity); //CGHorrolEntity ? CGInfoHeadEntity
+// fileType: 0 文件，1 素材
+@property (nonatomic,copy) void (^didSelectBlock)(CGInfoHeadEntity *entity, int fileType);
 
 @end

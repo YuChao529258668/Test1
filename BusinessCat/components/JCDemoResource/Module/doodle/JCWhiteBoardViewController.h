@@ -11,8 +11,8 @@
 #import "JCColourToolbar.h"
 
 // 修改课件的命令
-NSString * const kYCChangeCoursewareCommand = @"YC_CHANGE_COURSEWARE";
-
+//NSString * const kYCChangeCoursewareCommand = @"YC_CHANGE_COURSEWARE";
+#define kYCChangeCoursewareCommand @"YC_CHANGE_COURSEWARE"
 
 @interface JCWhiteBoardViewController : UIViewController
 
@@ -57,5 +57,10 @@ NSString * const kYCChangeCoursewareCommand = @"YC_CHANGE_COURSEWARE";
 - (void)enableDraw:(BOOL)enable;
 // 翻页是否同步给其他人
 - (void)enableSwitchPage:(BOOL)enable;
+
+// 发送课件改变的命令，收到命令后问服务器给数据
+- (void)sendChangeCoursewareCommand;
+// 获取服务器保存的课件。收到更改课件的命令时调用
+- (void)checkCurrentMeetingFile;
 
 @end

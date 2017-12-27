@@ -116,11 +116,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/modules/Meeting/Controller/SelectMeetingFile/YCSelectMeetingFileController.m"
-            timestampString = "535280560.47985"
+            timestampString = "535983519.414273"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "-collectionView:cellForItemAtIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/components/JCDemoResource/PublicSrc/conference/RoomViewController.m"
+            timestampString = "535983519.414404"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1144"
+            endingLineNumber = "1144"
+            landmarkName = "-addMembersControllerWithUsers:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/modules/Meeting/Controller/SelectMeetingFile/YCSelectMeetingFileController.m"
+            timestampString = "535983519.415468"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -132,45 +164,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
-            timestampString = "535623077.411193"
+            timestampString = "535983519.415559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1057"
-            endingLineNumber = "1057"
-            landmarkName = "-fileBtnClick"
+            startingLineNumber = "1087"
+            endingLineNumber = "1087"
+            landmarkName = "-updateMeetingFile:fileType:withSuccess:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__42-[JCWhiteBoardViewController fileBtnClick]_block_invoke_2"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
-                  timestampString = "535618120.860018"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1054"
-                  endingLineNumber = "1054"
-                  offsetFromSymbolStart = "680">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__42-[JCWhiteBoardViewController fileBtnClick]_block_invoke_3"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
-                  timestampString = "535618120.863124"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1055"
-                  endingLineNumber = "1055"
-                  offsetFromSymbolStart = "20">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/components/JCDemoResource/Module/doodle/JCWhiteBoardViewController.m"
+            timestampString = "535983519.416012"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1126"
+            endingLineNumber = "1126"
+            landmarkName = "-checkCurrentMeetingFile"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -179,13 +195,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BusinessCat/components/JCDemoResource/PublicSrc/conference/RoomViewController.m"
-            timestampString = "535623077.411634"
+            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
+            timestampString = "535983519.416363"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1067"
-            endingLineNumber = "1067"
-            landmarkName = "-getGroupWithGroupID:"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "-getToken:fail:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
+            timestampString = "535983519.417097"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "-getToken:fail:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
+            timestampString = "535983519.417625"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "-getToken:fail:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

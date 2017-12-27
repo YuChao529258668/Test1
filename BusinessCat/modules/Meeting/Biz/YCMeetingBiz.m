@@ -165,13 +165,23 @@
 }
 
 // 会议使用文件。关闭课件，toId = @"0"
-- (void)updateMeetingFileWithMeetingID:(NSString *)mid fileType:(int)type toId:(NSString *)toID success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+// picUrl 素材图片 url，没有就传 nil。
+// fileType，0 文件，1 素材
+- (void)updateMeetingFileWithMeetingID:(NSString *)mid fileType:(int)type toId:(NSString *)toID picUrl:(NSString *)picUrl success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
     if (!mid || !toID ) {
         [CTToast showWithText:[NSString stringWithFormat:@"更新会议文件失败。会议id:%@, 文件id:%@", mid, toID]];
         return;
     }
 
-    NSDictionary *dic = @{@"meetingId": mid, @"fileType": @(type), @"toId": toID};
+    NSMutableDictionary *dic = @{@"meetingId": mid, @"toId": toID}.mutableCopy;
+    // 如果是素材
+    if (picUrl) {
+        dic[@"picUrl"] = picUrl;
+        dic[@"fileType"] = @1;
+    } else {
+        dic[@"fileType"] = @0;
+    }
+    
     [self.component sendPostRequestWithURL:URL_Meeting_Use_File param:dic success:^(id data) {
         success(data);
     } fail:^(NSError *error) {

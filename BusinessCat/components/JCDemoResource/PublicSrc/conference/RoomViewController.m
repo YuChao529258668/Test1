@@ -719,18 +719,29 @@ typedef enum {
         // 主持人退出
         UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"退出还是结束会议？" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *finish = [UIAlertAction actionWithTitle:@"结束" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [[MJPopTool sharedInstance] closeAnimated:YES];
-            _doodleShareUserId = nil;
-            [JCDoodleManager stopDoodle];
-            //        [_meetingReformer leave];
-            [self cancel:nil];
             
-            // 结束会议
-            [[YCMeetingBiz new] cancelMeetingWithMeetingID:self.meetingID cancelType:1 success:^(id data) {
+            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"结束会议？" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+                [[MJPopTool sharedInstance] closeAnimated:YES];
+                _doodleShareUserId = nil;
+                [JCDoodleManager stopDoodle];
+                //        [_meetingReformer leave];
+                [self cancel:nil];
                 
-            } fail:^(NSError *error) {
-                [CTToast showWithText:[NSString stringWithFormat:@"结束会议失败 : %@", error]];
+                // 结束会议
+                [[YCMeetingBiz new] cancelMeetingWithMeetingID:self.meetingID cancelType:1 success:^(id data) {
+                    
+                } fail:^(NSError *error) {
+                    [CTToast showWithText:[NSString stringWithFormat:@"结束会议失败 : %@", error]];
+                }];
+                
             }];
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            [ac addAction:sure];
+            [ac addAction:cancel];
+            [self presentViewController:ac animated:YES completion:nil];
+           
         }];
         
         UIAlertAction *quit = [UIAlertAction actionWithTitle:@"退出" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -747,6 +758,8 @@ typedef enum {
 
             }];
         }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler: nil];
+        [ac addAction:cancel];
         [ac addAction:finish];
         [ac addAction:quit];
         [self presentViewController:ac animated:YES completion:nil];
@@ -1161,13 +1174,15 @@ typedef enum {
         
         enable = soundState?YES:NO;
         UIButton *soundBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
-        if (enable == NO && soundBtn.isSelected == YES) {
+//        if (enable == NO && soundBtn.isSelected == YES) {
+        if (enable != soundBtn.isSelected) {
             [soundBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
         }
         
         enable = videoState?YES:NO;
         UIButton *videoBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonVideo];
-        if (enable == NO && videoBtn.isSelected == YES) {
+//        if (enable == NO && videoBtn.isSelected == YES) {
+        if (enable != videoBtn.isSelected) {
             [videoBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
         }
     };
@@ -1265,6 +1280,13 @@ typedef enum {
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.preview.backgroundColor = [UIColor whiteColor];
+    
+    
+//    UIButton *soundBtn = self.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
+//    if (!soundBtn.isSelected) {
+//        [soundBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+//    }
+
 }
 
 
@@ -1376,7 +1398,7 @@ typedef enum {
 }
 
 
-#pragma mark - 互动
+#pragma mark - 收到命令
 
 - (void)onDataReceive:(NSString *)key content:(NSString *)content fromSender:(NSString *)userId {
 //    NSLog(@"%@, %@, %@", key, content, userId);// 命令类型, 命令内容, 57e93bad-a2c4-4e00-892f-adf2c090a55b
@@ -1402,6 +1424,8 @@ typedef enum {
     
     if ([key isEqualToString:kkYCUpdateStatesKey]) {
         [self.membersVC getMeetingUser];
+    } else if ([key isEqualToString: kYCChangeCoursewareCommand]) {
+        [self.whiteBoardViewController checkCurrentMeetingFile];
     }
 }
 
