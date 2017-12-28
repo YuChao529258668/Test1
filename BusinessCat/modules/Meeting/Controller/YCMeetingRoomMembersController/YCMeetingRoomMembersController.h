@@ -33,6 +33,9 @@
 
 
 - (void)getMeetingUser;
+- (void)reloadTableView;
+
+
 - (void)updateUserInteractingState:(long)interactState withUserID:(NSString *)userID;
 // 更新服务器并且群发命令
 //- (void)onUserLeft:(NSString *)userID;

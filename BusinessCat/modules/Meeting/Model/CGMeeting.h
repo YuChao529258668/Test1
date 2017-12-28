@@ -40,6 +40,8 @@
 @property (nonatomic,strong) NSString *conferenceNumber; // 会议号(justalk)，justalk的 roomID
 @property (nonatomic,strong) NSString *endTime;
 @property (nonatomic,strong) NSString *startTime;
+//@property (nonatomic,assign) NSTimeInterval endTime;
+//@property (nonatomic,assign) NSTimeInterval startTime;
 @property (nonatomic,strong) NSString * meetingDuration; // 时长 分钟
 @property (nonatomic,strong) NSString *meetingId;
 @property (nonatomic,strong) NSString *meetingName;

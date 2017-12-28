@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z0r-NZ-B6b">
-                        <rect key="frame" x="15" y="11" width="39" height="39"/>
+                        <rect key="frame" x="38" y="11" width="39" height="39"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="39" id="fC5-yc-wmF"/>
                             <constraint firstAttribute="height" constant="39" id="lCR-Ke-eOJ"/>
@@ -51,7 +51,7 @@
                         </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iY6-vs-d1r">
-                        <rect key="frame" x="65" y="21" width="33" height="16"/>
+                        <rect key="frame" x="88" y="21" width="33" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -97,20 +97,29 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="status_microphone.png" translatesAutoresizingMaskIntoConstraints="NO" id="UQj-H1-esG">
+                        <rect key="frame" x="7" y="18" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="Zui-YI-cbt"/>
+                            <constraint firstAttribute="height" constant="24" id="gEZ-ak-TOX"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="WmJ-ec-9c0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="Otu-3Q-PS9"/>
                     <constraint firstItem="K1P-fZ-XCU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="PN2-K9-Eoe"/>
                     <constraint firstItem="Lfk-sZ-Tv0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="QZC-cM-lUG"/>
+                    <constraint firstItem="UQj-H1-esG" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="US9-AW-D1z"/>
                     <constraint firstItem="S1a-b9-RVz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="Vxy-F5-v64"/>
                     <constraint firstItem="iY6-vs-d1r" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21" id="W7X-Yb-M7M"/>
                     <constraint firstItem="q2B-QI-Rok" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="Wz6-oV-etS"/>
                     <constraint firstAttribute="trailing" secondItem="K1P-fZ-XCU" secondAttribute="trailing" constant="15" id="YEF-lq-qmX"/>
+                    <constraint firstItem="UQj-H1-esG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="7" id="ZWO-CD-bmP"/>
                     <constraint firstItem="z0r-NZ-B6b" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="ecD-Jv-7NH"/>
                     <constraint firstItem="S1a-b9-RVz" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="jEr-Yq-oLY"/>
                     <constraint firstItem="Lfk-sZ-Tv0" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="lZy-Pe-P2i"/>
                     <constraint firstItem="E7O-x1-rso" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="mCx-HV-BLB"/>
-                    <constraint firstItem="z0r-NZ-B6b" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="oNq-ym-zrI"/>
+                    <constraint firstItem="z0r-NZ-B6b" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="38" id="oNq-ym-zrI"/>
                     <constraint firstItem="E7O-x1-rso" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="tVv-iI-Ixw"/>
                     <constraint firstItem="q2B-QI-Rok" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="ySu-NI-mCI"/>
                     <constraint firstAttribute="trailing" secondItem="WmJ-ec-9c0" secondAttribute="trailing" constant="15" id="zO6-Ja-gKk"/>
@@ -125,9 +134,13 @@
                 <outlet property="interactingLabel" destination="Lfk-sZ-Tv0" id="8wD-Ly-Ej1"/>
                 <outlet property="nameLabel" destination="iY6-vs-d1r" id="PJT-38-aST"/>
                 <outlet property="requestingLabel" destination="E7O-x1-rso" id="gqA-9G-jEy"/>
+                <outlet property="speakingIV" destination="UQj-H1-esG" id="SNN-3k-xC6"/>
                 <outlet property="stateLabel" destination="S1a-b9-RVz" id="Gym-tZ-1EA"/>
             </connections>
             <point key="canvasLocation" x="102.5" y="101"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="status_microphone.png" width="24" height="24"/>
+    </resources>
 </document>

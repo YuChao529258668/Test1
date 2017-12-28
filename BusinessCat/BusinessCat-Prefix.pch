@@ -137,6 +137,7 @@
     #import "WKWebViewController.h"
     #import "CGCommonBiz.h"
     #import "YCJCSDKHelper.h"
+    #import "YCTool.h"
 #endif
 
 

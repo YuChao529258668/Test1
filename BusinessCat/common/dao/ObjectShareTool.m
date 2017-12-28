@@ -74,11 +74,39 @@ static ObjectShareTool *_sharedManager;
   if(!_currentUser){
     NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
     NSString *filePath = [path stringByAppendingPathComponent:USER_DATA];
-    // 解档
-    _currentUser = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-      NSLog(@"解档 currentUser = %@", _currentUser);
-      NSLog(@"解档 secuCode = %@", _currentUser.secuCode);
-      NSLog(@"解档 token = %@", _currentUser.token);
+      
+      BOOL exist = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+      if (exist) {
+          // 解档
+          _currentUser = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+          if (_currentUser) {
+              NSLog(@"解档 currentUser = %@", _currentUser);
+              NSLog(@"解档 secuCode = %@", _currentUser.secuCode);
+              NSLog(@"解档 token = %@", _currentUser.token);
+          } else {
+              NSLog(@"读取用户缓存信息失败");
+
+              NSString *message = [NSString stringWithFormat:@"读取用户缓存信息失败，filePath = %@", filePath];
+              UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+              UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                  
+              }];
+              [ac addAction:sure];
+              [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+          }
+          
+      } else {
+          NSLog(@"用户缓存信息不存在");
+          NSString *message = [NSString stringWithFormat:@"用户缓存信息不存在，filePath = %@", filePath];
+          UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+          UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+              
+          }];
+          [ac addAction:sure];
+          [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+
+      }
+    
   }
   return _currentUser;
 }

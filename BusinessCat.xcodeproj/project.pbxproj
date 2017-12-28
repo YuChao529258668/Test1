@@ -12,6 +12,7 @@
 		0D07DE171FB94E4E000E2A1D /* CGUsersCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D07DE151FB94E4E000E2A1D /* CGUsersCollectionViewCell.xib */; };
 		0D15EE941FC28AD70088CE11 /* YCMeetingBiz.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D15EE931FC28AD70088CE11 /* YCMeetingBiz.m */; };
 		0D1B9EE01FE7EEED00C41C3C /* YCMeetingState.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1B9EDF1FE7EEED00C41C3C /* YCMeetingState.m */; };
+		0D29EAD61FF3437F005F1AD1 /* YCTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29EAD51FF3437F005F1AD1 /* YCTool.m */; };
 		0D3EB2B71FBA9CC900DAE678 /* Meeting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */; };
 		0D3EB2E31FC1806900DAE678 /* YCBookMeetingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */; };
 		0D3EB2E71FC1825700DAE678 /* YCWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E61FC1825700DAE678 /* YCWorkViewController.m */; };
@@ -582,6 +583,8 @@
 		0DCD733F1FB3F3EB00972501 /* TXRTMPSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73311FB3F3EA00972501 /* TXRTMPSDK.framework */; };
 		0DCD73401FB3F3EB00972501 /* readme in Resources */ = {isa = PBXBuildFile; fileRef = 0DCD73321FB3F3EA00972501 /* readme */; };
 		0DCD73411FB3F3EB00972501 /* TLSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73331FB3F3EB00972501 /* TLSSDK.framework */; };
+		0DDE741D1FF4F22200063651 /* YCCompereCommandController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */; };
+		0DDE741E1FF4F22200063651 /* YCCompereCommandController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */; };
 		0DEBED4D1FCA8C6200354E4C /* LaunchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */; };
 		0DED884D1FC953FF00585C82 /* YCCollegeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */; };
 		1804A3321DCB229800CA2326 /* CGDiscoverLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 1804A3311DCB229800CA2326 /* CGDiscoverLink.m */; };
@@ -1390,6 +1393,8 @@
 		0D15EE931FC28AD70088CE11 /* YCMeetingBiz.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingBiz.m; sourceTree = "<group>"; };
 		0D1B9EDE1FE7EEED00C41C3C /* YCMeetingState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingState.h; sourceTree = "<group>"; };
 		0D1B9EDF1FE7EEED00C41C3C /* YCMeetingState.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingState.m; sourceTree = "<group>"; };
+		0D29EAD41FF3437F005F1AD1 /* YCTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCTool.h; sourceTree = "<group>"; };
+		0D29EAD51FF3437F005F1AD1 /* YCTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCTool.m; sourceTree = "<group>"; };
 		0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Meeting.storyboard; sourceTree = "<group>"; };
 		0D3EB2E11FC1806900DAE678 /* YCBookMeetingController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCBookMeetingController.h; sourceTree = "<group>"; };
 		0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCBookMeetingController.m; sourceTree = "<group>"; };
@@ -2437,6 +2442,9 @@
 		0DCD73311FB3F3EA00972501 /* TXRTMPSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TXRTMPSDK.framework; sourceTree = "<group>"; };
 		0DCD73321FB3F3EA00972501 /* readme */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme; sourceTree = "<group>"; };
 		0DCD73331FB3F3EB00972501 /* TLSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TLSSDK.framework; sourceTree = "<group>"; };
+		0DDE741A1FF4F22200063651 /* YCCompereCommandController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCompereCommandController.h; sourceTree = "<group>"; };
+		0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCompereCommandController.m; sourceTree = "<group>"; };
+		0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCCompereCommandController.xib; sourceTree = "<group>"; };
 		0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LaunchView.xib; sourceTree = "<group>"; };
 		0DED884B1FC953FF00585C82 /* YCCollegeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCollegeViewController.h; sourceTree = "<group>"; };
 		0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCollegeViewController.m; sourceTree = "<group>"; };
@@ -3870,6 +3878,68 @@
 			path = TengXunYun;
 			sourceTree = "<group>";
 		};
+		0D29EAD31FF34368005F1AD1 /* YCTool */ = {
+			isa = PBXGroup;
+			children = (
+				0D29EAD41FF3437F005F1AD1 /* YCTool.h */,
+				0D29EAD51FF3437F005F1AD1 /* YCTool.m */,
+			);
+			path = YCTool;
+			sourceTree = "<group>";
+		};
+		0D29EAD71FF34393005F1AD1 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				D781F6571DCB170600ECA3C9 /* CGRotateUtil.h */,
+				D781F6581DCB170600ECA3C9 /* CGRotateUtil.m */,
+				D710B7B41D99043100688D72 /* ChineseString.h */,
+				D710B7B51D99043100688D72 /* ChineseString.m */,
+				D710B7B61D99043100688D72 /* CTAsciiUtil.h */,
+				D710B7B71D99043100688D72 /* CTAsciiUtil.m */,
+				D710B7B81D99043100688D72 /* CTCommonTool.h */,
+				D710B7B91D99043100688D72 /* CTCommonUtil.h */,
+				D710B7BA1D99043100688D72 /* CTCommonUtil.m */,
+				D710B7BB1D99043100688D72 /* CTDataUtil.h */,
+				D710B7BC1D99043100688D72 /* CTDataUtil.m */,
+				D710B7BD1D99043100688D72 /* CTDateUtils.h */,
+				D710B7BE1D99043100688D72 /* CTDateUtils.m */,
+				D710B7BF1D99043100688D72 /* CTDeviceTool.h */,
+				D710B7C01D99043100688D72 /* CTDeviceTool.m */,
+				D710B7C11D99043100688D72 /* CTFileUtil.h */,
+				D710B7C21D99043100688D72 /* CTFileUtil.m */,
+				D710B7C31D99043100688D72 /* CTJsonUtil.h */,
+				D710B7C41D99043100688D72 /* CTJsonUtil.m */,
+				D710B7C51D99043100688D72 /* CTMessageDialog.h */,
+				D710B7C61D99043100688D72 /* CTMessageDialog.m */,
+				D710B7C71D99043100688D72 /* CTRSA.h */,
+				D710B7C81D99043100688D72 /* CTRSA.m */,
+				D710B7C91D99043100688D72 /* CTStringUtil.h */,
+				D710B7CA1D99043100688D72 /* CTStringUtil.m */,
+				D710B7CB1D99043100688D72 /* CTToast.h */,
+				D710B7CC1D99043100688D72 /* CTToast.m */,
+				D710B7CD1D99043100688D72 /* CTVerifyTool.h */,
+				D710B7CE1D99043100688D72 /* CTVerifyTool.m */,
+				D710B7CF1D99043100688D72 /* GTMBase64 */,
+				D710B7D31D99043100688D72 /* ParamUtil.h */,
+				D710B7D41D99043100688D72 /* ParamUtil.m */,
+				D710B7D51D99043100688D72 /* pinyin.c */,
+				D710B7D61D99043100688D72 /* pinyin.h */,
+				1834BB601DB749AD008F4685 /* UIColor+colorToImage.h */,
+				1834BB611DB749AD008F4685 /* UIColor+colorToImage.m */,
+				D710B7D71D99043100688D72 /* SecurityUtil.h */,
+				D710B7D81D99043100688D72 /* SecurityUtil.m */,
+				D710B7D91D99043100688D72 /* UAProgressView.h */,
+				D710B7DA1D99043100688D72 /* UAProgressView.m */,
+				D7F44C521DAB231D004393C2 /* ShareUtil.h */,
+				D7F44C531DAB231D004393C2 /* ShareUtil.m */,
+				18CC89511E69562800A0E7D1 /* MXWechatSignAdaptor.h */,
+				18CC89521E69562800A0E7D1 /* MXWechatSignAdaptor.m */,
+				1842BE291E2A08AB00697332 /* GiFHUD.h */,
+				1842BE2A1E2A08AB00697332 /* GiFHUD.m */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
 		0D3EB2B41FBA9C6A00DAE678 /* CGMeetingListCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -3984,6 +4054,7 @@
 		0D7431021FB93D0D002867FA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0DDE74191FF4F1F500063651 /* CompereCommand */,
 				0D9113A41FCD59B70031DEF9 /* YCMeetingRoomMembersController */,
 				0D57A53F1FC5A5D6008C30C7 /* YCSelectMeetingTimeController */,
 				0D57A5341FC55706008C30C7 /* YCSelectMeetingRoomController */,
@@ -5983,6 +6054,16 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		0DDE74191FF4F1F500063651 /* CompereCommand */ = {
+			isa = PBXGroup;
+			children = (
+				0DDE741A1FF4F22200063651 /* YCCompereCommandController.h */,
+				0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */,
+				0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */,
+			);
+			path = CompereCommand;
+			sourceTree = "<group>";
+		};
 		0DED88461FC9539000585C82 /* College */ = {
 			isa = PBXGroup;
 			children = (
@@ -7240,53 +7321,9 @@
 		D7BF3EAA1D98F9D900FC94E6 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				0D29EAD31FF34368005F1AD1 /* YCTool */,
 				0D57A52C1FC2C3E8008C30C7 /* YCDatePickerViewController */,
-				1842BE291E2A08AB00697332 /* GiFHUD.h */,
-				1842BE2A1E2A08AB00697332 /* GiFHUD.m */,
-				D781F6571DCB170600ECA3C9 /* CGRotateUtil.h */,
-				D781F6581DCB170600ECA3C9 /* CGRotateUtil.m */,
-				D710B7B41D99043100688D72 /* ChineseString.h */,
-				D710B7B51D99043100688D72 /* ChineseString.m */,
-				D710B7B61D99043100688D72 /* CTAsciiUtil.h */,
-				D710B7B71D99043100688D72 /* CTAsciiUtil.m */,
-				D710B7B81D99043100688D72 /* CTCommonTool.h */,
-				D710B7B91D99043100688D72 /* CTCommonUtil.h */,
-				D710B7BA1D99043100688D72 /* CTCommonUtil.m */,
-				D710B7BB1D99043100688D72 /* CTDataUtil.h */,
-				D710B7BC1D99043100688D72 /* CTDataUtil.m */,
-				D710B7BD1D99043100688D72 /* CTDateUtils.h */,
-				D710B7BE1D99043100688D72 /* CTDateUtils.m */,
-				D710B7BF1D99043100688D72 /* CTDeviceTool.h */,
-				D710B7C01D99043100688D72 /* CTDeviceTool.m */,
-				D710B7C11D99043100688D72 /* CTFileUtil.h */,
-				D710B7C21D99043100688D72 /* CTFileUtil.m */,
-				D710B7C31D99043100688D72 /* CTJsonUtil.h */,
-				D710B7C41D99043100688D72 /* CTJsonUtil.m */,
-				D710B7C51D99043100688D72 /* CTMessageDialog.h */,
-				D710B7C61D99043100688D72 /* CTMessageDialog.m */,
-				D710B7C71D99043100688D72 /* CTRSA.h */,
-				D710B7C81D99043100688D72 /* CTRSA.m */,
-				D710B7C91D99043100688D72 /* CTStringUtil.h */,
-				D710B7CA1D99043100688D72 /* CTStringUtil.m */,
-				D710B7CB1D99043100688D72 /* CTToast.h */,
-				D710B7CC1D99043100688D72 /* CTToast.m */,
-				D710B7CD1D99043100688D72 /* CTVerifyTool.h */,
-				D710B7CE1D99043100688D72 /* CTVerifyTool.m */,
-				D710B7CF1D99043100688D72 /* GTMBase64 */,
-				D710B7D31D99043100688D72 /* ParamUtil.h */,
-				D710B7D41D99043100688D72 /* ParamUtil.m */,
-				D710B7D51D99043100688D72 /* pinyin.c */,
-				D710B7D61D99043100688D72 /* pinyin.h */,
-				1834BB601DB749AD008F4685 /* UIColor+colorToImage.h */,
-				1834BB611DB749AD008F4685 /* UIColor+colorToImage.m */,
-				D710B7D71D99043100688D72 /* SecurityUtil.h */,
-				D710B7D81D99043100688D72 /* SecurityUtil.m */,
-				D710B7D91D99043100688D72 /* UAProgressView.h */,
-				D710B7DA1D99043100688D72 /* UAProgressView.m */,
-				D7F44C521DAB231D004393C2 /* ShareUtil.h */,
-				D7F44C531DAB231D004393C2 /* ShareUtil.m */,
-				18CC89511E69562800A0E7D1 /* MXWechatSignAdaptor.h */,
-				18CC89521E69562800A0E7D1 /* MXWechatSignAdaptor.m */,
+				0D29EAD71FF34393005F1AD1 /* Other */,
 			);
 			path = tools;
 			sourceTree = "<group>";
@@ -8231,6 +8268,7 @@
 				0D90DFD21FB43C3A00EDB7CF /* 17.gif in Resources */,
 				1835D97A1DB8A8CE0006ED07 /* CGUserCompanyPrivilegeViewController.xib in Resources */,
 				D7E417541D9A101400048E57 /* HeadlineOnlyTitleTableViewCell.xib in Resources */,
+				0DDE741E1FF4F22200063651 /* YCCompereCommandController.xib in Resources */,
 				0D90DF931FB43C3A00EDB7CF /* readme in Resources */,
 				0D90E0541FB43C3A00EDB7CF /* 01.caf in Resources */,
 				0DBF47CB1FB3087400707C12 /* microphone_on@2x.png in Resources */,
@@ -8629,6 +8667,7 @@
 				0D90DF841FB43C3A00EDB7CF /* PageMenuScrollView.m in Sources */,
 				0D90E0341FB43C3A00EDB7CF /* FriendNotifyTableViewCell.m in Sources */,
 				0D90E0331FB43C3A00EDB7CF /* FriendListViewController.m in Sources */,
+				0D29EAD61FF3437F005F1AD1 /* YCTool.m in Sources */,
 				0D90E0241FB43C3A00EDB7CF /* TCVideoRecordViewController.m in Sources */,
 				1828CFD61DD32E1E00887CDD /* ZYShareItemCell.m in Sources */,
 				0DBF47731FB3087300707C12 /* JCDoodleDrawView.m in Sources */,
@@ -8965,6 +9004,7 @@
 				0DBF48051FB3087400707C12 /* UIImage+Tint.m in Sources */,
 				0D90DF891FB43C3A00EDB7CF /* ScrollRefreshViewController.m in Sources */,
 				D710B7EC1D99043100688D72 /* UAProgressView.m in Sources */,
+				0DDE741D1FF4F22200063651 /* YCCompereCommandController.m in Sources */,
 				D7E417451D9950B300048E57 /* CGHorrolEntity.m in Sources */,
 				181C54E51EC1711C0064354D /* CGInviteFriendsViewController.m in Sources */,
 				0D90DF661FB43C3900EDB7CF /* FontHelper.m in Sources */,

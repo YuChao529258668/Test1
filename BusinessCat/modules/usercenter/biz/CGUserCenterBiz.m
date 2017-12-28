@@ -49,7 +49,7 @@
 //      UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"没传secucode" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
 //      [al show];
         NSLog(@"secucode = nil %@", NSStringFromSelector(_cmd));
-        [CTToast showWithText:@"secucode 为空"];
+        [CTToast showWithText:@"获取 token: secucode 为空"];
     }
     [self.component sendPostRequestWithURL:URL_USER_TOKEN param:param success:^(id data) {
         NSLog(@"获取token成功：%@",data);

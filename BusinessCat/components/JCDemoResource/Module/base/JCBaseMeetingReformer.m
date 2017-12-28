@@ -28,7 +28,8 @@
         [_confManager setDelegate:self];
         _mode = JoinModeVideo;
         
-        _audioEnabled = NO;
+//        _audioEnabled = NO;
+        _audioEnabled = YES;
         _videoEnabled = YES;
     }
     return self;
@@ -68,7 +69,9 @@
     }
     if ([userId isEqualToString:ownUserId]) {
         JCParticipantModel *model = [[JCEngineManager sharedManager] getParticipantWithUserId:userId];
-        
+        // 音频状态
+//        NSLog(@"name = %@", model.displayName);
+//        NSLog(@"isAudioUpload = %@", @(model.isAudioUpload));
         if (model.isAudioUpload != self.isAudioEnabled) { //音频发送状态改变
             _audioEnabled = model.isAudioUpload;
             if (self.audioEnabledBlock) {
@@ -80,6 +83,7 @@
                 self.videoEnabledBlock(self.isVideoEnabled);
             }
         }
+        
     } else {
         
     }
@@ -111,10 +115,11 @@
     return success;
 }
 
-- (void)setVideoEnabled:(BOOL)enabled completion:(void (^)(BOOL isVideoEnabled))completion
+- (int)setVideoEnabled:(BOOL)enabled completion:(void (^)(BOOL isVideoEnabled))completion
 {
-    [_confManager enableLocalVideoStream:enabled];
+    int success = [_confManager enableLocalVideoStream:enabled];
     self.videoEnabledBlock = completion;
+    return success;
 }
 
 - (void)setMuteEnabled:(BOOL)enabled

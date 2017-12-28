@@ -8,6 +8,11 @@
 
 #import "YCMeetingRoomMembersCell.h"
 
+//@interface YCMeetingRoomMembersCell ()
+//@property (nonatomic,assign) long userState; // 0未进入,1开会中,2已离开,4禁止
+//
+//@end
+
 @implementation YCMeetingRoomMembersCell
 
 - (void)awakeFromNib {
@@ -30,6 +35,8 @@
     self.interactingLabel.backgroundColor = CTThemeMainColor;
     self.requestingLabel.backgroundColor = self.allowBtn.backgroundColor;
     self.requestingLabel.textColor = [UIColor redColor];
+    
+    self.avatarIV.tintColor = [UIColor darkGrayColor];
 }
 
 + (float)cellHeight {
@@ -52,6 +59,8 @@
     return @"YCMeetingRoomMembersCellEndNotification";
 }
 
+#pragma mark -
+
 // 当前状态:0未进入,1开会中,2已离开,4禁止
 - (void)setUserState:(long)state {
     NSArray *titles = @[@"未进入", @"开会中", @"已离开", @"未知状态", @"禁止"];
@@ -60,6 +69,23 @@
         self.stateLabel.textColor = [UIColor lightGrayColor];
     } else {
         self.stateLabel.textColor = [UIColor blackColor];
+    }
+}
+
+- (void)setAvart:(UIImage *)avart withUserState:(long)state {
+    if (state == 0 || state == 2) {
+        UIImage *gray = [YCTool grayImage:avart];
+        self.avatarIV.image = gray;
+    } else {
+        self.avatarIV.image = avart;
+    }
+}
+
+- (void)updateSpeakingImageWithUserState:(long)useState audioState:(BOOL)audioState {
+    if (useState == 1 && audioState) {
+        self.speakingIV.hidden = NO;
+    } else {
+        self.speakingIV.hidden = YES;
     }
 }
 

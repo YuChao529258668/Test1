@@ -18,7 +18,17 @@
     }
     user.secuCode = secuCode;
     user.token = token;
-    return [self saveLoginedInLocal:user];
+    BOOL success = [self saveLoginedInLocal:user];
+    if (!success) {
+        NSString *message = [NSString stringWithFormat:@"保存 secuCode 失败，secuCode = %@", secuCode];
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+        }];
+        [ac addAction:sure];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+    }
+    return success;
 }
 
 -(BOOL)saveLoginedInLocal:(CGUserEntity *)user{
@@ -37,6 +47,13 @@
 //    [archiver finishEncoding];
 //    
 //    [data writeToFile:LoginUserInfoPath atomically:YES];
+    
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"正在清除登录用户的信息" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [ac addAction:sure];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+    
     [ObjectShareTool sharedInstance].currentUser = nil;
   NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
   NSString *filePath = [path stringByAppendingPathComponent:USER_DATA];

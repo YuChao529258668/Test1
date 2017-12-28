@@ -136,12 +136,11 @@ static CTNetWorkUtil *_sharedManager;
                     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
                     
                     
-                    NSLog(@"%@ %@", text, _cmd);
+                    NSLog(@"%@", text);
                     [weakSelf autoLogin];
 
 //                  [ObjectShareTool sharedInstance].isloginState = 1;
 //                  [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
-//                    [[[CGUserDao alloc]init] cleanLoginedUser];
                 }else{
                     if(failcallback){
                         failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:errCode userInfo:res]);
@@ -151,7 +150,6 @@ static CTNetWorkUtil *_sharedManager;
 //                        [CTToast showWithText:@"未登录：110113"];
 //                        if ([ObjectShareTool sharedInstance].currentUser.isLogin == YES) {
 //                          [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
-////                            [[[CGUserDao alloc]init] cleanLoginedUser];
 //                        }
                     }
                     if(errCode == 110131 || errCode == 110113 || errCode == 110005){//不弹提示

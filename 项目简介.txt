@@ -203,3 +203,29 @@ _actionMode = TouchActionNone;
 微信回调
 NOTIFICATION_GETWEIXINCODE
 getAccess_token
+
+绿色话筒图标
+status_microphone
+语音状态
+//能收到该成员的语音数据
+BOOL canReceiveAudio = model.isAudioUpload && model.isAudioForward;
+//能收到该成员的视频数据
+BOOL canReceiveVideo = model.isVideoUpload && model.isVideoForward;
+
+默认打开音频
+1、JCBaseMeetingReformer 的 audioEnabled 初始值改为 YES
+2、[_confManager setDefaultAudio:YES]; // 默认打开音频
+3、加入成功后
+    UIButton *soundBtn = self.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
+    __weak typeof(self) weakself = self;
+    int success = [_meetingReformer setAudioEnabled:YES completion:^(BOOL isAudioEnabled) {
+        [weakself.membersVC reloadTableView];
+    }];
+    if (success == JCOK) {
+        soundBtn.selected = YES;
+    }
+
+
+登录问题
+CGUserDao、CTNetWorkUtil、CGUserCenterBiz
+

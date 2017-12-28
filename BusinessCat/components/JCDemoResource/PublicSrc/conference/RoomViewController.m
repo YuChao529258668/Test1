@@ -29,7 +29,8 @@
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoomMembersController.h"
 
-#define kVideoViewHeight (kMainScreenHeight * 0.4) // splitScreenViewController的高度
+//#define kVideoViewHeight (kMainScreenWidth/16.0*9) // splitScreenViewController的高度
+#define kVideoViewHeight (kMainScreenHeight/2) // splitScreenViewController的高度
 #define kTabBarHeight 40
 #define kBtnLineHeight 2
 
@@ -77,7 +78,7 @@ typedef enum {
 
 @interface RoomViewController ()<BaseMeetingDelegate, JCScreenShareDelegate, JCDoodleDelegate, ConferenceToolBarDelegate, MenuDelegate, JCEngineDelegate>
 {
-    JCBaseMeetingReformer *_meetingReformer;
+//    JCBaseMeetingReformer *_meetingReformer;
     
     JCEngineManager *_confManager;
     
@@ -110,6 +111,8 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
 
 @property (weak, nonatomic) IBOutlet ConferenceToolBar *conferenceToolBar;          // 加入会议后mainView上的底部工具栏
+
+@property (nonatomic,strong) JCBaseMeetingReformer *meetingReformer;
 
 @property (nonatomic, strong) JCPreviewViewController *previewViewController;
 @property (nonatomic, strong) JCScreenShareViewController *screenShareViewController;
@@ -147,6 +150,7 @@ typedef enum {
 @property (nonatomic,assign) long soundState; // 麦克风
 @property (nonatomic,assign) long videoState; // 摄像头
 
+@property (nonatomic,strong) NSTimer *timer;
 
 
 @end
@@ -229,7 +233,7 @@ typedef enum {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         _confManager = [JCEngineManager sharedManager];
-        [_confManager setMaxCapacity:32];
+        [_confManager setMaxCapacity:16];
 //        [_confManager setJoinMode:JoinModeAudio];
 
         _meetingReformer = [[JCBaseMeetingReformer alloc] init];
@@ -299,7 +303,8 @@ typedef enum {
     
     _meetingReformer.delegate = self;
     
-    [_confManager setMaxCapacity:4];
+    [_confManager setMaxCapacity:16];
+    [_confManager setDefaultAudio:YES]; // 默认打开音频
     
     BOOL ret = [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
     
@@ -373,19 +378,24 @@ typedef enum {
 //    }
     
     _count = (int)[_confManager getRoomInfo].participants.count;
-    
     _textLabel.text = [NSString stringWithFormat:@"RoomID:%@ 参与人数:%d 会议号码:%ld", _roomId, _count, _confNumber];
     
     //更新界面
     [self showCurrentShowMode:ShowSplitScreen];
-//    [CTToast showWithText:@"加入会议成功"];
     [self updateTitleBtn];
     [self updateMemberBtn];
     
-    // 如果不是主持人，就向主持人查询互动状态
-//    if (![self isMeetingCreator:nil]) {
-//        [self.membersVC sendQueryInteractionStateCommand];
-//    }
+    // 麦克风
+    UIButton *soundBtn = self.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
+    __weak typeof(self) weakself = self;
+    int success = [_meetingReformer setAudioEnabled:YES completion:^(BOOL isAudioEnabled) {
+        [weakself.membersVC reloadTableView];
+    }];
+    if (success == JCOK) {
+        soundBtn.selected = YES;
+    }
+
+//    [self.membersVC reloadTableView];
 }
 
 - (void)joinFailedWithReason:(ErrorReason)reason
@@ -403,6 +413,17 @@ typedef enum {
 
 - (void)leaveWithReason:(ErrorReason)reason
 {
+    
+    [self.timer invalidate];
+    self.timer = nil;
+    
+    // 更新服务器的状态
+    [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:nil videoState:nil interactionState:nil compereState:nil userState:@"0" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+        
+    } fail:^(NSError *error) {
+        
+    }];
+
     if (reason == ErrorEndOffline) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"offline" message:nil preferredStyle:UIAlertControllerStyleAlert];
         
@@ -424,6 +445,10 @@ typedef enum {
             [self.navigationController popViewControllerAnimated:YES];
         }
     }
+}
+
+- (void)onParticipantStateUpdated {
+    [self.membersVC reloadTableView];
 }
 
 #pragma mark - ScreenShareDelegate
@@ -513,46 +538,57 @@ typedef enum {
     }
 }
 
-#pragma mark - ConferenceToolBarDelegate
+#pragma mark - ConferenceToolBarDelegate 工具栏
 - (void)conferenceToolBar:(ConferenceToolBar *)toolBar
               clickButton:(UIButton *)button
                buttonType:(ConferenceToolBarButtonType)type
 {
     switch (type) {
+            // 视频
         case ConferenceToolBarButtonVideo: {
             BOOL selected = !button.isSelected;
             if (selected == YES && self.videoState == 0) {
                 [CTToast showWithText:@"全员禁频中"];
                 return;
             }
-            [_meetingReformer setVideoEnabled:selected completion:^(BOOL isVideoEnabled) {
+            int success = [_meetingReformer setVideoEnabled:selected completion:^(BOOL isVideoEnabled) {
                 button.selected = isVideoEnabled;
             }];
+            if (success == JCOK) {
+                button.selected = selected;
+            } else {
+                [CTToast showWithText:@"更改视频状态失败"];
+            }
             break;
         }
+            // 切换摄像头
         case ConferenceToolBarButtonCamera:
             [_meetingReformer switchCamera];
             break;
+            // 外放
         case ConferenceToolBarButtonVolume: {
             BOOL selected = !button.isSelected;
             [_meetingReformer setMuteEnabled:selected];
             button.selected = selected;
             break;
         }
+            // 麦克风，语音
         case ConferenceToolBarButtonMicrophone: {
             BOOL selected = !button.isSelected;
             if (selected == YES && self.soundState == 0) {
                 [CTToast showWithText:@"全员禁音中"];
                 return;
             }
-
+            __weak typeof(self) weakself = self;
+            // completion 可能不执行
             int success = [_meetingReformer setAudioEnabled:selected completion:^(BOOL isAudioEnabled) {
-                button.selected = isAudioEnabled;
+                [YCMeetingRoomMembersController sendUpdateStatesCommandWithMeetingID:weakself.meetingID];
+                [weakself.membersVC reloadTableView];
             }];
-            if (success != JCOK) {
-//                [CTToast showWithText:@"开启麦克风失败"];
+            if (success == JCOK) {
+                button.selected = selected;
             } else {
-//                [CTToast showWithText:@"开启麦克风成功"];
+                [CTToast showWithText:@"更改麦克风状态失败"];
             }
             break;
         }
@@ -613,6 +649,10 @@ typedef enum {
 #pragma mark - Button action
 // 取消加入会议事件
 - (IBAction)cancel:(id)sender {
+    
+    [self.timer invalidate];
+    self.timer = nil;
+    
     // 点击按钮输出： 0 -[JCEngineManager leave] no confEngine ，界面不消失
     int success = [_meetingReformer leave];
     if (success != JCOK) {
@@ -695,6 +735,9 @@ typedef enum {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sure to quit", nil) message:nil preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"confirm", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self.timer invalidate];
+            self.timer = nil;
+            
             [[MJPopTool sharedInstance] closeAnimated:YES];
             _doodleShareUserId = nil;
             [JCDoodleManager stopDoodle];
@@ -702,7 +745,7 @@ typedef enum {
             [self cancel:nil];
             
             // 更新服务器的状态
-            [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:@"1" videoState:@"1" interactionState:@"0" compereState:nil userState:@"2" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+            [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:nil videoState:nil interactionState:nil compereState:nil userState:@"0" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
                 
             } fail:^(NSError *error) {
                 
@@ -723,6 +766,9 @@ typedef enum {
             UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"结束会议？" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
+                [self.timer invalidate];
+                self.timer = nil;
+                
                 [[MJPopTool sharedInstance] closeAnimated:YES];
                 _doodleShareUserId = nil;
                 [JCDoodleManager stopDoodle];
@@ -745,6 +791,9 @@ typedef enum {
         }];
         
         UIAlertAction *quit = [UIAlertAction actionWithTitle:@"退出" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self.timer invalidate];
+            self.timer = nil;
+            
             [[MJPopTool sharedInstance] closeAnimated:YES];
             _doodleShareUserId = nil;
             [JCDoodleManager stopDoodle];
@@ -752,10 +801,10 @@ typedef enum {
             [self cancel:nil];
             
             // 更新服务器的状态
-            [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:@"1" videoState:@"1" interactionState:@"0" compereState:nil userState:@"2" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
-
+            [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:nil videoState:nil interactionState:nil compereState:nil userState:@"0" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+                
             } fail:^(NSError *error) {
-
+                
             }];
         }];
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler: nil];
@@ -865,6 +914,7 @@ typedef enum {
 #pragma mark - yc_Layout
 
 - (void)layoutViewControllers {
+//    float kVideoViewHeight = kMainScreenWidth/2.0/16*9;
     CGRect frame = CGRectMake(0, 0, kMainScreenWidth, kVideoViewHeight);
     self.splitScreenViewController.view.frame = frame;
     
@@ -983,6 +1033,19 @@ typedef enum {
     [self.titleBtn setBackgroundImage:image forState:UIControlStateNormal];
 }
 
+- (void)setupTimer {
+    if (!self.timer) {
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
+        self.timer = timer;
+        [timer fire];
+    }
+}
+
+- (void)handleTimer {
+    NSString *title = [YCTool countDonwStringWithTargetDate:self.meeting.endTime.longLongValue / 1000];
+    [self.titleBtn setTitle:title forState:UIControlStateNormal];
+}
+
 #pragma mark - yc_Action
 
 - (void)whiteBoardTabBtnClick {
@@ -1048,6 +1111,7 @@ typedef enum {
     [self.view endEditing:YES];
     
 //    [self.tabBar sendSubviewToBack:self.menuButton];
+    [self.membersVC reloadTableView];
 }
 
 - (IBAction)myToolBarBtnClick:(UIButton *)sender {
@@ -1083,13 +1147,15 @@ typedef enum {
 
 // 会议详情
 - (void)getMeetingDetail {
-    [[YCMeetingBiz new] getMeetingDetailWithMeetingID:self.meetingID success:^(CGMeeting *meeting) {
-        self.meeting = meeting;
+    __weak typeof(self) weakself = self;
+    [[YCMeetingBiz new] getMeetingDetailWithMeetingID:weakself.meetingID success:^(CGMeeting *meeting) {
+        weakself.meeting = meeting;
         // 获取群聊
-        [self getGroupWithGroupID:self.meeting.groupId];
+        [weakself getGroupWithGroupID:self.meeting.groupId];
         // 成员
-        [self addMembersControllerWithUsers:meeting.meetingUserList];
-        [self updateTitleBtn];
+        [weakself addMembersControllerWithUsers:meeting.meetingUserList];
+        [weakself updateTitleBtn];
+        [weakself setupTimer];
     } fail:^(NSError *error) {
         [CTToast showWithText:[NSString stringWithFormat:@"获取会议详情失败 : %@", error]];
     }];
@@ -1175,18 +1241,29 @@ typedef enum {
         enable = soundState?YES:NO;
         UIButton *soundBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
 //        if (enable == NO && soundBtn.isSelected == YES) {
-        if (enable != soundBtn.isSelected) {
-            [soundBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+//        if (enable != soundBtn.isSelected) {
+//            [soundBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+//        }
+        if (enable == NO && soundBtn.isSelected == YES) {
+            [weakself.meetingReformer setAudioEnabled:enable completion:^(BOOL isAudioEnabled) {
+                soundBtn.selected = isAudioEnabled;
+            }];
         }
+
         
         enable = videoState?YES:NO;
         UIButton *videoBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonVideo];
-//        if (enable == NO && videoBtn.isSelected == YES) {
-        if (enable != videoBtn.isSelected) {
-            [videoBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+////        if (enable == NO && videoBtn.isSelected == YES) {
+//        if (enable != videoBtn.isSelected) {
+//            [videoBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+//        }
+        if (enable == NO && videoBtn.isSelected == YES) {
+            [weakself.meetingReformer setVideoEnabled:enable completion:^(BOOL isVideoEnabled) {
+                videoBtn.selected = isVideoEnabled;
+            }];
         }
+
     };
-    
     
     self.membersVC.view.hidden = !self.memberTabBtn.isSelected;
     [self.preview addSubview:self.membersVC.view];
@@ -1281,10 +1358,15 @@ typedef enum {
     self.view.backgroundColor = [UIColor whiteColor];
     self.preview.backgroundColor = [UIColor whiteColor];
     
-    
+//    // 麦克风
 //    UIButton *soundBtn = self.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
-//    if (!soundBtn.isSelected) {
-//        [soundBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+//    __weak typeof(self) weakself = self;
+//    int success = [_meetingReformer setAudioEnabled:YES completion:^(BOOL isAudioEnabled) {
+////        [YCMeetingRoomMembersController sendUpdateStatesCommandWithMeetingID:weakself.meetingID];
+//        [weakself.membersVC reloadTableView];
+//    }];
+//    if (success == JCOK) {
+//        soundBtn.selected = YES;
 //    }
 
 }

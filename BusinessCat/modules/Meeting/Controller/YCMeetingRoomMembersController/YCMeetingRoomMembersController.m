@@ -310,9 +310,12 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     YCMeetingUser *user = self.users[indexPath.row];
     YCMeetingRoomMembersCell *cell = [tableView dequeueReusableCellWithIdentifier:@"YCMeetingRoomMembersCell" forIndexPath:indexPath];
 
-    cell.nameLabel.text = user.userName;
-    cell.positionLabel.text = user.position;
-    [cell.avatarIV sd_setImageWithURL:[NSURL URLWithString:user.userIcon] placeholderImage:[UIImage imageNamed:@"work_head"]];
+//    cell.positionLabel.text = user.position;
+//    [cell.avatarIV sd_setImageWithURL:[NSURL URLWithString:user.userIcon] placeholderImage:[UIImage imageNamed:@"work_head"]];
+    [cell.avatarIV sd_setImageWithURL:[NSURL URLWithString:user.userIcon] placeholderImage:[UIImage imageNamed:@"work_head"] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        [cell setAvart:image withUserState:user.state];
+    }];
+
 
     cell.endBtn.hidden = YES; // 结束互动按钮
     cell.allowBtn.hidden = YES; // 允许互动按钮
@@ -320,6 +323,12 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     cell.requestingLabel.hidden = YES; // 申请互动中
     cell.interactingLabel.hidden = YES; // 互动中
     cell.compereLabel.hidden = YES; // 主持人
+    
+    BOOL audioState = [[[JCEngineManager sharedManager] getParticipantWithUserId:user.userid] isAudioUpload];
+    [cell updateSpeakingImageWithUserState:user.state audioState:audioState];
+    //    cell.nameLabel.text = user.userName;
+    NSString *test = [NSString stringWithFormat:@"%@ 互动: %@ 语音: %@ 麦克风: %@", user.userName, @(user.interactionState), @(user.soundState), @(audioState)];
+    cell.nameLabel.text = test;
 
     // 如果是会议主持人
     if (self.isMeetingCreator) {
@@ -375,15 +384,11 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 
 #pragma mark - UITableViewDelegate
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//
-//}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+}
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.row == 0) {
-////        return [NSArray new];
-//        return nil;
-//    }
     return self.rowActions;
 }
 
@@ -816,8 +821,9 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 - (void)updateUserInteractingState:(long)interactState withUserID:(NSString *)userID {
     NSString *state = [NSString stringWithFormat:@"%ld", interactState];
     __weak typeof(self) weakself = self;
-    
-    [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:userID soundState:nil videoState:nil interactionState:state compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+//    [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:userID soundState:state videoState:state interactionState:state compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+
+    [[YCMeetingBiz new] meetingUserWithMeetingID:weakself.meetingID userId:userID soundState:nil videoState:nil interactionState:state compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
         weakself.meetingState = state;
         weakself.users = weakself.meetingState.meetingUserList;
         [weakself.tableView reloadData];
@@ -1022,6 +1028,10 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         }
     }
 
+}
+
+- (void)reloadTableView {
+    [self.tableView reloadData];
 }
 
 @end

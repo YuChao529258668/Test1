@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *avatarIV;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *positionLabel;// 职位
+@property (weak, nonatomic) IBOutlet UIImageView *speakingIV;
 
 @property (weak, nonatomic) IBOutlet UIButton *allowBtn; // 允许互动，点击发送通知
 @property (weak, nonatomic) IBOutlet UIButton *endBtn; // 结束互动，点击发送通知
@@ -28,6 +29,8 @@
 + (NSString *)endNotificationName; // 结束互动
 
 - (void)setUserState:(long)state;
+- (void)setAvart:(UIImage *)avart withUserState:(long)state;
+- (void)updateSpeakingImageWithUserState:(long)useState audioState:(BOOL)audioState;
 
 + (UIImage *)deleteUserImage;
 + (UIImage *)changeCompereImage;
