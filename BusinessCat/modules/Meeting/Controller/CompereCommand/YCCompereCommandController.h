@@ -7,7 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YCMeetingState.h"
 
 @interface YCCompereCommandController : UIViewController
+@property (weak, nonatomic) IBOutlet UIView *CycleView;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarIV;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIButton *interactBtn;
+@property (weak, nonatomic) IBOutlet UILabel *interactLabel;
+@property (weak, nonatomic) IBOutlet UILabel *compereLabel;
+@property (weak, nonatomic) IBOutlet UILabel *removeLabel;
+
+@property (nonatomic,strong) YCMeetingState *meetingState; //会议状态，摄像头是否打开等等
+@property (nonatomic,strong) YCMeetingUser *user;
+@property (nonatomic,copy) void (^completeBlock)();
+
+
++ (instancetype)controllerWithMeetingState:(YCMeetingState *)meetingState user:(YCMeetingUser *)user;
 
 @end

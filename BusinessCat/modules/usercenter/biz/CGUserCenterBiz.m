@@ -58,6 +58,14 @@
 //        NSLog(@"secuCode = %@", secuCode);
 //        NSLog(@"token = %@", token);
 
+        if (!secuCode) {
+            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"获取 token，返回的 secucode 为空！" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            }];
+            [ac addAction:sure];
+            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+        }
+        
         if (token) {
             if([[[CGUserDao alloc]init] saveUserWithSecuCode:secuCode token:token]){
                 complete(secuCode,token);

@@ -418,7 +418,10 @@ typedef enum {
     self.timer = nil;
     
     // 更新服务器的状态
-    [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:nil videoState:nil interactionState:nil compereState:nil userState:@"0" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+    // 内存泄露，要 weak
+    __weak typeof(self) weakself = self;
+
+    [[YCMeetingBiz new]meetingUserWithMeetingID:weakself.meetingID userId:[ObjectShareTool currentUserID] soundState:nil videoState:nil interactionState:nil compereState:nil userState:@"0" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
         
     } fail:^(NSError *error) {
         
@@ -801,7 +804,9 @@ typedef enum {
             [self cancel:nil];
             
             // 更新服务器的状态
-            [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:nil videoState:nil interactionState:nil compereState:nil userState:@"0" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+            // 内存泄露，要 weak
+            __weak typeof(self) weakself = self;
+            [[YCMeetingBiz new]meetingUserWithMeetingID:weakself.meetingID userId:[ObjectShareTool currentUserID] soundState:nil videoState:nil interactionState:nil compereState:nil userState:@"0" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
                 
             } fail:^(NSError *error) {
                 
@@ -1043,6 +1048,7 @@ typedef enum {
 
 - (void)handleTimer {
     NSString *title = [YCTool countDonwStringWithTargetDate:self.meeting.endTime.longLongValue / 1000];
+    title = [NSString stringWithFormat:@"  %@  ", title];
     [self.titleBtn setTitle:title forState:UIControlStateNormal];
 }
 
@@ -1133,9 +1139,10 @@ typedef enum {
     //    [groupList addObject:@"TGID1JYSZEAEQ"];
     [groupList addObject:groupId];
     
+    __weak typeof(self) weakself = self;
     int fail = [[TIMGroupManager sharedInstance] getGroupInfo:groupList succ:^(NSArray * groups) {
         TIMGroupInfo * info = groups.firstObject;
-        [self addChatViewControllerWith:info];
+        [weakself addChatViewControllerWith:info];
     } fail:^(int code, NSString* err) {
         [CTToast showWithText: [NSString stringWithFormat:@"获取群信息失败 %d %@ groupId:%@", code, err, groupId]];
     }];
@@ -1151,7 +1158,7 @@ typedef enum {
     [[YCMeetingBiz new] getMeetingDetailWithMeetingID:weakself.meetingID success:^(CGMeeting *meeting) {
         weakself.meeting = meeting;
         // 获取群聊
-        [weakself getGroupWithGroupID:self.meeting.groupId];
+        [weakself getGroupWithGroupID:weakself.meeting.groupId];
         // 成员
         [weakself addMembersControllerWithUsers:meeting.meetingUserList];
         [weakself updateTitleBtn];

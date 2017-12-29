@@ -740,8 +740,9 @@
 }
 
 - (void)getMeetingDetailWithSuccess:(void(^)())success {
+    __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] getMeetingDetailWithMeetingID:self.meeting.meetingId success:^(CGMeeting *meeting) {
-        self.meeting = meeting;
+        weakself.meeting = meeting;
         if (success) {
             success();
         }
@@ -752,20 +753,21 @@
 
 - (void)checkMeetingDateValid {
     // 检查时间是否有效。得到结果后只需修改meetingTimeBtn的标题，不用修改其他数据。如果无效，用户会再点击meetingTimeBtn选择有效时间段。
+    __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] checkMeetingDateValidWithBeginDate:self.beginDate endDate:self.endDate roomID:self.room.roomid OnSuccess:^(NSString *message, int state, NSString *recommendTime) {
         // 如果返回state<>0，代表时间有问题，需红色显示. 状态:0可使用,1被预约,2超过限时
         if (state == 0) {
-            [self.meetingTimeBtn setTitle:message forState:UIControlStateNormal];
-            [self.meetingTimeBtn.titleLabel setTextColor:[UIColor blackColor]];
-            self.meetingTimeAvailable = YES;
+            [weakself.meetingTimeBtn setTitle:message forState:UIControlStateNormal];
+            [weakself.meetingTimeBtn.titleLabel setTextColor:[UIColor blackColor]];
+            weakself.meetingTimeAvailable = YES;
         } else {
-            [self.meetingTimeBtn setTitle:message forState:UIControlStateNormal];
-            [self.meetingTimeBtn.titleLabel setTextColor:[UIColor redColor]];
-            self.meetingTimeAvailable = NO;
+            [weakself.meetingTimeBtn setTitle:message forState:UIControlStateNormal];
+            [weakself.meetingTimeBtn.titleLabel setTextColor:[UIColor redColor]];
+            weakself.meetingTimeAvailable = NO;
         }
     } fail:^(NSError *error) {
         NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
-        self.meetingTimeAvailable = NO;
+        weakself.meetingTimeAvailable = NO;
     }];
 }
 

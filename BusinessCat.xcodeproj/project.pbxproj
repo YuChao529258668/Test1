@@ -585,6 +585,7 @@
 		0DCD73411FB3F3EB00972501 /* TLSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73331FB3F3EB00972501 /* TLSSDK.framework */; };
 		0DDE741D1FF4F22200063651 /* YCCompereCommandController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */; };
 		0DDE741E1FF4F22200063651 /* YCCompereCommandController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */; };
+		0DDE74201FF4F3F100063651 /* 会议猫_主持人-点击.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DDE741F1FF4F3F100063651 /* 会议猫_主持人-点击.png */; };
 		0DEBED4D1FCA8C6200354E4C /* LaunchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */; };
 		0DED884D1FC953FF00585C82 /* YCCollegeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */; };
 		1804A3321DCB229800CA2326 /* CGDiscoverLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 1804A3311DCB229800CA2326 /* CGDiscoverLink.m */; };
@@ -2445,6 +2446,7 @@
 		0DDE741A1FF4F22200063651 /* YCCompereCommandController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCompereCommandController.h; sourceTree = "<group>"; };
 		0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCompereCommandController.m; sourceTree = "<group>"; };
 		0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCCompereCommandController.xib; sourceTree = "<group>"; };
+		0DDE741F1FF4F3F100063651 /* 会议猫_主持人-点击.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "会议猫_主持人-点击.png"; sourceTree = "<group>"; };
 		0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LaunchView.xib; sourceTree = "<group>"; };
 		0DED884B1FC953FF00585C82 /* YCCollegeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCollegeViewController.h; sourceTree = "<group>"; };
 		0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCollegeViewController.m; sourceTree = "<group>"; };
@@ -6057,6 +6059,7 @@
 		0DDE74191FF4F1F500063651 /* CompereCommand */ = {
 			isa = PBXGroup;
 			children = (
+				0DDE741F1FF4F3F100063651 /* 会议猫_主持人-点击.png */,
 				0DDE741A1FF4F22200063651 /* YCCompereCommandController.h */,
 				0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */,
 				0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */,
@@ -8138,6 +8141,7 @@
 				18B668151DB5B6F3003EA387 /* CGUserHeaderCollectionViewCell.xib in Resources */,
 				0DBF47861FB3087400707C12 /* JCMessageCell.xib in Resources */,
 				0DBF47AE1FB3087400707C12 /* camera_off@3x.png in Resources */,
+				0DDE74201FF4F3F100063651 /* 会议猫_主持人-点击.png in Resources */,
 				181C54CC1EC044C60064354D /* CGEnterpriseMemberTableViewCell.xib in Resources */,
 				180C020A1E84FE5E00EDCD8E /* CGUserNameTextFieldCell.xib in Resources */,
 				18400C021ECC3D1700E3009D /* CGUserHelpCatePageViewController.xib in Resources */,

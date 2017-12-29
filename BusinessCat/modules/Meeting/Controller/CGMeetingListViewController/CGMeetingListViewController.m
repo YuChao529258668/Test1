@@ -242,14 +242,14 @@
     }
     
     self.currentPage = 0;
-    
+    __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] getMeetingListWithPage:self.currentPage Success:^(NSArray<CGMeeting *> *meetings) {
-        self.meetings = meetings;
-        [self updateHeaderView];
-        [self.tableView reloadData];
-        [self.tableView.mj_header endRefreshing];
+        weakself.meetings = meetings;
+        [weakself updateHeaderView];
+        [weakself.tableView reloadData];
+        [weakself.tableView.mj_header endRefreshing];
     } fail:^(NSError *error) {
-        [self.tableView.mj_header endRefreshing];
+        [weakself.tableView.mj_header endRefreshing];
         [CTToast showWithText:[NSString stringWithFormat:@"获取会议列表失败 : %@", error]];
     }];
 }
@@ -260,14 +260,14 @@
     }
     
     self.currentPage ++;
-    
+    __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] getMeetingListWithPage:self.currentPage Success:^(NSArray<CGMeeting *> *meetings) {
-        self.meetings = [self.meetings arrayByAddingObjectsFromArray:meetings];
+        weakself.meetings = [weakself.meetings arrayByAddingObjectsFromArray:meetings];
 //        [self updateHeaderView];
-        [self.tableView reloadData];
-        [self.tableView.mj_footer endRefreshing];
+        [weakself.tableView reloadData];
+        [weakself.tableView.mj_footer endRefreshing];
     } fail:^(NSError *error) {
-        [self.tableView.mj_footer endRefreshing];
+        [weakself.tableView.mj_footer endRefreshing];
         [CTToast showWithText:[NSString stringWithFormat:@"获取更多会议列表失败 : %@", error]];
     }];
 }
@@ -399,10 +399,11 @@
 //    return;
     
     CGMeeting *meeting = self.meetings[indexPath.row];
+    __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message) {
 //        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已取消
         if (state == 1) {
-            [self goToVideoMeetingWithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId];
+            [weakself goToVideoMeetingWithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId];
         } else {
             [CTToast showWithText:message];
         }

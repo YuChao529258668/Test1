@@ -11,6 +11,7 @@
 
 #import "YCMeetingRoomMembersController.h"
 #import "CGSelectContactsViewController.h"
+#import "YCCompereCommandController.h"
 #import "YCMeetingRoomMembersCell.h"
 #import "YCMeetingState.h"
 #import "YCMeetingBiz.h"
@@ -385,7 +386,21 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    NSInteger row = indexPath.row;
+    if (row == 0) {
+        return;
+    }
+    
+    if (!self.isMeetingCreator) {
+        return;
+    }
+    
+    __weak typeof(self) weakself = self;
+    YCCompereCommandController *vc = [YCCompereCommandController controllerWithMeetingState:self.meetingState user:self.users[row]];
+    vc.completeBlock = ^{
+        [weakself getMeetingUser];
+    };
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -821,9 +836,9 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 - (void)updateUserInteractingState:(long)interactState withUserID:(NSString *)userID {
     NSString *state = [NSString stringWithFormat:@"%ld", interactState];
     __weak typeof(self) weakself = self;
-//    [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:userID soundState:state videoState:state interactionState:state compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+    [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:userID soundState:state videoState:state interactionState:state compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
 
-    [[YCMeetingBiz new] meetingUserWithMeetingID:weakself.meetingID userId:userID soundState:nil videoState:nil interactionState:state compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+//    [[YCMeetingBiz new] meetingUserWithMeetingID:weakself.meetingID userId:userID soundState:nil videoState:nil interactionState:state compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
         weakself.meetingState = state;
         weakself.users = weakself.meetingState.meetingUserList;
         [weakself.tableView reloadData];

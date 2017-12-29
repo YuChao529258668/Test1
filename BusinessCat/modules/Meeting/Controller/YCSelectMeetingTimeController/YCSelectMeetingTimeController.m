@@ -150,13 +150,14 @@
 #pragma mark - Data
 
 - (void)getAvaliableTime {
+    __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] getMeetingRoomTimeWithRoomID:self.room.roomid success:^(NSArray *times) {
-        self.timeListArray = times;
-        [self.collectionView reloadData];
+        weakself.timeListArray = times;
+        [weakself.collectionView reloadData];
         
-        [self updateDateLabel:nil];
-        [self updateLabelTexts];
-        [self updateButtonsTitle];
+        [weakself updateDateLabel:nil];
+        [weakself updateLabelTexts];
+        [weakself updateButtonsTitle];
     } fail:^(NSError *error) {
         [CTToast showWithText:@"获取可用时间失败"];
     }];
