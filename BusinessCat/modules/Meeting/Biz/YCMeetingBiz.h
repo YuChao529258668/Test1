@@ -15,7 +15,7 @@
 // 获取会议列表
 - (void)getMeetingListWithPage:(int)page Success:(void(^)(NSArray<CGMeeting *> *meetings))success fail:(void(^)(NSError *error))fail;
 
-// 能否进入会议 状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已取消
+// 能否进入会议 状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
 - (void)meetingEntranceWithMeetingID:(NSString *)mid Success:(void(^)(int state, NSString *password, NSString *message))success fail:(void(^)(NSError *error))fail;
 
 // 获取会议室列表

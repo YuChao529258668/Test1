@@ -175,8 +175,28 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 
 @implementation JCWhiteBoardViewController
 
+- (void)configBtns:(BOOL)isReview {
+//    BOOL isReview = self.isReview;
+    self.closeDocBtn.hidden = isReview;
+    self.isSyncSwitchPage = !isReview;
+    if (!isReview) {
+        _actionMode = TouchActionDraw;
+    } else {
+        _actionMode = TouchActionNone;
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.doodletoolbar enableInteraction:!isReview];
+    });
+
+}
+
 #pragma mark - Setter and Getter
 
+- (void)setIsReview:(BOOL)isReview {
+    _isReview = isReview;
+    
+    [self configBtns:isReview];
+}
 
 - (void)setCurrentPage:(NSUInteger)currentPage {
     if (currentPage >= _pageCount) {
@@ -188,7 +208,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         [self loadDoodleViewWithPageNumber:currentPage];
     }
     
-    if (self.isSyncSwitchPage) {
+    if (self.isSyncSwitchPage && !self.isReview) {
         [JCDoodleManager selectPage:_currentPage];
         [[YCMeetingBiz new] updateMeetingPageWithMeetingID:self.meetingID currentPage:currentPage success:nil fail:nil];
     }
@@ -385,6 +405,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     [self setupPPTViews];
 //    [self beginCheckCurrentMeetingFile];
     [self checkCurrentMeetingFile];
+    [self configBtns:self.isReview];
 }
 
 #pragma mark - DoodleToolbar delegate
@@ -1139,6 +1160,9 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         } else {
             // 有课件
             self.closeDocBtn.hidden = !self.interactState;
+            if (self.isReview) {
+                self.closeDocBtn.hidden = YES;
+            }
         }
         
 //        if (weakself.meetingFile) {
@@ -1248,6 +1272,10 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 
 // 是否允许画画
 - (void)enableDraw:(BOOL)enable {
+    if (self.isReview) {
+        enable = NO;
+    }
+    
     if (enable) {
         _actionMode = TouchActionDraw;
     } else {

@@ -85,6 +85,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 //        [self readStateFile];
 //    }
     self.view.backgroundColor = [UIColor whiteColor];
+    [self configBtns:self.isReview];
 }
 
 - (void)dealloc {
@@ -113,15 +114,16 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     NSMutableArray *rowActions = [NSMutableArray array];
     self.rowActions = rowActions;
     
+    __weak typeof(self) weakself = self;
+
     // 修改成员
     UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"       " handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         self.tableView.editing = NO;
         
         UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"是否删除成员？" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            __weak typeof(self) weakself = self;
-            NSString *userID = self.users[indexPath.row].userid;
-            [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:nil soundState:nil videoState:nil interactionState:nil compereState:nil userState:nil userAdd:nil userDel:userID success:^(YCMeetingState *state) {
+            NSString *userID = weakself.users[indexPath.row].userid;
+            [[YCMeetingBiz new] meetingUserWithMeetingID:weakself.meetingID userId:nil soundState:nil videoState:nil interactionState:nil compereState:nil userState:nil userAdd:nil userDel:userID success:^(YCMeetingState *state) {
                 weakself.meetingState = state;
                 weakself.users = state.meetingUserList;
                 [weakself.tableView reloadData];
@@ -136,7 +138,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         [ac addAction:sure];
         [ac addAction:cancel];
-        [self presentViewController:ac animated:YES completion:nil];
+        [weakself presentViewController:ac animated:YES completion:nil];
     }];
     UIImage *dimage = [YCMeetingRoomMembersCell deleteUserImage];
     delete.backgroundColor = [UIColor colorWithPatternImage:dimage];
@@ -147,10 +149,10 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         
         UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"是否设置该成员为主持人？" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            __weak typeof(self) weakself = self;
-            NSString *userID = self.users[indexPath.row].userid;
+//            __weak typeof(self) weakself = self;
+            NSString *userID = weakself.users[indexPath.row].userid;
 
-            [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:nil soundState:nil videoState:nil interactionState:nil compereState:userID userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
+            [[YCMeetingBiz new] meetingUserWithMeetingID:weakself.meetingID userId:nil soundState:nil videoState:nil interactionState:nil compereState:userID userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
                 weakself.meetingState = state;
                 weakself.users = state.meetingUserList;
                 [weakself sendUpdateStatesCommandWithUserID:userID];
@@ -163,7 +165,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         [ac addAction:sure];
         [ac addAction:cancel];
-        [self presentViewController:ac animated:YES completion:nil];
+        [weakself presentViewController:ac animated:YES completion:nil];
     }];
     UIImage *cimage = [YCMeetingRoomMembersCell changeCompereImage];
     change.backgroundColor = [UIColor colorWithPatternImage:cimage];
@@ -398,6 +400,10 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.isReview) {
+        return;
+    }
+    
     NSInteger row = indexPath.row;
     if (row == 0) {
         return;
@@ -1064,8 +1070,24 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 
 }
 
+#pragma mark -
+
 - (void)reloadTableView {
     [self.tableView reloadData];
+}
+
+- (void)setIsReview:(BOOL)isReview {
+    _isReview = isReview;
+    
+    [self configBtns:isReview];
+}
+
+- (void)configBtns:(BOOL)isReview {
+    BOOL enable = !isReview;
+    self.requestInteractBtn.userInteractionEnabled = enable;
+    self.enableVideoBtn.userInteractionEnabled = enable;
+    self.enableVoiceBtn.userInteractionEnabled = enable;
+    self.addUserBtn.userInteractionEnabled = enable;
 }
 
 @end

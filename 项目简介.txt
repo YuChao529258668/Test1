@@ -232,3 +232,6 @@ BOOL canReceiveVideo = model.isVideoUpload && model.isVideoForward;
 登录问题
 CGUserDao、CTNetWorkUtil、CGUserCenterBiz
 
+
+音频干扰
+MtcMediaHowlingDetectedNotification

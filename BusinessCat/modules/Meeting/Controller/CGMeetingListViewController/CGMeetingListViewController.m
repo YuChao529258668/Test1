@@ -401,9 +401,9 @@
     CGMeeting *meeting = self.meetings[indexPath.row];
     __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message) {
-//        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已取消
-        if (state == 1) {
-            [weakself goToVideoMeetingWithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId];
+//        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
+        if (state == 1 || state == 3) {
+            [weakself goToVideoMeetingWithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId state:state];
         } else {
             [CTToast showWithText:message];
         }
@@ -415,12 +415,15 @@
 
 #pragma mark - 视频会议
 
-- (void)goToVideoMeetingWithRoomID:(NSString *)rid meetingID:(NSString *)mid{
+//        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
+- (void)goToVideoMeetingWithRoomID:(NSString *)rid meetingID:(NSString *)mid state:(long)state{
     if ([YCJCSDKHelper isLoginForVideoCall]) {
         RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
         roomVc.roomId = rid;
         roomVc.displayName = [ObjectShareTool sharedInstance].currentUser.username;
         roomVc.meetingID = mid;
+        roomVc.meetingState = state;
+        roomVc.isReview = state == 3? YES: NO;
         [self.navigationController pushViewController:roomVc animated:YES];
     } else {
         [CTToast showWithText:@"会议功能尚未登录，请稍后再试"];

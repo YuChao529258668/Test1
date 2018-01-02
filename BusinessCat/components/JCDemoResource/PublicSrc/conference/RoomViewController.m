@@ -77,25 +77,33 @@ typedef enum {
 } ShowMode;
 
 @interface RoomViewController ()<BaseMeetingDelegate, JCScreenShareDelegate, JCDoodleDelegate, ConferenceToolBarDelegate, MenuDelegate, JCEngineDelegate>
-{
+//{
 //    JCBaseMeetingReformer *_meetingReformer;
     
-    JCEngineManager *_confManager;
-    
-    NSMutableArray *_showModeArray; //用于管理当前大窗口的显示内容，采用栈管理的方式
-    
-    NSArray<UIButton *> *_buttons;
-    
-    NSString *_doodleShareUserId; //当前发起涂鸦的成员
-    
-    BOOL _isDoodle;
-    BOOL _isInfo;
-    
-    int _count;
-    long _confNumber;
-}
+//    JCEngineManager *_confManager;
+//
+//    NSMutableArray *_showModeArray; //用于管理当前大窗口的显示内容，采用栈管理的方式
+//
+//    NSArray<UIButton *> *_buttons;
 
+//    NSString *_doodleShareUserId; //当前发起涂鸦的成员
 
+//    BOOL _isDoodle;
+//    BOOL _isInfo;
+//
+//    int _count;
+//    long _confNumber;
+//}
+
+@property (nonatomic,strong) JCBaseMeetingReformer *meetingReformer;
+@property (nonatomic,strong) JCEngineManager *confManager;
+@property (nonatomic,strong) NSMutableArray *showModeArray; //用于管理当前大窗口的显示内容，采用栈管理的方式
+@property (nonatomic,strong) NSArray<UIButton *> *buttons;
+@property (nonatomic,strong) NSString *doodleShareUserId; //当前发起涂鸦的成员
+@property (nonatomic,assign) BOOL isDoodle;
+@property (nonatomic,assign) BOOL isInfo;
+@property (nonatomic,assign) int count;
+@property (nonatomic,assign) long confNumber;
 
 
 
@@ -112,7 +120,6 @@ typedef enum {
 
 @property (weak, nonatomic) IBOutlet ConferenceToolBar *conferenceToolBar;          // 加入会议后mainView上的底部工具栏
 
-@property (nonatomic,strong) JCBaseMeetingReformer *meetingReformer;
 
 @property (nonatomic, strong) JCPreviewViewController *previewViewController;
 @property (nonatomic, strong) JCScreenShareViewController *screenShareViewController;
@@ -152,6 +159,9 @@ typedef enum {
 
 @property (nonatomic,strong) NSTimer *timer;
 
+@property (weak, nonatomic) IBOutlet UILabel *hintLabel; // 正在加入会议，请稍后。或者提示会议已结束
+@property (weak, nonatomic) IBOutlet UIButton *cancelBtn; // 取消按钮
+
 
 @end
 
@@ -189,6 +199,7 @@ typedef enum {
     if (!_whiteBoardViewController) {
         _whiteBoardViewController = [[JCWhiteBoardViewController alloc] init];
         _whiteBoardViewController.meetingID = self.meetingID;
+        _whiteBoardViewController.isReview = self.isReview;
 //        [self setupGesture];
     }
     return _whiteBoardViewController;
@@ -252,11 +263,15 @@ typedef enum {
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     
     [self removeKeyboardObserver];
+    [self removeObserverForHowlingDetectedNotification];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    // 音频干扰
+    [self addObserverForHowlingDetectedNotification];
     
     //防止自动锁屏
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
@@ -306,6 +321,17 @@ typedef enum {
     [_confManager setMaxCapacity:16];
     [_confManager setDefaultAudio:YES]; // 默认打开音频
     
+    
+    [self configForCustom]; // 自定义
+    self.hintLabel.textColor = [UIColor whiteColor];
+
+    // 0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
+    if (self.meetingState == 3) {
+        self.cancelBtn.hidden = YES;
+        self.hintLabel.text = @"会议已结束";
+        return;
+    }
+    
     BOOL ret = [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
     
     if (!ret) {
@@ -323,7 +349,7 @@ typedef enum {
         });
     }
     
-    [self configForCustom];
+//    [self configForCustom];
     
 }
 
@@ -667,10 +693,9 @@ typedef enum {
         }
     }
     
-    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-    
-    [self removeKeyboardObserver];
-
+//    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+//    [self removeKeyboardObserver];
+//    [self removeObserverForHowlingDetectedNotification];
 }
 
 // 会议信息
@@ -1030,7 +1055,7 @@ typedef enum {
     UIButton *btn = [[UIButton alloc]initWithFrame:self.view.bounds];
         btn.backgroundColor = [UIColor clearColor];
 //    btn.backgroundColor = [UIColor yellowColor];
-    [btn addTarget:self action:@selector(hideKeyboard:) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventTouchUpInside];
     self.hideKeyboardBtn = btn;
 }
 
@@ -1178,26 +1203,34 @@ typedef enum {
 #pragma mark - 成员
 
 - (void)addMembersControllerWithUsers:(NSArray *)users {
+//    return;
+    
     self.membersVC = [YCMeetingRoomMembersController new];
 //    self.membersVC.users = users;
     self.membersVC.meetingCreatorID = self.meeting.ycCompereID;
     self.membersVC.meetingID = self.meetingID;
     self.membersVC.isMeetingCreator = self.meeting.ycIsCompere;
+    self.membersVC.isReview = self.isReview;
     
     __weak typeof(self) weakself = self;
+    
     // 成员发生改变
     self.membersVC.onMembersChangeBlock = ^(NSArray *users) {
         weakself.meeting.meetingUserList = users.mutableCopy;
         [weakself updateMemberBtn];
     };
-    
+
     // 会议结束或取消
     self.membersVC.onMeetingStateChangeBlock = ^(int meetingState) {
+        if (weakself.isReview) {
+            return ;
+        }
+
         weakself.meeting.meetingState = meetingState;
         if (meetingState == 0 || meetingState == 1) {
             return ;
         }
-        
+
         NSString *title = nil;
         // 会议状态 0:未开始    1：进行中   2：已结束    3：已取消
         if (meetingState == 2) {
@@ -1208,20 +1241,20 @@ typedef enum {
         UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:title preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [[MJPopTool sharedInstance] closeAnimated:YES];
-            _doodleShareUserId = nil;
+            weakself.doodleShareUserId = nil;
             [JCDoodleManager stopDoodle];
             [weakself cancel:nil];
         }];
         [ac addAction:sure];
         [weakself presentViewController:ac animated:YES completion:nil];
     };
-    
+
     // 被移出会议
     self.membersVC.onBeRemoveFromMeetingBlock = ^{
         UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"您已被主持人移出会议" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [[MJPopTool sharedInstance] closeAnimated:YES];
-            _doodleShareUserId = nil;
+            weakself.doodleShareUserId = nil;
             [JCDoodleManager stopDoodle];
             [weakself cancel:nil];
 
@@ -1237,20 +1270,20 @@ typedef enum {
 //        [weakself presentViewController:ac animated:YES completion:nil];
         [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
     };
-    
+
     // 自身的权限发生改变
     self.membersVC.onStateChangeBlock = ^(long interactState, long soundState, long videoState) {
         weakself.interactState = interactState;
         weakself.soundState = soundState;
         weakself.videoState = videoState;
-        
+
         if (interactState > 1) { // 申请互动中
             return ;
         }
         BOOL enable = interactState?YES:NO;
         [weakself.whiteBoardViewController enableDraw:enable];
         [weakself.whiteBoardViewController enableSwitchPage:enable];
-        
+
         enable = soundState?YES:NO;
         UIButton *soundBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
 //        if (enable == NO && soundBtn.isSelected == YES) {
@@ -1279,7 +1312,8 @@ typedef enum {
     };
     
     self.membersVC.view.hidden = !self.memberTabBtn.isSelected;
-    [self.preview addSubview:self.membersVC.view];
+//    [self.preview addSubview:self.membersVC.view];
+    [self.preview insertSubview:self.membersVC.view aboveSubview:self.tabBar];
     // 布局
     [self layoutViewControllers];
 }
@@ -1346,7 +1380,9 @@ typedef enum {
 // viewDidLoad 的时候调用
 - (void)configForCustom {
     self.whiteBoardViewController.view.hidden = NO;
-    
+    _waitInfoView.hidden = NO; //隐藏会议等待view
+    _mainView.hidden = NO; //显示加入会议后的主view
+
     [self setupTarBar];
     
     [self.stopButton removeFromSuperview]; // 结束白板共享按钮
@@ -1382,6 +1418,8 @@ typedef enum {
 //        soundBtn.selected = YES;
 //    }
 
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    [self.waitInfoView addGestureRecognizer:tap];
 }
 
 
@@ -1411,11 +1449,13 @@ typedef enum {
 
 - (void)handleKeyboardWillShowNotification:(NSNotification *)noti {
     [self.preview insertSubview:self.hideKeyboardBtn belowSubview:self.tabBar];
+//    [self.chatVC.view.superview insertSubview:self.hideKeyboardBtn belowSubview:self.chatVC.view];
+//    [self.view addSubview:self.hideKeyboardBtn];
 }
 
-- (void)hideKeyboard:(UIButton *)btn {
+- (void)hideKeyboard {
     [self.view endEditing:YES];
-    [btn removeFromSuperview];
+    [self.hideKeyboardBtn removeFromSuperview];
 }
 
 - (void)removeKeyboardObserver {
@@ -1563,6 +1603,33 @@ typedef enum {
 
 - (BOOL)shouldAutorotate {
     return NO;
+}
+
+#pragma mark - 音频干扰
+
+- (void)handleHowlingDetectedNotification:(NSNotification *)noti {
+    [CTToast showWithText:@"检测到音频干扰。已关闭麦克风"];
+    __weak typeof(self) weakself = self;
+    UIButton *soundBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
+
+    int success = [_meetingReformer setAudioEnabled:NO completion:^(BOOL isAudioEnabled) {
+        [YCMeetingRoomMembersController sendUpdateStatesCommandWithMeetingID:weakself.meetingID];
+        [weakself.membersVC reloadTableView];
+    }];
+    if (success == JCOK) {
+        soundBtn.selected = NO;
+    } else {
+        [CTToast showWithText:@"更改麦克风状态失败"];
+    }
+
+}
+
+- (void)addObserverForHowlingDetectedNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleHowlingDetectedNotification:) name:@MtcMediaHowlingDetectedNotification object:nil];
+}
+
+- (void)removeObserverForHowlingDetectedNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@MtcMediaHowlingDetectedNotification object:nil];
 }
 
 @end

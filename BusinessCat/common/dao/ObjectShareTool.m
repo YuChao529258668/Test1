@@ -97,13 +97,13 @@ static ObjectShareTool *_sharedManager;
           
       } else {
           NSLog(@"用户缓存信息不存在");
-          NSString *message = [NSString stringWithFormat:@"用户缓存信息不存在，filePath = %@", filePath];
-          UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
-          UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-              
-          }];
-          [ac addAction:sure];
-          [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+//          NSString *message = [NSString stringWithFormat:@"用户缓存信息不存在，filePath = %@", filePath];
+//          UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+//          UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//
+//          }];
+//          [ac addAction:sure];
+//          [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
 
       }
     

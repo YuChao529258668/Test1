@@ -46,6 +46,7 @@
 - (void)updatePageLabel;
 
 @property (nonatomic,strong) NSString *meetingID;
+@property (nonatomic,assign) BOOL isReview; // 是否正在查看已结束会议
 
 //// 更新要显示的课件
 //- (void)updateMeetingFile;

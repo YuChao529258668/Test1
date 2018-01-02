@@ -128,19 +128,19 @@ static CTNetWorkUtil *_sharedManager;
                 }else if(errCode == 110006){//非法uuid
                     NSString *text = [NSString stringWithFormat:@"非法 UUID：%@", param[@"identity"]];
 //                    [CTToast showWithText:text];
-                    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:text preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-
-                    }];
-                    [ac addAction:sure];
-                    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+//                    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:text preferredStyle:UIAlertControllerStyleAlert];
+//                    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//
+//                    }];
+//                    [ac addAction:sure];
+//                    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
                     
                     
                     NSLog(@"%@", text);
-                    [weakSelf autoLogin];
+//                    [weakSelf autoLogin];
 
-//                  [ObjectShareTool sharedInstance].isloginState = 1;
-//                  [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
+                  [ObjectShareTool sharedInstance].isloginState = 1;
+                  [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
                 }else{
                     if(failcallback){
                         failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:errCode userInfo:res]);
@@ -148,9 +148,9 @@ static CTNetWorkUtil *_sharedManager;
                     }
                     if (errCode == 110113) {//未登陆
 //                        [CTToast showWithText:@"未登录：110113"];
-//                        if ([ObjectShareTool sharedInstance].currentUser.isLogin == YES) {
-//                          [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
-//                        }
+                        if ([ObjectShareTool sharedInstance].currentUser.isLogin == YES) {
+                          [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
+                        }
                     }
                     if(errCode == 110131 || errCode == 110113 || errCode == 110005){//不弹提示
                         return;

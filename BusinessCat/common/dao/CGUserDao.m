@@ -13,12 +13,13 @@
 //保存用户token和uuid
 -(BOOL)saveUserWithSecuCode:(NSString *)secuCode token:(NSString *)token{
     if (!secuCode) {
-        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"保存用户信息，secucode 为空！" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        }];
-        [ac addAction:sure];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
-        return NO;
+        NSLog(@"保存用户信息，secucode 为空！");
+//        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"保存用户信息，secucode 为空！" preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        }];
+//        [ac addAction:sure];
+//        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+//        return NO;
     }
 
     CGUserEntity *user = [ObjectShareTool sharedInstance].currentUser;
