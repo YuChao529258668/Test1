@@ -18,7 +18,7 @@
 
 #define kMembersToolbarHeight 44
 #define kMembersToolbarWidth  [UIScreen mainScreen].bounds.size.width
-#define kMembersBtnWidth 50
+#define kMembersBtnWidth 78
 #define kMembersBtnHeight 29
 
 #pragma mark - 命令
@@ -184,32 +184,35 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     [bar addSubview:iv];
     
     UIFont *font = [UIFont systemFontOfSize:13];
-    UIColor *color = [CTCommonUtil convert16BinaryColor:@"#feea0f"]; // 黄色
+    UIColor *color = [CTCommonUtil convert16BinaryColor:@"#dddddd"]; // 灰色
     
     if (self.isMeetingCreator) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        btn.titleLabel.font = font;
+        btn.titleLabel.font = font;
 //        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//        [btn setBackgroundColor:color];
+        [btn setBackgroundColor:color];
         [bar addSubview:btn];
         [btn addTarget:self action:@selector(clickEnableVideoBtn) forControlEvents:UIControlEventTouchUpInside];
-//        [btn setTitle:@"全员禁频" forState:UIControlStateNormal];
-        [btn setImage:[UIImage imageNamed:@"video_vi_normal"] forState:UIControlStateSelected];
-        [btn setImage:[UIImage imageNamed:@"video_vi_highlight"] forState:UIControlStateNormal];
-//        [btn setTitle:@"全员视频" forState:UIControlStateSelected];
+        [btn setTitle:@"全员禁频" forState:UIControlStateNormal];
+//        [btn setImage:[UIImage imageNamed:@"video_vi_normal"] forState:UIControlStateSelected];
+//        [btn setImage:[UIImage imageNamed:@"video_vi_highlight"] forState:UIControlStateNormal];
+        [btn setTitle:@"全员视频" forState:UIControlStateSelected];
+        btn.layer.cornerRadius = 4;
+        btn.clipsToBounds = YES;
         self.enableVideoBtn = btn;
         
         btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        btn.titleLabel.font = font;
+        btn.titleLabel.font = font;
 //        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//        [btn setBackgroundColor:color];
+        [btn setBackgroundColor:color];
         [bar addSubview:btn];
         [btn addTarget:self action:@selector(clickEnableVoiceBtn) forControlEvents:UIControlEventTouchUpInside];
-//        [btn setTitle:@"全员禁音" forState:UIControlStateNormal];
-        [btn setImage:[UIImage imageNamed:@"video_sound_normal"] forState:UIControlStateSelected];
-        [btn setImage:[UIImage imageNamed:@"video_sound_highlight"] forState:UIControlStateNormal];
-
-//        [btn setTitle:@"全员音频" forState:UIControlStateSelected];
+        [btn setTitle:@"全员禁音" forState:UIControlStateNormal];
+//        [btn setImage:[UIImage imageNamed:@"video_sound_normal"] forState:UIControlStateSelected];
+//        [btn setImage:[UIImage imageNamed:@"video_sound_highlight"] forState:UIControlStateNormal];
+        [btn setTitle:@"全员音频" forState:UIControlStateSelected];
+        btn.layer.cornerRadius = 4;
+        btn.clipsToBounds = YES;
         self.enableVoiceBtn = btn;
         
 //        btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -236,7 +239,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.titleLabel.font = font;
         [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setBackgroundColor:color];
+        [btn setBackgroundColor:CTThemeMainColor];
         [bar addSubview:btn];
         [btn addTarget:self action:@selector(clickRequestBtn) forControlEvents:UIControlEventTouchUpInside];
         [btn setTitle:@"请求互动" forState:UIControlStateNormal];
@@ -281,19 +284,19 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         self.enableVoiceBtn.frame = CGRectMake(0, 0, kMembersBtnWidth, kMembersBtnHeight);
         self.enableVideoBtn.frame = CGRectMake(0, 0, kMembersBtnWidth, kMembersBtnHeight);
 //        self.changeCompereBtn.frame = CGRectMake(0, 0, kMembersBtnWidth, kMembersBtnHeight);
-        self.addUserBtn.frame = CGRectMake(0, 0, kMembersBtnWidth, kMembersBtnHeight);
+        self.addUserBtn.frame = CGRectMake(0, 0, 50, kMembersBtnHeight);
         
         self.requestInteractBtn.frame = CGRectMake(0, 0, 78, kMembersBtnHeight);
 //        self.endInteractBtn.frame = CGRectMake(0, 0, kMembersBtnWidth, kMembersBtnHeight);
         
 //        float x = self.view.frame.size.width / 4;
-        float x = kMembersBtnWidth;
+//        float x = kMembersBtnWidth / 2 + 15;
         float centerY = kMembersToolbarHeight / 2;
-        float i = 0.5;
-        self.enableVoiceBtn.center = CGPointMake(x * i ++, centerY);
-        self.enableVideoBtn.center = CGPointMake(x * i ++, centerY);
+//        float i = 1;
+        self.enableVoiceBtn.center = CGPointMake(kMembersBtnWidth * 0.5 + 1 * 15, centerY);
+        self.enableVideoBtn.center = CGPointMake(kMembersBtnWidth * 1.5 + 2 * 15, centerY);
 //        self.changeCompereBtn.center = CGPointMake(x * i ++, centerY);
-        self.addUserBtn.center = CGPointMake(x * i ++, centerY);
+        self.addUserBtn.center = CGPointMake(kMembersToolbarWidth-50/2-15, centerY);
         
         self.requestInteractBtn.center = CGPointMake(78 * 0.5 + 20, centerY);
 //        self.endInteractBtn.center = CGPointMake(x * 1.5, centerY);
@@ -339,12 +342,21 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
                 cell.compereLabel.hidden = NO; // 主持人
             } else {
                 // 交互按钮
+//                if (user.interactionState == 1) { // 允许互动
+//                    cell.endBtn.hidden = NO; // 显示 结束互动按钮
+//                }  else if (user.interactionState == 2) { // 申请互动中
+//                    cell.requestingLabel.hidden = NO; // 申请互动中
+//                } else {
+//                    cell.allowBtn.hidden = NO;
+//                }
                 if (user.interactionState == 1) { // 允许互动
-                    cell.endBtn.hidden = NO; // 显示 结束互动按钮
-                }  else if (user.interactionState == 2) { // 申请互动中
-                    cell.requestingLabel.hidden = NO; // 申请互动中
+                    cell.interactingLabel.hidden = NO;
+                } else if (user.interactionState == 2) { // 申请互动中
+                    cell.requestingLabel.hidden = NO;
                 } else {
-                    cell.allowBtn.hidden = NO;
+                    // 参会中
+                    [cell setUserState:user.state];
+                    cell.stateLabel.hidden = NO;
                 }
             }
         } else {
@@ -471,17 +483,17 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 
 // 全员禁止按钮
 - (void)clickEnableVoiceBtn {
-    NSString *message = self.enableVoiceBtn.isSelected? @"取消全员禁音？": @"开启全员禁音？";
+    NSString *message = self.enableVoiceBtn.isSelected? @"取消 全员禁音？": @"开启 全员禁音？";
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
         NSString *soundState = @"1";
         NSString *failStr = @"取消全员禁音失败";
-        //    UIColor *color = [CTCommonUtil convert16BinaryColor:@"#777777"];
+        UIColor *color = [CTCommonUtil convert16BinaryColor:@"#dddddd"];
         BOOL selected = !self.enableVoiceBtn.isSelected;
         if (selected) {
             soundState = @"0";
-            //        color = CTThemeMainColor;
+            color = CTThemeMainColor;
             failStr = @"全员禁音失败";
         }
         
@@ -489,7 +501,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:@"all" soundState:soundState videoState:nil interactionState:nil compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
             [weakself sendUpdateStatesCommandWithUserID:[ObjectShareTool currentUserID]];
             weakself.enableVoiceBtn.selected = selected;
-            //        weakself.enableVoiceBtn.backgroundColor = color;
+            weakself.enableVoiceBtn.backgroundColor = color;
         } fail:^(NSError *error) {
             [CTToast showWithText: failStr];
         }];
@@ -502,17 +514,17 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 }
 
 - (void)clickEnableVideoBtn {
-    NSString *message = self.enableVideoBtn.isSelected? @"取消全员禁频？": @"开启全员禁频？";
+    NSString *message = self.enableVideoBtn.isSelected? @"取消 全员禁频？": @"开启 全员禁频？";
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
         NSString *videoState = @"1";
         NSString *failStr = @"取消全员禁频失败";
-        //    UIColor *color = [CTCommonUtil convert16BinaryColor:@"#777777"];
+        UIColor *color = [CTCommonUtil convert16BinaryColor:@"#dddddd"];
         BOOL selected = !self.enableVideoBtn.isSelected;
         if (selected) {
             videoState = @"0";
-            //        color = CTThemeMainColor;
+            color = CTThemeMainColor;
             failStr = @"全员禁频失败";
         }
         
@@ -520,7 +532,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:@"all" soundState:nil videoState:videoState interactionState:nil compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
             [weakself sendUpdateStatesCommandWithUserID:[ObjectShareTool currentUserID]];
             weakself.enableVideoBtn.selected = selected;
-            //        weakself.enableVideoBtn.backgroundColor = color;
+            weakself.enableVideoBtn.backgroundColor = color;
         } fail:^(NSError *error) {
             [CTToast showWithText:failStr];
         }];
@@ -915,6 +927,10 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         }
     }
     
+    [self checkAllVoiceOrVideoDisable];
+}
+
+- (void)checkAllVoiceOrVideoDisable {
     // 是否全员禁音或者全员禁频
     if (self.isMeetingCreator) {
         BOOL allVoiceDisable = YES;
@@ -937,16 +953,15 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
                 break;
             }
         }
-        if (allVoiceDisable) {
-            self.enableVoiceBtn.selected = allVoiceDisable;
-//            self.enableVoiceBtn.backgroundColor = CTThemeMainColor;
-        }
-        if (allVideoDisable) {
-            self.enableVideoBtn.selected = allVideoDisable;
-//            self.enableVideoBtn.backgroundColor = CTThemeMainColor;
-        }
-    }
 
+        UIColor *color = [YCTool colorOfHex:0xdddddd];
+        self.enableVoiceBtn.selected = allVoiceDisable;// normal 是 “禁止”，灰色，处于 非禁止状态
+        self.enableVoiceBtn.backgroundColor = allVoiceDisable? CTThemeMainColor: color;
+        
+        self.enableVideoBtn.selected = allVideoDisable;
+        self.enableVideoBtn.backgroundColor = allVideoDisable? CTThemeMainColor: color;
+
+    }
 }
 
 - (void)showRequsetForInteractionWithUserID:(NSString *)userID {
@@ -982,7 +997,8 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     self.meetingCreatorID = state.ycCompereID;
     
     // 更新底部工具栏
-    if (state.ycIsCompere) {
+    // 如果由成员变成了主持人
+    if (state.ycIsCompere && self.requestInteractBtn) {
         [self.requestInteractBtn removeFromSuperview];
         [self.endInteractBtn removeFromSuperview];
         [self.toolBar removeFromSuperview];
@@ -990,7 +1006,10 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         self.endInteractBtn = nil;
         self.toolBar = nil;
         [self setupBar];
-    } else {
+    }
+    
+    // 如果由主持人变成了成员
+    if (!state.ycIsCompere && self.enableVoiceBtn) {
         [self.enableVoiceBtn removeFromSuperview];
         [self.enableVideoBtn removeFromSuperview];
         [self.changeCompereBtn removeFromSuperview];

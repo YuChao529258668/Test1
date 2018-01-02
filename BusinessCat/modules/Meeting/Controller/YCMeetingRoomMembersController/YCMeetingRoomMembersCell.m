@@ -32,11 +32,11 @@
     [self.allowBtn addTarget:self action:@selector(clickAllowBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.endBtn addTarget:self action:@selector(clickEndBtn) forControlEvents:UIControlEventTouchUpInside];
     
-    self.interactingLabel.backgroundColor = CTThemeMainColor;
-    self.requestingLabel.backgroundColor = self.allowBtn.backgroundColor;
+//    self.interactingLabel.backgroundColor = CTThemeMainColor;
+//    self.requestingLabel.backgroundColor = self.allowBtn.backgroundColor;
     self.requestingLabel.textColor = [UIColor redColor];
     
-    self.avatarIV.tintColor = [UIColor darkGrayColor];
+//    self.avatarIV.tintColor = [UIColor darkGrayColor];
 }
 
 + (float)cellHeight {

@@ -53,7 +53,7 @@
 //// 双击变成全屏或恢复
 //- (void)handleDoubleTap;
 
-// 是否允许画画,画板工具栏所有按钮enable = NO
+// 是否允许互动,画板工具栏所有按钮enable = NO
 - (void)enableDraw:(BOOL)enable;
 // 翻页是否同步给其他人
 - (void)enableSwitchPage:(BOOL)enable;

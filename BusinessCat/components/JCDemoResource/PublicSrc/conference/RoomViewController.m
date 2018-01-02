@@ -650,6 +650,7 @@ typedef enum {
 }
 
 #pragma mark - Button action
+
 // 取消加入会议事件
 - (IBAction)cancel:(id)sender {
     
@@ -665,6 +666,11 @@ typedef enum {
             [self.navigationController popViewControllerAnimated:YES];
         }
     }
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    
+    [self removeKeyboardObserver];
+
 }
 
 // 会议信息

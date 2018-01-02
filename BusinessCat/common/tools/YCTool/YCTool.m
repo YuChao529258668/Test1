@@ -47,4 +47,9 @@
     return title;
 }
 
+// 16进制颜色
++ (UIColor *)colorOfHex:(NSInteger)s {
+    return [UIColor colorWithRed:(((s & 0xFF0000) >> 16 )) / 255.0 green:(((s & 0xFF00) >> 8 )) / 255.0 blue:((s & 0xFF)) / 255.0 alpha:1.0];
+}
+
 @end

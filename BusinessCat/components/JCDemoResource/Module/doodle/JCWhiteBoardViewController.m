@@ -165,6 +165,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 //@property (nonatomic,assign) CGSize viewWillTransitionToSize;
 
 @property (nonatomic,assign) BOOL isSyncSwitchPage; // 是否同步翻页给其他人
+@property (nonatomic,assign) BOOL interactState; // 是否允许互动
 
 
 
@@ -353,7 +354,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+
     [self.view addSubview:self.doodleView];
     if (!self.doodletoolbar.superview) {
         [self.view addSubview:self.doodletoolbar];
@@ -639,7 +640,6 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
             [_doodleDraw addPointWithPositionX:cPoint.x positionY:cPoint.y];
         }
         
-        
     }
 }
 
@@ -696,7 +696,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     self.prevBtn.hidden = hidden;
     self.nextBtn.hidden = hidden;
     self.pageLabel.hidden = hidden;
-    self.closeDocBtn.hidden = hidden;
+//    self.closeDocBtn.hidden = hidden;
     self.pageCount = images.count;
     [self updatePageLabel];
 }
@@ -883,6 +883,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [closeBtn setImage:[UIImage imageNamed:@"video_close"] forState:UIControlStateNormal];
     [closeBtn addTarget:self action:@selector(closeDocBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    closeBtn.hidden = YES;
     [self.view addSubview:closeBtn];
     self.closeDocBtn = closeBtn;
     
@@ -945,11 +946,11 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 }
 
 - (void)updatePageLabel {
-    self.pageLabel.text = [NSString stringWithFormat:@"%ld/%ld", self.currentPage + 1, self.pageCount];
-    self.closeDocBtn.hidden = NO;
+    self.pageLabel.text = [NSString stringWithFormat:@"%lu/%ld", self.currentPage + 1, (unsigned long)self.pageCount];
+//    self.closeDocBtn.hidden = NO;
     if (_backgroundImages.count == 0) {
         self.pageLabel.text = @"0/0";
-        self.closeDocBtn.hidden = YES;
+//        self.closeDocBtn.hidden = YES;
     }
     [self layoutPPTViews];
 }
@@ -963,7 +964,10 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     [self updatePageLabel];
     self.closeDocBtn.hidden = YES;
     
-    [self updateMeetingFile:nil fileType:0 withSuccess:nil];
+    __weak typeof(self) weakself = self;
+    [self updateMeetingFile:nil fileType:0 withSuccess:^{
+        [weakself sendChangeCoursewareCommand];
+    }];
 }
 
 - (void)layoutPPTViews {
@@ -1132,6 +1136,9 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
                 [weakself.closeDocBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
             }
             return;
+        } else {
+            // 有课件
+            self.closeDocBtn.hidden = !self.interactState;
         }
         
 //        if (weakself.meetingFile) {
@@ -1247,6 +1254,15 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         _actionMode = TouchActionNone;
     }
     [self.doodletoolbar enableInteraction:enable];
+    
+//    self.closeDocBtn.hidden = !enable;
+    if (self.meetingFile.pageCount > 0 && enable) {
+        self.closeDocBtn.hidden = NO;
+    } else {
+        self.closeDocBtn.hidden = YES;
+    }
+    
+    self.interactState = enable;
 }
 
 // 翻页是否同步给其他人

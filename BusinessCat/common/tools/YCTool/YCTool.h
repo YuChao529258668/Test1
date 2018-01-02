@@ -16,4 +16,7 @@
 // x 小时 x 分钟 x 秒，倒计时
 + (NSString *)countDonwStringWithTargetDate:(NSTimeInterval)interval;
 
+// 16进制颜色
++ (UIColor *)colorOfHex:(NSInteger)s;
+
 @end

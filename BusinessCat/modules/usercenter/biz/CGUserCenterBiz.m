@@ -117,10 +117,10 @@
 
 //获取用户信息
 -(void)queryUserDetailInfoWithCode:(NSString *)code success:(void(^)(CGUserEntity *user))success fail:(void (^)(NSError *error))fail{
-  NSMutableDictionary *param = [NSMutableDictionary dictionary];
-  if ([CTStringUtil stringNotBlank:code]) {
-    [param setObject:code forKey:@"code"];
-  }
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    if ([CTStringUtil stringNotBlank:code]) {
+        [param setObject:code forKey:@"code"];
+    }
     [self.component sendPostRequestWithURL:URL_USER_DETAIL param:param success:^(id data) {
         [CGUserEntity mj_setupObjectClassInArray:^NSDictionary *{
             return @{
@@ -129,36 +129,41 @@
                      @"companyList":@"CGUserOrganizaJoinEntity"
                      };
         }];
-      [CGUserOrganizaJoinEntity mj_setupObjectClassInArray:^NSDictionary *{
-        return @{
-                 @"auditInfo" : @"CGAuditInfoEntity",
-                 };
-      }];
+        [CGUserOrganizaJoinEntity mj_setupObjectClassInArray:^NSDictionary *{
+            return @{
+                     @"auditInfo" : @"CGAuditInfoEntity",
+                     };
+        }];
         
         CGUserEntity *user = [CGUserEntity mj_objectWithKeyValues:data];
-      [UMessage addAlias:user.uuid type:UMessagePush_Alias response:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
         
-      }];
+        [UMessage addAlias:user.uuid type:UMessagePush_Alias response:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+            
+        }];
+        
         [ObjectShareTool sharedInstance].currentUser = user;
-      if (user.isLogin == YES) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:NotificationDiscoverHasLastData object:[TeamCircleLastStateEntity getFromLocal]];
-      }else{
-        TeamCircleLastStateEntity *entity = [TeamCircleLastStateEntity getFromLocal];
-        entity.badge.userName = nil;
-        entity.badge.portrait = nil;
-        [[NSNotificationCenter defaultCenter]postNotificationName:NotificationDiscoverHasLastData object:entity];
-      }
-      if ([ObjectShareTool sharedInstance].isloginState == 1) {
-        [ObjectShareTool sharedInstance].isloginState = 0;
-        NSString *message = [NSString stringWithFormat:@"准备清除用户信息但我没清--uuid:%@,identity:%@,token:%@,isLogin:%d",[ObjectShareTool sharedInstance].currentUser.uuid,[CTDeviceTool getUniqueDeviceIdentifierAsString],[ObjectShareTool sharedInstance].currentUser.token,0];
-        UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [al show];
-      }
-      if (user.isLogin == 0) {
-//        UIWindow *window = [UIApplication sharedApplication].keyWindow;
-//        [[CTToast makeText:@"用户信息返回没有登录"]show:window];
-          NSLog(@"尝试获取用户信息：用户没有登录 %@", NSStringFromSelector(_cmd));
-      }
+        if (user.isLogin == YES) {
+            [[NSNotificationCenter defaultCenter]postNotificationName:NotificationDiscoverHasLastData object:[TeamCircleLastStateEntity getFromLocal]];
+        }else{
+            TeamCircleLastStateEntity *entity = [TeamCircleLastStateEntity getFromLocal];
+            entity.badge.userName = nil;
+            entity.badge.portrait = nil;
+            [[NSNotificationCenter defaultCenter]postNotificationName:NotificationDiscoverHasLastData object:entity];
+        }
+        
+        if ([ObjectShareTool sharedInstance].isloginState == 1) {
+            [ObjectShareTool sharedInstance].isloginState = 0;
+            NSString *message = [NSString stringWithFormat:@"准备清除用户信息但我没清--uuid:%@,identity:%@,token:%@,isLogin:%d",[ObjectShareTool sharedInstance].currentUser.uuid,[CTDeviceTool getUniqueDeviceIdentifierAsString],[ObjectShareTool sharedInstance].currentUser.token,0];
+            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [al show];
+        }
+        
+        if (user.isLogin == 0) {
+            //        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+            //        [[CTToast makeText:@"用户信息返回没有登录"]show:window];
+            NSLog(@"尝试获取用户信息：用户没有登录 %@", NSStringFromSelector(_cmd));
+        }
+        
         if(user.isLogin == 0 && [CTStringUtil stringNotBlank:user.phone]){
             [[[CGUserDao alloc]init]cleanLoginedUser];
             [self getToken:^(NSString *uuid, NSString *token) {
