@@ -73,8 +73,6 @@ kDefaultSystemIcon
 修改 ChatInputPanel 的 onKeyboardDidShow 方法， 修复了聊天界面表情框和键盘相对位置不正确的 bug。
 修改 IMAChatViewController 的 layoutTableView 方法，修复了表视图高度不正确的 bug。
 
-聊天界面，看不到头像。
-
 选择部分联系人 CGDiscoverPartSeeAddressViewController
 
 聊天界面是 IMAChatViewController，适配旧代码主要修改这个。聊天界面右上角按钮在 CustomChatUIViewController 里面，就在这里修改，在自定义的导航栏视图添加按钮。
@@ -238,9 +236,30 @@ BOOL canReceiveVideo = model.isVideoUpload && model.isVideoForward;
     }
 
 
+
 登录问题
 CGUserDao、CTNetWorkUtil、CGUserCenterBiz
 
 
 音频干扰
 MtcMediaHowlingDetectedNotification
+
+聊天输入框
+ChatInputTextView
+
+聊天表情
+ChatSystemFaceConfig.plist
+
+
+聊天头像
+TIMConversation *conv = _msg.getConversation;
+IMAConversation *conv2 = [[IMAConversation alloc] initWith:conv];
+IMAUser *user = [[IMAPlatform sharedInstance] getReceiverOf:conv2];
+_msg 是 IMAMsg 的 TIMMessage 对象变量
+
+TIMUserProfile *p = [_msg getSenderProfile]; // 单聊拿不到头像，群聊就可以。
+IMAUser *user = [[IMAUser alloc] initWithUserInfo:p];
+
+
+
+

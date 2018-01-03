@@ -9,9 +9,9 @@
 #import "ChatSystemFacePageView.h"
 
 @interface ChatSystemFacePageView ()
-@property (nonatomic,assign) int countInPage;
-@end;
+@property (nonatomic,assign) int countInPage; // iphone 5, 20个。其他的是26个
 
+@end;
 
 
 // iphone 5, 20个。其他的是26个
@@ -47,7 +47,7 @@
 
 - (void)addOwnViews
 {
-    for (NSInteger i = 0; i < 20; i++)
+    for (NSInteger i = 0; i < _countInPage; i++)
     {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btn addTarget:self action:@selector(onClickFace:) forControlEvents:UIControlEventTouchUpInside];
@@ -78,7 +78,7 @@
         return;
     }
     NSInteger i = 0;
-    while (i < 20)
+    while (i < _countInPage)
     {
         UIButton *btn = self.subviews[i];
         if (index + i < faces.count)
@@ -147,6 +147,12 @@
 
 @end
 
+#pragma mark -
+
+@interface ChatSystemFaceView ()
+@property (nonatomic,assign) int countInPage; // iphone 5, 20个。其他的是26个
+
+@end
 
 @implementation ChatSystemFaceView
 
@@ -155,8 +161,17 @@
     if (self = [super init])
     {
         _contentHeight = 215;
+
     }
     return self;
+}
+
+- (int)countInPage {
+    _countInPage = 20;
+    if ([UIScreen mainScreen].bounds.size.width > 320) {
+        _countInPage = 26;
+    }
+    return _countInPage;
 }
 
 - (void)addOwnViews
@@ -168,7 +183,7 @@
     _pageControl.currentPageIndicatorTintColor = [UIColor flatOrangeColor];
     
     NSInteger count = [ChatSystemFaceHelper sharedHelper].systemFaces.count;
-    NSInteger pages = count % 20 ? count / 20 + 1 :  count / 20;
+    NSInteger pages = count % self.countInPage ? count / self.countInPage + 1 :  count / self.countInPage;
     
     NSMutableArray *pageViews = [NSMutableArray array];
     for (NSInteger i = 0; i < pages; i++)
@@ -196,7 +211,7 @@
     if (page >= 0 && page < _pages.count)
     {
         ChatSystemFacePageView *pageView = (ChatSystemFacePageView *)_pages[page];
-        [pageView configStart:page * 20];
+        [pageView configStart:page * _countInPage];
     }
     
 }

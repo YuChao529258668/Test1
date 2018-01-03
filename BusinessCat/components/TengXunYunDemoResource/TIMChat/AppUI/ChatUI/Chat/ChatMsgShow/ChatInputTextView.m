@@ -21,6 +21,12 @@
         
         self.selectable = YES;
 
+//        self.contentInset = UIEdgeInsetsZero;
+        self.textContainerInset = UIEdgeInsetsMake(8, 0, 8, 0);
+//        self.scrollIndicatorInsets = UIEdgeInsetsZero;
+        self.textContainer.lineFragmentPadding = 5;
+//        self.textAlignment = NSTextAlignmentCenter;
+        self.font = [UIFont systemFontOfSize:13];
     }
     return self;
 }

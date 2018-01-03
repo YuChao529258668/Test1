@@ -35,7 +35,7 @@
 - (void)setIcon:(NSString *)icon {
     _icon = icon;
     
-    if (icon && ![icon containsString:@"http"]) {
+    if (icon && icon.length>0 && ![icon containsString:@"http"]) {
         _icon = [NSString stringWithFormat:@"http://pic.jp580.com/%@", icon];
     }
     
