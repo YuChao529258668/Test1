@@ -10,6 +10,14 @@
 
 @implementation YCMeetingUser
 
+- (void)setUserIcon:(NSString *)userIcon {
+    _userIcon = userIcon;
+    
+    if (userIcon && ![userIcon containsString:@"http"]) {
+        _userIcon = [NSString stringWithFormat:@"http://pic.jp580.com/%@", userIcon];
+    }
+}
+
 @end
 
 

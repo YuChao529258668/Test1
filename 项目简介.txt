@@ -59,6 +59,11 @@ MJExtension:json、字典、数组、对象之间的转换
 5.4 会话列表 cell： ConversationListTableViewCell
 设置头像 [_conversationIcon sd_setBackgroundImageWithURL:[_showItem showIconUrl] forState:UIControlStateNormal placeholderImage:[_showItem defaultShowImage]];
 
+默认头像
+kDefaultUserIcon
+kDefaultGroupIcon
+kDefaultSystemIcon
+
 5.5 通讯录 CGUserContactsViewController
 
 5.6 白色加号图片 common_add_white，蓝色加号 add
@@ -118,6 +123,9 @@ NOTIFICATION_LOGINSUCCESS
 return _profile.faceURL; // 聊天界面头像
 }
 
+聊天头像
+showIconUrl
+
 聊天头像，好友聊天，通过修改 IMAMsg 的 getSender 方法修复：注释掉原配的，启用原配注释掉的。
 - (IMAUser *)getSender
 {
@@ -130,6 +138,7 @@ IMAUser *user = [[IMAPlatform sharedInstance].contactMgr getUserByUserId:sender]
 }
 TIM_GROUP 分支也修改了。
 
+上面说的什么原配，又改回来了。。。
 
 
 获取当期用户

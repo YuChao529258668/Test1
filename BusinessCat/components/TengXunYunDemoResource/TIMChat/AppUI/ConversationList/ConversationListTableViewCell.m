@@ -130,8 +130,12 @@ static void extracted(ConversationListTableViewCell *object) {
 
 - (void)updateCellOnNewMessage
 {
-    [_conversationIcon sd_setBackgroundImageWithURL:[_showItem showIconUrl] forState:UIControlStateNormal placeholderImage:[_showItem defaultShowImage]];
-        
+    if ([_showItem showIconUrl]) {
+        [_conversationIcon sd_setBackgroundImageWithURL:[_showItem showIconUrl] forState:UIControlStateNormal placeholderImage:[_showItem defaultShowImage]];
+    } else {
+        [_conversationIcon setBackgroundImage:[_showItem defaultShowImage] forState:UIControlStateNormal];
+    }
+    
     _conversationName.text = [_showItem showTitle];
     
     _lastMsgTime.text = [_showItem lastMsgTime];

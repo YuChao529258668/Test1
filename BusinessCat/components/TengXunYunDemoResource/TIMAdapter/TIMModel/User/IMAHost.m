@@ -41,7 +41,13 @@
 - (NSString *)icon
 {
 //    return nil;
-    return _profile.faceURL; // 聊天界面头像
+//    return _profile.faceURL; // 聊天界面头像
+
+    NSString *avatar = _profile.faceURL;
+    if (avatar && ![avatar containsString:@"http"]) {
+        avatar = [NSString stringWithFormat:@"http://pic.jp580.com/%@", avatar];
+    }
+    return avatar;
 }
 - (NSString *)remark
 {

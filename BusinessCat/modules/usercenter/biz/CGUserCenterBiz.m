@@ -49,6 +49,7 @@
 //      UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"没传secucode" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
 //      [al show];
         NSLog(@"secucode = nil %@", NSStringFromSelector(_cmd));
+        NSLog(@"获取 token: secucode 为空");
         [CTToast showWithText:@"获取 token: secucode 为空"];
     }
     
@@ -60,6 +61,7 @@
 //        NSLog(@"token = %@", token);
 
         if (!secuCode) {
+            NSLog(@"获取token成功：返回的 secucode 为空！");
             UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"获取 token，返回的 secucode 为空！" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             }];
@@ -94,9 +96,10 @@
 -(void)loginWithPhone:(NSString *)phone verifyCode:(NSString *)verifyCode success:(void(^)(CGUserEntity *user))success fail:(void (^)(NSError *error))fail{
     NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:phone,@"phone",verifyCode,@"verifyCode", nil];
     [self.component sendPostRequestWithURL:URL_USER_LOGIN param:param success:^(id data) {
-        NSString *uuid = [data objectForKey:@"uuid"];
+//        NSString *uuid = [data objectForKey:@"uuid"];
+        NSString *secuCode = [data objectForKey:@"secuCode"];
         NSString *token = [data objectForKey:@"token"];
-        if([[[CGUserDao alloc]init] saveUserWithSecuCode:uuid token:token]){
+        if([[[CGUserDao alloc]init] saveUserWithSecuCode:secuCode token:token]){
             success([ObjectShareTool sharedInstance].currentUser);
         }else{
             fail(nil);

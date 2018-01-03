@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13528" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13526"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,7 +27,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="嘉" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="byp-3M-sRl">
-                        <rect key="frame" x="84" y="12.5" width="11.5" height="13.5"/>
+                        <rect key="frame" x="84" y="20" width="11.5" height="13.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -39,7 +39,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ePN-am-4UV">
-                        <rect key="frame" x="308" y="9" width="56" height="34"/>
+                        <rect key="frame" x="302" y="9" width="56" height="34"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="56" id="cVb-Aj-6Ug"/>
                             <constraint firstAttribute="height" constant="34" id="rV8-ym-xzS"/>
@@ -49,13 +49,13 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="7bC-3r-NcU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="2hU-2J-5OE"/>
-                    <constraint firstAttribute="trailing" secondItem="ePN-am-4UV" secondAttribute="trailing" constant="11" id="8QH-Uu-ft0"/>
+                    <constraint firstAttribute="trailing" secondItem="ePN-am-4UV" secondAttribute="trailing" constant="17" id="8QH-Uu-ft0"/>
                     <constraint firstItem="ePN-am-4UV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="Mgy-oG-esJ"/>
                     <constraint firstItem="7bC-3r-NcU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="32" id="Q5K-FY-SYR"/>
-                    <constraint firstItem="dHB-gw-jG7" firstAttribute="top" secondItem="byp-3M-sRl" secondAttribute="bottom" constant="5" id="V0Q-12-YDg"/>
                     <constraint firstItem="byp-3M-sRl" firstAttribute="leading" secondItem="7bC-3r-NcU" secondAttribute="trailing" constant="10" id="XnO-QR-dvt"/>
                     <constraint firstAttribute="bottomMargin" secondItem="dHB-gw-jG7" secondAttribute="bottom" constant="1" id="ddd-tg-p0H"/>
                     <constraint firstItem="dHB-gw-jG7" firstAttribute="leading" secondItem="7bC-3r-NcU" secondAttribute="trailing" constant="10" id="piO-eV-Pj4"/>
+                    <constraint firstItem="byp-3M-sRl" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="qaY-YW-egp"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

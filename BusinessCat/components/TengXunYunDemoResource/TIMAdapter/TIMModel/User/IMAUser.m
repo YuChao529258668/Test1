@@ -31,6 +31,24 @@
     return self;
 }
 
+// IMAUser 不走这里
+- (void)setIcon:(NSString *)icon {
+    _icon = icon;
+    
+    if (icon && ![icon containsString:@"http"]) {
+        _icon = [NSString stringWithFormat:@"http://pic.jp580.com/%@", icon];
+    }
+    
+    
+//    if (_icon) {
+//        NSLog(@"聊天头像 %@", _icon);
+//        NSLog(@"聊天昵称 %@", _nickName);
+//    }
+    NSLog(@"聊天头像 %@", _icon);
+    NSLog(@"聊天昵称 %@", _nickName);
+
+}
+
 #pragma IMAUserShowAble method
 
 - (NSURL *)showIconUrl

@@ -16,7 +16,7 @@
 @property (nonatomic,assign) int state; // 当前状态:0未进入,1开会中,2已离开,4禁止
 @property (nonatomic,strong) NSString *timeB;
 @property (nonatomic,strong) NSString *timeE;
-@property (nonatomic,strong) NSString *userIcon;
+@property (nonatomic,strong) NSString *userIcon; // 头像。要加前缀
 @property (nonatomic,strong) NSString *userName;
 @property (nonatomic,strong) NSString *userid;
 @property (nonatomic,strong) NSString *position;// 职位

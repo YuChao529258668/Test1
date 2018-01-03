@@ -82,6 +82,9 @@ static ObjectShareTool *_sharedManager;
           if (_currentUser) {
               NSLog(@"解档 currentUser = %@", _currentUser);
               NSLog(@"解档 secuCode = %@", _currentUser.secuCode);
+              if (!_currentUser.secuCode) {
+                  NSLog(@"解档 secucode 为空");
+              }
               NSLog(@"解档 token = %@", _currentUser.token);
           } else {
               NSLog(@"读取用户缓存信息失败");

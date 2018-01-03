@@ -1608,19 +1608,27 @@ typedef enum {
 #pragma mark - 音频干扰
 
 - (void)handleHowlingDetectedNotification:(NSNotification *)noti {
-    [CTToast showWithText:@"检测到音频干扰。已关闭麦克风"];
-    __weak typeof(self) weakself = self;
-    UIButton *soundBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
-
-    int success = [_meetingReformer setAudioEnabled:NO completion:^(BOOL isAudioEnabled) {
-        [YCMeetingRoomMembersController sendUpdateStatesCommandWithMeetingID:weakself.meetingID];
-        [weakself.membersVC reloadTableView];
+//    [CTToast showWithText:@"检测到音频干扰。已关闭麦克风。请确保只有一个用户开启麦克风"];
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"检测到音频干扰，已关闭扬声器。请确保附近只有一个用户开启扬声器" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
     }];
-    if (success == JCOK) {
-        soundBtn.selected = NO;
-    } else {
-        [CTToast showWithText:@"更改麦克风状态失败"];
-    }
+    [ac addAction:sure];
+    [self presentViewController:ac animated:YES completion:nil];
+    
+    __weak typeof(self) weakself = self;
+    UIButton *vBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonVolume];
+    [_meetingReformer setMuteEnabled:NO];
+    vBtn.selected = NO;
+
+//    int success = [_meetingReformer setAudioEnabled:NO completion:^(BOOL isAudioEnabled) {
+//        [YCMeetingRoomMembersController sendUpdateStatesCommandWithMeetingID:weakself.meetingID];
+//        [weakself.membersVC reloadTableView];
+//    }];
+//    if (success == JCOK) {
+//        soundBtn.selected = NO;
+//    } else {
+//        [CTToast showWithText:@"更改麦克风状态失败"];
+//    }
 
 }
 

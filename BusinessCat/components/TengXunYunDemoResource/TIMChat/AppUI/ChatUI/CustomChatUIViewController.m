@@ -24,15 +24,16 @@
 - (void)setupRightBtn {
     BOOL isUser = [_receiver isC2CType];
     UIImage *person = [UIImage imageNamed:@"person"];
+    person = [person imageWithTintColor:[UIColor blackColor]];
     UIImage *group = [UIImage imageNamed:@"group"];
-    group = [group imageWithTintColor:[UIColor whiteColor]];
+    group = [group imageWithTintColor:[UIColor blackColor]];
     
 //    UIImage *norimage =  isUser ? [UIImage imageNamed:@"person"] :  [UIImage imageNamed:@"group"];
     UIImage *norimage =  isUser ? person :  group;
-    UIImage *higimage =  isUser ? [UIImage imageNamed:@"person_hover"] :  [UIImage imageNamed:@"group_hover"];
+//    UIImage *higimage =  isUser ? [UIImage imageNamed:@"person_hover"] :  [UIImage imageNamed:@"group_hover"];
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, norimage.size.width, norimage.size.height)];
     [btn setImage:norimage forState:UIControlStateNormal];
-    [btn setImage:higimage forState:UIControlStateHighlighted];
+//    [btn setImage:higimage forState:UIControlStateHighlighted];
     [btn addTarget:self action:@selector(onClickChatSetting) forControlEvents:UIControlEventTouchUpInside];
     
     CGRect frame = btn.frame;

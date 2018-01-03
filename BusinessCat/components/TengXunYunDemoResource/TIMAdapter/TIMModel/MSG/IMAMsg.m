@@ -460,8 +460,8 @@
         
         if (member)
         {
-//            IMAUser *user = [[IMAUser alloc] initWithUserInfo:[_msg getSenderProfile]]; // 原配
-            IMAUser *user = [[IMAPlatform sharedInstance].contactMgr getUserByUserId:[_msg sender]]; // 被 demo 注释掉的，但却能正常工作的，fuck
+            IMAUser *user = [[IMAUser alloc] initWithUserInfo:[_msg getSenderProfile]]; // 原配
+//            IMAUser *user = [[IMAPlatform sharedInstance].contactMgr getUserByUserId:[_msg sender]]; // 被 demo 注释掉的，但却能正常工作的，fuck
 
             [member setIcon:user.icon];
             

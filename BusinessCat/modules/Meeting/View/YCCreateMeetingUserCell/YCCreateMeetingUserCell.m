@@ -20,6 +20,7 @@
     self.avatarIV.clipsToBounds = YES;
     
     [self.reduceBtn addTarget:self action:@selector(reduceBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    self.positionLabel.hidden = YES;
 }
 
 - (void)reduceBtnClick {
