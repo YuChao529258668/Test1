@@ -324,6 +324,8 @@
 		0D9113AE1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D9113AC1FCD5B8D0031DEF9 /* YCMeetingRoomMembersCell.xib */; };
 		0DA9C38B1FA8270D00A91427 /* CGChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA9C38A1FA8270D00A91427 /* CGChatListViewController.m */; };
 		0DA9C38E1FA8492B00A91427 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA9C38D1FA8492B00A91427 /* StoreKit.framework */; };
+		0DAB30921FFDC57600E0DA26 /* YCMeetingDesktopController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DAB30901FFDC57500E0DA26 /* YCMeetingDesktopController.m */; };
+		0DAB30931FFDC57600E0DA26 /* YCMeetingDesktopController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DAB30911FFDC57500E0DA26 /* YCMeetingDesktopController.xib */; };
 		0DBF462D1FB3053600707C12 /* JusLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF45E51FB3053500707C12 /* JusLogin.framework */; };
 		0DBF462E1FB3053600707C12 /* JCApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF46241FB3053500707C12 /* JCApi.framework */; };
 		0DBF46321FB3057200707C12 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF46311FB3056D00707C12 /* VideoToolbox.framework */; };
@@ -2147,6 +2149,9 @@
 		0DA9C38A1FA8270D00A91427 /* CGChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGChatListViewController.m; sourceTree = "<group>"; };
 		0DA9C38C1FA8492700A91427 /* BusinessCat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BusinessCat.entitlements; sourceTree = "<group>"; };
 		0DA9C38D1FA8492B00A91427 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		0DAB308F1FFDC57500E0DA26 /* YCMeetingDesktopController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingDesktopController.h; sourceTree = "<group>"; };
+		0DAB30901FFDC57500E0DA26 /* YCMeetingDesktopController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingDesktopController.m; sourceTree = "<group>"; };
+		0DAB30911FFDC57500E0DA26 /* YCMeetingDesktopController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCMeetingDesktopController.xib; sourceTree = "<group>"; };
 		0DBF45E51FB3053500707C12 /* JusLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JusLogin.framework; sourceTree = "<group>"; };
 		0DBF45EB1FB3053500707C12 /* zpios_osenv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zpios_osenv.h; sourceTree = "<group>"; };
 		0DBF45EC1FB3053500707C12 /* zos_osenv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zos_osenv.h; sourceTree = "<group>"; };
@@ -4196,6 +4201,7 @@
 		0D7431021FB93D0D002867FA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0DAB308E1FFDC53900E0DA26 /* Desktop */,
 				0DDE74191FF4F1F500063651 /* CompereCommand */,
 				0D9113A41FCD59B70031DEF9 /* YCMeetingRoomMembersController */,
 				0D57A53F1FC5A5D6008C30C7 /* YCSelectMeetingTimeController */,
@@ -5519,6 +5525,16 @@
 			children = (
 			);
 			path = view;
+			sourceTree = "<group>";
+		};
+		0DAB308E1FFDC53900E0DA26 /* Desktop */ = {
+			isa = PBXGroup;
+			children = (
+				0DAB308F1FFDC57500E0DA26 /* YCMeetingDesktopController.h */,
+				0DAB30901FFDC57500E0DA26 /* YCMeetingDesktopController.m */,
+				0DAB30911FFDC57500E0DA26 /* YCMeetingDesktopController.xib */,
+			);
+			path = Desktop;
 			sourceTree = "<group>";
 		};
 		0DBF45DF1FB3053500707C12 /* JCSDK */ = {
@@ -8222,6 +8238,7 @@
 				0DDE74C11FFCD65500063651 /* 53.gif in Resources */,
 				0DDE74E31FFCD65600063651 /* 103.gif in Resources */,
 				0DBF47F51FB3087400707C12 /* volume_off_highlighted@2x.png in Resources */,
+				0DAB30931FFDC57600E0DA26 /* YCMeetingDesktopController.xib in Resources */,
 				0DDE74DE1FFCD65600063651 /* 29.gif in Resources */,
 				181C54B51EC00AAA0064354D /* CGCorporateMemberViewController.xib in Resources */,
 				0DBF47C01FB3087400707C12 /* leave_highlighted@3x.png in Resources */,
@@ -9002,6 +9019,7 @@
 				1836B8371ED53CBB001A1F19 /* CTKnowledgeMealViewController.m in Sources */,
 				183EBAB01F17672C00D6157D /* CGChooseFocusKnowledgeViewController.m in Sources */,
 				18C6C7FE1EEE725D009DFD89 /* CGTeamDocumentViewController.m in Sources */,
+				0DAB30921FFDC57600E0DA26 /* YCMeetingDesktopController.m in Sources */,
 				18E481061F03922700A94FF8 /* bitstream.c in Sources */,
 				186DB6331DD043710076FDCF /* DiscoverPushView.m in Sources */,
 				0D90DF8F1FB43C3A00EDB7CF /* UIViewController+Layout.m in Sources */,

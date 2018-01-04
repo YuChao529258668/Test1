@@ -21,6 +21,8 @@
 #import "MJPopTool.h"
 #import "UIButton+MenuTitleSpacing.h"
 
+#import "YCMeetingDesktopController.h"
+
 #define kMainScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kMainScreenHeight [UIScreen mainScreen].bounds.size.height
 
@@ -146,6 +148,7 @@ typedef enum {
 
 @property (nonatomic,strong) IMAChatViewController *chatVC;
 @property (nonatomic,strong) YCMeetingRoomMembersController *membersVC;
+@property (nonatomic,strong) YCMeetingDesktopController *desktopVC;
 
 //@property (nonatomic,strong) NSString *charRoomID; // 聊天室 id
 @property (nonatomic,strong) CGMeeting *meeting; // 会议详情
@@ -320,7 +323,8 @@ typedef enum {
     
     [_confManager setMaxCapacity:16];
     [_confManager setDefaultAudio:YES]; // 默认打开音频
-    
+    [_confManager setLiveEnable:YES]; // 直播
+    [_confManager setCdnUrl:@"www.baidu.com"];
     
     [self configForCustom]; // 自定义
     self.hintLabel.textColor = [UIColor whiteColor];
@@ -956,6 +960,7 @@ typedef enum {
     
     float y = kVideoViewHeight + kTabBarHeight;
     self.chatVC.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
+    self.desktopVC.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
     self.membersVC.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
     
     // 白板全屏的时候，允许自动旋转
@@ -1083,10 +1088,18 @@ typedef enum {
     [self.titleBtn setTitle:title forState:UIControlStateNormal];
 }
 
+- (void)setupDesktopController {
+    YCMeetingDesktopController *vc = [YCMeetingDesktopController new];
+    self.desktopVC = vc;
+    vc.view.hidden = YES;
+    [self.preview addSubview:vc.view];
+}
+
 #pragma mark - yc_Action
 
 - (void)whiteBoardTabBtnClick {
     self.whiteBoardViewController.view.hidden = NO;
+    self.desktopVC.view.hidden = YES;
     self.chatVC.view.hidden = YES;
     self.membersVC.view.hidden = YES;
 
@@ -1104,7 +1117,7 @@ typedef enum {
 
 - (void)desktopBtnClick {
     self.whiteBoardViewController.view.hidden = YES;
-//    self.desktopBtn.
+    self.desktopVC.view.hidden = NO;
     self.chatVC.view.hidden = YES;
     self.membersVC.view.hidden = YES;
     
@@ -1120,6 +1133,7 @@ typedef enum {
 
 - (void)chatTabBtnClick {
     self.whiteBoardViewController.view.hidden = YES;
+    self.desktopVC.view.hidden = YES;
     self.chatVC.view.hidden = NO;
     self.membersVC.view.hidden = YES;
 
@@ -1136,6 +1150,7 @@ typedef enum {
 
 - (void)memberTabBtnClick {
     self.whiteBoardViewController.view.hidden = YES;
+    self.desktopVC.view.hidden = YES;
     self.chatVC.view.hidden = YES;
     self.membersVC.view.hidden = NO;
 
@@ -1194,6 +1209,7 @@ typedef enum {
         [weakself addMembersControllerWithUsers:meeting.meetingUserList];
         [weakself updateTitleBtn];
         [weakself setupTimer];
+        weakself.desktopVC.meeting = meeting;
     } fail:^(NSError *error) {
         [CTToast showWithText:[NSString stringWithFormat:@"获取会议详情失败 : %@", error]];
     }];
@@ -1384,7 +1400,8 @@ typedef enum {
     _mainView.hidden = NO; //显示加入会议后的主view
 
     [self setupTarBar];
-    
+    [self setupDesktopController];
+
     [self.stopButton removeFromSuperview]; // 结束白板共享按钮
     [self.sidebar removeFromSuperview]; // 右边栏
     
@@ -1420,6 +1437,7 @@ typedef enum {
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.waitInfoView addGestureRecognizer:tap];
+    
 }
 
 

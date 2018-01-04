@@ -1301,10 +1301,12 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 
 // 发送课件改变的命令，收到命令后问服务器给数据
 - (void)sendChangeCoursewareCommand {
-    int success = [[JCEngineManager sharedManager] sendData:kYCChangeCoursewareCommand content:@"YC_CHANGE_COURSEWARE" toReceiver:nil];
-    if (success != JCOK) {
-        [CTToast showWithText:@"发送更新会议文件消息失败"];
-    }
+//    int success = [[JCEngineManager sharedManager] sendData:kYCChangeCoursewareCommand content:@"YC_CHANGE_COURSEWARE" toReceiver:nil];
+//    if (success != JCOK) {
+//        [CTToast showWithText:@"发送更新会议文件消息失败"];
+//    }
+    [[JCEngineManager sharedManager] sendData:kYCChangeCoursewareCommand content:@"YC_CHANGE_COURSEWARE" toReceiver:nil];
+
 }
 
 @end
