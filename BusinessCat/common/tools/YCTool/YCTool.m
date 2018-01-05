@@ -33,13 +33,13 @@
     NSInteger s = t %(60);
     NSMutableString *title = [NSMutableString string];
     if (h) {
-        [title appendFormat:@"%ld小时", h];
+        [title appendFormat:@"%ld小时", (long)h];
     }
     if (m) {
-        [title appendFormat:@"%ld分钟", m];
+        [title appendFormat:@"%ld分钟", (long)m];
     }
     if (s) {
-        [title appendFormat:@"%ld秒", s];
+        [title appendFormat:@"%ld秒", (long)s];
     }
     if (h + m + s == 0) {
         title = [NSMutableString stringWithString:@"0秒"];
@@ -50,6 +50,11 @@
 // 16进制颜色
 + (UIColor *)colorOfHex:(NSInteger)s {
     return [UIColor colorWithRed:(((s & 0xFF0000) >> 16 )) / 255.0 green:(((s & 0xFF00) >> 8 )) / 255.0 blue:((s & 0xFF)) / 255.0 alpha:1.0];
+}
+
++ (void)save:(NSData *)data {
+    // Cache， library, temp, NSDocumentDirectory
+    NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).lastObject;
 }
 
 @end

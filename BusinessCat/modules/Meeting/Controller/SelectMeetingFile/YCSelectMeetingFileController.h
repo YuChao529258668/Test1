@@ -13,5 +13,6 @@
 
 // fileType: 0 文件，1 素材
 @property (nonatomic,copy) void (^didSelectBlock)(CGInfoHeadEntity *entity, int fileType);
+@property (nonatomic,strong) NSString *meetingID;
 
 @end

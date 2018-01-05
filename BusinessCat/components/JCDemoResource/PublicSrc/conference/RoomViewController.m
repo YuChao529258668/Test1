@@ -107,6 +107,9 @@ typedef enum {
 @property (nonatomic,assign) int count;
 @property (nonatomic,assign) long confNumber;
 
+@property (nonatomic,assign) ZUINT confID; // 加入成功后拿到，底层 API 会用到。和 conferenceNumber 不同
+
+
 
 
 
@@ -203,9 +206,9 @@ typedef enum {
         _whiteBoardViewController = [[JCWhiteBoardViewController alloc] init];
         _whiteBoardViewController.meetingID = self.meetingID;
         _whiteBoardViewController.isReview = self.isReview;
-//        [self setupGesture];
+        [self setupGesture];
     }
-    return _whiteBoardViewController;
+    return _whiteBoardViewController;//
 }
 
 - (JCMenuViewController *)menuViewController
@@ -272,6 +275,9 @@ typedef enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    // 监听加入成功，拿到真正的 confid，调用底层 API 要用
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleJoinOkNotification:) name:@MtcConfJoinOkNotification object:nil];
     
     // 音频干扰
     [self addObserverForHowlingDetectedNotification];
@@ -1171,6 +1177,11 @@ typedef enum {
     self.conferenceToolBar.hidden = !self.conferenceToolBar.hidden;
 }
 
+- (void)handleJoinOkNotification:(NSNotification *)noti {
+    ZUINT confId = [noti.userInfo[@MtcConfIdKey] unsignedIntValue];
+    self.confID = confId;
+    self.desktopVC.confID = confId;
+}
 
 #pragma mark - yc_Data
 
@@ -1548,6 +1559,8 @@ typedef enum {
     [self.whiteBoardViewController.view.superview bringSubviewToFront:self.whiteBoardViewController.view];
 //    [self.whiteBoardViewController handleDoubleTap];
     [self layoutViewControllers];
+    double rotation = self.isFullScreen? M_PI_2: 0;
+    self.whiteBoardViewController.view.transform = CGAffineTransformMakeRotation(rotation);
 }
 
 

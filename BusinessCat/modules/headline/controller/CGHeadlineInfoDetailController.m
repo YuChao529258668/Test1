@@ -651,37 +651,41 @@
   //加载服务器数据
   [self showHUD];
   [self.biz queryRemoteInfoDetailById:self.infoId type:self.type success:^(CGInfoDetailEntity *infoDetail) {
-    [weakSelf hiddenHUD];
-    weakSelf.detail = infoDetail;
-    if (infoDetail.pageCount>0&&![infoDetail.infoPic hasSuffix:@".svg.png"]) {
-      NSString * newString = [infoDetail.infoPic substringWithRange:NSMakeRange(0, [infoDetail.infoPic length] - 1)];
-      weakSelf.imageList = [NSMutableArray array];
-      for (int i=0; i<infoDetail.pageCount; i++) {
-        NSString *imageUrl = [NSString stringWithFormat:@"%@%d",newString,i+1];
-        [weakSelf.imageList addObject:imageUrl];
+      
+      [weakSelf hiddenHUD];
+      weakSelf.detail = infoDetail;
+      if (infoDetail.pageCount>0&&![infoDetail.infoPic hasSuffix:@".svg.png"]) {
+          NSString * newString = [infoDetail.infoPic substringWithRange:NSMakeRange(0, [infoDetail.infoPic length] - 1)];
+          weakSelf.imageList = [NSMutableArray array];
+          for (int i=0; i<infoDetail.pageCount; i++) {
+              NSString *imageUrl = [NSString stringWithFormat:@"%@%d",newString,i+1];
+              [weakSelf.imageList addObject:imageUrl];
+          }
+          weakSelf.imageList = [infoDetail getYCImageURLs];
+          if (infoDetail.width<=0||infoDetail.height<=0) {
+              [weakSelf updateimageList];
+          }
+          [weakSelf.view addSubview:weakSelf.tableView];
+          [weakSelf.view addSubview:weakSelf.countLabel];
+          weakSelf.countLabel.text = [NSString stringWithFormat:@"%ld",infoDetail.pageCount];
+          [weakSelf.tableView reloadData];
       }
-      if (infoDetail.width<=0||infoDetail.height<=0) {
-        [weakSelf updateimageList];
+      else if(infoDetail.pageCount>0&&[infoDetail.infoPic hasSuffix:@".svg.png"]){
+          NSString * newString = [infoDetail.infoPic substringWithRange:NSMakeRange(0, [infoDetail.infoPic length] - 9)];
+          self.svgStr = @"";
+          for (int i=0; i<infoDetail.pageCount; i++) {
+              NSString *imageUrl = [NSString stringWithFormat:@"<div class=\"ImageView\"><img class=\"\" src=\"%@%d.svg\" style=\"opacity: 1; width: 100%%; height: auto;\"></div>",newString,i+1];
+              self.svgStr = [NSString stringWithFormat:@"%@%@",self.svgStr,imageUrl];
+          }
       }
-      [weakSelf.view addSubview:weakSelf.tableView];
-      [weakSelf.view addSubview:weakSelf.countLabel];
-      weakSelf.countLabel.text = [NSString stringWithFormat:@"%ld",infoDetail.pageCount];
-      [weakSelf.tableView reloadData];
-    }else if(infoDetail.pageCount>0&&[infoDetail.infoPic hasSuffix:@".svg.png"]){
-      NSString * newString = [infoDetail.infoPic substringWithRange:NSMakeRange(0, [infoDetail.infoPic length] - 9)];
-      self.svgStr = @"";
-      for (int i=0; i<infoDetail.pageCount; i++) {
-        NSString *imageUrl = [NSString stringWithFormat:@"<div class=\"ImageView\"><img class=\"\" src=\"%@%d.svg\" style=\"opacity: 1; width: 100%%; height: auto;\"></div>",newString,i+1];
-        self.svgStr = [NSString stringWithFormat:@"%@%@",self.svgStr,imageUrl];
+      if (infoDetail.infoOriginal) {
+          [weakSelf.copyrightTipsButton setTitle:@"原创" forState:UIControlStateNormal];
+      }else{
+          [weakSelf.copyrightTipsButton setTitle:@"版权" forState:UIControlStateNormal];
       }
-    }
-    if (infoDetail.infoOriginal) {
-      [weakSelf.copyrightTipsButton setTitle:@"原创" forState:UIControlStateNormal];
-    }else{
-      [weakSelf.copyrightTipsButton setTitle:@"版权" forState:UIControlStateNormal];
-    }
-    [weakSelf updateViewPermitState];
-    [weakSelf getDetailState];
+      [weakSelf updateViewPermitState];
+      [weakSelf getDetailState];
+      
   } fail:^(NSError *error){
     [weakSelf hiddenHUD];
     NetworkStatus status = [[ObjectShareTool sharedInstance].reachability currentReachabilityStatus];

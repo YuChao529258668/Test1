@@ -395,9 +395,6 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    [self test];
-//    return;
-    
     CGMeeting *meeting = self.meetings[indexPath.row];
     __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message) {

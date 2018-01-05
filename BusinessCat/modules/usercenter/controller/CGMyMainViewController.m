@@ -120,7 +120,7 @@
   [self.leftBtn addTarget:self action:@selector(dataAction) forControlEvents:UIControlEventTouchUpInside];
   [self.leftBtn setTitle:@"参数" forState:UIControlStateNormal];
   self.leftBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-  self.leftBtn.hidden = YES;
+  self.leftBtn.hidden = NO;
   [self.navi addSubview:self.leftBtn];
   self.timer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(scoopLastTimer) userInfo:nil repeats:YES];
 }
@@ -143,7 +143,7 @@
   if ([ObjectShareTool sharedInstance].currentUser.platformAdmin) {
     self.leftBtn.hidden = NO;
   }else{
-    self.leftBtn.hidden = YES;
+    self.leftBtn.hidden = NO;
   }
 }
 
@@ -677,7 +677,7 @@
     int menuNum = 4;
     float itemWidth = SCREEN_WIDTH/menuNum;
     float itemHeight = 55;
-  [contentView addSubview:[self createFunctionMenuWith:CGRectMake(0, 0, itemWidth, itemHeight) titleStr:@"管家" showVerLine:YES method:@selector(collectAction) index:1 image:[UIImage imageNamed:@"minecollection"]]];
+  [contentView addSubview:[self createFunctionMenuWith:CGRectMake(0, 0, itemWidth, itemHeight) titleStr:@"收藏" showVerLine:YES method:@selector(collectAction) index:1 image:[UIImage imageNamed:@"minecollection"]]]; // "管家"
     [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth, 0, itemWidth, itemHeight) titleStr:@"知识币" showVerLine:YES method:@selector(integralAction) index:4 image:[UIImage imageNamed:@"knowledgegold"]]];
   [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*2, 0, itemWidth, itemHeight) titleStr:@"点评" showVerLine:YES method:@selector(reviewAction) index:5 image:[UIImage imageNamed:@"dianping"]]];
   [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*3, 0, itemWidth, itemHeight) titleStr:@"订单" showVerLine:NO method:@selector(orderAction) index:2 image:[UIImage imageNamed:@"mineorder"]]];

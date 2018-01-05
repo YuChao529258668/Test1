@@ -52,6 +52,11 @@ MtcConfSplitFileSizeKey     表示字符串SplitFileSize,规定分割的大小�
         [CTToast showWithText:@"正在获取会议详情，请稍后再试"];
         return;
     }
+    if (!self.confID) {
+        [CTToast showWithText:@"正在加入会议，请稍后再试"];
+        return;
+    }
+
     
     if (self.vedioControlBtn.isSelected) {
         [self endScreen];
@@ -67,9 +72,10 @@ MtcConfSplitFileSizeKey     表示字符串SplitFileSize,规定分割的大小�
 //    @"MtcConfSecretKeyKey" : @"A-CB5N8j-AyQRtDbWUj9bjNusIeIQwrGzJr__7Du",
 
     //    判断是否为直播会议
-    ZUINT iConfId = self.meeting.conferenceNumber.intValue;
+//    ZUINT iConfId = self.meeting.conferenceNumber.intValue;
+    ZUINT iConfId = self.confID;
     ZCONST ZCHAR *pcName = MtcConfPropDeliveryUri;
-    ZCONST ZCHAR *DeliveryURI = Mtc_ConfGetProp(iConfId, pcName); // MTC: ERROR:   10147524 Mtc_ConfImplGetDeliveryUri invalid <10147524>
+    ZCONST ZCHAR *DeliveryURI = Mtc_ConfGetProp(iConfId, pcName); // [username:delivery_10935553@delivery.cloud.justalk.com]
     if (DeliveryURI == ZNULL) {
         [CTToast showWithText:@"不是直播会议，无法录屏"];
         return;
@@ -86,7 +92,7 @@ MtcConfSplitFileSizeKey     表示字符串SplitFileSize,规定分割的大小�
     
     NSData *data = [NSJSONSerialization dataWithJSONObject:para options:0 error:nil];
     
-    ZINT ret = Mtc_ConfCommand(iConfId, MtcConfCmdReplayStartRecord, [data bytes]);
+    ZINT ret = Mtc_ConfCommand(iConfId, MtcConfCmdReplayStartRecord, [data bytes]);// MTC: ERROR:  334967056 No replayer.
     if (ret == ZOK) {
         self.vedioControlBtn.selected = YES;
     } else {
@@ -110,7 +116,8 @@ MtcConfSplitFileSizeKey     表示字符串SplitFileSize,规定分割的大小�
     //    @"MtcConfSecretKeyKey" : @"A-CB5N8j-AyQRtDbWUj9bjNusIeIQwrGzJr__7Du",
     
     //    判断是否为直播会议
-    ZUINT iConfId = self.meeting.conferenceNumber.intValue;
+//    ZUINT iConfId = self.meeting.conferenceNumber.intValue;
+    ZUINT iConfId = self.confID;
     ZCONST ZCHAR *pcName = MtcConfPropDeliveryUri;
     ZCONST ZCHAR *DeliveryURI = Mtc_ConfGetProp(iConfId, pcName);
     if (DeliveryURI == ZNULL) {
@@ -140,7 +147,8 @@ MtcConfSplitFileSizeKey     表示字符串SplitFileSize,规定分割的大小�
 }
 
 - (void)endScreen {
-    ZUINT iConfId = self.meeting.conferenceNumber.intValue;
+//    ZUINT iConfId = self.meeting.conferenceNumber.intValue;
+    ZUINT iConfId = self.confID;
     ZCHAR *pcCmd = MtcConfCmdReplayStopRecord;
     ZINT success = Mtc_ConfCommand(iConfId, pcCmd, nil);
     if (success == ZOK) {

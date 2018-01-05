@@ -79,7 +79,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"管家";
+    self.title = @"会议文件";
     [self.view addSubview:self.bigTypeScrollView];
     //头条收藏回调通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationInfoCollectState) name:NOTIFICATION_UPDATECOLLECTSTATE object:nil];
@@ -179,6 +179,8 @@
         [collectionView registerNib:[UINib nibWithNibName:@"CGBoundaryCollectionViewCell"
                                                    bundle: [NSBundle mainBundle]] forCellWithReuseIdentifier:identifier];
         CGBoundaryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+        cell.isUseForMeeting = YES;
+        cell.meetingID = self.meetingID;
         __weak typeof(self) weakSelf = self;
         [cell updateUIWithEntity:self.typeArray[indexPath.section] loadType:2 isCache:NO block:^(NSInteger index) {
             CGHorrolEntity *typeEntity = weakSelf.typeArray[1];// 3
@@ -206,6 +208,8 @@
         [collectionView registerNib:[UINib nibWithNibName:@"CGUserCollectCollectionViewCell"
                                                    bundle: [NSBundle mainBundle]] forCellWithReuseIdentifier:identifier];
         CGUserCollectCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+        cell.isUseForMeeting = YES;
+        cell.meetingID = self.meetingID;
         __weak typeof(self) weakSelf = self;
         CGHorrolEntity *info = self.typeArray[indexPath.section];
         

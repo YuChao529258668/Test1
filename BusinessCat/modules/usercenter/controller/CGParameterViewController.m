@@ -13,6 +13,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *data;
 
+@property (nonatomic,strong) NSString *filePath;
+
+
 @end
 
 @implementation CGParameterViewController
@@ -22,20 +25,16 @@
   self.title = @"数据参数";
   NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
   NSString *filePath = [path stringByAppendingPathComponent:@"shujudata"];
-  self.data = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.filePath = filePath;
+  self.data = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath]; // 放的字典
 }
 
 
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return 320;
+//  return 320;
+    return 420;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

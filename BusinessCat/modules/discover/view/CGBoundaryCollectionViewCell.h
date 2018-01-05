@@ -19,4 +19,8 @@ typedef void (^CGBoundaryCollectionViewNocCollectBlock)(NSInteger index);
 @property (nonatomic, assign) NSInteger loadType;//0发现界面 1搜索界面 2收藏界面 3app图标
 - (void)updateUIWithEntity:(CGHorrolEntity *)entity loadType:(NSInteger)loadType isCache:(BOOL)isCache block:(CGBoundaryCollectionViewBlock)block;
 - (void)updateUIWithEntity:(CGHorrolEntity *)entity loadType:(NSInteger)loadType isCache:(BOOL)isCache;
+
+@property (nonatomic,assign) BOOL isUseForMeeting; // 是否从会议界面跳过来
+@property (nonatomic,strong) NSString *meetingID;
+
 @end

@@ -95,7 +95,10 @@ static CTNetWorkUtil *_sharedManager;
  *
  */
 - (void)sendRequestWithURL:(NSString *)urlString param:(NSDictionary *)param{
-    NSLog(@"请求总出口 请求地址：%@, 参数：%@",urlString,param);
+    if (![urlString containsString:@"interact/data"]) {
+        NSLog(@"\n请求总出口 请求地址：%@, 参数：%@\n",urlString,param);
+        NSLog(@"-------------------------------------");
+    }
     
   // 请求的manager
   NSDate *requestStartDate = [NSDate date];
@@ -108,7 +111,10 @@ static CTNetWorkUtil *_sharedManager;
   [_request POST:urlString parameters:param progress:^(NSProgress * _Nonnull uploadProgress) {
     
   } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSLog(@"请求总出口 %@, 请求接口：%@，返回数据：%@", NSStringFromSelector(_cmd),urlString,responseObject);
+      if (![urlString containsString:@"interact/data"]) {
+          NSLog(@"\n请求总出口 %@, 请求接口：%@，返回数据：%@\n", NSStringFromSelector(_cmd),urlString,responseObject);
+          NSLog(@"-------------------------------------");
+      }
       
             NSDictionary *res = responseObject;
             if(res){
@@ -197,6 +203,10 @@ static CTNetWorkUtil *_sharedManager;
 
 //记录请求日志
 -(void)saveRequestLog:(int)code message:(NSString *)message startDate:(NSDate *)startDate url:(NSString *)url param:(NSString *)param{
+    if ([url containsString:@"interact/data"]) {
+        return;
+    }
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
         NSString *filePath = [path stringByAppendingPathComponent:@"shujudata"];

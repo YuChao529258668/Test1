@@ -14,6 +14,8 @@
 #import "CGUserCenterBiz.h"
 #import "CGInterfaceAppIconCollectionViewCell.h"
 
+#import "YCMeetingBiz.h"
+
 static NSString * const Identifier = @"CGInterfaceImageViewCell";
 static NSString * const Identifier2 = @"CGInterfaceAppIconViewCell";
 
@@ -75,14 +77,26 @@ static NSString * const Identifier2 = @"CGInterfaceAppIconViewCell";
       }];
     }else if (weakSelf.loadType == 2){
       weakSelf.entity.page = 1;
-      [weakSelf.collectBiz getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page success:^(NSMutableArray *reslut) {
-        [weakSelf.collectionView.mj_header endRefreshing];
-        weakSelf.entity.data = reslut;
-        [weakSelf.collectionView reloadData];
-        weakSelf.collectionView.mj_footer.state = MJRefreshStateIdle;
-      } fail:^(NSError *error) {
-        [weakSelf.collectionView.mj_header endRefreshing];
-      }];
+        if (self.isUseForMeeting) {
+            [[YCMeetingBiz new] getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page meetingID:weakSelf.meetingID success:^(NSMutableArray *reslut) {
+                [weakSelf.collectionView.mj_header endRefreshing];
+                weakSelf.entity.data = reslut;
+                [weakSelf.collectionView reloadData];
+                weakSelf.collectionView.mj_footer.state = MJRefreshStateIdle;
+            } fail:^(NSError *error) {
+                [weakSelf.collectionView.mj_header endRefreshing];
+            }];
+        } else {
+            [weakSelf.collectBiz getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page success:^(NSMutableArray *reslut) {
+                [weakSelf.collectionView.mj_header endRefreshing];
+                weakSelf.entity.data = reslut;
+                [weakSelf.collectionView reloadData];
+                weakSelf.collectionView.mj_footer.state = MJRefreshStateIdle;
+            } fail:^(NSError *error) {
+                [weakSelf.collectionView.mj_header endRefreshing];
+            }];
+        }
+      
     }else{
       NSInteger time = [[NSDate date] timeIntervalSince1970]*1000;
       if (weakSelf.entity.data.count>0) {
@@ -113,18 +127,34 @@ static NSString * const Identifier2 = @"CGInterfaceAppIconViewCell";
     
     if (weakSelf.loadType == 2) {
       weakSelf.entity.page += 1;
-      [weakSelf.collectBiz getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page success:^(NSMutableArray *reslut) {
-        if(reslut && reslut.count > 0){
-          [weakSelf.entity.data addObjectsFromArray:reslut];
-          [weakSelf.collectionView reloadData];
-          [weakSelf.collectionView.mj_footer endRefreshing];
-        }else {
-          weakSelf.collectionView.mj_footer.state = MJRefreshStateNoMoreData;
+        if (self.isUseForMeeting) {
+            [[YCMeetingBiz new] getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page meetingID:weakSelf.meetingID success:^(NSMutableArray *reslut) {
+                if(reslut && reslut.count > 0){
+                    [weakSelf.entity.data addObjectsFromArray:reslut];
+                    [weakSelf.collectionView reloadData];
+                    [weakSelf.collectionView.mj_footer endRefreshing];
+                }else {
+                    weakSelf.collectionView.mj_footer.state = MJRefreshStateNoMoreData;
+                }
+                
+            } fail:^(NSError *error) {
+                [weakSelf.collectionView.mj_footer endRefreshing];
+            }];
+        } else {
+            [weakSelf.collectBiz getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page success:^(NSMutableArray *reslut) {
+                if(reslut && reslut.count > 0){
+                    [weakSelf.entity.data addObjectsFromArray:reslut];
+                    [weakSelf.collectionView reloadData];
+                    [weakSelf.collectionView.mj_footer endRefreshing];
+                }else {
+                    weakSelf.collectionView.mj_footer.state = MJRefreshStateNoMoreData;
+                }
+                
+            } fail:^(NSError *error) {
+                [weakSelf.collectionView.mj_footer endRefreshing];
+            }];
         }
-        
-      } fail:^(NSError *error) {
-        [weakSelf.collectionView.mj_footer endRefreshing];
-      }];
+      
     }else{
       NSInteger time = [[NSDate date] timeIntervalSince1970]*1000;
       if (weakSelf.entity.data.count>0) {

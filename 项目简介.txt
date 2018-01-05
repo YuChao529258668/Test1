@@ -261,5 +261,8 @@ TIMUserProfile *p = [_msg getSenderProfile]; // 单聊拿不到头像，群聊�
 IMAUser *user = [[IMAUser alloc] initWithUserInfo:p];
 
 
+数据参数界面
+CGParameterViewController
+/var/mobile/Containers/Data/Application/5C5C5F2B-1883-4627-974D-818D7A7A3274/Library/Caches/shujudata
 
 

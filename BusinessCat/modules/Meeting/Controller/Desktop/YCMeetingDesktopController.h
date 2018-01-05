@@ -12,4 +12,6 @@
 @interface YCMeetingDesktopController : UIViewController
 @property (nonatomic,strong) CGMeeting *meeting;
 
+@property (nonatomic,assign) ZUINT confID; //底层 API 会用到，和 conferenceNumber 不同
+
 @end

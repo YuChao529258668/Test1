@@ -11,6 +11,9 @@
 #import "CGMeeting.h"
 #import "YCMeetingState.h"
 
+#import "KnowledgeHeaderEntity.h"
+#import "CGInfoHeadEntity.h"
+
 @implementation YCMeetingBiz
 
 - (void)getMeetingListWithPage:(int)page Success:(void(^)(NSArray<CGMeeting *> *meetings))success fail:(void(^)(NSError *error))fail {
@@ -202,6 +205,37 @@
         }
     }];
 }
+
+//查询会议文件列表 代码从 CGUserCenterBiz 复制
+- (void)getUserCollectionDataWithLabel:(int)label page:(NSInteger)page meetingID:(NSString *)mid success:(void(^)(NSMutableArray *reslut))success fail:(void (^)(NSError *error))fail{
+    NSMutableDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:label],@"label",[NSNumber numberWithInteger:page],@"page", nil].mutableCopy;
+    param[@"meetingId"] = mid;
+    [self.component sendPostRequestWithURL:URL_Meeting_File_List param:param success:^(id data) {
+        NSArray *array = data;
+        //      if(array && array.count > 0){
+        NSMutableArray *result = [NSMutableArray array];
+        for(NSDictionary *dict in array){
+            NSNumber *type = dict[@"type"];
+            if (type.integerValue == 26) {
+                [result addObject:[KnowledgeHeaderEntity mj_objectWithKeyValues:dict]];
+            }else{
+                CGInfoHeadEntity *comment = [CGInfoHeadEntity mj_objectWithKeyValues:dict];
+                comment.cover = [comment.cover stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                [result addObject:comment];
+            }
+        }
+        success(result);
+        //      }else{
+        //        fail(nil);
+        //      }
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
+
+#pragma mark - 成员
+
 
 // 03.会议成员接口 - ShowDoc http://doc.cgsays.com:50123/index.php?s=/1&page_id=407
 // userId: 传all时代表所有人，除了主持人外

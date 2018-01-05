@@ -19,6 +19,8 @@
 #import "HeadlineLeftPicTableViewCell.h"
 #import "CGKnowledgeMealTableViewCell.h"
 
+#import "YCMeetingBiz.h"
+
 @interface CGUserCollectCollectionViewCell ()<UITableViewDelegate,UITableViewDataSource,HeadlineOnlyTitleTableViewCellDelegate,HeadlineLeftPicTableViewCellDelegate,HeadlineRightPicTableViewCellDelegate,HeadlineMorePicTableViewCellDelegate>
 @property(nonatomic,retain)CGUserCenterBiz *biz;
 @property (nonatomic, strong) CGHorrolEntity *entity;
@@ -58,30 +60,56 @@
   __weak typeof(self) weakSelf = self;
           self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             weakSelf.entity.page = 1;
-            [weakSelf.biz getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page success:^(NSMutableArray *reslut) {
-                  [weakSelf.tableView.mj_header endRefreshing];
-                  weakSelf.entity.data = reslut;
-                  [weakSelf.tableView reloadData];
-              weakSelf.tableView.mj_footer.state = MJRefreshStateIdle;
-              } fail:^(NSError *error) {
-                  [weakSelf.tableView.mj_header endRefreshing];
-              }];
+              if (self.isUseForMeeting) {// 用于显示会议文件列表
+                  [[YCMeetingBiz new] getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page meetingID:weakSelf.meetingID success:^(NSMutableArray *reslut) {
+                      [weakSelf.tableView.mj_header endRefreshing];
+                      weakSelf.entity.data = reslut;
+                      [weakSelf.tableView reloadData];
+                      weakSelf.tableView.mj_footer.state = MJRefreshStateIdle;
+                  } fail:^(NSError *error) {
+                      [weakSelf.tableView.mj_header endRefreshing];
+                  }];
+              } else {
+                  [weakSelf.biz getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page success:^(NSMutableArray *reslut) {
+                      [weakSelf.tableView.mj_header endRefreshing];
+                      weakSelf.entity.data = reslut;
+                      [weakSelf.tableView reloadData];
+                      weakSelf.tableView.mj_footer.state = MJRefreshStateIdle;
+                  } fail:^(NSError *error) {
+                      [weakSelf.tableView.mj_header endRefreshing];
+                  }];
+              }
+            
           }];
           //上拉加载更多
           self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
             weakSelf.entity.page += 1;
-            [weakSelf.biz getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page success:^(NSMutableArray *reslut) {
-              if(reslut && reslut.count > 0){
-                [weakSelf.entity.data addObjectsFromArray:reslut];
-                [weakSelf.tableView reloadData];
-                [weakSelf.tableView.mj_footer endRefreshing];
-              }else {
-                weakSelf.tableView.mj_footer.state = MJRefreshStateNoMoreData;
+              if (self.isUseForMeeting) {// 用于显示会议文件列表
+                  [[YCMeetingBiz new] getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page meetingID:weakSelf.meetingID success:^(NSMutableArray *reslut) {
+                      if(reslut && reslut.count > 0){
+                          [weakSelf.entity.data addObjectsFromArray:reslut];
+                          [weakSelf.tableView reloadData];
+                          [weakSelf.tableView.mj_footer endRefreshing];
+                      }else {
+                          weakSelf.tableView.mj_footer.state = MJRefreshStateNoMoreData;
+                      }
+                  } fail:^(NSError *error) {
+                      [weakSelf.tableView.mj_footer endRefreshing];
+                  }];
+              } else {
+                  [weakSelf.biz getUserCollectionDataWithLabel:weakSelf.entity.rolId.intValue page:weakSelf.entity.page success:^(NSMutableArray *reslut) {
+                      if(reslut && reslut.count > 0){
+                          [weakSelf.entity.data addObjectsFromArray:reslut];
+                          [weakSelf.tableView reloadData];
+                          [weakSelf.tableView.mj_footer endRefreshing];
+                      }else {
+                          weakSelf.tableView.mj_footer.state = MJRefreshStateNoMoreData;
+                      }
+                      
+                  } fail:^(NSError *error) {
+                      [weakSelf.tableView.mj_footer endRefreshing];
+                  }];
               }
-  
-              } fail:^(NSError *error) {
-                  [weakSelf.tableView.mj_footer endRefreshing];
-              }];
           }];
 }
 

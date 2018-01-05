@@ -1057,6 +1057,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 - (void)fileBtnClick {
     __weak typeof(self) weakself = self;
     YCSelectMeetingFileController *vc = [YCSelectMeetingFileController new];
+    vc.meetingID = self.meetingID;
     vc.didSelectBlock = ^(CGInfoHeadEntity *entity, int fileType) {
         UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"确定使用此文档吗？" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];

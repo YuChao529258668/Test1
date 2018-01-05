@@ -30,7 +30,8 @@
 -(UIView *)selectLine{
     if(!_selectLine){
         _selectLine = [[UIView alloc]initWithFrame:CGRectMake(0, self.scrollview.frame.size.height-2, 0, 2)];
-        _selectLine.backgroundColor = CTThemeMainColor;
+//        _selectLine.backgroundColor = CTThemeMainColor;
+        _selectLine.backgroundColor = [UIColor blackColor];
     }
     return _selectLine;
 }
@@ -64,7 +65,8 @@
             [itemBtn setTitle:entity.rolName forState:UIControlStateNormal];
             [itemBtn sizeToFit];
             [itemBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-            [itemBtn setTitleColor:CTThemeMainColor forState:UIControlStateSelected];
+//            [itemBtn setTitleColor:CTThemeMainColor forState:UIControlStateSelected];
+            [itemBtn setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
             [itemBtn setFrame:CGRectMake(itemBtn.frame.origin.x, 0, itemBtn.frame.size.width, self.frame.size.height)];
             [self.scrollview addSubview:itemBtn];
             [self.buttonArray addObject:itemBtn];
@@ -93,7 +95,8 @@
                 itemBtn.titleLabel.font = [UIFont systemFontOfSize:16];
                 [itemBtn setTitle:entity.rolName forState:UIControlStateNormal];
                 [itemBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-                [itemBtn setTitleColor:CTThemeMainColor forState:UIControlStateSelected];
+//                [itemBtn setTitleColor:CTThemeMainColor forState:UIControlStateSelected];
+                [itemBtn setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
                 [self.scrollview addSubview:itemBtn];
                 [self.buttonArray addObject:itemBtn];
                 [itemBtn addTarget:self action:@selector(bigTypeBtnAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -150,7 +153,8 @@
 
 -(void)bigTypeBtnAction:(UIButton *)button{
     [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [button setTitleColor:CTThemeMainColor forState:UIControlStateSelected];
+//    [button setTitleColor:CTThemeMainColor forState:UIControlStateSelected];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
     int tag = (int)button.tag;
     UIButton *itemBtn = self.buttonArray[tag];
     if(block){
@@ -247,7 +251,9 @@
     itemBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [itemBtn setTitle:entity.rolName forState:UIControlStateNormal];
     [itemBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [itemBtn setTitleColor:CTThemeMainColor forState:UIControlStateSelected];
+//    [itemBtn setTitleColor:CTThemeMainColor forState:UIControlStateSelected];
+    [itemBtn setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+
     [self.buttonArray insertObject:itemBtn atIndex:0];
     [self.scrollview addSubview:itemBtn];
     [self setRect];

@@ -14,6 +14,16 @@
     return @{@"infoId":@"id"};
 }
 
+- (NSMutableArray<NSString *> *)getYCImageURLs {
+    NSArray *imageNames = [self.pageName componentsSeparatedByString:@","];
+    NSString *preStr = [self.infoPic stringByReplacingOccurrencesOfString:imageNames.firstObject withString:@""];
+    NSMutableArray *imageURLs = [NSMutableArray arrayWithCapacity:imageNames.count];
+    for (NSString *name in imageNames) {
+        [imageURLs addObject:[NSString stringWithFormat:@"%@%@", preStr, name]];
+    }
+    return imageURLs;
+}
+
 @end
 
 @implementation CGAppListEntity

@@ -75,7 +75,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"管家";
+    self.title = @"收藏";
     [self.view addSubview:self.bigTypeScrollView];
   //头条收藏回调通知
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationInfoCollectState) name:NOTIFICATION_UPDATECOLLECTSTATE object:nil];
