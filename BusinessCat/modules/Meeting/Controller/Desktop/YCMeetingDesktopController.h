@@ -14,4 +14,9 @@
 
 @property (nonatomic,assign) ZUINT confID; //底层 API 会用到，和 conferenceNumber 不同
 
+//  七牛参数
+@property (nonatomic,strong) NSString *AccessKey;
+@property (nonatomic,strong) NSString *SecretKey;
+@property (nonatomic,strong) NSString *BucketName;
+
 @end

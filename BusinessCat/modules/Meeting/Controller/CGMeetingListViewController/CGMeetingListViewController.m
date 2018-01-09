@@ -241,7 +241,7 @@
         return;
     }
     
-    self.currentPage = 0;
+    self.currentPage = 1;
     __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] getMeetingListWithPage:self.currentPage Success:^(NSArray<CGMeeting *> *meetings) {
         weakself.meetings = meetings;
@@ -397,10 +397,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CGMeeting *meeting = self.meetings[indexPath.row];
     __weak typeof(self) weakself = self;
-    [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message) {
-//        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
+    [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName) {
+        // 状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
         if (state == 1 || state == 3) {
-            [weakself goToVideoMeetingWithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId state:state];
+            [weakself goToVideoMeetingWithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId state:state AccessKey:AccessKey SecretKey:SecretKey BucketName:BucketName];
         } else {
             [CTToast showWithText:message];
         }
@@ -413,7 +413,7 @@
 #pragma mark - 视频会议
 
 //        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
-- (void)goToVideoMeetingWithRoomID:(NSString *)rid meetingID:(NSString *)mid state:(long)state{
+- (void)goToVideoMeetingWithRoomID:(NSString *)rid meetingID:(NSString *)mid state:(long)state AccessKey:(NSString *)AccessKey SecretKey:(NSString *)SecretKey BucketName:(NSString *)BucketName {
     if ([YCJCSDKHelper isLoginForVideoCall]) {
         RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
         roomVc.roomId = rid;
@@ -421,6 +421,9 @@
         roomVc.meetingID = mid;
         roomVc.meetingState = state;
         roomVc.isReview = state == 3? YES: NO;
+        roomVc.AccessKey = AccessKey;
+        roomVc.SecretKey = SecretKey;
+        roomVc.BucketName = BucketName;
         [self.navigationController pushViewController:roomVc animated:YES];
     } else {
         [CTToast showWithText:@"会议功能尚未登录，请稍后再试"];

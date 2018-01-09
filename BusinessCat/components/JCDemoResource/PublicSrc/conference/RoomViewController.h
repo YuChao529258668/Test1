@@ -21,4 +21,9 @@
 //保存文档的url
 @property (nonatomic, strong) NSArray<NSString *> *urls;
 
+//  七牛参数
+@property (nonatomic,strong) NSString *AccessKey;
+@property (nonatomic,strong) NSString *SecretKey;
+@property (nonatomic,strong) NSString *BucketName;
+
 @end

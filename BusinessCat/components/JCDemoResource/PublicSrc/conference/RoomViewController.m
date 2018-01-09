@@ -35,6 +35,7 @@
 #define kVideoViewHeight (kMainScreenHeight/2) // splitScreenViewController的高度
 #define kTabBarHeight 40
 #define kBtnLineHeight 2
+#define kWelcomeLabelHeight 26
 
 NSString * const kCoursewareJuphoon = @"COURSEWARE_JUPHOON";
 NSString * const kCoursewareMath = @"COURSEWARE_MATH";
@@ -169,6 +170,8 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn; // 取消按钮
 @property (nonatomic,assign) BOOL shouldHiddeStatusBar;
 
+@property (nonatomic,strong) UILabel *welcomeLabel; // 欢迎 xx 加入会议
+
 
 @end
 
@@ -275,6 +278,7 @@ typedef enum {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self test];
     // Do any additional setup after loading the view from its nib.
     
     // 监听加入成功，拿到真正的 confid，调用底层 API 要用
@@ -370,6 +374,9 @@ typedef enum {
     [self layoutViewControllers];
     [self layoutTabBar];
     self.hideKeyboardBtn.frame = self.view.bounds;
+    
+    float y = kVideoViewHeight - kWelcomeLabelHeight;
+    self.welcomeLabel.frame = CGRectMake(0, y, kMainScreenWidth, kWelcomeLabelHeight);
 }
 
 
@@ -1100,17 +1107,20 @@ typedef enum {
     }
 }
 
+- (void)setupWelcomeLabel {
+    UILabel *label = [UILabel new];
+    self.welcomeLabel = label;
+    [self.preview addSubview:label];
+    label.font = [UIFont systemFontOfSize:13];
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    label.text = @"   欢迎进入会议室";
+}
+
 - (void)handleTimer {
     NSString *title = [YCTool countDonwStringWithTargetDate:self.meeting.endTime.longLongValue / 1000];
     title = [NSString stringWithFormat:@"  %@  ", title];
     [self.titleBtn setTitle:title forState:UIControlStateNormal];
-}
-
-- (void)setupDesktopController {
-    YCMeetingDesktopController *vc = [YCMeetingDesktopController new];
-    self.desktopVC = vc;
-    vc.view.hidden = YES;
-    [self.preview addSubview:vc.view];
 }
 
 #pragma mark - yc_Action
@@ -1357,6 +1367,18 @@ typedef enum {
     [self layoutViewControllers];
 }
 
+#pragma mark - 桌面
+
+- (void)setupDesktopController {
+    YCMeetingDesktopController *vc = [YCMeetingDesktopController new];
+    self.desktopVC = vc;
+    vc.AccessKey = self.AccessKey;
+    vc.SecretKey = self.SecretKey;
+    vc.BucketName = self.BucketName;
+    vc.view.hidden = YES;
+    [self.preview addSubview:vc.view];
+}
+
 
 #pragma mark - 腾讯云
 
@@ -1461,6 +1483,7 @@ typedef enum {
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.waitInfoView addGestureRecognizer:tap];
     
+    [self setupWelcomeLabel];
 }
 
 
@@ -1574,7 +1597,7 @@ typedef enum {
     double rotation = self.isFullScreen? M_PI_2: 0;
     [UIView animateWithDuration:0.26 animations:^{
 //        [self layoutViewControllers];
-//        self.whiteBoardViewController.view.transform = CGAffineTransformMakeRotation(rotation);
+        self.whiteBoardViewController.view.transform = CGAffineTransformMakeRotation(rotation);
         
         // 白板全屏的时候，允许自动旋转
         if (self.isFullScreen) {
@@ -1706,6 +1729,46 @@ typedef enum {
 
 - (void)removeObserverForHowlingDetectedNotification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@MtcMediaHowlingDetectedNotification object:nil];
+}
+
+- (void)test {
+//    dispatch_sync(dispatch_queue_t  _Nonnull queue, ^{
+    
+//    })
+    
+//    https://www.jianshu.com/p/38f5f53dfbad
+    
+    NSURL *url = [NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515490928533&di=c9a7be7862be9084cf6b7133c5a36cf3&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D00ea96073c7adab429dd1300e3bdd969%2F4bed2e738bd4b31c7ff2b1948dd6277f9f2ff8d7.jpg"];
+    
+    NSLog(@"scheme:%@", [url scheme]); //协议 https
+    
+    NSLog(@"host:%@", [url host]);     //域名 timgsa.baidu.com
+    
+    NSLog(@"absoluteString:%@", [url absoluteString]); //完整的url字符串
+    
+    NSLog(@"relativePath: %@", [url relativePath]); //相对路径 /timg
+    
+    NSLog(@"port :%@", [url port]);  // 端口 8080 null
+    
+    NSLog(@"path: %@", [url path]);  // 路径 /timg
+    
+    NSLog(@"pathComponents:%@", [url pathComponents]); // search
+    NSArray<NSString *> *pathComponents = url.pathComponents;
+    
+    NSLog(@"Query:%@", [url query]);  //参数 id=1
+    
+//    2018-01-09 14:56:25.130148+0800 BusinessCat[598:317266] scheme:https
+//    2018-01-09 14:56:25.130366+0800 BusinessCat[598:317266] host:timgsa.baidu.com
+//    2018-01-09 14:56:25.130467+0800 BusinessCat[598:317266] absoluteString:https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515490928533&di=c9a7be7862be9084cf6b7133c5a36cf3&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D00ea96073c7adab429dd1300e3bdd969%2F4bed2e738bd4b31c7ff2b1948dd6277f9f2ff8d7.jpg
+//    2018-01-09 14:56:25.130652+0800 BusinessCat[598:317266] relativePath: /timg
+//    2018-01-09 14:56:25.130730+0800 BusinessCat[598:317266] port :(null)
+//    2018-01-09 14:56:25.130863+0800 BusinessCat[598:317266] path: /timg
+//    2018-01-09 14:56:25.131133+0800 BusinessCat[598:317266] pathComponents:<2,2,0x170652840>,[0xa0000000000002f1--912] [0xa000000676d69744---472221691]
+//    2018-01-09 14:57:53.976894+0800 BusinessCat[598:317266] Query:image&quality=80&size=b9999_10000&sec=1515490928533&di=c9a7be7862be9084cf6b7133c5a36cf3&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D00ea96073c7adab429dd1300e3bdd969%2F4bed2e738bd4b31c7ff2b1948dd6277f9f2ff8d7.jpg
+    
+//    NSArray *as = [YCTool getAllProperties:url];
+//    NSLog(@"%@", [YCTool stringOfArray:as]);
+//    NSDictionary *urlDic = [YCTool print:url];
 }
 
 @end

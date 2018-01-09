@@ -27,13 +27,20 @@
 }
 
 //状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
-- (void)meetingEntranceWithMeetingID:(NSString *)mid Success:(void(^)(int state, NSString *password, NSString *message))success fail:(void(^)(NSError *error))fail {
+- (void)meetingEntranceWithMeetingID:(NSString *)mid Success:(void(^)(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName))success fail:(void(^)(NSError *error))fail {
     NSDictionary *dic = @{@"meetingId":mid};
     [self.component UIPostRequestWithURL:URL_Meeting_MeetingEntrance param:dic success:^(id data) {
         NSString *message = data[@"message"];
         NSString *password = data[@"password"];
         NSNumber *state = data[@"state"];
-        success(state.intValue, password, message);
+        NSString *base64String = data[@"q"];//七牛, eyJhIjoiRXVPWHh6YWhqNnZRNlZ4eUlxOUh1NURMQnoyeHowQjNaaW1CTVlqSCIsInYiOiJ2aWRlbyIsInMiOiJBLUNCNU44ai1BeVFSdERiV1VqOWJqTnVzSWVJUXdyR3pKcl9fN0R1In0=, 解密后得到{"a":"EuOXxzahj6vQ6VxyIq9Hu5DLBz2xz0B3ZimBMYjH","v":"video","s":"A-CB5N8j-AyQRtDbWUj9bjNusIeIQwrGzJr__7Du"}
+        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:base64String options:0];
+        NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+        NSDictionary *dic = [decodedString objectFromJSONString];
+        NSString *AccessKey = dic[@"a"];
+        NSString *SecretKey = dic[@"s"];
+        NSString *BucketName = dic[@"v"];
+        success(state.intValue, password, message, AccessKey, SecretKey, BucketName);
     } fail:^(NSError *error) {
         fail(error);
     }];
@@ -76,12 +83,14 @@
 
 //"meetingId":"", 为空代表新预约，有值代表修改
 //"meetingMans":"37d13733-67f4-4906-afbd-3bb5972c1e94,a2af44fb-",开会的人,所有人除了发起人（uuid多个用英文逗号隔开）
+// oldMeetingID 再次召开的时候传值，否则@""
 //http://doc.cgsays.com:50123/index.php?s=/1&page_id=391
-- (void)bookMeetingWithMeetingID:(NSString *)mid MeetingType:(int)type MeetingName:(NSString *)name users:(NSString *)users roomID:(NSString *)rid beginDate:(NSDate *)bDate endDate:(NSDate *)eDate Success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+- (void)bookMeetingWithMeetingID:(NSString *)mid oldMeetingID:(NSString *)oldMid MeetingType:(int)type MeetingName:(NSString *)name users:(NSString *)users roomID:(NSString *)rid beginDate:(NSDate *)bDate endDate:(NSDate *)eDate Success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
     NSString *companyId = [ObjectShareTool sharedInstance].currentUser.getCompanyID;
     NSNumber *bn = [NSNumber numberWithLong:bDate.timeIntervalSince1970*1000];
     NSNumber *en = [NSNumber numberWithLong:eDate.timeIntervalSince1970*1000];
     NSDictionary *dic = @{@"meetingId": mid,
+                          @"oldMeetingId": oldMid,
                           @"companyId": companyId,
                           @"meetingType": [NSString stringWithFormat:@"%@", @(type)],
                           @"meetingName": name,

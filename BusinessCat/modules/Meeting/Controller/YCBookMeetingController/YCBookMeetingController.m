@@ -789,23 +789,24 @@
     }
     
     NSString *users = @"";
+    NSMutableArray<YCMeetingUser *>  *userArray = self.users.mutableCopy;
     if (self.style == YCBookMeetingControllerStyleReopen) {
         // 再次召开，如果会议的住持人不是自己，要先删掉，因为后台会默认把自己也加入会议，不删掉就会出现两个自己。
-        for (YCMeetingUser *user in self.users) {
+        for (YCMeetingUser *user in userArray) {
             if ([user.userid isEqualToString:self.currentMeetingUser.userid]) {
-                [self.users removeObject:user];
+                [userArray removeObject:user];
                 break;
             }
         }
-        users = self.users[0].userid;
-        for (int i = 1; i < self.users.count; i ++) {
-            users = [users stringByAppendingFormat:@",%@", self.users[i].userid];
+        users = userArray.firstObject.userid;
+        for (int i = 1; i < userArray.count; i ++) {
+            users = [users stringByAppendingFormat:@",%@", userArray[i].userid];
         }
     } else {
         // 第 0 个是自己，后台会默认把自己也加入会议，所以从第 1 个开始
-        users = self.users[1].userid;
-        for (int i = 2; i < self.users.count; i ++) {
-            users = [users stringByAppendingFormat:@",%@", self.users[i].userid];
+        users = userArray[1].userid;
+        for (int i = 2; i < userArray.count; i ++) {
+            users = [users stringByAppendingFormat:@",%@", userArray[i].userid];
         }
     }
     
@@ -814,10 +815,13 @@
         meetingID = @"";
     }
     
+    NSString *oldMeetingID = (self.style == YCBookMeetingControllerStyleReopen)? self.meeting.meetingId: @"";
+
+    
     self.createMeetingBtn.userInteractionEnabled = NO;
     __weak typeof(self) ws = self;
 
-    [[YCMeetingBiz new] bookMeetingWithMeetingID:meetingID MeetingType:self.meetingType MeetingName:meetingName users:users roomID:self.room.roomid beginDate:self.beginDate endDate:self.endDate Success:^(id data){
+    [[YCMeetingBiz new] bookMeetingWithMeetingID:meetingID oldMeetingID:oldMeetingID MeetingType:self.meetingType MeetingName:meetingName users:users roomID:self.room.roomid beginDate:self.beginDate endDate:self.endDate Success:^(id data){
         [CTToast showWithText:successStr];
         [YCMeetingRoomMembersController sendUpdateStatesCommandWithMeetingID:meetingID]; // 让已进入会议的成员收到命令
         [ws.navigationController popViewControllerAnimated:YES];

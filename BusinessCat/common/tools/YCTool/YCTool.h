@@ -25,4 +25,10 @@
 
 + (NSString *)stringOfArray:(NSArray *)array;
 
+#pragma mark -
+
+//获取对象的所有属性名
++ (NSArray<NSString *> *)getAllProperties:(NSObject *)obj;
++ (NSDictionary *)print:(NSObject *)obj;
+
 @end
