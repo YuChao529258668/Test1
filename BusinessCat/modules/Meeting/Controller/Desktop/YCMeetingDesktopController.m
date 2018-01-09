@@ -10,6 +10,7 @@
 
 @interface YCMeetingDesktopController ()
 @property (weak, nonatomic) IBOutlet UIButton *vedioControlBtn;
+@property (nonatomic,assign) BOOL isScreening;// 是否正在录屏
 
 @end
 
@@ -17,6 +18,9 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (self.isScreening) {
+        [self endScreen];
+    }
 }
 
 - (void)viewDidLoad {
@@ -24,27 +28,6 @@
     // Do any additional setup after loading the view from its nib.
     [self addObserForMtcNotification];
 }
-
-/*
-ZINT Mtc_ConfCommand(ZUINT iConfId，ZCONST ZCHAR pcCmd,ZCONST ZCHAR pcParm);
-iConfId：    会议ID
-pcCmd：        MtcConfCmdReplayStartRecord
-pcParm：        json格式里套了Storage这个json，键值对类似： {"MtcConfIsVideoKey":true,"Storage":{"Protocol":"qiniu","AccessKey":"","SecretKey":"","BucketName":"","FileKey":"abc123.mp4"}}
-协议是七牛，后面的key,客户填自己七牛上相对应的值。
- 
-界面使用以下key来组装json
-MtcConfIsVideoKey         是否录制视频
-MtcConfStorageKey        表示字符串Storage
- 
-MtcConfProtocolKey        表示字符串Protocol，目前值为qiniu
-MtcConfAccessKeyKey        表示字符串AccessKey
-MtcConfSecretKeyKey        表示字符串SecretKey
-MtcConfBucketNameKey    表示字符串BucketName 空间名 video
-MtcConfFileKeyKey        表示字符串FileKey，用来定义文件名 用户填入.mp4
- 
-MtcConfAutoSplitKey        表示字符串AutoSplit,用来分割录制文件，优点是直播器异常退出的话，还可以提交录制文件给七牛。
-MtcConfSplitFileSizeKey     表示字符串SplitFileSize,规定分割的大小。
-*/
 
 
 - (IBAction)clickVedioControlBtn:(UIButton *)sender {
@@ -68,8 +51,6 @@ MtcConfSplitFileSizeKey     表示字符串SplitFileSize,规定分割的大小�
 #pragma mark - 录屏
 
 - (void)startScreen {
-//    @"MtcConfAccessKeyKey" : @"EuOXxzahj6vQ6VxyIq9Hu5DLBz2xz0B3ZimBMYjH",
-//    @"MtcConfSecretKeyKey" : @"A-CB5N8j-AyQRtDbWUj9bjNusIeIQwrGzJr__7Du",
 
     //    判断是否为直播会议
 //    ZUINT iConfId = self.meeting.conferenceNumber.intValue;
@@ -83,32 +64,33 @@ MtcConfSplitFileSizeKey     表示字符串SplitFileSize,规定分割的大小�
     
     // 发起录屏
     NSString *fileName = [NSString stringWithFormat:@"test%@.mp4", self.meeting.meetingId];
-    NSDictionary *storageDic = @{@"MtcConfProtocolKey" : @"qiniu",
-                                 @"MtcConfAccessKeyKey" : @"aaa",
-                                 @"MtcConfSecretKeyKey" : @"sss",
-                                 @"MtcConfBucketNameKey" : @"video",
-                                 @"MtcConfFileKeyKey" : fileName};
-    NSDictionary *para = @{@"MtcConfIsVideoKey" : @YES, @"MtcConfStorageKey" : storageDic};
+//    NSDictionary *storageDic = @{@"MtcConfProtocolKey" : @"qiniu",
+//                                 @MtcConfAccessKeyKey : @"EuOXxzahj6vQ6VxyIq9Hu5DLBz2xz0B3ZimBMYjH",
+//                                 @"MtcConfSecretKeyKey" : @"A-CB5N8j-AyQRtDbWUj9bjNusIeIQwrGzJr__7Du",
+//                                 @"MtcConfBucketNameKey" : @"video",
+//                                 @"MtcConfFileKeyKey" : fileName};
+//    NSDictionary *para = @{@MtcConfIsVideoKey : @YES, @"MtcConfStorageKey" : storageDic};
+    NSDictionary *storageDic = @{@"Protocol" : @"qiniu",
+                                 @"AccessKey" : @"EuOXxzahj6vQ6VxyIq9Hu5DLBz2xz0B3ZimBMYjH",
+                                 @"SecretKey" : @"A-CB5N8j-AyQRtDbWUj9bjNusIeIQwrGzJr__7Du",
+                                 @"BucketName" : @"video",
+                                 @"FileKey" : fileName};
+    NSDictionary *para = @{@"MtcConfIsVideoKey" : @YES, @"Storage" : storageDic};
+
     
-    NSData *data = [NSJSONSerialization dataWithJSONObject:para options:0 error:nil];
-    
-    ZINT ret = Mtc_ConfCommand(iConfId, MtcConfCmdReplayStartRecord, [data bytes]);// MTC: ERROR:  334967056 No replayer.
+    ZINT s = Mtc_ConfStartCdn(iConfId);
+    if (s != ZOK) {
+        [CTToast showWithText:@"开启 cdn 失败"];
+    }
+
+    ZINT ret = Mtc_ConfCommand(iConfId, MtcConfCmdReplayStartRecord, [para JSONString].UTF8String);
     if (ret == ZOK) {
         self.vedioControlBtn.selected = YES;
+        self.isScreening = YES;
+        [CTToast showWithText:@"开始录屏"];
     } else {
         [CTToast showWithText:@"发起录屏 失败"];
     }
-    
-//    NSString *json = [para JSONString];
-//    ZCHAR *pcCmd = MtcConfCmdReplayStartRecord;
-//    ZCONST ZCHAR *pcParm = json.UTF8String;
-//
-//    ZINT success = Mtc_ConfCommand(iConfId, pcCmd, pcParm);
-//    if (success == ZOK) {
-//        self.vedioControlBtn.selected = YES;
-//    } else {
-//        [CTToast showWithText:@"发起录屏 失败"];
-//    }
 }
 
 - (void)startScreen0 {
@@ -141,6 +123,7 @@ MtcConfSplitFileSizeKey     表示字符串SplitFileSize,规定分割的大小�
     ZINT success = Mtc_ConfCommand(iConfId, pcCmd, pcParm);
     if (success == ZOK) {
         self.vedioControlBtn.selected = YES;
+        [CTToast showWithText:@"开始录屏"];
     } else {
         [CTToast showWithText:@"发起录屏 失败"];
     }
@@ -150,9 +133,17 @@ MtcConfSplitFileSizeKey     表示字符串SplitFileSize,规定分割的大小�
 //    ZUINT iConfId = self.meeting.conferenceNumber.intValue;
     ZUINT iConfId = self.confID;
     ZCHAR *pcCmd = MtcConfCmdReplayStopRecord;
+    
+    ZINT s = Mtc_ConfStopCdn(iConfId);
+    if (s != ZOK) {
+        [CTToast showWithText:@"关闭 cdn 失败"];
+    }
+
     ZINT success = Mtc_ConfCommand(iConfId, pcCmd, nil);
     if (success == ZOK) {
         self.vedioControlBtn.selected = NO;
+        self.isScreening = NO;
+        [CTToast showWithText:@"结束录屏"];
     } else {
         [CTToast showWithText:@"结束录屏 失败"];
     }

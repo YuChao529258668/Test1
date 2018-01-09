@@ -18,7 +18,7 @@
 #import "CGHorrolEntity.h"
 
 #define kDoodletoolbarHeight 44
-#define kDoodletoolbarWidth  [UIScreen mainScreen].bounds.size.width //原来179
+//#define kDoodletoolbarWidth  [UIScreen mainScreen].bounds.size.width //原来179
 
 // 课件名称
 NSString * const kkCoursewareJuphoon = @"COURSEWARE_JUPHOON";
@@ -177,7 +177,9 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 
 - (void)configBtns:(BOOL)isReview {
 //    BOOL isReview = self.isReview;
-    self.closeDocBtn.hidden = isReview;
+    if (isReview) {
+        self.closeDocBtn.hidden = YES;
+    }
     self.isSyncSwitchPage = !isReview;
     if (!isReview) {
         _actionMode = TouchActionDraw;
@@ -298,29 +300,32 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 - (void)layoutViews {
 //    NSLog(@"%@", NSStringFromCGRect(self.view.frame));
     
-    {
+    {// 画板
         float height = self.view.bounds.size.height - kDoodletoolbarHeight;
         self.doodleView.frame = CGRectMake(0, 0, self.view.bounds.size.width, height);
     }
     
-    {
+    {// 画板工具栏
         CGFloat x = 0;
         CGFloat y = self.view.bounds.size.height - kDoodletoolbarHeight;
-        self.doodletoolbar.frame = CGRectMake(x, y, kDoodletoolbarWidth, kDoodletoolbarHeight);
+//        self.doodletoolbar.frame = CGRectMake(x, y, kDoodletoolbarWidth, kDoodletoolbarHeight);
+        self.doodletoolbar.frame = CGRectMake(x, y, self.view.bounds.size.width, kDoodletoolbarHeight);
     }
     
-    {
-        CGFloat x = (self.view.bounds.size.width - 308) / 2;
-        CGFloat y = self.view.bounds.size.height - 28 - 87;
-        self.colorsToolbar.frame = CGRectMake(x, y, 308, 28);
+    {// 颜色栏
+//        CGFloat x = (self.view.bounds.size.width - 308) / 2;
+//        CGFloat y = self.view.bounds.size.height - 28 - 87;
+//        self.colorsToolbar.frame = CGRectMake(x, y, 308, 28);
         
         CGSize size = self.colorsToolbar.mySize;
 //        x = self.doodletoolbar.buttons.firstObject.frame.origin.x;
-        x = self.doodletoolbar.buttons.firstObject.center.x - self.colorsToolbar.mySize.width / 2;
-        y = self.view.frame.size.height - kDoodletoolbarHeight - size.height;
+        CGFloat x = self.doodletoolbar.buttons.firstObject.center.x - self.colorsToolbar.mySize.width / 2;
+//        CGFloat y = self.view.frame.size.height - kDoodletoolbarHeight - size.height; // 全屏后，x = 13, y = 320
+        CGFloat y = self.view.bounds.size.height - kDoodletoolbarHeight - size.height;
         self.colorsToolbar.frame = CGRectMake(x, y, size.width, size.height);
     }
     
+    // 翻页
     [self layoutPPTViews];
     
 //
@@ -404,7 +409,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     
     [self setupPPTViews];
 //    [self beginCheckCurrentMeetingFile];
-    [self checkCurrentMeetingFile];
+//    [self checkCurrentMeetingFile];
     [self configBtns:self.isReview];
 }
 
@@ -994,12 +999,14 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 - (void)layoutPPTViews {
     // 上一页、下一页、页码、关闭文档按钮
     
-    float sw = self.view.frame.size.width; // 父视图宽度
+//    float sw = self.view.frame.size.width; // 父视图宽度
+    float sw = self.view.bounds.size.width; // 父视图宽度
     float btnW = 22; // 按钮宽度
     
     float barH = 44; // 底部栏高度
-    float y = self.view.frame.size.height - (barH / 2 + btnW / 2);
-    
+//    float y = self.view.frame.size.height - (barH / 2 + btnW / 2);
+    float y = self.view.bounds.size.height - (barH / 2 + btnW / 2);
+
     float nextX = sw - btnW - 15;
     self.nextBtn.frame = CGRectMake(nextX, y, btnW, btnW);
 
@@ -1178,7 +1185,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
         [weakself setBackgroundImages:images];
         
     } fail:^(NSError *error) {
-        [CTToast showWithText:[NSString stringWithFormat:@"获取当前课件失败 : %@", error]];
+//        [CTToast showWithText:[NSString stringWithFormat:@"获取当前课件失败 : %@", error]];
     }];
 }
 

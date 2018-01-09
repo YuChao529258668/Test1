@@ -96,109 +96,118 @@ static CTNetWorkUtil *_sharedManager;
  */
 - (void)sendRequestWithURL:(NSString *)urlString param:(NSDictionary *)param{
     if (![urlString containsString:@"interact/data"]) {
-        NSLog(@"\n请求总出口 请求地址：%@, 参数：%@\n",urlString,param);
+        NSLog(@"\n请求总出口 请求地址：%@, 参数：%@\n",urlString, [YCTool stringOfDictionary:param]);
+//        NSLog(@"\n请求总出口 请求地址：%@, 参数：%@\n",urlString, param);
         NSLog(@"-------------------------------------");
     }
     
-  // 请求的manager
-  NSDate *requestStartDate = [NSDate date];
-  _request = [AFHTTPSessionManager manager];
-  _request.requestSerializer.timeoutInterval = kRequsetTimeOutSeconds;
-  [_request.requestSerializer setValue:@"application/x-www-form-urlencoded;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
-  [_request.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-  __weak typeof(self) weakSelf = self;
+    // 请求的manager
+    NSDate *requestStartDate = [NSDate date];
+    _request = [AFHTTPSessionManager manager];
+    _request.requestSerializer.timeoutInterval = kRequsetTimeOutSeconds;
+    [_request.requestSerializer setValue:@"application/x-www-form-urlencoded;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    [_request.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    __weak typeof(self) weakSelf = self;
     
-  [_request POST:urlString parameters:param progress:^(NSProgress * _Nonnull uploadProgress) {
-    
-  } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-      if (![urlString containsString:@"interact/data"]) {
-          NSLog(@"\n请求总出口 %@, 请求接口：%@，返回数据：%@\n", NSStringFromSelector(_cmd),urlString,responseObject);
-          NSLog(@"-------------------------------------");
-      }
-      
-            NSDictionary *res = responseObject;
-            if(res){
-                int errCode = [[res objectForKey:@"errcode"]intValue];
-                //记录请求日志
-              NSData *jsonData = [NSJSONSerialization dataWithJSONObject:param options:0 error:nil];
-                  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-                [weakSelf saveRequestLog:errCode message:[res objectForKey:@"message"] startDate:requestStartDate url:urlString param:jsonString];
-    
-                if(errCode == 0){
-                    if(successcallback){
-                        successcallback([res objectForKey:@"data"]);
+    [_request POST:urlString parameters:param progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (![urlString containsString:@"interact/data"]) {
+            NSLog(@"\n请求总出口 %@, 请求接口：%@，返回数据：%@\n", NSStringFromSelector(_cmd),urlString,[YCTool stringOfDictionary:responseObject]);
+            NSLog(@"-------------------------------------");
+        }
+        
+        NSDictionary *res = responseObject;
+        if(res){
+            int errCode = [[res objectForKey:@"errcode"]intValue];
+            //记录请求日志
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:param options:0 error:nil];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            [weakSelf saveRequestLog:errCode message:[res objectForKey:@"message"] startDate:requestStartDate url:urlString param:jsonString];
+            
+            if(errCode == 0){
+                if(successcallback){
+                    successcallback([res objectForKey:@"data"]);
+                }
+                //                    successcallback = nil;
+            }else if(errCode == 100002){//token过期,重新获取
+                [weakSelf autoLogin];
+            }else if(errCode == 110006){//非法uuid
+                NSString *text = [NSString stringWithFormat:@"非法 UUID：%@", param[@"identity"]];
+                //                    [CTToast showWithText:text];
+                //                    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:text preferredStyle:UIAlertControllerStyleAlert];
+                //                    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                //
+                //                    }];
+                //                    [ac addAction:sure];
+                //                    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+                
+                
+                NSLog(@"%@", text);
+                //                    [weakSelf autoLogin];
+                
+                [ObjectShareTool sharedInstance].isloginState = 1;
+                [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
+            }else{
+                if(failcallback){
+                    failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:errCode userInfo:res]);
+                    //                        failcallback = nil;
+                }
+                if (errCode == 110113) {//未登陆
+                    //                        [CTToast showWithText:@"未登录：110113"];
+                    if ([ObjectShareTool sharedInstance].currentUser.isLogin == YES) {
+                        [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
                     }
-//                    successcallback = nil;
-                }else if(errCode == 100002){//token过期,重新获取
-                    [weakSelf autoLogin];
-                }else if(errCode == 110006){//非法uuid
-                    NSString *text = [NSString stringWithFormat:@"非法 UUID：%@", param[@"identity"]];
-//                    [CTToast showWithText:text];
-//                    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:text preferredStyle:UIAlertControllerStyleAlert];
-//                    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//
-//                    }];
-//                    [ac addAction:sure];
-//                    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
-                    
-                    
-                    NSLog(@"%@", text);
-//                    [weakSelf autoLogin];
-
-                  [ObjectShareTool sharedInstance].isloginState = 1;
-                  [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
-                }else{
-                    if(failcallback){
-                        failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:errCode userInfo:res]);
-//                        failcallback = nil;
-                    }
-                    if (errCode == 110113) {//未登陆
-//                        [CTToast showWithText:@"未登录：110113"];
-                        if ([ObjectShareTool sharedInstance].currentUser.isLogin == YES) {
-                          [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
-                        }
-                    }
-                    if(errCode == 110131 || errCode == 110113 || errCode == 110005){//不弹提示
-                        return;
-                    }
-                  if (errCode == 10086) {
+                }
+                if(errCode == 110131 || errCode == 110113 || errCode == 110005){//不弹提示
+                    return;
+                }
+                if (errCode == 10086) {
                     UIWindow *window = [UIApplication sharedApplication].keyWindow;
                     [[CTToast makeText:@"服务正在升级"]show:window];
                     return;
-                  }
-                    NSString *message = [res objectForKey:@"message"];
-                    if(message && message.length > 0){
-                        UIWindow *window = [UIApplication sharedApplication].keyWindow;
-                        [[CTToast makeText:message]show:window];
-                    }
                 }
-            }else{
-                if(failcallback){
-                    failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:-1 userInfo:nil]);
-//                    failcallback = nil;
+                NSString *message = [res objectForKey:@"message"];
+                if(message && message.length > 0){
+                    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+                    [[CTToast makeText:message]show:window];
                 }
             }
-  } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//            NSLog(@"请求失败：%@",request.url.absoluteString);
-            NSString *errMsg = nil;
-            if(error.code == ASIConnectionFailureErrorType){
-                errMsg = @"连接失败，请稍后再试";
-            }
+        }else{
             if(failcallback){
                 failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:-1 userInfo:nil]);
-//                failcallback = nil;
+                //                    failcallback = nil;
             }
-            if([CTStringUtil stringNotBlank:errMsg]){
-    //            UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    //            [[CTToast makeText:errMsg]show:window];
-                //记录请求日志
-              NSData *jsonData = [NSJSONSerialization dataWithJSONObject:param options:0 error:nil];
-              NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-                [weakSelf saveRequestLog:-1 message:errMsg startDate:requestStartDate url:urlString param:jsonString];
-              
-            }
+        }
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        //            NSLog(@"请求失败：%@",request.url.absoluteString);
+        NSString *errMsg = nil;
+        if(error.code == ASIConnectionFailureErrorType){
+            errMsg = @"连接失败，请稍后再试";
+        }
+        if(failcallback){
+            failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:-1 userInfo:nil]);
+            //                failcallback = nil;
+        }
+        if([CTStringUtil stringNotBlank:errMsg]){
+            //            UIWindow *window = [UIApplication sharedApplication].keyWindow;
+            //            [[CTToast makeText:errMsg]show:window];
+            //记录请求日志
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:param options:0 error:nil];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            [weakSelf saveRequestLog:-1 message:errMsg startDate:requestStartDate url:urlString param:jsonString];
+            
+        }
+        
+    }];
+}
+
+#pragma mark -
+
+- (void)saveResponseData:(NSData *)data {
     
-  }];
 }
 
 //记录请求日志
@@ -262,6 +271,7 @@ static CTNetWorkUtil *_sharedManager;
     }
   }
   NSString *identifier = [CTDeviceTool getUniqueDeviceIdentifierAsString];
+    NSLog(@"设备码 = %@", identifier);
 //    NSLog(@"啦啦啦identifier =  %@", identifier);
   NSString *version = @"1.0";//会影响到数据的返回，不可乱改
   NSString *platform = @"IOS_APP";

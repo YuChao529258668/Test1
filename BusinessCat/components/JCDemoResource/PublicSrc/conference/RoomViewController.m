@@ -167,6 +167,7 @@ typedef enum {
 
 @property (weak, nonatomic) IBOutlet UILabel *hintLabel; // 正在加入会议，请稍后。或者提示会议已结束
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn; // 取消按钮
+@property (nonatomic,assign) BOOL shouldHiddeStatusBar;
 
 
 @end
@@ -208,7 +209,7 @@ typedef enum {
         _whiteBoardViewController.isReview = self.isReview;
         [self setupGesture];
     }
-    return _whiteBoardViewController;//
+    return _whiteBoardViewController;
 }
 
 - (JCMenuViewController *)menuViewController
@@ -330,7 +331,7 @@ typedef enum {
     [_confManager setMaxCapacity:16];
     [_confManager setDefaultAudio:YES]; // 默认打开音频
     [_confManager setLiveEnable:YES]; // 直播
-    [_confManager setCdnUrl:@"www.baidu.com"];
+    [_confManager setCdnUrl:@"rtmp://17390.livepush.myqcloud.com/live/17390_b01d76b4f1fc11e792905cb9018cf0d4?bizid=17390"];
     
     [self configForCustom]; // 自定义
     self.hintLabel.textColor = [UIColor whiteColor];
@@ -431,6 +432,7 @@ typedef enum {
         soundBtn.selected = YES;
     }
 
+    [self.whiteBoardViewController checkCurrentMeetingFile];
 //    [self.membersVC reloadTableView];
 }
 
@@ -975,6 +977,16 @@ typedef enum {
     } else {
         self.whiteBoardViewController.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
     }
+    
+//    [UIView animateWithDuration:0.26 animations:^{
+//        // 白板全屏的时候，允许自动旋转
+//        if (self.isFullScreen) {
+//            self.whiteBoardViewController.view.frame = CGRectMake(0, 0, kMainScreenWidth, kMainScreenHeight);
+//        } else {
+//            self.whiteBoardViewController.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
+//        }
+//    }];
+
 }
 
 - (void)layoutTabBar {
@@ -1557,12 +1569,37 @@ typedef enum {
 - (void)handleDoubleTapForWhiteBoardVC {
     self.isFullScreen = !self.isFullScreen;
     [self.whiteBoardViewController.view.superview bringSubviewToFront:self.whiteBoardViewController.view];
-//    [self.whiteBoardViewController handleDoubleTap];
-    [self layoutViewControllers];
+    
+    // 旋转
     double rotation = self.isFullScreen? M_PI_2: 0;
-    self.whiteBoardViewController.view.transform = CGAffineTransformMakeRotation(rotation);
+    [UIView animateWithDuration:0.26 animations:^{
+//        [self layoutViewControllers];
+//        self.whiteBoardViewController.view.transform = CGAffineTransformMakeRotation(rotation);
+        
+        // 白板全屏的时候，允许自动旋转
+        if (self.isFullScreen) {
+            self.whiteBoardViewController.view.frame = CGRectMake(0, 0, kMainScreenWidth, kMainScreenHeight);
+        } else {
+            float y = kVideoViewHeight + kTabBarHeight;
+            self.whiteBoardViewController.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
+        }
+    }];
+    
+    // 隐藏状态栏
+    self.shouldHiddeStatusBar = self.isFullScreen;
+    [self setNeedsStatusBarAppearanceUpdate];
+    
+    // 关闭右上角的工具栏
+    if (self.isFullScreen) {
+        self.conferenceToolBar.hidden = YES;
+    }
 }
 
+#pragma mark - 状态栏
+
+- (BOOL)prefersStatusBarHidden {
+    return self.shouldHiddeStatusBar;
+}
 
 #pragma mark - 收到命令
 

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSMutableArray *data;
 
 @property (nonatomic,strong) NSString *filePath;
+@property (nonatomic,strong) NSMutableArray *allData;
 
 
 @end
@@ -27,8 +28,68 @@
   NSString *filePath = [path stringByAppendingPathComponent:@"shujudata"];
     self.filePath = filePath;
   self.data = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath]; // 放的字典
+    self.allData = self.data.copy;
+//    [self setupShareBtn];
+    [self setupChoseBtn];
 }
 
+#pragma mark -
+
+- (void)setupChoseBtn {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [btn setTitle:@"筛选" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(clickChoseBtn) forControlEvents:UIControlEventTouchUpInside];
+    btn.frame = CGRectMake(self.navi.frame.size.width - 60, 20, 40, 40);
+    [self.navi addSubview:btn];
+}
+
+- (void)clickChoseBtn {
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"只显示 token" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSMutableArray *datas = [NSMutableArray array];
+        for (NSDictionary *dic in self.data) {
+            if ([dic[@"url"] containsString:@"user/token"]) {
+                [datas addObject:dic];
+            }
+        }
+        self.data = datas;
+        [self.tableView reloadData];
+    }];
+
+    UIAlertAction *all = [UIAlertAction actionWithTitle:@"显示全部" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.data = self.allData;
+        [self.tableView reloadData];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler: nil];
+    [ac addAction:sure];
+    [ac addAction:all];
+    [ac addAction:cancel];
+    [self presentViewController:ac animated:YES completion:nil];
+}
+
+- (void)setupShareBtn {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [btn setTitle:@"分享" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(clickShareBtn) forControlEvents:UIControlEventTouchUpInside];
+    btn.frame = CGRectMake(self.navi.frame.size.width - 60, 20, 40, 40);
+    [self.navi addSubview:btn];
+}
+
+- (void)clickShareBtn {
+    if (!self.filePath) {
+        [CTToast showWithText:@"文件不存在"];
+        return;
+    }
+    
+    NSString *shareitle = @"分享1";
+    NSURL *shareURL = [NSURL URLWithString:@"http://www.baidu.com"];
+    UIImage *image = [UIImage imageNamed:@"default"];
+    NSArray *activityItems = @[image, shareURL,shareitle];
+
+    UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+}
 
 #pragma mark - UITableViewDelegate
 
@@ -76,10 +137,12 @@
   cell.starttime.text = [NSString stringWithFormat:@"开始时间：%@",dic[@"strtime"]];
   cell.time.text = [NSString stringWithFormat:@"结束时间：%@",dic[@"endtime"]];
   cell.url.text = [NSString stringWithFormat:@"请求接口：%@",dic[@"url"]];
+//    cell.url.textColor = [UIColor greenColor];
+
   if ([dic[@"url"] containsString:@"qiniu/getCoverUpLoadToken"]||[dic[@"url"] containsString:@"user/detail"]) {
     cell.url.textColor = CTThemeMainColor;
   }else{
-    cell.url.textColor = TEXT_MAIN_CLR;
+    cell.url.textColor = [UIColor blueColor];
   }
   cell.canshu.text = [NSString stringWithFormat:@"请求参数：%@",dic[@"param"]];
   cell.errcode.text = [NSString stringWithFormat:@"错误码：%@",dic[@"errCode"]];
@@ -87,6 +150,18 @@
   cell.message.text = [NSString stringWithFormat:@"错误码信息：%@",dic[@"message"]];
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+//    if (indexPath.row %2 == 0) {
+//        cell.backgroundColor = [UIColor lightGrayColor];
+//    } else {
+//        cell.backgroundColor = [UIColor whiteColor];
+//    }
+    
+//    if ([dic[@"url"] containsString:@"user/token"]) {
+//        if (![dic[@"param"] objectForKey:@"secuCode"]) {
+//            cell.backgroundColor = [UIColor redColor];
+//        }
+//    }
+
     return cell;
 }
 

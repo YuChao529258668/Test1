@@ -320,9 +320,50 @@
     return [self getMacUniqueIdentifier];
 }
 
+static NSString *ApplicationUUID;
 //使用钥匙串获取唯一id
 +(NSString *)getUniqueDeviceIdentifierAsString{
-    NSString *appName = @"CGKnowledgeIOS";
+    if (!ApplicationUUID) {
+        NSString *appName = @"BusinessCat";
+        NSString *strApplicationUUID =  [SAMKeychain passwordForService:appName account:appName];
+        if (strApplicationUUID == nil){
+            strApplicationUUID  = [NSString stringWithFormat:@"CGKnowledgeIOS%@",[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
+//            NSLog(@"生成设备唯一标识：%@",strApplicationUUID);
+//            NSError *error = nil;
+//            SAMKeychainQuery *query = [[SAMKeychainQuery alloc] init];
+//            query.service = appName;
+//            query.account = appName;
+//            query.password = strApplicationUUID;
+//            query.synchronizationMode = SAMKeychainQuerySynchronizationModeNo;
+//            [query save:&error];
+//            if (error) {
+//                NSLog(@"%@, 保存唯一标识失败 :   = %@", NSStringFromSelector(_cmd), error.description);
+//                [CTToast showWithText:[NSString stringWithFormat:@"保存唯一标识失败 : %@", error.description]];
+//            }
+            
+            NSError *error2 = nil;
+            [SAMKeychain setPassword:strApplicationUUID forService:appName account:appName error:&error2];
+            if (error2) {
+                NSLog(@"%@, 保存唯一标识失败 :   = %@", NSStringFromSelector(_cmd), error2.description);
+//                [CTToast showWithText:[NSString stringWithFormat:@"保存唯一标识失败 : %@", error2.description]];
+            }
+        }
+        ApplicationUUID = strApplicationUUID;
+    }
+    return ApplicationUUID;
+
+//    // 重装后改变？
+//    NSString *strApplicationUUID  = [NSString stringWithFormat:@"CGKnowledgeIOS%@",[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
+////    NSLog(@"设备码 生成设备唯一标识：%@",strApplicationUUID);
+//    return strApplicationUUID;
+    
+    
+    /*
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+//    NSString *appName = infoDictionary[@"CFBundleDisplayName"];
+//    NSString *appName = infoDictionary[@"CFBundleName"];
+//    NSString *appName = @"CGKnowledgeIOS";
+    NSString *appName = @"BusinessCat";
     NSString *strApplicationUUID =  [SAMKeychain passwordForService:appName account:appName];
     if (strApplicationUUID == nil){
         strApplicationUUID  = [NSString stringWithFormat:@"CGKnowledgeIOS%@",[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
@@ -334,7 +375,19 @@
         query.password = strApplicationUUID;
         query.synchronizationMode = SAMKeychainQuerySynchronizationModeNo;
         [query save:&error];
+        if (error) {
+            NSLog(@"%@, 保存唯一标识失败 :   = %@", NSStringFromSelector(_cmd), error.description);
+            [CTToast showWithText:[NSString stringWithFormat:@"保存唯一标识失败 : %@", error.description]];
+        }
+
+        NSError *error2 = nil;
+        [SAMKeychain setPassword:strApplicationUUID forService:appName account:appName error:&error2];
+        if (error2) {
+            NSLog(@"%@, 保存唯一标识失败 :   = %@", NSStringFromSelector(_cmd), error.description);
+            [CTToast showWithText:[NSString stringWithFormat:@"保存唯一标识失败 : %@", error.description]];
+        }
     }
     return strApplicationUUID;
+     */
 }
 @end

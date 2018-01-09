@@ -19,4 +19,10 @@
 // 16进制颜色
 + (UIColor *)colorOfHex:(NSInteger)s;
 
+#pragma mark -
+
++ (NSString *)stringOfDictionary:(NSDictionary *)dic;
+
++ (NSString *)stringOfArray:(NSArray *)array;
+
 @end

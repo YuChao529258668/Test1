@@ -57,4 +57,86 @@
     NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).lastObject;
 }
 
+- (void)test {
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileURL:[NSURL fileURLWithPath:@"file://path/to/image.jpg"] name:@"file" fileName:@"filename.jpg" mimeType:@"image/jpeg" error:nil];
+    } error:nil];
+    
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLSessionUploadTask *uploadTask;
+    uploadTask = [manager
+                  uploadTaskWithStreamedRequest:request
+                  progress:^(NSProgress * _Nonnull uploadProgress) {
+                      // This is not called back on the main queue.
+                      // You are responsible for dispatching to the main queue for UI updates
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                          //Update the progress view
+//                          [progressView setProgress:uploadProgress.fractionCompleted];
+                      });
+                  }
+                  completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+                      if (error) {
+                          NSLog(@"Error: %@", error);
+                      } else {
+                          NSLog(@"%@ %@", response, responseObject);
+                      }
+                  }];
+    
+    [uploadTask resume];
+}
+
+
+#pragma mark -
+
++ (NSString *)stringOfDictionary:(NSDictionary *)dic {
+    if (!dic) {
+        return nil;
+    }
+    
+    NSMutableString *string = [NSMutableString stringWithString:@"{\n"];
+    
+    [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [string appendFormat:@"\t%@ = %@, \n", key, obj];
+    }];
+    
+    [string appendString:@"}"];
+    
+    NSRange range = [string rangeOfString:@"," options:NSBackwardsSearch];
+    if (range.location != NSNotFound) {
+        [string deleteCharactersInRange:range];
+    }
+    
+    return string;
+}
+
++ (NSString *)stringOfArray:(NSArray *)array {
+    if (!array) {
+        return nil;
+    }
+
+    NSMutableString *string = [NSMutableString stringWithString:@"[\n"];
+    
+    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [string appendFormat:@"\t a[%lu] = %@, \n", (unsigned long)idx, obj];
+    }];
+    
+    [string appendString:@"]"];
+    
+    NSRange range = [string rangeOfString:@"," options:NSBackwardsSearch];
+    if (range.location != NSNotFound) {
+        [string deleteCharactersInRange:range];
+    }
+
+    return string;
+}
+
+
+
+
+
+
+
+
+
 @end

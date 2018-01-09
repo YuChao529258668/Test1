@@ -46,11 +46,11 @@
         [param setObject:secuCode forKey:@"secuCode"];
         NSLog(@"secuCode = %@", secuCode);
     }else{
-//      UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"没传secucode" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-//      [al show];
+      UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"获取 token: secucode 为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+      [al show];
         NSLog(@"secucode = nil %@", NSStringFromSelector(_cmd));
         NSLog(@"获取 token: secucode 为空");
-        [CTToast showWithText:@"获取 token: secucode 为空"];
+//        [CTToast showWithText:@"获取 token: secucode 为空"];
     }
     
     [self.component sendPostRequestWithURL:URL_USER_TOKEN param:param success:^(id data) {
@@ -125,6 +125,7 @@
     if ([CTStringUtil stringNotBlank:code]) {
         [param setObject:code forKey:@"code"];
     }
+//    __weak typeof(self) weakself = self;
     [self.component sendPostRequestWithURL:URL_USER_DETAIL param:param success:^(id data) {
         [CGUserEntity mj_setupObjectClassInArray:^NSDictionary *{
             return @{
@@ -169,6 +170,13 @@
         }
         
         if(user.isLogin == 0 && [CTStringUtil stringNotBlank:user.phone]){
+            NSString *message = [NSString stringWithFormat:@"后台返回用户详情：isLogin = 0，即将清除数据。phone =  %@, token = %@,  secuCode = %@, uuid = %@, 请求参数 = %@", user.phone, user.token, user.secuCode, user.uuid, [YCTool stringOfDictionary:param]];
+            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"调试" message:message preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+            [ac addAction:cancel];
+            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+            
             [[[CGUserDao alloc]init]cleanLoginedUser];
             [self getToken:^(NSString *uuid, NSString *token) {
                 success([ObjectShareTool sharedInstance].currentUser);
