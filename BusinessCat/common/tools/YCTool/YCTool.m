@@ -181,8 +181,21 @@
     return dic;
 }
 
+#pragma mark - String 字符串
 
+// 编码(加密)
++ (NSString *)base64String:(NSString *)decodeString {
+    NSData *encodeData = [decodeString dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *base64String = [encodeData base64EncodedStringWithOptions:0];
+    return base64String;
+}
 
+// 解码(解密)
++ (NSString *)decodeBase64String:(NSString *)base64String {
+    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:base64String options:0];
+    NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+    return decodedString;
+}
 
 
 @end

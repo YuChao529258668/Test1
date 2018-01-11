@@ -19,4 +19,7 @@
 @property (nonatomic,strong) NSString *SecretKey;
 @property (nonatomic,strong) NSString *BucketName;
 
+// 点击录制按钮
+- (IBAction)clickVedioControlBtn:(UIButton *)btn;
+
 @end

@@ -16,10 +16,20 @@
 @interface ConferenceToolBar ()
 
 @property (nonatomic, strong) NSMutableArray<UIButton *> *buttonArray;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
 
 @end
 
 @implementation ConferenceToolBar
+
+- (IBAction)clickCloseBtn:(id)sender {
+    self.hidden = YES;
+}
+
++ (instancetype)bar {
+    ConferenceToolBar *bar = [[NSBundle mainBundle] loadNibNamed:@"ConferenceToolBar" owner:nil options:nil].lastObject;
+    return bar;
+}
 
 - (NSArray<UIButton *> *)buttons
 {
@@ -30,7 +40,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self initButtons];
+//        [self initButtons];
+        [self configSubviews];
+        [self updateLabels];
     }
     return self;
 }
@@ -39,7 +51,10 @@
 {
     [super awakeFromNib];
     
-    [self initButtons];
+//    [self initButtons];
+    [self configSubviews];
+    [self updateLabels];
+    
 }
 
 - (void)initButtons
@@ -95,9 +110,9 @@
 {
     [super layoutSubviews];
     
-    CGFloat totalWidth = kToolBarButtonWidth * kToolBarButtonCount + kToolBarButtonSpacing * (kToolBarButtonCount - 1);
+//    CGFloat totalWidth = kToolBarButtonWidth * kToolBarButtonCount + kToolBarButtonSpacing * (kToolBarButtonCount - 1);
     
-    CGSize size = self.bounds.size;
+//    CGSize size = self.bounds.size;
     
     [_buttonArray enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 //        obj.frame = CGRectMake((size.width - totalWidth) / 2 + idx * (kToolBarButtonWidth + kToolBarButtonSpacing),
@@ -111,12 +126,76 @@
     }];
 }
 
-- (void)click:(UIButton *)button
+- (IBAction)click:(UIButton *)button
 {
+//    if (_delegate) {
+//        [_delegate conferenceToolBar:self clickButton:button buttonType:[_buttonArray indexOfObject:button]];
+//    }
+    
     if (_delegate) {
-        [_delegate conferenceToolBar:self clickButton:button buttonType:[_buttonArray indexOfObject:button]];
+        [_delegate conferenceToolBar:self clickButton:button buttonType:button.tag];
+        [self updateLabels];
+    }
+
+}
+
+- (void)updateLabels {
+    // isSelected 是改变后的按钮状态
+    self.microphoneLabel.text = !self.microphoneBtn.isSelected? @"打开语音": @"关闭语音";
+    self.volumeLabel.text = self.volumeBtn.isSelected? @"打开扬声器": @"关闭扬声器";
+    self.videoLabel.text = !self.videoBtn.isSelected? @"打开视频": @"关闭视频";
+    
+    self.RECLabel.text = !self.RECBtn.isSelected? @"开始录制": @"结束录制";
+    self.liveLabel.text = !self.liveBtn.isSelected? @"开始直播": @"结束直播";
+}
+
+- (void)configSubviews {
+    self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+    self.contentView.layer.cornerRadius = 6;
+    self.contentView.clipsToBounds = YES;
+
+    
+    float scale = 0.9;
+    CGPoint center = self.contentView.center;
+    self.contentView.transform = CGAffineTransformMakeScale(scale, scale);
+    self.contentView.center = center;
+
+    
+    self.microphoneBtn.tag = ConferenceToolBarButtonMicrophone;
+    self.volumeBtn.tag = ConferenceToolBarButtonVolume;
+    self.videoBtn.tag = ConferenceToolBarButtonVideo;
+    
+    self.cameraBtn.tag = ConferenceToolBarButtonCamera;
+    self.RECBtn.tag = ConferenceToolBarButtonREC;
+    self.liveBtn.tag = ConferenceToolBarButtonLive;
+    
+    self.changeBtn.tag = ConferenceToolBarButtonChange;
+    self.endBtn.tag = ConferenceToolBarButtonEnd;
+    
+    self.videoBtn.selected = YES;
+    
+    
+    _buttonArray = [NSMutableArray array];
+    
+    [_buttonArray addObject:self.microphoneBtn];
+    [_buttonArray addObject:self.volumeBtn];
+    [_buttonArray addObject:self.videoBtn];
+    [_buttonArray addObject:self.cameraBtn];
+    
+    [_buttonArray addObject:self.RECBtn];
+    [_buttonArray addObject:self.liveBtn];
+    [_buttonArray addObject:self.changeBtn];
+    [_buttonArray addObject:self.endBtn];
+    
+    
+    for (UIView *view in self.contentView.subviews) {
+        if ([view isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)view;
+            label.textColor = [UIColor darkGrayColor];
+        }
     }
 }
+
 
 
 @end

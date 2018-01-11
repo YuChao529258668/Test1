@@ -19,7 +19,7 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if (self.isScreening) {
-        [self endScreen];
+        [self endScreen:nil];
     }
 }
 
@@ -30,7 +30,7 @@
 }
 
 
-- (IBAction)clickVedioControlBtn:(UIButton *)sender {
+- (IBAction)clickVedioControlBtn:(UIButton *)btn {
     if (!self.meeting) {
         [CTToast showWithText:@"正在获取会议详情，请稍后再试"];
         return;
@@ -40,13 +40,13 @@
         return;
     }
 
-    NSString *message = self.vedioControlBtn.isSelected? @"结束录屏？": @"开始录屏？";
+    NSString *message = btn.isSelected? @"结束录屏？": @"开始录屏？";
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        if (self.vedioControlBtn.isSelected) {
-            [self endScreen];
+        if (btn.isSelected) {
+            [self endScreen:btn];
         } else {
-            [self startScreen];
+            [self startScreen:btn];
         }
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
@@ -57,10 +57,9 @@
 
 #pragma mark - 录屏
 
-- (void)startScreen {
+- (void)startScreen:(UIButton *)btn {
 
     //    判断是否为直播会议
-//    ZUINT iConfId = self.meeting.conferenceNumber.intValue;
     ZUINT iConfId = self.confID;
     ZCONST ZCHAR *pcName = MtcConfPropDeliveryUri;
     ZCONST ZCHAR *DeliveryURI = Mtc_ConfGetProp(iConfId, pcName); // [username:delivery_10935553@delivery.cloud.justalk.com]
@@ -71,12 +70,6 @@
     
     // 发起录屏
     NSString *fileName = [NSString stringWithFormat:@"test_iOS_%@.mp4", self.meeting.meetingId];
-//    NSDictionary *storageDic = @{@"MtcConfProtocolKey" : @"qiniu",
-//                                 @MtcConfAccessKeyKey : @"EuOXxzahj6vQ6VxyIq9Hu5DLBz2xz0B3ZimBMYjH",
-//                                 @"MtcConfSecretKeyKey" : @"A-CB5N8j-AyQRtDbWUj9bjNusIeIQwrGzJr__7Du",
-//                                 @"MtcConfBucketNameKey" : @"video",
-//                                 @"MtcConfFileKeyKey" : fileName};
-//    NSDictionary *para = @{@MtcConfIsVideoKey : @YES, @"MtcConfStorageKey" : storageDic};
     NSDictionary *storageDic = @{@"Protocol" : @"qiniu",
                                  @"AccessKey" : self.AccessKey,
                                  @"SecretKey" : self.SecretKey,
@@ -92,7 +85,7 @@
 
     ZINT ret = Mtc_ConfCommand(iConfId, MtcConfCmdReplayStartRecord, [para JSONString].UTF8String);
     if (ret == ZOK) {
-        self.vedioControlBtn.selected = YES;
+        btn.selected = YES;
         self.isScreening = YES;
         [CTToast showWithText:@"开始录屏"];
     } else {
@@ -100,8 +93,7 @@
     }
 }
 
-- (void)endScreen {
-//    ZUINT iConfId = self.meeting.conferenceNumber.intValue;
+- (void)endScreen:(UIButton *)btn {
     ZUINT iConfId = self.confID;
     ZCHAR *pcCmd = MtcConfCmdReplayStopRecord;
     
@@ -112,7 +104,7 @@
 
     ZINT success = Mtc_ConfCommand(iConfId, pcCmd, nil);
     if (success == ZOK) {
-        self.vedioControlBtn.selected = NO;
+        btn.selected = NO;
         self.isScreening = NO;
         [CTToast showWithText:@"结束录屏"];
     } else {

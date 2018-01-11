@@ -22,6 +22,7 @@
 @property (nonatomic,copy) void (^onMembersChangeBlock)(NSArray *users);
 @property (nonatomic,copy) void (^onBeRemoveFromMeetingBlock)();
 @property (nonatomic,copy) void (^onMeetingStateChangeBlock)(int meetingState); // 会议结束或取消
+@property (nonatomic,copy) void (^onGetMeetingDateSuccessBlock)(BOOL isMeetingCreator);// 获取数据成功后调用
 
 
 // 解析并更新所有人状态

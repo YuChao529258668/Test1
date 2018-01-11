@@ -837,6 +837,11 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         weakself.meetingState = state;
         weakself.users = weakself.meetingState.meetingUserList;
         [weakself.tableView.mj_header endRefreshing];
+        
+        if (weakself.onGetMeetingDateSuccessBlock) {
+            weakself.onGetMeetingDateSuccessBlock(state.ycIsCompere);
+        }
+        
         if (state.meetingState != 1) { // 1 进行中
             [weakself checkMeetingState]; // 结束或取消会议
         } else {

@@ -220,7 +220,7 @@ typedef enum {
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
     _conferenceToolBar.delegate = self;
-    _conferenceToolBar.buttons[0].selected = YES;
+//    _conferenceToolBar.buttons[0].selected = YES;
     
     [_showButton setImage:[UIImage imageNamed:@"video_window_off_pressed"] forState:UIControlStateSelected | UIControlStateHighlighted];
     

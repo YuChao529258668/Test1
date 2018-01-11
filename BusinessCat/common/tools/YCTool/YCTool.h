@@ -31,4 +31,12 @@
 + (NSArray<NSString *> *)getAllProperties:(NSObject *)obj;
 + (NSDictionary *)print:(NSObject *)obj;
 
+#pragma mark - String 字符串
+
+// 编码(加密)
++ (NSString *)base64String:(NSString *)decodeString;
+
+// 解码(解密)
++ (NSString *)decodeBase64String:(NSString *)base64String;
+
 @end
