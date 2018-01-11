@@ -298,5 +298,53 @@
     }];
 }
 
+#pragma mark - 录制、直播
+
+//直播
+//type: 0取消/1开始/2获取直播网址
+- (void)meetingLiveWithMeetingID:(NSString *)mid type:(int)type success:(void(^)(NSDictionary *dic, int liveState, NSString *liveUrl))success failue:(void(^)(NSError *error))fail {
+    NSDictionary *dic = @{@"meetingId": mid, @"type": @(type)};
+    [self.component sendPostRequestWithURL:URL_Meeting_Live param:dic success:^(NSDictionary * data) {
+        if (success) {
+            NSNumber *liveState = data[@"liveState"];
+            NSString *liveUrl = data[@"liveUrl"];
+            success(data, liveState.intValue, liveUrl);
+        }
+    } fail:^(NSError *error) {
+        if (fail) {
+            fail(error);
+        }
+    }];
+
+}
+
+//录制
+//fileName: 文件名称（type为1时传）
+//type: 0取消/1开始/2获取录制网址
+- (void)meetingTranscribeWithMeetingID:(NSString *)mid fileName:(NSString *)fileName type:(int)type success:(void(^)(NSDictionary *dic, int transcribeState, NSString *fileUrl, NSArray *files))success failue:(void(^)(NSError *error))fail {
+    NSDictionary *dic = @{@"meetingId": mid, @"type": @(type)};
+    if (type == 1) {
+        dic = @{@"meetingId": mid, @"type": @(type), @"fileName": fileName};
+    }
+    
+    [self.component sendPostRequestWithURL:URL_Meeting_Transcribe param:dic success:^(NSDictionary * data) {
+        if (success) {
+//            transcribeState    int            是    当前录制状态
+//            transcribeList
+//            fileUrl
+            NSNumber *transcribeState = data[@"transcribeState"];
+            NSString *fileUrl = data[@"fileUrl"];
+            NSArray *files = data[@"transcribeList"];
+            success(data, transcribeState.intValue, fileUrl, files);
+        }
+    } fail:^(NSError *error) {
+        if (fail) {
+            fail(error);
+        }
+    }];
+    
+}
+
+
 
 @end

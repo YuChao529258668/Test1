@@ -178,6 +178,8 @@ typedef enum {
 
 @property (nonatomic,assign) BOOL isScreening;// 是否正在录屏
 @property (nonatomic,assign) BOOL isLiving;// 是否正在直播
+@property (nonatomic,strong) NSString *liveUrl;// 直播 url
+@property (nonatomic,strong) NSString *fileUrl;// 录屏 url
 
 @end
 
@@ -1896,19 +1898,13 @@ typedef enum {
                                  @"FileKey" : fileName};
     NSDictionary *para = @{@"MtcConfIsVideoKey" : @YES, @"Storage" : storageDic};
     
-    
-    //    ZINT s = Mtc_ConfStartCdn(iConfId);
-    //    if (s != ZOK) {
-    //        [CTToast showWithText:@"开启 cdn 失败"];
-    //    }
-    
-    // MTC: ERROR:  530048688 No replayer
     ZINT ret = Mtc_ConfCommand(iConfId, MtcConfCmdReplayStartRecord, [para JSONString].UTF8String);
     if (ret == ZOK) {
         btn.selected = YES;
         [self.conferenceToolBar updateLabels];
         self.isScreening = YES;
         [CTToast showWithText:@"开始录屏"];
+        [self meetingTranscribeWithFileName:fileName type:1];
     } else {
         [CTToast showWithText:@"发起录屏 失败"];
     }
@@ -1918,21 +1914,33 @@ typedef enum {
     ZUINT iConfId = self.confID;
     ZCHAR *pcCmd = MtcConfCmdReplayStopRecord;
     
-    //    ZINT s = Mtc_ConfStopCdn(iConfId);
-    //    if (s != ZOK) {
-    //        [CTToast showWithText:@"关闭 cdn 失败"];
-    //    }
-    
-    ZINT success = Mtc_ConfCommand(iConfId, pcCmd, nil);//MTC: ERROR:   48261120 ConfImplReplayCmd invalid <48261120>.
+    ZINT success = Mtc_ConfCommand(iConfId, pcCmd, nil);
     if (success == ZOK) {
         btn.selected = NO;
         [self.conferenceToolBar updateLabels];
         self.isScreening = NO;
         [CTToast showWithText:@"结束录屏"];
+        [self meetingTranscribeWithFileName:nil type:0];
     } else {
         [CTToast showWithText:@"结束录屏 失败"];
     }
     
+}
+
+//type: 0取消/1开始/2获取录制网址
+- (void)meetingTranscribeWithFileName:(NSString *)fileName type:(int)type {
+    __weak typeof(self) weakself = self;
+    [[YCMeetingBiz new] meetingTranscribeWithMeetingID:self.meetingID fileName:fileName type:type success:^(NSDictionary *dic, int transcribeState, NSString *fileUrl, NSArray *files) {
+        if (type == 2) {
+            weakself.fileUrl = fileUrl;
+        }
+        if (transcribeState == 1) {
+            [weakself startScreen:weakself.conferenceToolBar.RECBtn];
+            [weakself.conferenceToolBar updateLabels];
+        }
+    } failue:^(NSError *error) {
+        
+    }];
 }
 
 #pragma mark - 直播
@@ -1982,6 +1990,8 @@ typedef enum {
         self.isLiving = YES;
         self.livingLabel.hidden = NO;
         [CTToast showWithText:@"开始直播"];
+        [self meetingLiveWithType:1];
+        
     }
 }
 
@@ -1993,10 +2003,28 @@ typedef enum {
     } else {
         btn.selected = NO;
         [self.conferenceToolBar updateLabels];
-        self.isLiving = YES;
+        self.isLiving = NO;
         self.livingLabel.hidden = YES;
         [CTToast showWithText:@"结束直播"];
+        [self meetingLiveWithType:0];
     }
+}
+
+// 要在获取会议详情成功后调用，主持人才能打开直播
+//type: 0取消/1开始/2获取直播网址
+- (void)meetingLiveWithType:(int)type {
+    __weak typeof(self) weakself = self;
+    [[YCMeetingBiz new] meetingLiveWithMeetingID:self.meetingID type:type success:^(NSDictionary *dic, int liveState, NSString *liveUrl) {
+        if (type == 2) {
+            weakself.liveUrl = liveUrl;
+        }
+        if (liveState == 1) {
+            [weakself startLiving:weakself.conferenceToolBar.liveBtn];
+            [weakself.conferenceToolBar updateLabels];
+        }
+    } failue:^(NSError *error) {
+        
+    }];
 }
 
 #pragma mark -

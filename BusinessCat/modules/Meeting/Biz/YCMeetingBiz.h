@@ -64,4 +64,15 @@
 // userState: 参会状态
 - (void)meetingUserWithMeetingID:(NSString *)mid userId:(NSString *)userId soundState:(NSString *)soundState videoState:(NSString *)videoState interactionState:(NSString *)interactionState compereState:(NSString *)compereState userState:(NSString *)userState userAdd:(NSString *)userAdd userDel:(NSString *)userDel success:(void(^)(YCMeetingState *state))success fail:(void(^)(NSError *error))fail ;
 
+
+#pragma mark - 录制、直播
+
+//type: 0取消/1开始/2获取直播网址
+- (void)meetingLiveWithMeetingID:(NSString *)mid type:(int)type success:(void(^)(NSDictionary *dic, int liveState, NSString *liveUrl))success failue:(void(^)(NSError *error))fail;
+
+//录制
+//fileName: 文件名称（type为1时传）
+//type: 0取消/1开始/2获取录制网址
+- (void)meetingTranscribeWithMeetingID:(NSString *)mid fileName:(NSString *)fileName type:(int)type success:(void(^)(NSDictionary *dic, int transcribeState, NSString *fileUrl, NSArray *files))success failue:(void(^)(NSError *error))fail;
+
 @end
