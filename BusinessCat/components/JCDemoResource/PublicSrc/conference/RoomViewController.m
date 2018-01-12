@@ -1890,7 +1890,8 @@ typedef enum {
     }
     
     // 发起录屏
-    NSString *fileName = [NSString stringWithFormat:@"test_iOS_%@.mp4", self.meeting.meetingId];
+    NSString *time = [NSString stringWithFormat:@"%ld", (long)([NSDate date].timeIntervalSince1970*1000)];
+    NSString *fileName = [NSString stringWithFormat:@"meeting_%@_%@.mp4", self.meeting.meetingId, time];
     NSDictionary *storageDic = @{@"Protocol" : @"qiniu",
                                  @"AccessKey" : self.AccessKey,
                                  @"SecretKey" : self.SecretKey,

@@ -166,12 +166,14 @@
         if (user.isLogin == 0) {
             //        UIWindow *window = [UIApplication sharedApplication].keyWindow;
             //        [[CTToast makeText:@"用户信息返回没有登录"]show:window];
-            NSLog(@"尝试获取用户信息：用户没有登录 %@", NSStringFromSelector(_cmd));
+            NSLog(@"返回用户信息：用户没有登录 %@", NSStringFromSelector(_cmd));
         }
         
         if(user.isLogin == 0 && [CTStringUtil stringNotBlank:user.phone]){
-            NSString *message = [NSString stringWithFormat:@"后台返回用户详情：isLogin = 0，即将清除数据。phone =  %@, token = %@,  secuCode = %@, uuid = %@, 请求参数 = %@", user.phone, user.token, user.secuCode, user.uuid, [YCTool stringOfDictionary:param]];
-            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"调试" message:message preferredStyle:UIAlertControllerStyleAlert];
+            NSString *message2 = [NSString stringWithFormat:@"后台返回用户详情：isLogin = 0，即将清除数据。phone =  %@, token = %@,  secuCode = %@, uuid = %@, 请求参数 = %@", user.phone, user.token, user.secuCode, user.uuid, [YCTool stringOfDictionary:param]];
+            NSLog(@"%@", message2);
+            NSString *message = @"您的账号已在其他终端登录！";
+            UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
             [ac addAction:cancel];
