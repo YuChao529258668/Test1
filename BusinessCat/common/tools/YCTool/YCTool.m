@@ -48,6 +48,19 @@
     return title;
 }
 
+// x 小时 x 分钟 x 秒，倒计时
++ (void)HMSForSeconds:(NSInteger)seconds block:(void(^)(NSInteger h, NSInteger m, NSInteger s))block {
+    NSInteger t = seconds;
+    NSInteger h = t /(60 * 60);
+    NSInteger m = t %(60 * 60)/60;
+    NSInteger s = t %(60);
+
+    if (block) {
+        block(h, m, s);
+    }
+}
+
+
 // 16进制颜色
 + (UIColor *)colorOfHex:(NSInteger)s {
     return [UIColor colorWithRed:(((s & 0xFF0000) >> 16 )) / 255.0 green:(((s & 0xFF00) >> 8 )) / 255.0 blue:((s & 0xFF)) / 255.0 alpha:1.0];

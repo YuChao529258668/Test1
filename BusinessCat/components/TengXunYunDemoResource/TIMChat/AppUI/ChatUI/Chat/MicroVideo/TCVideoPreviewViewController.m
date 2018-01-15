@@ -91,6 +91,7 @@
 -(void)viewDidUnload
 {
     [super viewDidUnload];
+    
 }
 
 -(void)dealloc{
@@ -115,8 +116,16 @@
     if (_recordType == kRecordType_Camera || kRecordType_Play)
     {
         [_livePlayer setupVideoWidget:CGRectZero containView:_videoPreview insertIndex:0];
-        if(startPlay == YES)
-            [_livePlayer startPlay:_recordResult.videoPath type:PLAY_TYPE_LOCAL_VIDEO];
+        if(startPlay == YES) {
+            [_livePlayer startPlay:_recordResult.videoPath type:PLAY_TYPE_VOD_MP4];// 点播类型
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                int success = [_livePlayer seek:60];// time: 流时间，单位为秒
+                if (success) {// 0 = OK
+                    [CTToast showWithText:@"快进失败"];
+                    NSLog(@"快进失败");
+                }
+            });
+        }
         else
             [_livePlayer resume];
        

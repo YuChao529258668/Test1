@@ -8,6 +8,8 @@
 
 #import "RoomViewController.h"
 
+
+
 #import "ConferenceToolBar.h"
 #import "JCBaseMeetingReformer.h"
 #import "JCPreviewViewController.h"
@@ -22,6 +24,7 @@
 #import "UIButton+MenuTitleSpacing.h"
 
 #import "YCMeetingDesktopController.h"
+#import "YCVideoController.h"
 
 #define kMainScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kMainScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -174,12 +177,13 @@ typedef enum {
 @property (nonatomic,assign) BOOL shouldHiddeStatusBar;
 
 @property (nonatomic,strong) UILabel *welcomeLabel; // 欢迎 xx 加入会议
-@property (weak, nonatomic) IBOutlet UILabel *livingLabel;// 直播中
+@property (weak, nonatomic) IBOutlet UILabel *livingLabel;// 直播中、录制中
 
 @property (nonatomic,assign) BOOL isScreening;// 是否正在录屏
 @property (nonatomic,assign) BOOL isLiving;// 是否正在直播
 @property (nonatomic,strong) NSString *liveUrl;// 直播 url
 @property (nonatomic,strong) NSString *fileUrl;// 录屏 url
+@property (weak, nonatomic) IBOutlet UIButton *videoBtn;// 查看回放
 
 @end
 
@@ -288,6 +292,11 @@ typedef enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self test];
+    
+    self.videoBtn.hidden = YES; // 拿到播放地址再显示
+    if (self.isReview) {
+        [self getVideos];
+    }
     
     _conferenceToolBar = [ConferenceToolBar bar];
     [_mainView addSubview:_conferenceToolBar];
@@ -478,6 +487,8 @@ typedef enum {
 
     [self.whiteBoardViewController checkCurrentMeetingFile];
 //    [self.membersVC reloadTableView];
+    
+//    [self test2];
 }
 
 - (void)joinFailedWithReason:(ErrorReason)reason
@@ -1457,6 +1468,7 @@ typedef enum {
     vc.SecretKey = self.SecretKey;
     vc.BucketName = self.BucketName;
     vc.view.hidden = YES;
+    vc.myNavigationController = self.navigationController;
     [self.preview addSubview:vc.view];
 }
 
@@ -1521,6 +1533,11 @@ typedef enum {
 
 // viewDidLoad 的时候调用
 - (void)configForCustom {
+    self.videoBtn.titleLabel.textColor = [UIColor whiteColor];
+    [self.videoBtn setBackgroundColor:CTThemeMainColor];
+    self.videoBtn.layer.cornerRadius = 4;
+    self.videoBtn.clipsToBounds = YES;
+    
     self.whiteBoardViewController.view.hidden = NO;
     _waitInfoView.hidden = NO; //隐藏会议等待view
     _mainView.hidden = NO; //显示加入会议后的主view
@@ -1904,6 +1921,7 @@ typedef enum {
         btn.selected = YES;
         [self.conferenceToolBar updateLabels];
         self.isScreening = YES;
+        [self updateLivingLabel];
         [CTToast showWithText:@"开始录屏"];
         [self meetingTranscribeWithFileName:fileName type:1];
     } else {
@@ -1920,6 +1938,7 @@ typedef enum {
         btn.selected = NO;
         [self.conferenceToolBar updateLabels];
         self.isScreening = NO;
+        [self updateLivingLabel];
         [CTToast showWithText:@"结束录屏"];
         [self meetingTranscribeWithFileName:nil type:0];
     } else {
@@ -1942,6 +1961,20 @@ typedef enum {
     } failue:^(NSError *error) {
         
     }];
+}
+
+// 获取录屏文件
+- (void)getVideos {
+    __weak typeof(self) weakself = self;
+    [[YCMeetingBiz new] meetingTranscribeWithMeetingID:weakself.meetingID fileName:nil type:2 success:^(NSDictionary *dic, int transcribeState, NSString *fileUrl, NSArray *files) {
+        weakself.fileUrl = fileUrl;
+        if (fileUrl) {
+            weakself.videoBtn.hidden = NO;
+        }
+    } failue:^(NSError *error) {
+        
+    }];
+
 }
 
 #pragma mark - 直播
@@ -1989,7 +2022,7 @@ typedef enum {
         btn.selected = YES;
         [self.conferenceToolBar updateLabels];
         self.isLiving = YES;
-        self.livingLabel.hidden = NO;
+        [self updateLivingLabel];
         [CTToast showWithText:@"开始直播"];
         [self meetingLiveWithType:1];
         
@@ -2005,7 +2038,7 @@ typedef enum {
         btn.selected = NO;
         [self.conferenceToolBar updateLabels];
         self.isLiving = NO;
-        self.livingLabel.hidden = YES;
+        [self updateLivingLabel];
         [CTToast showWithText:@"结束直播"];
         [self meetingLiveWithType:0];
     }
@@ -2026,6 +2059,34 @@ typedef enum {
     } failue:^(NSError *error) {
         
     }];
+}
+
+- (void)updateLivingLabel {
+    self.livingLabel.hidden = NO;
+    if (self.isLiving && self.isScreening) {
+        self.livingLabel.text = @"  直播、录制中  ";
+        return;
+    }
+    if (!self.isLiving && !self.isScreening) {
+        self.livingLabel.hidden = YES;
+        return;
+    }
+    if (self.isLiving && !self.isScreening) {
+        self.livingLabel.text = @"直播中";
+        return;
+    }
+    if (!self.isLiving && self.isScreening) {
+        self.livingLabel.text = @"录制中";
+        return;
+    }
+}
+
+#pragma mark - 回放
+
+- (IBAction)clickVideoBtn:(UIButton *)sender {
+    YCVideoController *vc = [YCVideoController new];
+    vc.videoPath = @"http://2449.vod.myqcloud.com/2449_22ca37a6ea9011e5acaaf51d105342e3.f20.mp4";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark -
@@ -2070,6 +2131,8 @@ typedef enum {
 //    NSLog(@"%@", [YCTool stringOfArray:as]);
 //    NSDictionary *urlDic = [YCTool print:url];
 }
+
+
 
 @end
 

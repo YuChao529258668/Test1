@@ -8,6 +8,9 @@
 
 #import "YCMeetingDesktopController.h"
 
+#import "TCVideoPreviewViewController.h"
+#import "YCVideoController.h"
+
 @interface YCMeetingDesktopController ()
 @property (weak, nonatomic) IBOutlet UIButton *vedioControlBtn;
 @property (nonatomic,assign) BOOL isScreening;// 是否正在录屏
@@ -27,10 +30,32 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self addObserForMtcNotification];
+    
 }
 
 
 - (IBAction)clickVedioControlBtn:(UIButton *)btn {
+    
+//    UIImage *image = [UIImage imageNamed:@"default"];
+//    TXRecordResult *result = [[TXRecordResult alloc] init];
+//    result.videoPath = @"http://2449.vod.myqcloud.com/2449_22ca37a6ea9011e5acaaf51d105342e3.f20.mp4";
+//    result.coverImage = image;
+//    result.retCode = 0;
+    
+//    TCVideoPreviewViewController *vc2 = [[TCVideoPreviewViewController alloc] initWith:kRecordType_Play coverImage:image RecordResult:result];
+    
+    YCVideoController *vc = [YCVideoController new];
+    vc.videoPath = @"http://2449.vod.myqcloud.com/2449_22ca37a6ea9011e5acaaf51d105342e3.f20.mp4";
+    [self.myNavigationController pushViewController:vc animated:YES];
+    
+//    @interface TXRecordResult : NSObject
+//    @property (nonatomic, assign) TXRecordResultCode    retCode;        //错误码
+//    @property (nonatomic, strong) NSString*             descMsg;        //错误描述信息
+//    @property (nonatomic, strong) NSString*             videoPath;      //视频文件path
+//    @property (nonatomic, strong) UIImage*              coverImage;     //视频封面
+//    @end
+
+    return;
     if (!self.meeting) {
         [CTToast showWithText:@"正在获取会议详情，请稍后再试"];
         return;

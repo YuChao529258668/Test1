@@ -13,6 +13,8 @@
 		0D15EE941FC28AD70088CE11 /* YCMeetingBiz.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D15EE931FC28AD70088CE11 /* YCMeetingBiz.m */; };
 		0D1B9EE01FE7EEED00C41C3C /* YCMeetingState.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1B9EDF1FE7EEED00C41C3C /* YCMeetingState.m */; };
 		0D29EAD61FF3437F005F1AD1 /* YCTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29EAD51FF3437F005F1AD1 /* YCTool.m */; };
+		0D316D1B2008ABD40097D79D /* YCVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D316D192008ABD40097D79D /* YCVideoController.m */; };
+		0D316D1C2008ABD40097D79D /* YCVideoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D316D1A2008ABD40097D79D /* YCVideoController.xib */; };
 		0D3EB2B71FBA9CC900DAE678 /* Meeting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */; };
 		0D3EB2E31FC1806900DAE678 /* YCBookMeetingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */; };
 		0D3EB2E71FC1825700DAE678 /* YCWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E61FC1825700DAE678 /* YCWorkViewController.m */; };
@@ -327,7 +329,6 @@
 		0DAB30921FFDC57600E0DA26 /* YCMeetingDesktopController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DAB30901FFDC57500E0DA26 /* YCMeetingDesktopController.m */; };
 		0DAB30931FFDC57600E0DA26 /* YCMeetingDesktopController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DAB30911FFDC57500E0DA26 /* YCMeetingDesktopController.xib */; };
 		0DAB30952005AFEF00E0DA26 /* ConferenceToolBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DAB30942005AFEE00E0DA26 /* ConferenceToolBar.xib */; };
-		0DAB30972005B05C00E0DA26 /* 最新会议播放-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DAB30962005B05B00E0DA26 /* 最新会议播放-4.png */; };
 		0DBF462D1FB3053600707C12 /* JusLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF45E51FB3053500707C12 /* JusLogin.framework */; };
 		0DBF462E1FB3053600707C12 /* JCApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF46241FB3053500707C12 /* JCApi.framework */; };
 		0DBF46321FB3057200707C12 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF46311FB3056D00707C12 /* VideoToolbox.framework */; };
@@ -1470,6 +1471,9 @@
 		0D1B9EDF1FE7EEED00C41C3C /* YCMeetingState.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingState.m; sourceTree = "<group>"; };
 		0D29EAD41FF3437F005F1AD1 /* YCTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCTool.h; sourceTree = "<group>"; };
 		0D29EAD51FF3437F005F1AD1 /* YCTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCTool.m; sourceTree = "<group>"; };
+		0D316D182008ABD40097D79D /* YCVideoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCVideoController.h; sourceTree = "<group>"; };
+		0D316D192008ABD40097D79D /* YCVideoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCVideoController.m; sourceTree = "<group>"; };
+		0D316D1A2008ABD40097D79D /* YCVideoController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCVideoController.xib; sourceTree = "<group>"; };
 		0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Meeting.storyboard; sourceTree = "<group>"; };
 		0D3EB2E11FC1806900DAE678 /* YCBookMeetingController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCBookMeetingController.h; sourceTree = "<group>"; };
 		0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCBookMeetingController.m; sourceTree = "<group>"; };
@@ -2155,7 +2159,6 @@
 		0DAB30901FFDC57500E0DA26 /* YCMeetingDesktopController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingDesktopController.m; sourceTree = "<group>"; };
 		0DAB30911FFDC57500E0DA26 /* YCMeetingDesktopController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCMeetingDesktopController.xib; sourceTree = "<group>"; };
 		0DAB30942005AFEE00E0DA26 /* ConferenceToolBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConferenceToolBar.xib; sourceTree = "<group>"; };
-		0DAB30962005B05B00E0DA26 /* 最新会议播放-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "最新会议播放-4.png"; sourceTree = "<group>"; };
 		0DBF45E51FB3053500707C12 /* JusLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JusLogin.framework; sourceTree = "<group>"; };
 		0DBF45EB1FB3053500707C12 /* zpios_osenv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zpios_osenv.h; sourceTree = "<group>"; };
 		0DBF45EC1FB3053500707C12 /* zos_osenv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zos_osenv.h; sourceTree = "<group>"; };
@@ -4091,6 +4094,16 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
+		0D316D172008ABB60097D79D /* YCVideoController */ = {
+			isa = PBXGroup;
+			children = (
+				0D316D182008ABD40097D79D /* YCVideoController.h */,
+				0D316D192008ABD40097D79D /* YCVideoController.m */,
+				0D316D1A2008ABD40097D79D /* YCVideoController.xib */,
+			);
+			path = YCVideoController;
+			sourceTree = "<group>";
+		};
 		0D3EB2B41FBA9C6A00DAE678 /* CGMeetingListCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -5541,6 +5554,13 @@
 			path = Desktop;
 			sourceTree = "<group>";
 		};
+		0DAB309920088DA600E0DA26 /* TengXunYunVideo */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TengXunYunVideo;
+			sourceTree = "<group>";
+		};
 		0DBF45DF1FB3053500707C12 /* JCSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -6905,7 +6925,6 @@
 		D711426B1D59CC720037F633 = {
 			isa = PBXGroup;
 			children = (
-				0DAB30962005B05B00E0DA26 /* 最新会议播放-4.png */,
 				D7F44D371DB1FD67004393C2 /* 项目简介.txt */,
 				D71142761D59CC720037F633 /* BusinessCat */,
 				D71142751D59CC720037F633 /* Products */,
@@ -7556,6 +7575,7 @@
 		D7BF3EAA1D98F9D900FC94E6 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				0D316D172008ABB60097D79D /* YCVideoController */,
 				0D29EAD31FF34368005F1AD1 /* YCTool */,
 				0D57A52C1FC2C3E8008C30C7 /* YCDatePickerViewController */,
 				0D29EAD71FF34393005F1AD1 /* Other */,
@@ -7619,6 +7639,7 @@
 		D7BF3EAC1D98F9D900FC94E6 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				0DAB309920088DA600E0DA26 /* TengXunYunVideo */,
 				0D90DC5C1FB43C3800EDB7CF /* TengXunYunDemoResource */,
 				0D1C8E3E1FB3F315003F1958 /* TengXunYun */,
 				0DBF463B1FB3087300707C12 /* JCDemoResource */,
@@ -8180,7 +8201,6 @@
 				1842BE301E2CC0B900697332 /* CGOtherCompanySelectTableViewCell.xib in Resources */,
 				181C55201EC30CB60064354D /* CGMessageDetailImageTextTableViewCell.xib in Resources */,
 				0DBF47B11FB3087400707C12 /* camera_on@2x.png in Resources */,
-				0DAB30972005B05C00E0DA26 /* 最新会议播放-4.png in Resources */,
 				0DBF47DC1FB3087400707C12 /* screen_share_close_highlighted@3x.png in Resources */,
 				D73749F21DB46305002FD9EE /* CGTopicMainViewController.xib in Resources */,
 				0DBF47601FB3087300707C12 /* brush_off@2x.png in Resources */,
@@ -8676,6 +8696,7 @@
 				0DBF47FC1FB3087400707C12 /* ConferenceViewController.xib in Resources */,
 				0DBF47AC1FB3087400707C12 /* back_pressed@3x.png in Resources */,
 				1821E6D41E25109B0082F174 /* CGLibraryCollectionViewCell.xib in Resources */,
+				0D316D1C2008ABD40097D79D /* YCVideoController.xib in Resources */,
 				18D1C6F81E07BE05007AC5CC /* CGDiscoverLibraryViewController.xib in Resources */,
 				0DDE748B1FFCD65500063651 /* 21.gif in Resources */,
 				1821E6DF1E28A9C70082F174 /* CGTopicToolBar.xib in Resources */,
@@ -8933,6 +8954,7 @@
 				181C54B41EC00AAA0064354D /* CGCorporateMemberViewController.m in Sources */,
 				18CEA6821E52EE0C00D9D17F /* CGParameterViewController.m in Sources */,
 				18322E411EF93A9D00B238CC /* CGNoIdentityTableViewCell.m in Sources */,
+				0D316D1B2008ABD40097D79D /* YCVideoController.m in Sources */,
 				0DBF47951FB3087400707C12 /* JCSingleParticipantViewController.m in Sources */,
 				D7DAC4FC1E76A40200753D21 /* CGMainPageHeader.m in Sources */,
 				0D90DF461FB43C3900EDB7CF /* KeyChainHelper.m in Sources */,
@@ -9762,6 +9784,7 @@
 					"$(PROJECT_DIR)/BusinessCat/components/TengXunYunDemoResource/TIMChat/AppUI/ChatUI/Chat/MicroVideo/PituMotionLibrary/Framework/YoutuBeauty",
 					"$(PROJECT_DIR)/BusinessCat/components",
 					"$(PROJECT_DIR)/BusinessCat/components/TengXunYun",
+					"$(PROJECT_DIR)/BusinessCat/components/TengXunYunVideo",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/BusinessCat-Prefix.pch";
@@ -9895,6 +9918,7 @@
 					"$(PROJECT_DIR)/BusinessCat/components/TengXunYunDemoResource/TIMChat/AppUI/ChatUI/Chat/MicroVideo/PituMotionLibrary/Framework/YoutuBeauty",
 					"$(PROJECT_DIR)/BusinessCat/components",
 					"$(PROJECT_DIR)/BusinessCat/components/TengXunYun",
+					"$(PROJECT_DIR)/BusinessCat/components/TengXunYunVideo",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/BusinessCat-Prefix.pch";
