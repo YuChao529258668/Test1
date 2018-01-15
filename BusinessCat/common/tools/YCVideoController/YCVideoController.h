@@ -22,5 +22,6 @@
 
 
 @property (nonatomic,strong) NSString *videoPath;
+@property (nonatomic,strong) NSMutableArray<NSString *> *videoUrls; // 视频文件
 
 @end

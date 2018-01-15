@@ -183,6 +183,8 @@ typedef enum {
 @property (nonatomic,assign) BOOL isLiving;// 是否正在直播
 @property (nonatomic,strong) NSString *liveUrl;// 直播 url
 @property (nonatomic,strong) NSString *fileUrl;// 录屏 url
+@property (nonatomic,strong) NSMutableArray<NSString *> *fileUrls; // 录屏文件
+
 @property (weak, nonatomic) IBOutlet UIButton *videoBtn;// 查看回放
 
 @end
@@ -1967,8 +1969,16 @@ typedef enum {
 - (void)getVideos {
     __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] meetingTranscribeWithMeetingID:weakself.meetingID fileName:nil type:2 success:^(NSDictionary *dic, int transcribeState, NSString *fileUrl, NSArray *files) {
+        // files 里面是字典, timeLen 时长，单位是毫秒。fileUrl 视频地址
+        if (files && files.count > 0) {
+            NSMutableArray *fileUrls = [NSMutableArray arrayWithCapacity:files.count];
+            for (NSDictionary *dic in files) {
+                [fileUrls addObject:dic[@"fileUrl"]];
+            }
+            weakself.fileUrls = fileUrls;
+        }
         weakself.fileUrl = fileUrl;
-        if (fileUrl) {
+        if (weakself.fileUrls) {
             weakself.videoBtn.hidden = NO;
         }
     } failue:^(NSError *error) {
@@ -2086,6 +2096,7 @@ typedef enum {
 - (IBAction)clickVideoBtn:(UIButton *)sender {
     YCVideoController *vc = [YCVideoController new];
     vc.videoPath = @"http://2449.vod.myqcloud.com/2449_22ca37a6ea9011e5acaaf51d105342e3.f20.mp4";
+    vc.videoUrls = self.fileUrls;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

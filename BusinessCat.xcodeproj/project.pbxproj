@@ -15,6 +15,7 @@
 		0D29EAD61FF3437F005F1AD1 /* YCTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29EAD51FF3437F005F1AD1 /* YCTool.m */; };
 		0D316D1B2008ABD40097D79D /* YCVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D316D192008ABD40097D79D /* YCVideoController.m */; };
 		0D316D1C2008ABD40097D79D /* YCVideoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D316D1A2008ABD40097D79D /* YCVideoController.xib */; };
+		0D316DEB200C93F30097D79D /* TXLiteAVSDK_UGC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D316DEA200C93F10097D79D /* TXLiteAVSDK_UGC.framework */; };
 		0D3EB2B71FBA9CC900DAE678 /* Meeting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */; };
 		0D3EB2E31FC1806900DAE678 /* YCBookMeetingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */; };
 		0D3EB2E71FC1825700DAE678 /* YCWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E61FC1825700DAE678 /* YCWorkViewController.m */; };
@@ -550,7 +551,6 @@
 		0DCD733C1FB3F3EB00972501 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0DCD732E1FB3F3EA00972501 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		0DCD733D1FB3F3EB00972501 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD732F1FB3F3EA00972501 /* TencentOpenAPI.framework */; };
 		0DCD733E1FB3F3EB00972501 /* IMSDKBugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73301FB3F3EA00972501 /* IMSDKBugly.framework */; };
-		0DCD733F1FB3F3EB00972501 /* TXRTMPSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73311FB3F3EA00972501 /* TXRTMPSDK.framework */; };
 		0DCD73401FB3F3EB00972501 /* readme in Resources */ = {isa = PBXBuildFile; fileRef = 0DCD73321FB3F3EA00972501 /* readme */; };
 		0DCD73411FB3F3EB00972501 /* TLSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73331FB3F3EB00972501 /* TLSSDK.framework */; };
 		0DDE741D1FF4F22200063651 /* YCCompereCommandController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */; };
@@ -1474,6 +1474,7 @@
 		0D316D182008ABD40097D79D /* YCVideoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCVideoController.h; sourceTree = "<group>"; };
 		0D316D192008ABD40097D79D /* YCVideoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCVideoController.m; sourceTree = "<group>"; };
 		0D316D1A2008ABD40097D79D /* YCVideoController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCVideoController.xib; sourceTree = "<group>"; };
+		0D316DEA200C93F10097D79D /* TXLiteAVSDK_UGC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TXLiteAVSDK_UGC.framework; sourceTree = "<group>"; };
 		0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Meeting.storyboard; sourceTree = "<group>"; };
 		0D3EB2E11FC1806900DAE678 /* YCBookMeetingController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCBookMeetingController.h; sourceTree = "<group>"; };
 		0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCBookMeetingController.m; sourceTree = "<group>"; };
@@ -2487,7 +2488,6 @@
 		0DCD732E1FB3F3EA00972501 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		0DCD732F1FB3F3EA00972501 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		0DCD73301FB3F3EA00972501 /* IMSDKBugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IMSDKBugly.framework; sourceTree = "<group>"; };
-		0DCD73311FB3F3EA00972501 /* TXRTMPSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TXRTMPSDK.framework; sourceTree = "<group>"; };
 		0DCD73321FB3F3EA00972501 /* readme */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme; sourceTree = "<group>"; };
 		0DCD73331FB3F3EB00972501 /* TLSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TLSSDK.framework; sourceTree = "<group>"; };
 		0DDE741A1FF4F22200063651 /* YCCompereCommandController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCompereCommandController.h; sourceTree = "<group>"; };
@@ -3924,11 +3924,11 @@
 				D7F44C491DAA7630004393C2 /* CoreTelephony.framework in Frameworks */,
 				D7F44C4D1DAA7675004393C2 /* libz.tbd in Frameworks */,
 				0DBF46361FB305A200707C12 /* CoreMotion.framework in Frameworks */,
+				0D316DEB200C93F30097D79D /* TXLiteAVSDK_UGC.framework in Frameworks */,
 				0DBF46341FB3058C00707C12 /* GLKit.framework in Frameworks */,
 				0D90E00E1FB43C3A00EDB7CF /* FilterEngine.framework in Frameworks */,
 				0DBF46321FB3057200707C12 /* VideoToolbox.framework in Frameworks */,
 				18E480F41F03915E00A94FF8 /* libiconv.tbd in Frameworks */,
-				0DCD733F1FB3F3EB00972501 /* TXRTMPSDK.framework in Frameworks */,
 				D7F44D121DADCA95004393C2 /* UserNotifications.framework in Frameworks */,
 				0D90E00F1FB43C3A00EDB7CF /* libcrypto.a in Frameworks */,
 				0D90E0121FB43C3A00EDB7CF /* PituAlgorithm.framework in Frameworks */,
@@ -4027,7 +4027,6 @@
 				0DCD73331FB3F3EB00972501 /* TLSSDK.framework */,
 				0DCD73291FB3F3E800972501 /* TLSUI.bundle */,
 				0DCD73281FB3F3E800972501 /* TLSUI.framework */,
-				0DCD73311FB3F3EA00972501 /* TXRTMPSDK.framework */,
 			);
 			path = TengXunYun;
 			sourceTree = "<group>";
@@ -5557,6 +5556,7 @@
 		0DAB309920088DA600E0DA26 /* TengXunYunVideo */ = {
 			isa = PBXGroup;
 			children = (
+				0D316DEA200C93F10097D79D /* TXLiteAVSDK_UGC.framework */,
 			);
 			path = TengXunYunVideo;
 			sourceTree = "<group>";

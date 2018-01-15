@@ -1,7 +1,8 @@
 
 #import <Foundation/Foundation.h>
 #import "TCVideoRecordViewController.h"
-#import "TXRTMPSDK/TXUGCRecord.h"
+//#import "TXRTMPSDK/TXUGCRecord.h"
+#import <TXLiteAVSDK_UGC/TXUGCRecord.h>
 #import "TCVideoPreviewViewController.h"
 #import "V8HorizontalPickerView.h"
 #import <AVFoundation/AVFoundation.h>
@@ -34,7 +35,7 @@ typedef NS_ENUM(NSInteger,TCLVFilterType) {
 @end
 #endif
 
-@interface TCVideoRecordViewController()<TXVideoRecordListener,V8HorizontalPickerViewDelegate,V8HorizontalPickerViewDataSource,MicroVideoPreviewDelegate>
+@interface TCVideoRecordViewController()<TXUGCRecordListener,V8HorizontalPickerViewDelegate,V8HorizontalPickerViewDataSource,MicroVideoPreviewDelegate>
 {
     BOOL                            _cameraFront;
     BOOL                            _lampOpened;
@@ -414,7 +415,8 @@ typedef NS_ENUM(NSInteger,TCLVFilterType) {
         param.videoFPS = 20;
         param.videoBitratePIN = 1200;
         [[TXUGCRecord shareInstance] startCameraCustom:param preview:_videoRecordView];
-        [[TXUGCRecord shareInstance] setBeautyDepth:_beautyDepth WhiteningDepth:_whitenDepth];
+        [[TXUGCRecord shareInstance] setBeautyStyle:1 beautyLevel:_beautyDepth whitenessLevel:_whitenDepth ruddinessLevel:0];
+//        [[TXUGCRecord shareInstance] setBeautyDepth:_beautyDepth WhiteningDepth:_whitenDepth];
  
         if (_greenIndex >=0 || _greenIndex < _greenArray.count) {
             V8LabelNode *v = [_greenArray objectAtIndex:_greenIndex];
@@ -841,12 +843,14 @@ typedef NS_ENUM(NSInteger,TCLVFilterType) {
     switch (tag) {
         case 0:
             _beautyDepth = value;
-            [[TXUGCRecord shareInstance] setBeautyDepth:_beautyDepth WhiteningDepth:_whitenDepth];
+//            [[TXUGCRecord shareInstance] setBeautyDepth:_beautyDepth WhiteningDepth:_whitenDepth];
+            [[TXUGCRecord shareInstance] setBeautyStyle:1 beautyLevel:_beautyDepth whitenessLevel:_whitenDepth ruddinessLevel:0];
             break;
             
         case 1:
             _whitenDepth = value;
-            [[TXUGCRecord shareInstance] setBeautyDepth:_beautyDepth WhiteningDepth:_whitenDepth];
+//            [[TXUGCRecord shareInstance] setBeautyDepth:_beautyDepth WhiteningDepth:_whitenDepth];
+            [[TXUGCRecord shareInstance] setBeautyStyle:1 beautyLevel:_beautyDepth whitenessLevel:_whitenDepth ruddinessLevel:0];
             break;
         case 2: //大眼
             _eye_level = value;
@@ -885,13 +889,13 @@ typedef NS_ENUM(NSInteger,TCLVFilterType) {
     }
 }
 
--(void) onRecordComplete:(TXRecordResult*)result;
+-(void) onRecordComplete:(TXUGCRecordResult*)result;
 {
     if (_appForeground)
     {
         if (_currentRecordTime >= MIN_RECORD_TIME)
         {
-            if (result.retCode == RECORD_RESULT_OK) {
+            if (result.retCode == UGC_RECORD_RESULT_OK) {
                 [self.delegate recordVideoPath:result.videoPath];
 //                TCVideoPreviewViewController *vc = [[TCVideoPreviewViewController alloc] initWith:kRecordType_Camera  coverImage:result.coverImage RecordResult:result];
 //                vc.delegate = self;

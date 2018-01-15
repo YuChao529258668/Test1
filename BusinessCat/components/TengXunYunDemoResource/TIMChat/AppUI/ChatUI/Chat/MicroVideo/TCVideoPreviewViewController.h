@@ -1,6 +1,7 @@
 //#import "TCLiveListModel.h"
 #import <UIKit/UIKit.h>
-#import <TXRTMPSDK/TXUGCRecordTypeDef.h>
+//#import <TXRTMPSDK/TXUGCRecordTypeDef.h>
+#import <TXLiteAVSDK_UGC/TXUGCRecordTypeDef.h>
 
 #define kRecordType_Camera 0
 #define kRecordType_Play 1
@@ -18,6 +19,7 @@
     
 @property (nonatomic, weak) id<MicroVideoPreviewDelegate> delegate;
     
--(instancetype)initWith:(NSInteger)recordType  coverImage:(UIImage*)coverImage RecordResult:(TXRecordResult *)recordResult;//TCLiveInfo:(TCLiveInfo *)liveInfo;
+//-(instancetype)initWith:(NSInteger)recordType  coverImage:(UIImage*)coverImage RecordResult:(TXRecordResult *)recordResult;//TCLiveInfo:(TCLiveInfo *)liveInfo;
+-(instancetype)initWith:(NSInteger)recordType  coverImage:(UIImage*)coverImage RecordResult:(TXUGCRecordResult *)recordResult;//TCLiveInfo:(TCLiveInfo *)liveInfo;
 
 @end

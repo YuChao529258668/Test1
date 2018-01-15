@@ -1,9 +1,11 @@
 
 #import <Foundation/Foundation.h>
 #import "TCVideoPreviewViewController.h"
-#import "TXRTMPSDK/TXUGCRecord.h"
 #import <AssetsLibrary/AssetsLibrary.h>
-#import <TXRTMPSDK/TXLivePlayer.h>
+//#import <TXRTMPSDK/TXLivePlayer.h>
+//#import "TXRTMPSDK/TXUGCRecord.h"
+#import <TXLiteAVSDK_UGC/TXLivePlayer.h>
+#import <TXLiteAVSDK_UGC/TXUGCRecord.h>
 
 #define BUTTON_PREVIEW_SIZE         65
 #define BUTTON_CONTROL_SIZE         40
