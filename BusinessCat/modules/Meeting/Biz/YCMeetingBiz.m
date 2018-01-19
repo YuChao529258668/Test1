@@ -27,7 +27,7 @@
 }
 
 //状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
-- (void)meetingEntranceWithMeetingID:(NSString *)mid Success:(void(^)(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName))success fail:(void(^)(NSError *error))fail {
+- (void)meetingEntranceWithMeetingID:(NSString *)mid Success:(void(^)(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *q))success fail:(void(^)(NSError *error))fail {
     NSDictionary *dic = @{@"meetingId":mid};
     [self.component UIPostRequestWithURL:URL_Meeting_MeetingEntrance param:dic success:^(id data) {
         NSString *message = data[@"message"];
@@ -40,7 +40,7 @@
         NSString *AccessKey = dic[@"a"];
         NSString *SecretKey = dic[@"s"];
         NSString *BucketName = dic[@"v"];
-        success(state.intValue, password, message, AccessKey, SecretKey, BucketName);
+        success(state.intValue, password, message, AccessKey, SecretKey, BucketName, base64String);
     } fail:^(NSError *error) {
         fail(error);
     }];
@@ -105,7 +105,9 @@
                           @"userMode": @0,
                           @"meegingDeadline": @"",
                           @"companyPlace": @0,
-                          @"attendance": @0
+                          @"attendance": @0,
+                          @"live": @1,
+                          @"accessNumber": @16
                           };
 
     [self.component UIPostRequestWithURL:URL_Meeting_BespeakMeeting param:dic success:^(id data) {

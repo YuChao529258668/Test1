@@ -51,26 +51,18 @@
 #import "YCMultiCallHelper.h"
 #import "RoomViewController.h"
 
-
-//// 视频会议
-//#import <JCApi/JCApi.h>
-//#define kJCKey @"5f523868f54c24aa8fdc5096"
-////#import "RoomViewController.h"
-//
-//// 语音会议
-//#import "avatar/zos/zos_type.h"
-//#import "grape/zmf.h"
-//#import "lemon/lemon.h"
-//#import <JusCall/JusCall.h>
-//#import <JusLogin/JusLogin.h>
-////#import <JusDoodle/JusDoodle.h>
-//#import <PushKit/PushKit.h>
+#import "YCJusTalkIMTool.h"
+#import "YCMeetingInviteCallController.h"
+#import "YCMeetingBiz.h"
 
 
 @interface AppDelegate ()<UNUserNotificationCenterDelegate,WXApiDelegate>
 @property (nonatomic, copy) NSString *recordId;
 @property (nonatomic, strong) CGUrlView *urlView;
 @property (nonatomic, strong) commonViewModel *viewModel;
+
+@property (nonatomic, strong) YCJusTalkIMTool *imTool;
+
 @end
 
 @implementation AppDelegate
@@ -80,6 +72,27 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [self addObserverForLoginLogout];
+    
+    // 任意界面收到会议邀请
+    self.imTool = [YCJusTalkIMTool new];
+    __weak typeof(self) weakself = self;
+    self.imTool.onReceiveMeetingInviteBlock = ^(NSString *meetingID, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *message) {
+        // 获取会议详情
+        [[YCMeetingBiz new] getMeetingDetailWithMeetingID:meetingID success:^(CGMeeting *meeting) {
+            YCMeetingInviteCallController *vc = [YCMeetingInviteCallController new];
+            vc.meeting = meeting;
+            vc.AccessKey = AccessKey;
+            vc.BucketName = BucketName;
+            vc.SecretKey = SecretKey;
+            
+            UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+            [nc setNavigationBarHidden:YES];
+            [weakself PresentViewController:nc];
+            
+        } fail:^(NSError *error) {
+            
+        }];
+    };
 
     // 腾讯云
     [super application:application didFinishLaunchingWithOptions:launchOptions];
@@ -486,6 +499,46 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_LOGINSUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_LOGOUT object:nil];
 }
+
+
+#pragma mark -
+
+// 如果最上层的是 UIAlertController，viewControllerToPresent 的 modalPresentationStyle 会被修改为 UIModalPresentationOverFullScreen。不然 UIAlertController 的对话框会漂移到屏幕顶部。
+- (void)PresentViewController:(UIViewController *)viewControllerToPresent {
+    [self PresentViewController:viewControllerToPresent animated:YES completion:NULL];
+}
+
+// 如果最上层的是 UIAlertController，viewControllerToPresent 的 modalPresentationStyle 会被修改为 UIModalPresentationOverFullScreen。不然 UIAlertController 的对话框会漂移到屏幕顶部。
+- (void)PresentViewController:(UIViewController *)viewControllerToPresent animated: (BOOL)flag completion:(void (^ __nullable)(void))completion {
+    UIViewController *topVC = [self topViewController];
+    if ([topVC isKindOfClass:[UIAlertController class]]) {
+        viewControllerToPresent.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    }
+    [topVC presentViewController:viewControllerToPresent animated:flag completion:completion];
+}
+
+- (UIViewController *)topViewController {
+    UIViewController *topModalVC = [self topModalViewController];
+    
+    if ([topModalVC isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *nc = (UINavigationController *)topModalVC;
+        return nc.topViewController;
+    } else {
+        return topModalVC;
+    }
+}
+
+// default is [UIApplication sharedApplication].keyWindow.rootViewController
+- (UIViewController *)topModalViewController {
+    UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UIViewController *topModalVC = rootVC;
+    
+    while (topModalVC.presentedViewController) {
+        topModalVC = topModalVC.presentedViewController;
+    }
+    return topModalVC;
+}
+
 
 @end
 

@@ -47,6 +47,12 @@
     [self showIndicatorView:NO];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.playBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+}
+
 - (void)viewDidLayoutSubviews {
     self.oldFrame = self.view.frame;
 }
@@ -107,6 +113,10 @@
 - (void)onPlayEvent:(TXVodPlayer *)player event:(int)EvtID withParam:(NSDictionary*)param {
     NSDictionary* dict = param;
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if (_vodPlayer != player) {
+            return ;
+        }
         
         if (EvtID == PLAY_EVT_PLAY_PROGRESS) {
             float duration = [dict[EVT_PLAY_DURATION] floatValue];
@@ -245,6 +255,10 @@
             self.view.frame = self.oldFrame;
         }];
     }
+}
+
+- (void)test {
+    
 }
 
 @end

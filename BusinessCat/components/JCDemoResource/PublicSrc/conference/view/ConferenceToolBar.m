@@ -141,12 +141,12 @@
 
 - (void)updateLabels {
     // isSelected 是改变后的按钮状态
-    self.microphoneLabel.text = !self.microphoneBtn.isSelected? @"打开语音": @"关闭语音";
-    self.volumeLabel.text = self.volumeBtn.isSelected? @"打开扬声器": @"关闭扬声器";
-    self.videoLabel.text = !self.videoBtn.isSelected? @"打开视频": @"关闭视频";
+    self.microphoneLabel.text = !self.microphoneBtn.isSelected? @"禁语音": @"语音中";
+    self.volumeLabel.text = self.volumeBtn.isSelected? @"禁扬声": @"扬声中";
+    self.videoLabel.text = !self.videoBtn.isSelected? @"禁视频": @"视频中";
     
-    self.RECLabel.text = !self.RECBtn.isSelected? @"开始录制": @"结束录制";
-    self.liveLabel.text = !self.liveBtn.isSelected? @"开始直播": @"结束直播";
+    self.RECLabel.text = !self.RECBtn.isSelected? @"待录制": @"录制中";
+    self.liveLabel.text = !self.liveBtn.isSelected? @"待直播": @"直播中";
 }
 
 - (void)configSubviews {

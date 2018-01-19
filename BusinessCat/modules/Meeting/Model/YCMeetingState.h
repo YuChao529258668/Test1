@@ -25,6 +25,7 @@
 @property (nonatomic,assign) long attendance;
 @property (nonatomic,strong) NSMutableArray<YCMeetingUser *> *meetingUserList; // 当前状态:0未进入,1开会中,2已离开,4禁止
 
+@property (nonatomic,strong) NSString *groupId; // 群聊 id，用于腾讯云获取群信息
 
 
 // 客户端自定义的属性

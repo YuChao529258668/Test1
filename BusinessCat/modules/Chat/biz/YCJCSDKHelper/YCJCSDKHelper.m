@@ -157,9 +157,11 @@ static YCJCSDKHelper * helper;
     NSString *server = @"http:router.justalkcloud.com:8080";
     if ([MtcLoginManager Login:userID password:@"jp580" network:server] == ZOK) {
         NSLog(@"调用语音登录成功");
+        [self Mtc_ImRefresh];
     } else {
 //        [CTToast showWithText:@"会议功能无法登录"];
     }
+    
 }
 
 + (void)logoutMultiCall {
@@ -172,6 +174,23 @@ static YCJCSDKHelper * helper;
 
 + (void)multiCall:(NSArray *)numbers displayName:(NSString *)dispalyName {
     [MtcCallManager multiCall:numbers displayName:dispalyName];
+}
+
++ (void)Mtc_ImRefresh {
+    static int count = 0;
+    count ++;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        @try {
+            Mtc_ImRefresh(0); // JusTalk Cloud 离线消息
+        }
+        @catch (NSException *e) {
+            if (count < 4) {
+                [CTToast showWithText:@"获取会议离线消息失败，正在重试"];
+                [self Mtc_ImRefresh];
+            }
+        }
+    });
 }
 
 

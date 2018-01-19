@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSArray<NSString *> *urls;
 
 //  七牛参数
+@property (nonatomic,strong) NSString *q;
 @property (nonatomic,strong) NSString *AccessKey;
 @property (nonatomic,strong) NSString *SecretKey;
 @property (nonatomic,strong) NSString *BucketName;

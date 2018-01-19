@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YCMeetingInviteCallController">
+            <connections>
+                <outlet property="avartIV" destination="c4g-qm-xP1" id="ZKc-LK-pG7"/>
+                <outlet property="inviteLabel" destination="1YA-nS-ytu" id="2si-On-8sO"/>
+                <outlet property="meetingName" destination="3c6-3o-0Y2" id="9Ep-O8-Dl9"/>
+                <outlet property="nameLabel" destination="Rr4-BG-WC6" id="5fe-kY-bqd"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="c4g-qm-xP1">
+                    <rect key="frame" x="140" y="113" width="95" height="95"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="95" id="7td-P6-8BL"/>
+                        <constraint firstAttribute="width" constant="95" id="UrK-sW-Ev0"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="喵" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rr4-BG-WC6">
+                    <rect key="frame" x="175" y="226" width="23.5" height="27.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="邀请你参加" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1YA-nS-ytu">
+                    <rect key="frame" x="149" y="263" width="76.5" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="关于项目总报告会议" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3c6-3o-0Y2">
+                    <rect key="frame" x="118.5" y="286" width="138" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="参加" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N3J-fJ-0Qg">
+                    <rect key="frame" x="70.5" y="585" width="27" height="16"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="拒绝" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGj-7E-JHI">
+                    <rect key="frame" x="277.5" y="585" width="27" height="16"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fsb-2X-e3O">
+                    <rect key="frame" x="54" y="517" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="WZa-1V-8kN"/>
+                        <constraint firstAttribute="width" constant="60" id="cu7-nY-FXM"/>
+                    </constraints>
+                    <state key="normal" image="icon_call"/>
+                    <connections>
+                        <action selector="clickAttendBtn:" destination="-1" eventType="touchUpInside" id="C14-PJ-3Qc"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o1A-Hi-WjK">
+                    <rect key="frame" x="261" y="517" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="gWp-ON-K8x"/>
+                        <constraint firstAttribute="height" constant="60" id="yAl-DD-Fdx"/>
+                    </constraints>
+                    <state key="normal" image="icon_nocall"/>
+                    <connections>
+                        <action selector="clickRefuseBtn:" destination="-1" eventType="touchUpInside" id="AV3-Jd-FB8"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Fsb-2X-e3O" secondAttribute="bottom" constant="90" id="8Uh-aT-uS5"/>
+                <constraint firstItem="3c6-3o-0Y2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="HGm-Eb-LEe"/>
+                <constraint firstItem="Fsb-2X-e3O" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="54" id="JIf-GJ-Uyd"/>
+                <constraint firstAttribute="trailing" secondItem="o1A-Hi-WjK" secondAttribute="trailing" constant="54" id="JVp-Ki-GhH"/>
+                <constraint firstItem="3c6-3o-0Y2" firstAttribute="top" secondItem="1YA-nS-ytu" secondAttribute="bottom" constant="5" id="MhY-7M-N8G"/>
+                <constraint firstItem="c4g-qm-xP1" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="PV4-Sg-h0i"/>
+                <constraint firstItem="cGj-7E-JHI" firstAttribute="top" secondItem="o1A-Hi-WjK" secondAttribute="bottom" constant="8" id="Rhz-PB-HfD"/>
+                <constraint firstItem="Rr4-BG-WC6" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="SGa-OR-j9T"/>
+                <constraint firstItem="1YA-nS-ytu" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="U30-Of-TFM"/>
+                <constraint firstAttribute="bottom" secondItem="o1A-Hi-WjK" secondAttribute="bottom" constant="90" id="Ufy-ST-FSv"/>
+                <constraint firstItem="cGj-7E-JHI" firstAttribute="centerX" secondItem="o1A-Hi-WjK" secondAttribute="centerX" id="blt-vQ-Jzs"/>
+                <constraint firstItem="N3J-fJ-0Qg" firstAttribute="centerX" secondItem="Fsb-2X-e3O" secondAttribute="centerX" id="cjI-Hk-pZ8"/>
+                <constraint firstItem="Rr4-BG-WC6" firstAttribute="top" secondItem="c4g-qm-xP1" secondAttribute="bottom" constant="18" id="fWN-Tw-6qg"/>
+                <constraint firstItem="1YA-nS-ytu" firstAttribute="top" secondItem="Rr4-BG-WC6" secondAttribute="bottom" constant="9.5" id="ffl-RF-zwr"/>
+                <constraint firstItem="c4g-qm-xP1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="113" id="l9z-72-npN"/>
+                <constraint firstItem="N3J-fJ-0Qg" firstAttribute="top" secondItem="Fsb-2X-e3O" secondAttribute="bottom" constant="8" id="qxZ-P7-tb4"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="default_avatar" width="180" height="177"/>
+        <image name="icon_call" width="60" height="60"/>
+        <image name="icon_nocall" width="60" height="60"/>
+    </resources>
+</document>

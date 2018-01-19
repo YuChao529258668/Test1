@@ -1343,7 +1343,12 @@ typedef enum {
     self.membersVC.isReview = self.isReview;
     
     __weak typeof(self) weakself = self;
-    
+
+    self.membersVC.q = self.q;
+//    self.membersVC.AccessKey = self.AccessKey;
+//    self.membersVC.BucketName = self.BucketName;
+//    self.membersVC.SecretKey = self.SecretKey;
+
     // 检查是否主持人
     self.membersVC.onGetMeetingDateSuccessBlock = ^(BOOL isMeetingCreator) {
         if (isMeetingCreator) {
@@ -1469,6 +1474,7 @@ typedef enum {
     vc.AccessKey = self.AccessKey;
     vc.SecretKey = self.SecretKey;
     vc.BucketName = self.BucketName;
+//    vc.q = self.q;
     vc.view.hidden = YES;
     vc.myNavigationController = self.navigationController;
     [self.preview addSubview:vc.view];
@@ -1927,7 +1933,7 @@ typedef enum {
         [CTToast showWithText:@"开始录屏"];
         [self meetingTranscribeWithFileName:fileName type:1];
     } else {
-        [CTToast showWithText:@"发起录屏 失败"];
+        [CTToast showWithText:@"无法发起录制，请重试多几次！"];
     }
 }
 

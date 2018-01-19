@@ -107,16 +107,16 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kHM-03-X5k">
                             <rect key="frame" x="0.0" y="116" width="80" height="41"/>
-                            <state key="normal" image="video_rec_normal"/>
-                            <state key="selected" image="video_rec_highlight"/>
+                            <state key="normal" image="video_rec_highlight"/>
+                            <state key="selected" image="video_rec_normal"/>
                             <connections>
                                 <action selector="click:" destination="iN0-l3-epB" eventType="touchUpInside" id="8IT-gj-VBQ"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A22-cT-AJP">
                             <rect key="frame" x="80" y="116" width="80" height="41"/>
-                            <state key="normal" image="video_live_normal"/>
-                            <state key="selected" image="video_live_highlight"/>
+                            <state key="normal" image="video_live_highlight"/>
+                            <state key="selected" image="video_live_normal"/>
                             <connections>
                                 <action selector="click:" destination="iN0-l3-epB" eventType="touchUpInside" id="mlk-GO-8dL"/>
                             </connections>
