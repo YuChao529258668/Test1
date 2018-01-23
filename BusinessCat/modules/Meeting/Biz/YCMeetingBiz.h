@@ -9,6 +9,7 @@
 #import "CGBaseBiz.h"
 @class CGMeeting;
 @class YCMeetingState;
+@class YCMeetingCompanyRoom;
 
 @interface YCMeetingBiz : CGBaseBiz
 
@@ -19,7 +20,7 @@
 - (void)meetingEntranceWithMeetingID:(NSString *)mid Success:(void(^)(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *q))success fail:(void(^)(NSError *error))fail;
 
 // 获取会议室列表
-- (void)getMeetingRoomListWithSuccess:(void(^)(NSArray *companyRooms, NSArray *otherRooms))success fail:(void(^)(NSError *error))fail;
+- (void)getMeetingRoomListWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed Success:(void(^)(NSArray<YCMeetingCompanyRoom *> *companyRooms))success fail:(void(^)(NSError *error))fail;
 
 // 会议日期是否有效
 - (void)checkMeetingDateValidWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed roomID:(NSString *)rid OnSuccess:(void(^)(NSString *message, int state, NSString *recommendTime))success fail:(void(^)(NSError *error))fail;
@@ -29,6 +30,10 @@
 //"meetingMans":"37d13733-67f4-4906-afbd-3bb5972c1e94,a2af44fb-",开会的人,所有人除了发起人（uuid多个用英文逗号隔开）
 // oldMeetingID 再次召开的时候传值，否则@""
 - (void)bookMeetingWithMeetingID:(NSString *)mid oldMeetingID:(NSString *)oldMid MeetingType:(int)type MeetingName:(NSString *)name users:(NSString *)users roomID:(NSString *)rid beginDate:(NSDate *)bDate endDate:(NSDate *)eDate Success:(void(^)(id data))success fail:(void(^)(NSError *error))fail;
+// live: 是否直播
+//roomType 视频的会议室类型 0:公司 1:用户
+//companyRoomId 公司会议房间Id（空为非公司会议）
+- (void)bookMeeting2WithMeetingID:(NSString *)mid oldMeetingID:(NSString *)oldMid MeetingType:(int)type MeetingName:(NSString *)name users:(NSString *)users roomID:(NSString *)rid beginDate:(NSDate *)bDate endDate:(NSDate *)eDate live:(int)live accessNumber:(NSInteger)an roomType:(int)roomType companyRoomId:(NSString *)crID Success:(void(^)(id data))success fail:(void(^)(NSError *error))fail;
 
 // 会议详情
 - (void)getMeetingDetailWithMeetingID:(NSString *)mid  success:(void(^)(CGMeeting *meeting))success fail:(void(^)(NSError *error))fail;

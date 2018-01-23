@@ -8,13 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YCSelectRoomHeaderView : UIView
+@interface YCSelectRoomHeaderView : UITableViewHeaderFooterView
 
 @property (weak, nonatomic) IBOutlet UIButton *triangleBtn;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 @property (weak, nonatomic) IBOutlet UIButton *button;
+@property (nonatomic, assign) NSInteger section;
 
 + (instancetype)headerView;
 + (float)headerViewHeight;
+- (void)setDisplay:(BOOL)isDisplay;
++ (NSString *)notificationName;
+
 @end

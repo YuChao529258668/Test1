@@ -10,6 +10,8 @@
 
 @interface YCCreateMeetingController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *titleTF;
+
+// 废弃
 @property (weak, nonatomic) IBOutlet UIButton *videoBtn;
 @property (weak, nonatomic) IBOutlet UIButton *voiceBtn;
 @property (weak, nonatomic) IBOutlet UIButton *liveBtn;
@@ -19,11 +21,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *beginLabel;
 @property (weak, nonatomic) IBOutlet UILabel *endLabel;
 
+// 废弃
 @property (weak, nonatomic) IBOutlet UIButton *btn4;
 @property (weak, nonatomic) IBOutlet UIButton *btn8;
 @property (weak, nonatomic) IBOutlet UIButton *btn16;
 
+@property (weak, nonatomic) IBOutlet UIButton *createMeetingBtn;
+
 @property (weak, nonatomic) IBOutlet UIImageView *blockIV;
+@property (weak, nonatomic) IBOutlet UIImageView *blockIV2;
 
 
 @end

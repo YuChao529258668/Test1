@@ -151,7 +151,7 @@
 
 - (void)getAvaliableTime {
     __weak typeof(self) weakself = self;
-    [[YCMeetingBiz new] getMeetingRoomTimeWithRoomID:self.room.roomid success:^(NSArray *times) {
+    [[YCMeetingBiz new] getMeetingRoomTimeWithRoomID:self.room.roomId success:^(NSArray *times) {
         weakself.timeListArray = times;
         [weakself.collectionView reloadData];
         

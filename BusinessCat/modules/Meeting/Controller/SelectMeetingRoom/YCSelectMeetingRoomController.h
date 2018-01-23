@@ -12,9 +12,13 @@
 
 @interface YCSelectMeetingRoomController : YCBaseViewController
 
-@property (nonatomic,strong) NSArray *companyRooms;
-@property (nonatomic,strong) NSArray *otherRooms;
+//@property (nonatomic,strong) NSArray *companyRooms;
+//@property (nonatomic,strong) NSArray *otherRooms;
+
+@property (nonatomic, strong) NSDate *beginDate;
+@property (nonatomic, strong) NSDate *endDate;
 
 @property (nonatomic,copy) void (^didSelectRoom)(YCMeetingRoom *room);
+@property (nonatomic,copy) void (^didSelectBlock)(YCMeetingRoom *room, BOOL isVideo, int count);
 
 @end

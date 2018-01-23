@@ -46,19 +46,29 @@
     }];
 }
 
-- (void)getMeetingRoomListWithSuccess:(void(^)(NSArray *companyRooms, NSArray *otherRooms))success fail:(void(^)(NSError *error))fail {
-    NSString *companyId = [[ObjectShareTool sharedInstance].currentUser getCompanyID];
-    if (!companyId) {
-        [CTToast showWithText:@"获取会议室列表失败，公司 id 为空"];
-        return;
+- (void)getMeetingRoomListWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed Success:(void(^)(NSArray<YCMeetingCompanyRoom *> *companyRooms))success fail:(void(^)(NSError *error))fail {
+    
+    if (!bd) {
+        bd = [NSDate dateWithTimeIntervalSince1970:0];
     }
-    NSDictionary *dic = @{@"companyId":companyId};
-    [self.component sendPostRequestWithURL:URL_Meeting_MeetingRoomList param:dic success:^(id data) {
-        NSArray *companyData = [data objectForKey:@"companyData"];
-        NSArray *otherData = [data objectForKey:@"otherData"];
-        NSArray *companyDataModelArray = [YCMeetingRoom mj_objectArrayWithKeyValuesArray:companyData];
-        NSArray *otherDataModelArray = [YCMeetingRoom mj_objectArrayWithKeyValuesArray:otherData];
-        success(companyDataModelArray, otherDataModelArray);
+    if (!ed) {
+        ed = [NSDate dateWithTimeIntervalSinceNow:30 * 24 *60 * 60];
+    }
+
+    
+    NSNumber *beginDateN = [NSNumber numberWithLong:bd.timeIntervalSince1970 * 1000];
+    NSNumber *endDateN = [NSNumber numberWithLong:ed.timeIntervalSince1970 * 1000];
+//    NSDictionary *dic = @{@"companyId":companyId, @"startTime":beginDateN, @"endTime": endDateN};
+    NSDictionary *dic = @{@"startTime":beginDateN, @"endTime": endDateN};
+
+    
+    [self.component UIPostRequestWithURL:URL_Meeting_MeetingRoomList param:dic success:^(id data) {
+
+        NSArray<YCMeetingCompanyRoom *> *companyRooms = [YCMeetingCompanyRoom mj_objectArrayWithKeyValuesArray:data];
+        if (success) {
+            success(companyRooms);
+        }
+        
     } fail:^(NSError *error) {
         NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
     }];
@@ -84,6 +94,7 @@
 //"meetingId":"", 为空代表新预约，有值代表修改
 //"meetingMans":"37d13733-67f4-4906-afbd-3bb5972c1e94,a2af44fb-",开会的人,所有人除了发起人（uuid多个用英文逗号隔开）
 // oldMeetingID 再次召开的时候传值，否则@""
+// 会议形式（0：音频，1：视频）
 //http://doc.cgsays.com:50123/index.php?s=/1&page_id=391
 - (void)bookMeetingWithMeetingID:(NSString *)mid oldMeetingID:(NSString *)oldMid MeetingType:(int)type MeetingName:(NSString *)name users:(NSString *)users roomID:(NSString *)rid beginDate:(NSDate *)bDate endDate:(NSDate *)eDate Success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
     NSString *companyId = [ObjectShareTool sharedInstance].currentUser.getCompanyID;
@@ -110,6 +121,45 @@
                           @"accessNumber": @16
                           };
 
+    [self.component UIPostRequestWithURL:URL_Meeting_BespeakMeeting param:dic success:^(id data) {
+        success(data);
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
+//roomType 视频的会议室类型 0:公司 1:用户
+//companyRoomId 公司会议房间Id（空为非公司会议）
+- (void)bookMeeting2WithMeetingID:(NSString *)mid oldMeetingID:(NSString *)oldMid MeetingType:(int)type MeetingName:(NSString *)name users:(NSString *)users roomID:(NSString *)rid beginDate:(NSDate *)bDate endDate:(NSDate *)eDate live:(int)live accessNumber:(NSInteger)an roomType:(int)roomType companyRoomId:(NSString *)crID Success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+    NSString *companyId = [ObjectShareTool sharedInstance].currentUser.getCompanyID;
+    NSNumber *bn = [NSNumber numberWithLong:bDate.timeIntervalSince1970*1000];
+    NSNumber *en = [NSNumber numberWithLong:eDate.timeIntervalSince1970*1000];
+    if (!crID) {
+        crID = @"";
+    }
+    NSDictionary *dic = @{@"meetingId": mid,
+                          @"oldMeetingId": oldMid,
+                          @"companyId": companyId,
+                          @"meetingType": [NSString stringWithFormat:@"%@", @(type)],
+                          @"meetingName": name,
+                          @"meetingMans": users,
+                          @"meetingRoomId": rid,
+                          @"startTime": bn,
+                          @"endTime": en,
+                          @"meetingMode": @0,
+                          @"meetingPic": @"",
+                          @"meegingPay": @0,
+                          @"meegingCost": [NSNumber numberWithFloat:0],
+                          @"userMode": @0,
+                          @"meegingDeadline": @"",
+                          @"companyPlace": @0,
+                          @"attendance": @0,
+                          @"live": @(live),
+                          @"accessNumber": @(an),
+                          @"roomType": @(roomType),
+                          @"companyRoomId": crID
+                          };
+    
     [self.component UIPostRequestWithURL:URL_Meeting_BespeakMeeting param:dic success:^(id data) {
         success(data);
     } fail:^(NSError *error) {

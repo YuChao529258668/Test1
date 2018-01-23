@@ -10,6 +10,7 @@
 
 @interface YCDatePickerViewController ()
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (nonatomic, assign) UIDatePickerMode datePickerMode; //time, date, timer, dateAndTime
 
 @end
 
@@ -25,6 +26,7 @@
     if (self.currentDate) {
         self.datePicker.date = self.currentDate;
     }
+    self.datePicker.datePickerMode = self.datePickerMode;
 }
 
 - (IBAction)decideBtnClick:(id)sender {
@@ -38,10 +40,25 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)setDatePickerMode:(UIDatePickerMode)mode {
+    _datePickerMode = mode;
+    self.datePicker.datePickerMode = mode;
+}
+
 + (instancetype)picker {
     YCDatePickerViewController *vc = [YCDatePickerViewController new];
-    vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
+//    vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
     return vc;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        self.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    }
+    return self;
 }
 
 @end

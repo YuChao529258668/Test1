@@ -66,6 +66,7 @@
                             <state key="normal" image="icon_big">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
+                            <state key="selected" image="icon_small"/>
                             <connections>
                                 <action selector="clickFullScreenBtn:" destination="-1" eventType="touchUpInside" id="6a1-uE-DqB"/>
                             </connections>
@@ -135,6 +136,7 @@
     <resources>
         <image name="icon_big" width="22" height="22"/>
         <image name="icon_play" width="22" height="22"/>
+        <image name="icon_small" width="22" height="22"/>
         <image name="icon_stop" width="22" height="22"/>
         <image name="topbar_goback_white_img" width="22" height="22"/>
     </resources>

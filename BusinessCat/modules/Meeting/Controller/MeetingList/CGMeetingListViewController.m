@@ -18,6 +18,7 @@
 #import "YCMultiCallHelper.h"
 #import "RoomViewController.h"
 
+#import "YCCreateMeetingController.h"
 
 #define kHeaderViewHeight 46
 #define kHeaderViewBtnHeight 36
@@ -225,7 +226,8 @@
 
 - (void)createMeetingBtnClick {
     if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
-        YCBookMeetingController *vc = [YCBookMeetingController new];
+//        YCBookMeetingController *vc = [YCBookMeetingController new];
+        YCCreateMeetingController *vc = [YCCreateMeetingController new];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
         CGMainLoginViewController *controller = [[CGMainLoginViewController alloc]init];

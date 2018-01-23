@@ -13,11 +13,23 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    self.backgroundColor = [UIColor yellowColor];
     [self.button addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)btnClick {
-    self.triangleBtn.selected = !self.triangleBtn.isSelected;
+    BOOL selected = !self.triangleBtn.isSelected;
+    self.triangleBtn.selected = selected;
+    [self setDisplay:!selected];
+    [[NSNotificationCenter defaultCenter] postNotificationName:[self.class notificationName] object:self];
+}
+
+- (void)setDisplay:(BOOL)isDisplay {
+    if (isDisplay) {
+        self.triangleBtn.transform = CGAffineTransformMakeRotation(0);
+    } else {
+        self.triangleBtn.transform = CGAffineTransformMakeRotation(-M_PI_2);
+    }
 }
 
 + (instancetype)headerView {
@@ -26,7 +38,11 @@
 }
 
 + (float)headerViewHeight {
-    return 44;
+    return 42;
+}
+
++ (NSString *)notificationName {
+    return @"YCSelectRoomHeaderViewClickNotification";
 }
 
 @end

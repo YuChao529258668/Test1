@@ -22,6 +22,11 @@
 		0D316E0420107F2D0097D79D /* YCCreateMeetingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D316E0220107F2D0097D79D /* YCCreateMeetingController.m */; };
 		0D316E0520107F2D0097D79D /* YCCreateMeetingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D316E0320107F2D0097D79D /* YCCreateMeetingController.xib */; };
 		0D316E0720107FFB0097D79D /* 颜色.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D316E0620107FFA0097D79D /* 颜色.png */; };
+		0D316E0E2012E8280097D79D /* YCPickerViewForDateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D316E0C2012E8280097D79D /* YCPickerViewForDateController.m */; };
+		0D316E0F2012E8280097D79D /* YCPickerViewForDateController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D316E0D2012E8280097D79D /* YCPickerViewForDateController.xib */; };
+		0D316E1B2015E1DD0097D79D /* 请选择会议模式.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D316E1A2015E1DD0097D79D /* 请选择会议模式.png */; };
+		0D316E1E201730D00097D79D /* YCSelectRoomFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D316E1D201730D00097D79D /* YCSelectRoomFooterView.m */; };
+		0D316E20201730EC0097D79D /* YCSelectRoomFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D316E1F201730EC0097D79D /* YCSelectRoomFooterView.xib */; };
 		0D3EB2B71FBA9CC900DAE678 /* Meeting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */; };
 		0D3EB2E31FC1806900DAE678 /* YCBookMeetingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */; };
 		0D3EB2E71FC1825700DAE678 /* YCWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3EB2E61FC1825700DAE678 /* YCWorkViewController.m */; };
@@ -1488,6 +1493,13 @@
 		0D316E0220107F2D0097D79D /* YCCreateMeetingController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCreateMeetingController.m; sourceTree = "<group>"; };
 		0D316E0320107F2D0097D79D /* YCCreateMeetingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCCreateMeetingController.xib; sourceTree = "<group>"; };
 		0D316E0620107FFA0097D79D /* 颜色.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "颜色.png"; sourceTree = "<group>"; };
+		0D316E0B2012E8280097D79D /* YCPickerViewForDateController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPickerViewForDateController.h; sourceTree = "<group>"; };
+		0D316E0C2012E8280097D79D /* YCPickerViewForDateController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPickerViewForDateController.m; sourceTree = "<group>"; };
+		0D316E0D2012E8280097D79D /* YCPickerViewForDateController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCPickerViewForDateController.xib; sourceTree = "<group>"; };
+		0D316E1A2015E1DD0097D79D /* 请选择会议模式.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "请选择会议模式.png"; sourceTree = "<group>"; };
+		0D316E1C201730D00097D79D /* YCSelectRoomFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCSelectRoomFooterView.h; sourceTree = "<group>"; };
+		0D316E1D201730D00097D79D /* YCSelectRoomFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCSelectRoomFooterView.m; sourceTree = "<group>"; };
+		0D316E1F201730EC0097D79D /* YCSelectRoomFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCSelectRoomFooterView.xib; sourceTree = "<group>"; };
 		0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Meeting.storyboard; sourceTree = "<group>"; };
 		0D3EB2E11FC1806900DAE678 /* YCBookMeetingController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCBookMeetingController.h; sourceTree = "<group>"; };
 		0D3EB2E21FC1806900DAE678 /* YCBookMeetingController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCBookMeetingController.m; sourceTree = "<group>"; };
@@ -4130,11 +4142,29 @@
 			isa = PBXGroup;
 			children = (
 				0D316E0620107FFA0097D79D /* 颜色.png */,
+				0D316E1A2015E1DD0097D79D /* 请选择会议模式.png */,
 				0D316E0120107F2D0097D79D /* YCCreateMeetingController.h */,
 				0D316E0220107F2D0097D79D /* YCCreateMeetingController.m */,
 				0D316E0320107F2D0097D79D /* YCCreateMeetingController.xib */,
 			);
 			path = CreateMeeting;
+			sourceTree = "<group>";
+		};
+		0D316E0A2012E7E70097D79D /* YCPickerViewForDateController */ = {
+			isa = PBXGroup;
+			children = (
+				0D316E0B2012E8280097D79D /* YCPickerViewForDateController.h */,
+				0D316E0C2012E8280097D79D /* YCPickerViewForDateController.m */,
+				0D316E0D2012E8280097D79D /* YCPickerViewForDateController.xib */,
+			);
+			path = YCPickerViewForDateController;
+			sourceTree = "<group>";
+		};
+		0D316E102015BB590097D79D /* SelectMeetingMode */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SelectMeetingMode;
 			sourceTree = "<group>";
 		};
 		0D3EB2B41FBA9C6A00DAE678 /* CGMeetingListCell */ = {
@@ -4192,6 +4222,9 @@
 				0D57A53A1FC559D4008C30C7 /* YCSelectRoomHeaderView.h */,
 				0D57A53B1FC559D4008C30C7 /* YCSelectRoomHeaderView.m */,
 				0D57A53D1FC559E5008C30C7 /* YCSelectRoomHeaderView.xib */,
+				0D316E1C201730D00097D79D /* YCSelectRoomFooterView.h */,
+				0D316E1D201730D00097D79D /* YCSelectRoomFooterView.m */,
+				0D316E1F201730EC0097D79D /* YCSelectRoomFooterView.xib */,
 			);
 			path = SelectMeetingRoom;
 			sourceTree = "<group>";
@@ -4251,6 +4284,7 @@
 		0D7431021FB93D0D002867FA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0D316E102015BB590097D79D /* SelectMeetingMode */,
 				0D316E0020107F140097D79D /* CreateMeeting */,
 				0D316DEE200DA14E0097D79D /* InviteCall */,
 				0DAB308E1FFDC53900E0DA26 /* Desktop */,
@@ -7609,6 +7643,7 @@
 		D7BF3EAA1D98F9D900FC94E6 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				0D316E0A2012E7E70097D79D /* YCPickerViewForDateController */,
 				0D316D172008ABB60097D79D /* YCVideoController */,
 				0D29EAD31FF34368005F1AD1 /* YCTool */,
 				0D57A52C1FC2C3E8008C30C7 /* YCDatePickerViewController */,
@@ -8441,6 +8476,7 @@
 				0DBF47A31FB3087400707C12 /* choose@2x.png in Resources */,
 				0DDE74ED1FFCD65600063651 /* 11.gif in Resources */,
 				0DBF47681FB3087300707C12 /* colour@2x.png in Resources */,
+				0D316E1B2015E1DD0097D79D /* 请选择会议模式.png in Resources */,
 				181C54B01EBDC1CF0064354D /* CGOrderDetailTableViewCell.xib in Resources */,
 				18400C071ECC3E0000E3009D /* CGHelpCatePageTableViewCell.xib in Resources */,
 				0DBF47DD1FB3087400707C12 /* screen_share_reception@2x.png in Resources */,
@@ -8550,6 +8586,7 @@
 				0D316E0520107F2D0097D79D /* YCCreateMeetingController.xib in Resources */,
 				0DDE74E21FFCD65600063651 /* 102.gif in Resources */,
 				0DBF47991FB3087400707C12 /* split_status_microphone@3x.png in Resources */,
+				0D316E20201730EC0097D79D /* YCSelectRoomFooterView.xib in Resources */,
 				181C552F1EC46C540064354D /* CGProductInterfaceViewController.xib in Resources */,
 				1827C4EC1E3383DE0019FE6B /* CGLoginOutTableViewCell.xib in Resources */,
 				1842BE3F1E2F504400697332 /* HeadlineLeftPicAddTableViewCell.xib in Resources */,
@@ -8571,6 +8608,7 @@
 				1834BB4B1DB70BFE008F4685 /* CGUserFireViewController.xib in Resources */,
 				1835D96B1DB868F40006ED07 /* CGUserMyPrivilegeDetailTableViewCell.xib in Resources */,
 				1891BF951E9E23C000D6F37B /* CGFeedbackReleaseViewController.xib in Resources */,
+				0D316E0F2012E8280097D79D /* YCPickerViewForDateController.xib in Resources */,
 				0DBF47D21FB3087400707C12 /* paint_normal_highlighted@3x.png in Resources */,
 				0DDE74BD1FFCD65500063651 /* 86.gif in Resources */,
 				0DBF47C71FB3087400707C12 /* microphone_off@2x.png in Resources */,
@@ -8927,6 +8965,7 @@
 				0D90DF911FB43C3A00EDB7CF /* UILabel+InitMethod.m in Sources */,
 				D710B7F41D99046E00688D72 /* CTBaseNaviController.m in Sources */,
 				0DBF47841FB3087400707C12 /* UITableView+FDTemplateLayoutCellDebug.m in Sources */,
+				0D316E1E201730D00097D79D /* YCSelectRoomFooterView.m in Sources */,
 				D7F44BD31DA8A346004393C2 /* HeadlineTopicCell.m in Sources */,
 				0D90DF3E1FB43C3900EDB7CF /* UIViewController+ADTransition.m in Sources */,
 				0D90DF6D1FB43C3900EDB7CF /* NSDate+RFC1123.m in Sources */,
@@ -9141,6 +9180,7 @@
 				181C547D1EBC28B80064354D /* CGOrderEntity.m in Sources */,
 				0D90E0311FB43C3A00EDB7CF /* ContactListViewController.m in Sources */,
 				188422B11DD70CF000B6AD34 /* CGHeadlineGlobalSearchDetailViewController.m in Sources */,
+				0D316E0E2012E8280097D79D /* YCPickerViewForDateController.m in Sources */,
 				0DBF48021FB3087400707C12 /* JCBaseNavigationViewController.m in Sources */,
 				1834BB3B1DB63C1D008F4685 /* CGUserSettingViewController.m in Sources */,
 				0D90DFF81FB43C3A00EDB7CF /* EmojHelper.m in Sources */,

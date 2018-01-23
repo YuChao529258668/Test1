@@ -97,7 +97,7 @@
 - (NSString *)textForSeconds:(int)seconds {
     __block NSString *string;
 
-    [YCTool HMSForSeconds:seconds block:^(NSInteger h, NSInteger m, NSInteger s) {
+    [YCTool HMSForSeconds:seconds block:^(NSInteger h, NSInteger m, NSInteger s, NSMutableString *str) {
         if (h > 0) {
             string = [NSString stringWithFormat:@"%02ld:%02ld:%02ld", h, m, s];
         } else {

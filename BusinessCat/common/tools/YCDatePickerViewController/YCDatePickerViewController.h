@@ -13,5 +13,9 @@
 @property (nonatomic, strong) NSDate *minimumDate;
 @property (nonatomic,strong) NSDate *currentDate;
 
+//time, date, timer, dateAndTime
+- (void)setDatePickerMode:(UIDatePickerMode)mode;
+
 + (instancetype)picker;
+
 @end

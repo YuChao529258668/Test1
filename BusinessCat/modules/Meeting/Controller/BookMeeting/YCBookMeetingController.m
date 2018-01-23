@@ -53,8 +53,8 @@
 
 @property (nonatomic,strong) NSDate *beginDate;
 @property (nonatomic,strong) NSDate *endDate;
-@property (nonatomic,strong) NSArray<YCMeetingRoom *> *companyRooms; // 用户公司的会议室
-@property (nonatomic,strong) NSArray<YCMeetingRoom *> *otherRooms; // 生意猫会议室
+@property (nonatomic,strong) NSArray<YCMeetingCompanyRoom *> *companyRooms; // 用户公司的会议室
+//@property (nonatomic,strong) NSArray<YCMeetingRoom *> *otherRooms; // 生意猫会议室
 
 @property (nonatomic,strong) YCMeetingRoom *room; // 后台给的 default room，或者用 self.meeting 的信息来创建
 @property (nonatomic,strong) NSMutableArray<YCMeetingUser *> *users; // 参与开会的人
@@ -177,12 +177,12 @@
     [self.meetingTypeBtn setTitle:@"视频" forState:UIControlStateNormal];
     
     // 获取会议室列表
-    [self getMeetingRoomListWithSuccess:^(NSArray *companyRooms, NSArray *otherRooms) {
+    [self getMeetingRoomListWithSuccess:^(NSArray<YCMeetingCompanyRoom *> *companyRooms) {
         self.companyRooms = companyRooms;
-        self.otherRooms = otherRooms;
+//        self.otherRooms = otherRooms;
         // 设置默认会议室
-        self.room = [self getDefaultMeetingRoom];
-        self.meetingRoomNameL.text = self.room.roomname;
+//        self.room = [self getDefaultMeetingRoom];
+        self.meetingRoomNameL.text = self.room.roomName;
         // 费用
         [self updateMeetingCost];
         // 验证会议时间是否有效
@@ -210,9 +210,9 @@
     [self updateMeetingDuration];
     
     // 获取会议室列表
-    [self getMeetingRoomListWithSuccess:^(NSArray *companyRooms, NSArray *otherRooms) {
+    [self getMeetingRoomListWithSuccess:^(NSArray<YCMeetingCompanyRoom *> *companyRooms) {
         self.companyRooms = companyRooms;
-        self.otherRooms = otherRooms;
+//        self.otherRooms = otherRooms;
     }];
     
     // 获取会议详情
@@ -222,7 +222,7 @@
         
         // 会议室
         self.room = [self roomOfMeeting:self.meeting];
-        self.meetingRoomNameL.text = self.room.roomname;
+        self.meetingRoomNameL.text = self.room.roomName;
         
         // 验证会议时间是否有效
         [self checkMeetingDateValid];
@@ -282,9 +282,9 @@
     self.meetingTimeAvailable = YES;
     
     // 获取会议室列表
-    [self getMeetingRoomListWithSuccess:^(NSArray *companyRooms, NSArray *otherRooms) {
+    [self getMeetingRoomListWithSuccess:^(NSArray<YCMeetingCompanyRoom *> *companyRooms) {
         self.companyRooms = companyRooms;
-        self.otherRooms = otherRooms;
+//        self.otherRooms = otherRooms;
     }];
     
     // 获取会议详情
@@ -295,7 +295,7 @@
         self.createrLabel.text = self.meeting.ycCompere.userName;
         // 会议室
         self.room = [self roomOfMeeting:self.meeting];
-        self.meetingRoomNameL.text = self.room.roomname;
+        self.meetingRoomNameL.text = self.room.roomName;
         
         // 日期
         self.beginDate = [NSDate dateWithTimeIntervalSince1970:self.meeting.startTime.doubleValue/1000];
@@ -364,7 +364,7 @@
         
         // 会议室
         self.room = [self roomOfMeeting:self.meeting];
-        self.meetingRoomNameL.text = self.room.roomname;
+        self.meetingRoomNameL.text = self.room.roomName;
         
         // 日期
         self.beginDate = [NSDate dateWithTimeIntervalSince1970:self.meeting.startTime.doubleValue/1000];
@@ -500,24 +500,24 @@
     self.meetingTitleTF.attributedPlaceholder = attrString;
 }
 
-- (YCMeetingRoom *)getDefaultMeetingRoom {
-    for (YCMeetingRoom *room in self.companyRooms) {
-        if (room.roomDefault) {
-            return room;
-        }
-    }
-    for (YCMeetingRoom *room in self.otherRooms) {
-        if (room.roomDefault) {
-            return room;
-        }
-    }
-    return nil;
-}
+//- (YCMeetingRoom *)getDefaultMeetingRoom {
+//    for (YCMeetingRoom *room in self.companyRooms) {
+//        if (room.roomDefault) {
+//            return room;
+//        }
+//    }
+//    for (YCMeetingRoom *room in self.otherRooms) {
+//        if (room.roomDefault) {
+//            return room;
+//        }
+//    }
+//    return nil;
+//}
 
 - (YCMeetingRoom *)roomOfMeeting:(CGMeeting *)meeting {
     YCMeetingRoom *room = [YCMeetingRoom new];
-    room.roomid = meeting.roomId;
-    room.roomname = meeting.roomName;
+    room.roomId = meeting.roomId;
+    room.roomName = meeting.roomName;
     room.roomcharge = meeting.roomCharge;
     room.costvideo = meeting.costVideo;
     room.costvoice = meeting.costVoice;
@@ -559,11 +559,11 @@
 
 - (IBAction)meetingRoomBtnClick:(id)sender {
     YCSelectMeetingRoomController *vc = [YCSelectMeetingRoomController new];
-    vc.companyRooms = self.companyRooms;
-    vc.otherRooms = self.otherRooms;
+//    vc.companyRooms = self.companyRooms;
+//    vc.otherRooms = self.otherRooms;
     vc.didSelectRoom = ^(YCMeetingRoom *room) {
         self.room = room;
-        self.meetingRoomNameL.text = room.roomname;
+        self.meetingRoomNameL.text = room.roomName;
         [self updateMeetingCost];
     };
     [self.navigationController pushViewController:vc animated:YES];
@@ -729,10 +729,10 @@
 #pragma mark - Data
 
 // http://doc.cgsays.com:50123/index.php?s=/1&page_id=386
-- (void)getMeetingRoomListWithSuccess:(void(^)(NSArray *companyRooms, NSArray *otherRooms))success {
-    [[YCMeetingBiz new] getMeetingRoomListWithSuccess:^(NSArray *companyRooms, NSArray *otherRooms) {
+- (void)getMeetingRoomListWithSuccess:(void(^)(NSArray<YCMeetingCompanyRoom *> *companyRooms))success {
+    [[YCMeetingBiz new] getMeetingRoomListWithBeginDate:self.beginDate endDate:self.endDate Success:^(NSArray<YCMeetingCompanyRoom *> *companyRooms) {
         if (success) {
-            success(companyRooms, otherRooms);
+            success(companyRooms);
         }
     } fail:^(NSError *error) {
         [CTToast showWithText:[NSString stringWithFormat:@"获取会议室列表失败 : %@", error]];
@@ -752,9 +752,12 @@
 }
 
 - (void)checkMeetingDateValid {
+    self.meetingTimeAvailable = YES;
+    return;
+    
     // 检查时间是否有效。得到结果后只需修改meetingTimeBtn的标题，不用修改其他数据。如果无效，用户会再点击meetingTimeBtn选择有效时间段。
     __weak typeof(self) weakself = self;
-    [[YCMeetingBiz new] checkMeetingDateValidWithBeginDate:self.beginDate endDate:self.endDate roomID:self.room.roomid OnSuccess:^(NSString *message, int state, NSString *recommendTime) {
+    [[YCMeetingBiz new] checkMeetingDateValidWithBeginDate:self.beginDate endDate:self.endDate roomID:self.room.roomId OnSuccess:^(NSString *message, int state, NSString *recommendTime) {
         // 如果返回state<>0，代表时间有问题，需红色显示. 状态:0可使用,1被预约,2超过限时
         if (state == 0) {
             [weakself.meetingTimeBtn setTitle:message forState:UIControlStateNormal];
@@ -821,7 +824,7 @@
     self.createMeetingBtn.userInteractionEnabled = NO;
     __weak typeof(self) ws = self;
 
-    [[YCMeetingBiz new] bookMeetingWithMeetingID:meetingID oldMeetingID:oldMeetingID MeetingType:self.meetingType MeetingName:meetingName users:users roomID:self.room.roomid beginDate:self.beginDate endDate:self.endDate Success:^(id data){
+    [[YCMeetingBiz new] bookMeetingWithMeetingID:meetingID oldMeetingID:oldMeetingID MeetingType:self.meetingType MeetingName:meetingName users:users roomID:self.room.roomId beginDate:self.beginDate endDate:self.endDate Success:^(id data){
         [CTToast showWithText:successStr];
         [YCMeetingRoomMembersController sendUpdateStatesCommandWithMeetingID:meetingID]; // 让已进入会议的成员收到命令
         [ws.navigationController popViewControllerAnimated:YES];

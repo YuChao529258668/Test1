@@ -181,12 +181,10 @@ static YCJCSDKHelper * helper;
     count ++;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        @try {
+        if ([self isLoginedForMultiCall]) {
             Mtc_ImRefresh(0); // JusTalk Cloud 离线消息
-        }
-        @catch (NSException *e) {
-            if (count < 4) {
-                [CTToast showWithText:@"获取会议离线消息失败，正在重试"];
+        } else {
+            if (count < 10) {
                 [self Mtc_ImRefresh];
             }
         }
