@@ -10,6 +10,7 @@
 @class CGMeeting;
 @class YCMeetingState;
 @class YCMeetingCompanyRoom;
+@class YCMeetingRebate;
 
 @interface YCMeetingBiz : CGBaseBiz
 
@@ -79,5 +80,9 @@
 //fileName: 文件名称（type为1时传）
 //type: 0取消/1开始/2获取录制网址
 - (void)meetingTranscribeWithMeetingID:(NSString *)mid fileName:(NSString *)fileName type:(int)type success:(void(^)(NSDictionary *dic, int transcribeState, NSString *fileUrl, NSArray *files))success failue:(void(^)(NSError *error))fail;
+
+#pragma mark - 支付
+
+- (void)getMeetingMinuteListWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed accessNumber:(NSInteger)count Success:(void(^)(NSArray<NSArray<YCMeetingRebate *> *> *twoLists))success fail:(void(^)(NSError *error))fail;
 
 @end

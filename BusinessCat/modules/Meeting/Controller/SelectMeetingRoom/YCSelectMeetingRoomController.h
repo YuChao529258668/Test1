@@ -18,7 +18,12 @@
 @property (nonatomic, strong) NSDate *beginDate;
 @property (nonatomic, strong) NSDate *endDate;
 
-@property (nonatomic,copy) void (^didSelectRoom)(YCMeetingRoom *room);
-@property (nonatomic,copy) void (^didSelectBlock)(YCMeetingRoom *room, BOOL isVideo, int count);
+@property (nonatomic, strong) YCMeetingRoom *selectedRoom;
+
+@property (nonatomic, assign) NSInteger count;
+@property (nonatomic, assign) BOOL isVideo;
+
+@property (nonatomic,copy) void (^didSelectRoom)(YCMeetingRoom *room);// 废弃
+@property (nonatomic,copy) void (^didSelectBlock)(YCMeetingRoom *room, BOOL isVideo, NSInteger count);
 
 @end

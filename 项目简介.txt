@@ -270,4 +270,22 @@ TXLiteAVSDK_UGC
 https://cloud.tencent.com/document/product/584/9366
 
 
+聊天 ChatViewController
+onReceiveNewMsg
+_conversation = [[IMAPlatform sharedInstance].conversationMgr chatWith:user];
+_messageList = _conversation.msgList;
+
+[_conversation asyncLoadRecentMessage:10 completion:^(NSArray *imamsgList, BOOL succ) {
+[ws onLoadRecentMessage:imamsgList complete:succ scrollToBottom:YES];
+}];
+
+_conversation.receiveMsg = ^(NSArray *imamsgList, BOOL succ) {
+
+[ws modifySendInputStatus:SendInputStatus_Send];
+
+[ws onReceiveNewMsg:imamsgList succ:succ];
+[ws updateMessageList];
+};
+
+
 

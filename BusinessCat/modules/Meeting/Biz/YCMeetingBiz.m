@@ -13,6 +13,7 @@
 
 #import "KnowledgeHeaderEntity.h"
 #import "CGInfoHeadEntity.h"
+#import "YCMeetingRebate.h"
 
 @implementation YCMeetingBiz
 
@@ -397,6 +398,35 @@
     
 }
 
+#pragma mark - 支付
 
+- (void)getMeetingMinuteListWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed accessNumber:(NSInteger)count Success:(void(^)(NSArray<NSArray<YCMeetingRebate *> *> *twoLists))success fail:(void(^)(NSError *error))fail {
+//    if (!bd) {
+//        bd = [NSDate dateWithTimeIntervalSince1970:0];
+//    }
+//    if (!ed) {
+//        ed = [NSDate dateWithTimeIntervalSinceNow:30 * 24 *60 * 60];
+//    }
+    
+    NSNumber *beginDateN = [NSNumber numberWithLong:bd.timeIntervalSince1970 * 1000];
+    NSNumber *endDateN = [NSNumber numberWithLong:ed.timeIntervalSince1970 * 1000];
+    NSDictionary *dic = @{@"startTime":beginDateN, @"endTime": endDateN, @"accessNumber": @(count)};
+
+    [self.component UIPostRequestWithURL:URL_Meeting_Minute_List param:dic success:^(id data) {
+        NSArray *myList = [YCMeetingRebate mj_objectArrayWithKeyValuesArray:data[@"myList"]];
+        NSArray *shareList = [YCMeetingRebate mj_objectArrayWithKeyValuesArray:data[@"shareList"]];
+        if (!shareList) {
+            shareList = @[];
+        }
+        NSArray *lists = @[myList, shareList];
+        if (success) {
+            success(lists);
+        }
+
+    } fail:^(NSError *error) {
+        NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
+    }];
+
+}
 
 @end

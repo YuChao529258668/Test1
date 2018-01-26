@@ -26,7 +26,7 @@
 #define kWork 7
 #define kChat 0
 #define kKnowledgeMeal 5
-#define kKnowledgeBase 6
+#define kKnowledgeBase 6//岗位知识
 #define kDiscoverMain 2
 #define kMyMain 3
 #define kCollege 4
@@ -86,7 +86,7 @@
             [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
         }
         else if(i ==  kMeeting){
-            tabEntity.title = @"会议";
+            tabEntity.title = @"空间";
             tabEntity.normalImage = @"tab_phone_normal";
             tabEntity.selectedName = @"tab_phone_highlighted";
             [self.tabEntitys addObject:tabEntity];

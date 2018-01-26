@@ -22,6 +22,7 @@
 
 // 16进制颜色, 0xffaabb
 + (UIColor *)colorOfHex:(NSInteger)s;
++ (UIColor *)colorWithRed:(int)red green:(int)green blue:(int)blue alpha:(CGFloat)alpha;
 
 #pragma mark -
 

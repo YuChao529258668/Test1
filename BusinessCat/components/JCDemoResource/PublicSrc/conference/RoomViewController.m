@@ -1254,6 +1254,7 @@ typedef enum {
     [self layoutBtnLine:self.chatTabBtn];
     [self.view endEditing:YES];
     
+    [self showRedPoint:NO];
 //    [self.tabBar sendSubviewToBack:self.chatTabBtn];
 }
 
@@ -1483,9 +1484,46 @@ typedef enum {
 
 #pragma mark - 腾讯云
 
+- (UILabel *)getRedPoint {
+    UILabel *label = [self.chatTabBtn viewWithTag:111];
+    if (!label) {
+//        CGSize size = self.chatTabBtn.bounds.size;
+        CGRect btnLabelFrame = self.chatTabBtn.titleLabel.frame;
+        float width = 10;
+        float x = btnLabelFrame.size.width + btnLabelFrame.origin.x;
+        float y = btnLabelFrame.origin.y - width/2.0;
+        label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, width)];
+        label.layer.cornerRadius = width/2;
+        label.clipsToBounds = YES;
+        label.backgroundColor = [UIColor redColor];
+//        label.hidden = YES;
+        label.tag = 111;
+        [self.chatTabBtn addSubview:label];
+    }
+    return label;
+}
+
+- (void)showRedPoint:(BOOL)show {
+    [self getRedPoint].hidden = !show;
+//    [self getRedPoint].hidden = NO;
+//    NSLog(@"showRedPoint");
+}
+
+- (void)onReceiveNewMessage:(NSArray *)messages {
+    if (self.chatTabBtn.isSelected) {
+        return;
+    }
+    // 添加小红点
+    [self showRedPoint:YES];
+}
+
 - (void)addChatViewControllerWith:(TIMGroupInfo *)info {
+__weak typeof(self) weakself = self;
     self.chatVC = [self createChatViewControllerWith:info];
     self.chatVC.view.hidden = !self.chatTabBtn.isSelected;
+    self.chatVC.onReceiveNewMessage = ^(NSArray *messages) {
+        [weakself onReceiveNewMessage:messages];
+    };
     [self.preview addSubview:self.chatVC.view];
     // 布局
     [self layoutViewControllers];

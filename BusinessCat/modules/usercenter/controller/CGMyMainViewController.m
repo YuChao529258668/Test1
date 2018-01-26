@@ -674,13 +674,13 @@
 
 //创建header的菜单
 -(void)generateFunctionMenuWithContentView:(UIView *)contentView{
-    int menuNum = 4;
+    int menuNum = 3;
     float itemWidth = SCREEN_WIDTH/menuNum;
     float itemHeight = 55;
   [contentView addSubview:[self createFunctionMenuWith:CGRectMake(0, 0, itemWidth, itemHeight) titleStr:@"收藏" showVerLine:YES method:@selector(collectAction) index:1 image:[UIImage imageNamed:@"minecollection"]]]; // "管家"
-    [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth, 0, itemWidth, itemHeight) titleStr:@"知识币" showVerLine:YES method:@selector(integralAction) index:4 image:[UIImage imageNamed:@"knowledgegold"]]];
-  [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*2, 0, itemWidth, itemHeight) titleStr:@"点评" showVerLine:YES method:@selector(reviewAction) index:5 image:[UIImage imageNamed:@"dianping"]]];
-  [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*3, 0, itemWidth, itemHeight) titleStr:@"订单" showVerLine:NO method:@selector(orderAction) index:2 image:[UIImage imageNamed:@"mineorder"]]];
+    [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth, 0, itemWidth, itemHeight) titleStr:@"钱包" showVerLine:YES method:@selector(integralAction) index:4 image:[UIImage imageNamed:@"knowledgegold"]]];
+//    [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*2, 0, itemWidth, itemHeight) titleStr:@"点评" showVerLine:YES method:@selector(reviewAction) index:5 image:[UIImage imageNamed:@"dianping"]]];
+  [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*2, 0, itemWidth, itemHeight) titleStr:@"订单" showVerLine:NO method:@selector(orderAction) index:2 image:[UIImage imageNamed:@"mineorder"]]];
 }
 
 -(UIView *)createFunctionMenuWith:(CGRect)frame titleStr:(NSString *)titleStr showVerLine:(BOOL)showVerLine method:(SEL)method index:(int)index image:(UIImage *)image{

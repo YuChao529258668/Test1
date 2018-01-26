@@ -10,8 +10,10 @@
 #import "YCDatePickerViewController.h"
 #import "YCPickerViewForDateController.h"
 #import "YCSelectMeetingRoomController.h"
+#import "YCMeetingPayController.h"
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoom.h"
+#import "RoomViewController.h"
 
 @interface YCCreateMeetingController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -20,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
+@property (weak, nonatomic) IBOutlet UILabel *selectModeLabel;
 
 @property (nonatomic, assign) BOOL isVideo;// 会议类型
 @property (nonatomic, assign) BOOL isLive;// 是否直播
@@ -27,12 +30,14 @@
 @property (nonatomic, strong) NSDate *beginDate;
 @property (nonatomic, strong) NSDate *endDate;
 @property (nonatomic, assign) NSInteger count;// 4 8 16
+@property (nonatomic, assign) BOOL isDurationOver8Hour;// 超过8小时
 
 @property (weak, nonatomic) IBOutlet UIView *oneView;
 @property (weak, nonatomic) IBOutlet UIView *twoView;
 
 @property (nonatomic, strong) YCMeetingRoom *room;
-
+@property (nonatomic, strong) YCMeetingRebate *rebate;
+@property (nonatomic, assign) long durationMinute;// 会议时长，分钟
 
 // oneView
 @property (weak, nonatomic) IBOutlet UILabel *labelOneVIew;
@@ -173,38 +178,16 @@
         return;
     }
     
+    if (self.isDurationOver8Hour) {
+        [CTToast showWithText:@"会议时长不能超过8小时"];
+        return;
+    }
     
-    NSDateFormatter *f = [NSDateFormatter new];
-    f.dateFormat = @"yyyy年MM月dd日";
-    NSString *whichString = [f stringFromDate:self.whichDate];
-    
-    f.dateFormat = @"HH:mm";
-    NSString *beginString = [f stringFromDate:self.beginDate];
-    beginString = [NSString stringWithFormat:@"%@ %@", whichString, beginString];
-    
-    NSString *endString = [f stringFromDate:self.endDate];
-    endString = [NSString stringWithFormat:@"%@ %@", whichString, endString];
-    
-    NSLog(@"%@", beginString);
-    NSLog(@"%@", endString);
-    
-    f.dateFormat = @"yyyy年MM月dd日 HH:mm";
-    NSDate *beginDate = [f dateFromString:beginString];
-    NSDate *endDate = [f dateFromString:endString];
-    
-    
-    int meetingType = self.isVideo? 1: 0; //会议形式（0：音频，1：视频）
-    int live = self.isLive? 1: 0;
-    
-    __weak typeof(self) weakself = self;
-    int roomType = self.room.type; //roomType 视频的会议室类型 0:公司 1:用户
-    NSString *crID = self.room.roomId; //companyRoomId 公司会议房间Id（空为非公司会议）
-    [[YCMeetingBiz new] bookMeeting2WithMeetingID:@"" oldMeetingID:@"" MeetingType:meetingType MeetingName:self.titleTF.text users:@"" roomID:@"" beginDate:beginDate endDate:endDate live:live accessNumber:self.count roomType:roomType companyRoomId:crID Success:^(id data) {
-        [CTToast showWithText:@"创建成功"];
-        [weakself.navigationController popViewControllerAnimated:YES];
-    } fail:^(NSError *error) {
-        
-    }];
+    if (self.count > 0) {
+        [self goToPayViewController];
+    } else {
+        [self createMeeting];
+    }
 
 }
 - (void)handleTextField {
@@ -214,7 +197,10 @@
     YCSelectMeetingRoomController *vc = [YCSelectMeetingRoomController new];
     vc.beginDate = self.beginDate;
     vc.endDate = self.endDate;
-    vc.didSelectBlock = ^(YCMeetingRoom *room, BOOL isVideo, int count) {
+    vc.count = self.count;
+    vc.isVideo = self.isVideo;
+    vc.selectedRoom = self.room;
+    vc.didSelectBlock = ^(YCMeetingRoom *room, BOOL isVideo, NSInteger count) {
         self.room = room;
         self.isVideo = isVideo;
         self.count = count;
@@ -226,33 +212,42 @@
             self.oneView.hidden = YES;
             self.twoView.hidden = NO;
             if (isVideo) {
-                self.countLabelTwo.text = [NSString stringWithFormat:@"%d人视频会议", count];
+                self.countLabelTwo.text = [NSString stringWithFormat:@"%ld人视频会议", (long)count];
                 self.countImageViewTwo.image = [UIImage imageNamed:@"video_videobtn_normal"];
             } else {
-                self.countLabelTwo.text = [NSString stringWithFormat:@"%d人语音会议", count];
+                self.countLabelTwo.text = [NSString stringWithFormat:@"%ld人语音会议", (long)count];
                 self.countImageViewTwo.image = [UIImage imageNamed:@"video_speech_normal"];
             }
             self.roomNameLabel.text = room.roomName;
-            self.roomImageView.image = [UIImage imageNamed:@"video_speech_normal"];
+            self.roomImageView.image = [UIImage imageNamed:@"meeting_home_normal"];
 
         } else {
             if (room) {
                 self.oneView.hidden = NO;
                 self.labelOneVIew.text = room.roomName;
-                self.imageVIewOneView.image = [UIImage imageNamed:@"video_speech_normal"];
+                self.imageVIewOneView.image = [UIImage imageNamed:@"meeting_home_normal"];
             }
             if (count) {
                 self.oneView.hidden = NO;
                 if (isVideo) {
-                    self.labelOneVIew.text = [NSString stringWithFormat:@"%d人视频会议", count];
+                    self.labelOneVIew.text = [NSString stringWithFormat:@"%ld人视频会议", (long)count];
                     self.imageVIewOneView.image = [UIImage imageNamed:@"video_videobtn_normal"];
                 } else {
-                    self.labelOneVIew.text = [NSString stringWithFormat:@"%d人语音会议", count];
+                    self.labelOneVIew.text = [NSString stringWithFormat:@"%ld人语音会议", (long)count];
                     self.imageVIewOneView.image = [UIImage imageNamed:@"video_speech_normal"];
                 }
             }
         }
     };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)clickPayBtn:(UIButton *)sender {
+    YCMeetingPayController *vc = [YCMeetingPayController new];
+    vc.count = self.count;
+    vc.durationString = [self.durationBtn titleForState:UIControlStateNormal];
+    vc.beginDate = self.beginDate;
+    vc.endDate = self.endDate;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -306,6 +301,7 @@
     
     self.oneView.hidden = YES;
     self.twoView.hidden = YES;
+    self.selectModeLabel.textColor = [YCTool colorOfHex:0xbababa];
 }
 
 - (void)updateDateViews {
@@ -324,6 +320,8 @@
 //    NSInteger seconds = self.endDate.timeIntervalSince1970 - self.beginDate.timeIntervalSince1970;
     NSInteger seconds = self.endDate.timeIntervalSince1970 - self.beginDate.timeIntervalSince1970 + 59;
     [YCTool HMSForSeconds:seconds block:^(NSInteger h, NSInteger m, NSInteger s, NSMutableString *string) {
+        self.durationMinute = h * 60 + m;
+        
         if (h) {
             [string appendFormat:@"%ld 小时", (long)h];
         }
@@ -333,15 +331,111 @@
         if (h + m == 0) {
             [string appendString: @"0 分钟"];
         }
+        if (h > 8) {
+            [string appendString:@"(不能超过8小时)"];
+            self.isDurationOver8Hour = YES;
+        }
         [self.durationBtn setTitle:string forState:UIControlStateNormal];
+        
+        UIColor *color = [YCTool colorOfHex:0xff3e3e];
+        if (h <= 8) {
+            color = [UIColor blackColor];
+        }
+        [self.durationBtn setTitleColor:color forState:UIControlStateNormal];
     }];
 }
 
 #pragma mark -
 
-- (void)test {
-    UIPickerView *pv;
+- (void)goToPayViewController {
+    YCMeetingPayController *vc = [YCMeetingPayController new];
+    vc.count = self.count;
+    vc.durationString = [self.durationBtn titleForState:UIControlStateNormal];
+    vc.beginDate = self.beginDate;
+    vc.endDate = self.endDate;
+    vc.durationMinute = self.durationMinute;
+    
+    __weak typeof(self) weakself = self;
+    vc.onClickPayBtnBlock = ^(YCMeetingRebate *rebate) {
+        weakself.rebate = rebate;
+        [weakself createMeeting];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)createMeeting {
+    NSDateFormatter *f = [NSDateFormatter new];
+    f.dateFormat = @"yyyy年MM月dd日";
+    NSString *whichString = [f stringFromDate:self.whichDate];
+    
+    f.dateFormat = @"HH:mm";
+    NSString *beginString = [f stringFromDate:self.beginDate];
+    beginString = [NSString stringWithFormat:@"%@ %@", whichString, beginString];
+    
+    NSString *endString = [f stringFromDate:self.endDate];
+    endString = [NSString stringWithFormat:@"%@ %@", whichString, endString];
+    
+    NSLog(@"%@", beginString);
+    NSLog(@"%@", endString);
+    
+    f.dateFormat = @"yyyy年MM月dd日 HH:mm";
+    NSDate *beginDate = [f dateFromString:beginString];
+    NSDate *endDate = [f dateFromString:endString];
+    
+    
+    __weak typeof(self) weakself = self;
+    int roomType = self.room.type; //roomType 视频的会议室类型 0:公司 1:用户
+    NSString *crID = self.room.roomId; //companyRoomId 公司会议房间Id（空为非公司会议）
+    int meetingType = self.isVideo? 1: 0; //会议形式（0：音频，1：视频）
+    int live = self.isLive? 1: 0;
+    
+    [[YCMeetingBiz new] bookMeeting2WithMeetingID:@"" oldMeetingID:@"" MeetingType:meetingType MeetingName:self.titleTF.text users:@"" roomID:@"" beginDate:beginDate endDate:endDate live:live accessNumber:self.count roomType:roomType companyRoomId:crID Success:^(id data) {
+//        msg, validityState
+//        @"msg" : @"没有购买会议套餐，请先购买！"
+//        validityState = 0;
+//        [CTToast showWithText:@"创建成功"];
+//        [CTToast showWithText:data[@"msg"]];
+
+        
+        
+//
+        NSDictionary *detail = data[@"detail"];
+        if (detail) {
+            [CTToast showWithText:@"创建成功"];
+            
+//            NSString *meetingId = detail[@"meetingId"];
+//            [weakself goToMeetingRoomWithMeetingID:meetingId];
+            
+            //        [weakself.navigationController popViewControllerAnimated:YES];
+            [weakself.navigationController popToRootViewControllerAnimated:YES];
+        } else {
+            [CTToast showWithText:data[@"msg"]];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+}
+
+- (void)goToMeetingRoomWithMeetingID:(NSString *)mid {
+    // 获取会议详情
+//    [[YCMeetingBiz new] getMeetingDetailWithMeetingID:meetingID success:^(CGMeeting *meeting) {
+//        RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
+//        roomVc.roomId = self.meeting.conferenceNumber;
+//        roomVc.displayName = [ObjectShareTool sharedInstance].currentUser.username;
+//        roomVc.meetingID = self.meeting.meetingId;
+//        roomVc.meetingState = self.meeting.meetingState;
+//        roomVc.isReview = (self.meeting.meetingState == 3)? YES: NO;
+//        roomVc.AccessKey = self.AccessKey;
+//        roomVc.SecretKey = self.SecretKey;
+//        roomVc.BucketName = self.BucketName;
+//
+//        [self.navigationController pushViewController:roomVc animated:YES];
+//
+//    } fail:^(NSError *error) {
+//
+//    }];
+
+}
 
 @end

@@ -19,11 +19,7 @@
 @property (nonatomic, strong) NSArray<YCMeetingCompanyRoom *> *companyRooms;
 @property (nonatomic, strong) NSMutableArray<NSNumber *> *isSectionDisplays;// 某个 section 是否展开显示
 
-@property (nonatomic, strong) YCMeetingRoom *selectedRoom;
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
-
-@property (nonatomic, assign) int count;
-@property (nonatomic, assign) BOOL isVideo;
 
 @property (weak, nonatomic) IBOutlet UIButton *videoBtn;
 @property (weak, nonatomic) IBOutlet UIButton *voiceBtn;
@@ -44,7 +40,7 @@
     self.videoBtn.clipsToBounds = YES;
     self.voiceBtn.layer.cornerRadius = 4;
     self.voiceBtn.clipsToBounds = YES;
-    [self.videoBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+//    [self.videoBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
 
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -59,6 +55,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clickHeaderView:) name:[YCSelectRoomHeaderView notificationName] object:nil];
     
+//    [self recoverSelection];
     [self getRoomList];
 }
 
@@ -81,28 +78,72 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark -
+
+- (void)recoverSelection {
+    UIButton *btn;
+    switch (self.count) {
+        case 4:
+            btn = self.btn4;
+            break;
+        case 8:
+            btn = self.btn8;
+            break;
+        case 16:
+            btn = self.btn16;
+            break;
+    }
+    [btn sendActionsForControlEvents:UIControlEventTouchUpInside];
+    
+    if (self.count) {
+        if (self.isVideo && self.count) {
+            [self.videoBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+        } else {
+            [self.voiceBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+        }
+    } else {
+        [self.videoBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    if (self.selectedRoom && self.companyRooms) {
+        
+        [self.companyRooms enumerateObjectsUsingBlock:^(YCMeetingCompanyRoom * _Nonnull companyRoom, NSUInteger section, BOOL * _Nonnull stop) {
+            printf("section = %ld", section);
+            [companyRoom.roomData enumerateObjectsUsingBlock:^(YCMeetingRoom * _Nonnull room, NSUInteger row, BOOL * _Nonnull stop2) {
+                if ([room.roomId isEqualToString:self.selectedRoom.roomId]) {
+                    NSIndexPath *ip = [NSIndexPath indexPathForRow:row inSection:section];
+                    [self.tableView selectRowAtIndexPath:ip animated:NO scrollPosition:UITableViewScrollPositionNone];
+                    [self tableView:self.tableView didSelectRowAtIndexPath:ip];
+                    *stop = YES;
+                    *stop2 = YES;
+                }
+            }];
+            
+        }];
+        
+    }
+}
+
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 //    return;
     
-    if (indexPath != self.selectedIndexPath) {
-        self.selectedIndexPath = indexPath;
-        self.selectedRoom = self.companyRooms[indexPath.section].roomData[indexPath.row];
-        
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        UIButton *markBtn = [cell viewWithTag:3];
-        markBtn.selected = YES;
-//        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//cell.selectionStyle
-    } else {
+    if (indexPath.section == self.selectedIndexPath.section && indexPath.row == self.selectedIndexPath.row && self.selectedIndexPath) {
         self.selectedIndexPath = nil;
         self.selectedRoom = nil;
         
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         UIButton *markBtn = [cell viewWithTag:3];
         markBtn.selected = NO;
-//        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+
+    } else {
+        self.selectedIndexPath = indexPath;
+        self.selectedRoom = self.companyRooms[indexPath.section].roomData[indexPath.row];
+        
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        UIButton *markBtn = [cell viewWithTag:3];
+        markBtn.selected = YES;
     }
 }
 
@@ -113,7 +154,7 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     UIButton *markBtn = [cell viewWithTag:3];
     markBtn.selected = NO;
-    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 
@@ -142,6 +183,11 @@
     
     nameL.text = room.roomName;
     contentL.text = room.msg;// 所选时段空闲可用, 已被预约
+    
+    contentL.textColor = [YCTool colorOfHex:0x777777];
+    if (room.state == 0) {
+        contentL.textColor = [YCTool colorOfHex:0xff3e3e];
+    }
     
     if (indexPath == self.selectedIndexPath) {
         markBtn.selected = YES;
@@ -187,13 +233,14 @@
         
         NSUInteger count = companyRooms.count;
         weakself.isSectionDisplays = [NSMutableArray arrayWithCapacity:count];
-        for (int i = 0; i < count; i++) {
-            [weakself.isSectionDisplays addObject:@1];
+        [weakself.isSectionDisplays addObject:@1];
+        for (int i = 1; i < count; i++) {
+            [weakself.isSectionDisplays addObject:@0];
         }
 
         weakself.companyRooms = companyRooms;
         [weakself.tableView reloadData];
-
+        [weakself recoverSelection];
     } fail:^(NSError *error) {
         
     }];
@@ -203,9 +250,6 @@
 #pragma mark - Action
 
 - (IBAction)dismiss:(id)sender {
-    if (self.didSelectBlock) {
-        self.didSelectBlock(self.selectedRoom, self.isVideo, self.count);
-    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -271,5 +315,11 @@
     
 }
 
+- (IBAction)clickOKBtn:(id)sender {
+    if (self.didSelectBlock) {
+        self.didSelectBlock(self.selectedRoom, self.isVideo, self.count);
+    }
+    [self dismiss:nil];
+}
 
 @end

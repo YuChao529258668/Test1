@@ -10,6 +10,7 @@
 
 @interface YCSelectRoomFooterView : UITableViewHeaderFooterView
 
+@property (weak, nonatomic) IBOutlet UILabel *label;
 
 + (float)height;
 @end

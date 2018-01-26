@@ -42,7 +42,7 @@
 @property (nonatomic,strong) NSString *startTime;
 //@property (nonatomic,assign) NSTimeInterval endTime;
 //@property (nonatomic,assign) NSTimeInterval startTime;
-@property (nonatomic,strong) NSString * meetingDuration; // 时长 分钟
+@property (nonatomic,strong) NSString *meetingDuration; // 时长 分钟
 @property (nonatomic,strong) NSString *meetingId;
 @property (nonatomic,strong) NSString *meetingName;
 @property (nonatomic,strong) NSString *meetingPassword;

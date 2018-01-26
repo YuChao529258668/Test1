@@ -58,4 +58,8 @@ typedef NS_ENUM(NSInteger, SendInputStatus)
 
 - (void)updateOnSendMessage:(NSArray *)msglist succ:(BOOL)succ;
 
+// call on main thread
+@property (nonatomic,copy) void (^onReceiveNewMessage)(NSArray *messages);
+
+
 @end

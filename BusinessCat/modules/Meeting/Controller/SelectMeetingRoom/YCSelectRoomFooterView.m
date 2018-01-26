@@ -10,7 +10,9 @@
 
 @implementation YCSelectRoomFooterView
 
-
+- (void)awakeFromNib {
+    self.label.textColor = [YCTool colorOfHex:0x777777];
+}
 
 + (float)height {
     return 30;

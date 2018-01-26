@@ -16,6 +16,7 @@
                 <outlet property="blockIV" destination="xAu-5v-a4M" id="v45-5y-ETD"/>
                 <outlet property="blockIV2" destination="GFQ-RO-8gm" id="3ou-QU-Qyb"/>
                 <outlet property="countImageViewTwo" destination="Otr-EQ-Mw1" id="bab-6u-qHn"/>
+                <outlet property="countLabel" destination="NI2-Nh-6Qs" id="lCa-Di-u9b"/>
                 <outlet property="countLabelTwo" destination="VDj-q6-dQt" id="L7b-SU-6Ly"/>
                 <outlet property="createMeetingBtn" destination="iAf-EP-XTX" id="0dV-Fx-46z"/>
                 <outlet property="dateBtn" destination="nrc-pe-C14" id="42t-Ue-kE1"/>
@@ -30,6 +31,7 @@
                 <outlet property="oneView" destination="UBF-ZH-CRH" id="6RE-Ka-W8C"/>
                 <outlet property="roomImageView" destination="msW-T6-pDA" id="Axv-oI-bHv"/>
                 <outlet property="roomNameLabel" destination="3W4-aR-kSs" id="bpu-Pk-3vf"/>
+                <outlet property="selectModeLabel" destination="vJd-Fq-h6X" id="Oww-z5-apl"/>
                 <outlet property="titleLabel" destination="jGA-m0-3HY" id="Zf9-0Q-W4G"/>
                 <outlet property="titleTF" destination="qu8-Xh-RcW" id="nfu-0a-6uL"/>
                 <outlet property="twoView" destination="3mQ-2D-eng" id="C2C-wy-t0J"/>
@@ -41,15 +43,12 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="请选择会议模式.png" translatesAutoresizingMaskIntoConstraints="NO" id="gKy-9J-t2U">
-                    <rect key="frame" x="-1" y="-4" width="375" height="667"/>
-                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NEG-wY-Nod" userLabel="NaviBar">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预约会面" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6n-PE-NBQ">
-                            <rect key="frame" x="159" y="32" width="57.5" height="17"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <rect key="frame" x="155" y="32" width="65.5" height="19.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -64,11 +63,23 @@
                                 <action selector="dismiss:" destination="-1" eventType="touchUpInside" id="N9o-jZ-GAo"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="syW-jN-z2w">
+                            <rect key="frame" x="329" y="27" width="31" height="30"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" title="支付">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="clickPayBtn:" destination="-1" eventType="touchUpInside" id="u46-5c-1yU"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.99902075530000001" green="0.92455697059999997" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="syW-jN-z2w" secondAttribute="trailing" constant="15" id="1i4-Ex-vZz"/>
                         <constraint firstItem="Z6n-PE-NBQ" firstAttribute="centerX" secondItem="NEG-wY-Nod" secondAttribute="centerX" id="J3H-fo-OFt"/>
                         <constraint firstItem="0Nn-Dd-3n9" firstAttribute="leading" secondItem="NEG-wY-Nod" secondAttribute="leading" id="VOL-NM-XAl"/>
+                        <constraint firstItem="syW-jN-z2w" firstAttribute="top" secondItem="NEG-wY-Nod" secondAttribute="top" constant="27" id="r9d-RL-NlL"/>
                         <constraint firstAttribute="height" constant="64" id="v4a-gy-iRG"/>
                         <constraint firstItem="Z6n-PE-NBQ" firstAttribute="top" secondItem="NEG-wY-Nod" secondAttribute="top" constant="32" id="x9f-u8-b5d"/>
                         <constraint firstItem="0Nn-Dd-3n9" firstAttribute="top" secondItem="NEG-wY-Nod" secondAttribute="top" constant="25" id="zuQ-7w-mQN"/>
@@ -177,7 +188,7 @@
                             <rect key="frame" x="16" y="65" width="343" height="68"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5号会议室" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JkX-AT-ADZ">
-                                    <rect key="frame" x="150" y="46" width="47.5" height="12"/>
+                                    <rect key="frame" x="148" y="46" width="47.5" height="12"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -192,7 +203,7 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="JkX-AT-ADZ" firstAttribute="leading" secondItem="UBF-ZH-CRH" secondAttribute="leading" constant="150" id="F2O-Ys-XF0"/>
+                                <constraint firstItem="JkX-AT-ADZ" firstAttribute="centerX" secondItem="UBF-ZH-CRH" secondAttribute="centerX" id="8kx-87-MZq"/>
                                 <constraint firstAttribute="height" constant="68" id="UXB-OJ-B8H"/>
                                 <constraint firstItem="8NF-3p-kAF" firstAttribute="top" secondItem="UBF-ZH-CRH" secondAttribute="top" constant="10" id="XlA-Ui-8kc"/>
                                 <constraint firstItem="8NF-3p-kAF" firstAttribute="centerX" secondItem="UBF-ZH-CRH" secondAttribute="centerX" id="l6Z-GC-nsl"/>
@@ -263,8 +274,8 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGe-WA-5sg">
-                            <rect key="frame" x="322" y="130" width="40" height="28"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <rect key="frame" x="319" y="129" width="43" height="29"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <state key="normal" title="8小时)">
                                 <color key="titleColor" red="0.99859362839999999" green="0.3186683059" blue="0.31871905919999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
@@ -320,25 +331,25 @@
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="结束时间" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TBy-a9-6PX">
-                            <rect key="frame" x="248.5" y="60" width="49.5" height="14.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <rect key="frame" x="246.5" y="60" width="53.5" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14:20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hrj-eu-TRp">
-                            <rect key="frame" x="71" y="77" width="61.5" height="29"/>
+                            <rect key="frame" x="71" y="78.5" width="61.5" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开始时间" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2H-Ct-wRy">
-                            <rect key="frame" x="77" y="60" width="49.5" height="14.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <rect key="frame" x="75" y="60" width="53.5" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14:20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wa4-8S-y5z">
-                            <rect key="frame" x="243" y="77" width="61.5" height="29"/>
+                            <rect key="frame" x="243" y="78.5" width="61.5" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -403,14 +414,14 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预约时间到达后,不能修改参与人数" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Bo-vm-hpb">
-                            <rect key="frame" x="94.5" y="15" width="187.5" height="14.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <rect key="frame" x="78.5" y="15" width="218.5" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="超过16人可发起直播(需额外收费)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rN-YS-iNe">
-                            <rect key="frame" x="97" y="37.5" width="182" height="14.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <rect key="frame" x="82.5" y="40" width="211.5" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -438,11 +449,7 @@
                 <constraint firstItem="Ur5-Zj-dFB" firstAttribute="top" secondItem="WPF-6j-JRo" secondAttribute="bottom" constant="15" id="ISl-59-Bdb"/>
                 <constraint firstItem="WPF-6j-JRo" firstAttribute="top" secondItem="NEG-wY-Nod" secondAttribute="bottom" constant="15" id="Ibr-vl-rrd"/>
                 <constraint firstItem="WPF-6j-JRo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="PNb-Ia-ftP"/>
-                <constraint firstItem="gKy-9J-t2U" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="-4" id="Spa-3K-2yX"/>
                 <constraint firstItem="c6H-ml-LFc" firstAttribute="top" secondItem="Ur5-Zj-dFB" secondAttribute="bottom" constant="14" id="nma-cu-g3B"/>
-                <constraint firstItem="gKy-9J-t2U" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="-1" id="oDn-Ih-nTs"/>
-                <constraint firstAttribute="bottom" secondItem="gKy-9J-t2U" secondAttribute="bottom" constant="4" id="oIr-YR-OJ2"/>
-                <constraint firstAttribute="trailing" secondItem="gKy-9J-t2U" secondAttribute="trailing" constant="1" id="oXE-1d-evX"/>
                 <constraint firstAttribute="trailing" secondItem="c6H-ml-LFc" secondAttribute="trailing" id="pDA-ox-Kxb"/>
                 <constraint firstAttribute="bottom" secondItem="c6H-ml-LFc" secondAttribute="bottom" id="uCi-ix-aS4"/>
                 <constraint firstItem="NEG-wY-Nod" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="yMI-iL-aWX"/>
@@ -457,6 +464,5 @@
         <image name="video_speech_normal" width="41" height="41"/>
         <image name="work_line_1" width="1" height="1"/>
         <image name="work_right" width="5" height="10"/>
-        <image name="请选择会议模式.png" width="762" height="1336"/>
     </resources>
 </document>

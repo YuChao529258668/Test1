@@ -53,7 +53,7 @@
 @property (nonatomic, strong) NSString *msg;
 @property (nonatomic,strong) NSString *roomId;
 @property (nonatomic,strong) NSString *roomName;
-@property (nonatomic,assign) int state;
+@property (nonatomic,assign) int state; // 可用状态 0不可用 1可用
 
 // 非后台直接返回的。
 @property (nonatomic, assign) int type;//类型 1为公司 2为用户

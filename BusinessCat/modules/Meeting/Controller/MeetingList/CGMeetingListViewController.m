@@ -398,6 +398,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CGMeeting *meeting = self.meetings[indexPath.row];
+    if (!meeting.meetingRoomId) {
+        // conferenceNumber?
+        [CTToast showWithText:@"本地会议"];
+        return;
+    }
     __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *q) {
         // 状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
