@@ -24,13 +24,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *integralLabel;
 @property (nonatomic, strong) NSMutableArray *typeArray;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *topSegmentButton;
+@property (weak, nonatomic) IBOutlet UIButton *howEarnBtn;// 如何赚取知识币按钮
 @property (nonatomic, strong) CGUserCenterBiz *biz;
 @end
 
 @implementation CGIntegralMainController
 
 - (void)viewDidLoad {
-    self.title = @"我的知识币";
+    self.title = @"我的钱包";
     [super viewDidLoad];
   self.bgView.backgroundColor = CTThemeMainColor;
   self.integralLabel.text = [NSString stringWithFormat:@"%d币",[ObjectShareTool sharedInstance].currentUser.integralNum];
@@ -44,6 +45,13 @@
   self.topSegmentButton.selectedSegmentIndex = self.selectIndex;
     // Do any additional setup after loading the view from its nib.
   [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(update) name:NOTIFICATION_BUYMEMBER object:nil];
+    
+    self.howEarnBtn.hidden = YES;
+    NSDictionary *dic = @{NSForegroundColorAttributeName: [YCTool colorOfHex:0x000000]};
+    NSDictionary *dic2 = @{NSForegroundColorAttributeName: [YCTool colorOfHex:0x777777]};
+    [self.topSegmentButton setTitleTextAttributes:dic forState:UIControlStateSelected];
+    [self.topSegmentButton setTitleTextAttributes:dic2 forState:UIControlStateNormal];
+//    self.topSegmentButton.tintColor = [YCTool colorOfHex:0xf68731];
 }
 
 -(NSMutableArray *)typeArray{

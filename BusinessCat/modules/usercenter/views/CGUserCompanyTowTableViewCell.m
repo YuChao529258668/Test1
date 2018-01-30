@@ -31,9 +31,9 @@
 - (void)info:(NSMutableArray *)array{
   CGFloat width = SCREEN_WIDTH/4;
   NSMutableArray *viewArray = [NSMutableArray array];
-  [viewArray addObject:[self createBusinessCircleMenuWith:CGRectMake(0, 0, width, 70) method:@selector(enterpriseCircle)]];
-  [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"企业文库" imageName:@"my_jingpinbaogao" method:@selector(enterpriseFire) count:0]];
-  [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"企业管家" imageName:@"secretary" method:@selector(housekeeper) count:0]];
+//  [viewArray addObject:[self createBusinessCircleMenuWith:CGRectMake(0, 0, width, 70) method:@selector(enterpriseCircle)]];
+//  [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"企业文库" imageName:@"my_jingpinbaogao" method:@selector(enterpriseFire) count:0]];
+//  [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"企业管家" imageName:@"secretary" method:@selector(housekeeper) count:0]];
   switch ([ChangeOrganizationViewModel getChangeOrganizationState]) {
     case ChangeOrganizationTypeSuperAdminYetClaimed:
       [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"认领组织" imageName:@"authenticationgsi" method:@selector(claimOrganize) count:[ChangeOrganizationViewModel getOrganizationYetClaimedCount]]];

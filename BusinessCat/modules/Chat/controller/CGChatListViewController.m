@@ -12,19 +12,10 @@
 #import "CGSelectContactsViewController.h" // 选择通讯录
 #import "YCMultiCallHelper.h"
 
-//// 视频会议
-//#import <JCApi/JCApi.h>
-//#define kJCKey @"5f523868f54c24aa8fdc5096"
+#import "CGMessageDetailViewController.h"
+#import "CGDiscoverBiz.h"
+
 #import "RoomViewController.h"
-//
-//// 语音会议
-//#import "avatar/zos/zos_type.h"
-//#import "grape/zmf.h"
-//#import "lemon/lemon.h"
-//#import <JusCall/JusCall.h>
-//#import <JusLogin/JusLogin.h>
-//#import <JusDoodle/JusDoodle.h>
-//#import <PushKit/PushKit.h>
 
 
 // 生意猫
@@ -48,6 +39,9 @@
 @property(nonatomic,strong)UILabel *titleView;
 @property (nonatomic,strong) IMALoginParam *loginParam;
 
+@property(nonatomic,retain)UILabel *systemRedHot;//消息红点
+@property(nonatomic,strong)NSTimer *timer;
+
 @end
 
 
@@ -55,6 +49,7 @@
 
 - (void)dealloc {
     [self removeObserverForLoginLogout];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NotificationSystemMessageRedHot object:nil];
 }
 
 - (void)viewDidLoad {
@@ -67,8 +62,10 @@
     [self createCustomNavi];
     [self setupCreateGroupChatBtn];
     
+    [self setupMessageBtn];
+    
 //    [self setupCallVideoBtn];
-    [self setupCallBtn];
+//    [self setupCallBtn];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -117,15 +114,13 @@
 
 - (void)setupCreateGroupChatBtn {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    float x = SCREEN_WIDTH - (44 + 6);
+//    float x = SCREEN_WIDTH - (44 + 6);
+//    float y = CTMarginTop;
+    float x = 6;
     float y = CTMarginTop;
-    //    float x = SCREEN_WIDTH - (44 + 10)/2;
-    //    float y = self.titleView.center.y;
+
     CGRect frame = CGRectMake(x, y, 44, 44);
     btn.frame = frame;
-    //    btn.center = CGPointMake(x, y);
-//    UIImage *image = [[UIImage imageNamed:@"common_add_white"] imageWithTintColor:[UIColor blackColor]];
-//    [btn setImage:image forState:UIControlStateNormal];
     [btn setTitle:@"群聊" forState: UIControlStateNormal];
     [self.navi addSubview:btn];
     [btn addTarget:self action:@selector(createGroupChatBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -602,7 +597,7 @@
     NSString *displayName = @"余超";
 //    NSString *user1 = @"1837";
 //    NSString *user2 = @"test";
-    NSString *user3 = @"a2af44fb-f67e-4143-9cc1-0a935f044d73";
+//    NSString *user3 = @"a2af44fb-f67e-4143-9cc1-0a935f044d73";
 
     if ([YCJCSDKHelper isLoginedForMultiCall]) {
 //        [self test];
@@ -615,6 +610,73 @@
     } else {
         [YCJCSDKHelper loginMultiCallWithUserID:[ObjectShareTool sharedInstance].currentUser.uuid];
     }
+}
+
+#pragma mark - 消息按钮
+
+- (void)setupMessageBtn {
+    UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f, 30, 24, 24)];
+    rightBtn.contentMode = UIViewContentModeScaleAspectFit;
+    [rightBtn addTarget:self action:@selector(messageAction) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn setBackgroundImage:[UIImage imageNamed:@"nav_news"] forState:UIControlStateNormal];
+    [self.navi addSubview:rightBtn];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notificationSystemMessageRedHot:) name:NotificationSystemMessageRedHot object:nil];
+
+    //检查本地是否有保存系统消息未读标识
+    [self setSystemRedHotState:[[[NSUserDefaults standardUserDefaults] objectForKey:NotificationSystemMessageRedHot]intValue]];
+
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(scoopLastTimer) userInfo:nil repeats:YES];
+
+}
+
+-(void)notificationSystemMessageRedHot:(NSNotification *)notification{
+    int state = [notification.object intValue];
+    [self setSystemRedHotState:state];
+}
+-(void)setSystemRedHotState:(int)state{
+    if(state == 1){
+        [self.navi addSubview:self.systemRedHot];
+    }else{
+        [self.systemRedHot removeFromSuperview];
+    }
+}
+-(UILabel *)systemRedHot{
+    if(!_systemRedHot){
+        _systemRedHot = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-16, 24, 8, 8)];
+        _systemRedHot.backgroundColor = [UIColor redColor];
+        _systemRedHot.layer.masksToBounds = YES;
+        _systemRedHot.layer.cornerRadius = 4;
+    }
+    return _systemRedHot;
+}
+-(void)messageAction{
+    NSLog(@"消息");
+    //    CGMessageViewController *controller = [[CGMessageViewController alloc]init];
+    //    [self.navigationController pushViewController:controller animated:YES];
+    CGMessageDetailViewController *vc = [[CGMessageDetailViewController alloc]init];
+    vc.title = @"消息";
+    vc.type = 1000;
+    vc.ID = @"";
+    [self.navigationController pushViewController:vc animated:YES];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@(0) forKey:NotificationSystemMessageRedHot];
+    [defaults synchronize];
+    [[NSNotificationCenter defaultCenter]postNotificationName:NotificationSystemMessageRedHot object:@(0)];
+}
+
+-(void)scoopLastTimer{
+//    __weak typeof(self) weakSelf = self;
+    [[CGDiscoverBiz alloc]queryDiscoverRemind:^(TeamCircleLastStateEntity *result) {
+        [[NSNotificationCenter defaultCenter]postNotificationName:NotificationDiscoverHasLastData object:result];
+//        [weakSelf.tableview reloadData];
+    } hasSystemMsg:^{
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:@(1) forKey:NotificationSystemMessageRedHot];
+        [defaults synchronize];
+        [[NSNotificationCenter defaultCenter]postNotificationName:NotificationSystemMessageRedHot object:@(1)];//1代表有未读消息，标红
+    } fail:^(NSError *error) {
+    }];
 }
 
 @end

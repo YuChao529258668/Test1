@@ -154,7 +154,8 @@
   self.rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-42.5f, 22, 40, 40)];
   self.rightBtn.contentMode = UIViewContentModeScaleAspectFit;
   [self.rightBtn addTarget:self action:@selector(rightBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-  [self.rightBtn setImage:[UIImage imageNamed:@"radar_Subject_library_more"] forState:UIControlStateNormal];
+//    [self.rightBtn setImage:[UIImage imageNamed:@"radar_Subject_library_more"] forState:UIControlStateNormal];
+    [self.rightBtn setImage:[UIImage imageNamed:@"icon_click"] forState:UIControlStateNormal];
   [self.navi addSubview:self.rightBtn];
   if (self.organzias.count>0) {
     CGUserOrganizaJoinEntity *organiza = self.organzias[0];

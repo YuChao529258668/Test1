@@ -47,11 +47,17 @@
   //全部、头条、公司、产品、人物、界面、文库、行业大观察、每日评说、全民推荐
     if(!_typeArray){
         _typeArray = [NSMutableArray array];
-        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"26" rolName:@"专辑" sort:6]];
-        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"1" rolName:@"知识" sort:1]];
-        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"14" rolName:@"文库" sort:6]];
-        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"15" rolName:@"素材" sort:5]];
+//        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"26" rolName:@"专辑" sort:6]];
+//        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"1" rolName:@"文章" sort:1]];//知识
+//        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"14" rolName:@"文库" sort:6]];
+//        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"15" rolName:@"素材" sort:5]];
 //        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"25" rolName:@"工具" sort:6]];
+        
+        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"1" rolName:@"文章" sort:1]];//知识
+        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"14" rolName:@"文库" sort:6]];
+        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"26" rolName:@"专辑" sort:6]];
+        [_typeArray addObject:[[CGHorrolEntity alloc]initWithRolId:@"15" rolName:@"素材" sort:5]];
+
     }
     return _typeArray;
 }
@@ -85,11 +91,13 @@
 //  [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
 //  [rightBtn setBackgroundImage:[UIImage imageNamed:@"common_search__white_icon"] forState:UIControlStateNormal];
 //  [self.navi addSubview:rightBtn];
-  UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f, 30, 24, 24)];
-  rightBtn.contentMode = UIViewContentModeScaleAspectFit;
-  [rightBtn addTarget:self action:@selector(messageAction) forControlEvents:UIControlEventTouchUpInside];
-  [rightBtn setBackgroundImage:[UIImage imageNamed:@"housekeepergj"] forState:UIControlStateNormal];
-  [self.navi addSubview:rightBtn];
+    
+    // 右上角按钮
+//  UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f, 30, 24, 24)];
+//  rightBtn.contentMode = UIViewContentModeScaleAspectFit;
+//  [rightBtn addTarget:self action:@selector(messageAction) forControlEvents:UIControlEventTouchUpInside];
+//  [rightBtn setBackgroundImage:[UIImage imageNamed:@"housekeepergj"] forState:UIControlStateNormal];
+//  [self.navi addSubview:rightBtn];
 }
 
 -(void)messageAction{

@@ -19,6 +19,7 @@
 #import "YCWorkViewController.h"
 #import "YCCollegeViewController.h"
 #import "CGMeetingListViewController.h"
+#import "YCSpaceController.h"
 
 @interface CTRootViewController : CTBaseViewController
 
@@ -56,6 +57,7 @@
 @property (nonatomic,strong) YCWorkViewController *workVC;
 @property (nonatomic,strong) YCCollegeViewController *collegeVC;
 @property (nonatomic,strong) CGMeetingListViewController *meetingListVC;
+@property (nonatomic, strong) YCSpaceController *spaceVC;
 
 
 

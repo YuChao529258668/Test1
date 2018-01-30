@@ -52,7 +52,7 @@
       [self.topicButton setTitle:@"打开文档" forState:UIControlStateNormal];
       [self.topicButton setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
       [self.topicButton setUserInteractionEnabled:YES];
-      [self.topicButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+      [self.topicButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }else{
       [self.topicButton setTitle:@"暂无文档" forState:UIControlStateNormal];
       [self.topicButton setUserInteractionEnabled:NO];
@@ -61,17 +61,17 @@
     [self.topicButton setTitle:[NSString stringWithFormat:@"支付%ld知识币后全部查看",detail.integral] forState:UIControlStateNormal];
     [self.topicButton setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     [self.topicButton setUserInteractionEnabled:YES];
-    [self.topicButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.topicButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
   }else if (isDocument == 4){
     [self.topicButton setTitle:@"工具网址" forState:UIControlStateNormal];
     [self.topicButton setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     [self.topicButton setUserInteractionEnabled:YES];
-    [self.topicButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.topicButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
   }else if (isDocument == 5){
     [self.topicButton setTitle:@"下载文档" forState:UIControlStateNormal];
     [self.topicButton setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     [self.topicButton setUserInteractionEnabled:YES];
-    [self.topicButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.topicButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
   }
   
 //  NSUserDefaults *user = [NSUserDefaults standardUserDefaults];

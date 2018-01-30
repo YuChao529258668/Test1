@@ -57,6 +57,16 @@
     
 //    [self recoverSelection];
     [self getRoomList];
+    
+//    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+//    NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
+//    NSString *str;
+//    if ([app_Name containsString:@"会议"]) {
+//        str = @"会议";
+//    } else {
+//        str = @"会面";
+//    }
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -258,8 +268,8 @@
     BOOL isDisplay = self.isSectionDisplays[view.section].intValue == 1? YES: NO;
     isDisplay = !isDisplay;
     self.isSectionDisplays[view.section] = @(isDisplay);
-//self.tableView reloadSections:[NSIndexSet index] withRowAnimation:(UITableViewRowAnimation)
-    [self.tableView reloadData];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:view.section] withRowAnimation:UITableViewRowAnimationFade];
+//    [self.tableView reloadData];
 }
 
 - (IBAction)clickVideoBtn:(UIButton *)sender {

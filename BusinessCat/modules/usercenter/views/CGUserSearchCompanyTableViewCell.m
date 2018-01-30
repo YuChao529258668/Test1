@@ -34,10 +34,13 @@
   self.typeLabel.layer.borderWidth = 0.5;
   switch (entity.type) {
     case 1:
-      self.typeLabel.text = @"公司";
-      self.typeLabel.textColor = CTThemeMainColor;
-      self.typeLabel.layer.borderColor = CTThemeMainColor.CGColor;
-      break;
+      {self.typeLabel.text = @"公司";
+//          self.typeLabel.textColor = CTThemeMainColor;
+//          self.typeLabel.layer.borderColor = CTThemeMainColor.CGColor;
+          UIColor *color = [YCTool colorOfHex:0xf68731];
+          self.typeLabel.textColor = color;
+          self.typeLabel.layer.borderColor = color.CGColor;
+      break;}
     case 2:
       self.typeLabel.text = @"学校";
       self.typeLabel.textColor = [CTCommonUtil convert16BinaryColor:@"#ff9f9c"];

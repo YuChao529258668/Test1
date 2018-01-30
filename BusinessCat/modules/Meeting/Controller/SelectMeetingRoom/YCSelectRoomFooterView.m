@@ -11,6 +11,7 @@
 @implementation YCSelectRoomFooterView
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.label.textColor = [YCTool colorOfHex:0x777777];
 }
 

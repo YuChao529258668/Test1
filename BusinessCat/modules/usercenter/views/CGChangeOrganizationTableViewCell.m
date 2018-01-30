@@ -62,6 +62,8 @@
     [self.button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     self.button.layer.borderColor = [UIColor lightGrayColor].CGColor;
     typestr = [NSString stringWithFormat:@"已认领%@",companyType];
+    
+    UIColor *color = [YCTool colorOfHex:0xf68731];
     switch (organizaSate) {
         case OrganizationTypeYetClaimed:
             typestr = [NSString stringWithFormat:@"未认领%@",companyType];
@@ -75,13 +77,17 @@
             break;
         case OrganizationTypeClaimedNoneVip:
             [self.button setTitle:@"购买企业会员" forState:UIControlStateNormal];
-            [self.button setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
-            self.button.layer.borderColor = CTThemeMainColor.CGColor;
+//            [self.button setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
+//            self.button.layer.borderColor = CTThemeMainColor.CGColor;
+            [self.button setTitleColor:color forState:UIControlStateNormal];
+            self.button.layer.borderColor = color.CGColor;
             break;
         case OrganizationTypeClaimedjoin:
             [self.button setTitle:@"已加入" forState:UIControlStateNormal];
-        [self.button setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
-        self.button.layer.borderColor = CTThemeMainColor.CGColor;
+//            [self.button setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
+//            self.button.layer.borderColor = CTThemeMainColor.CGColor;
+            [self.button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            self.button.layer.borderColor = [UIColor lightGrayColor].CGColor;
             break;
         case OrganizationTypeClaimednotThroughReview:
             typestr = @"加入审核未通过，请查看原因";
@@ -127,8 +133,10 @@
       self.button.hidden = NO;
         [self.button setTitle:@"退出组织" forState:UIControlStateNormal];
         [self.button setBackgroundColor:[UIColor whiteColor]];
-        [self.button setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
-        self.button.layer.borderColor = CTThemeMainColor.CGColor;
+//        [self.button setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
+//        self.button.layer.borderColor = CTThemeMainColor.CGColor;
+        [self.button setTitleColor:color forState:UIControlStateNormal];
+        self.button.layer.borderColor = color.CGColor;
         self.button.layer.borderWidth = 0.7f;
         self.button.tag = OrganizationTypeQuit;
     }

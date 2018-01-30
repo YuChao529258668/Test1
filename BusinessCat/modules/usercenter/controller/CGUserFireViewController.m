@@ -143,7 +143,8 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-  return 4;
+//    return 4;
+    return 3;// 隐藏我的关注
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -355,13 +356,16 @@
           [cell.bindingButton setTitle:@"重新绑定" forState:UIControlStateNormal];
           [cell.bindingButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
           cell.bindingText.text = @"已绑定微信";
-          cell.bindingText.textColor = CTThemeMainColor;
+//            cell.bindingText.textColor = CTThemeMainColor;
+            cell.bindingText.textColor = [YCTool colorOfHex:0xf68731];
         }else{
           cell.bindingText.text = @"绑定微信可以直接获取头像、昵称";
           cell.bindingText.textColor = [UIColor darkGrayColor];
           [cell.bindingButton setTitle:@"绑定微信" forState:UIControlStateNormal];
-          [cell.bindingButton setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
+//            [cell.bindingButton setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
+            [cell.bindingButton setTitleColor:[YCTool colorOfHex:0xf68731] forState:UIControlStateNormal];
 //          cell.bindingButton.hidden = NO;
+            
         }
         [cell.bindingButton addTarget:self action:@selector(bindingClick) forControlEvents:UIControlEventTouchUpInside];
         return cell;

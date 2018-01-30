@@ -107,7 +107,7 @@
     _topView.backgroundColor = CTThemeMainColor;
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 31, SCREEN_WIDTH/3*2, 21)];
     label.text = self.title;
-    label.textColor = [UIColor whiteColor];
+    label.textColor = [UIColor blackColor];
     [self.bgView addSubview:label];
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [UIFont systemFontOfSize:15];

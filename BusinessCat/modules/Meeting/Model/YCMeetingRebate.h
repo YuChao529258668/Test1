@@ -15,7 +15,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *id;
 @property (nonatomic, assign) int state; // 0不可用 1可用
-@property (nonatomic, assign) int type;// 1为公司 2为用户
+@property (nonatomic, assign) int type;// 0为公司 1为用户
 
 @end
 

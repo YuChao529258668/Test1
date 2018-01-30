@@ -28,6 +28,7 @@
                 <outlet property="label1" destination="0Bo-vm-hpb" id="DE4-Mf-6k5"/>
                 <outlet property="label2" destination="8rN-YS-iNe" id="np6-Fr-bBT"/>
                 <outlet property="labelOneVIew" destination="JkX-AT-ADZ" id="9lF-8Z-t0e"/>
+                <outlet property="navigationLabel" destination="Z6n-PE-NBQ" id="WYC-GT-Ttn"/>
                 <outlet property="oneView" destination="UBF-ZH-CRH" id="6RE-Ka-W8C"/>
                 <outlet property="roomImageView" destination="msW-T6-pDA" id="Axv-oI-bHv"/>
                 <outlet property="roomNameLabel" destination="3W4-aR-kSs" id="bpu-Pk-3vf"/>
@@ -63,23 +64,11 @@
                                 <action selector="dismiss:" destination="-1" eventType="touchUpInside" id="N9o-jZ-GAo"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="syW-jN-z2w">
-                            <rect key="frame" x="329" y="27" width="31" height="30"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <state key="normal" title="支付">
-                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
-                            <connections>
-                                <action selector="clickPayBtn:" destination="-1" eventType="touchUpInside" id="u46-5c-1yU"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.99902075530000001" green="0.92455697059999997" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="syW-jN-z2w" secondAttribute="trailing" constant="15" id="1i4-Ex-vZz"/>
                         <constraint firstItem="Z6n-PE-NBQ" firstAttribute="centerX" secondItem="NEG-wY-Nod" secondAttribute="centerX" id="J3H-fo-OFt"/>
                         <constraint firstItem="0Nn-Dd-3n9" firstAttribute="leading" secondItem="NEG-wY-Nod" secondAttribute="leading" id="VOL-NM-XAl"/>
-                        <constraint firstItem="syW-jN-z2w" firstAttribute="top" secondItem="NEG-wY-Nod" secondAttribute="top" constant="27" id="r9d-RL-NlL"/>
                         <constraint firstAttribute="height" constant="64" id="v4a-gy-iRG"/>
                         <constraint firstItem="Z6n-PE-NBQ" firstAttribute="top" secondItem="NEG-wY-Nod" secondAttribute="top" constant="32" id="x9f-u8-b5d"/>
                         <constraint firstItem="0Nn-Dd-3n9" firstAttribute="top" secondItem="NEG-wY-Nod" secondAttribute="top" constant="25" id="zuQ-7w-mQN"/>

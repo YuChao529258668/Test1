@@ -106,7 +106,7 @@
 @property (nonatomic, copy) CGHeadlineInfoDetailDeleteBlock block;
 @property (nonatomic, strong) UIView *footView;
 
-@property (nonatomic, assign) NSInteger isStatusBar;//是否显示时间栏
+@property (nonatomic, assign) BOOL isStatusBar;//是否显示时间栏
 @property (nonatomic, assign) NSInteger isHorizontal;//是否横屏
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIView *qrCodeView;
@@ -443,6 +443,9 @@
   self.shareButton.layer.masksToBounds = YES;
   self.shareButton.backgroundColor = CTThemeMainColor;
   self.webView.navigationDelegate = self;
+    
+    [self hideStatusBar:YES];
+    [self.copyrightTipsButton setBackgroundColor: [CTCommonUtil convert16BinaryColor:HeadlineTopCircelColor]];
 }
 
 -(void)queryRemoteUserDetailInfo{
@@ -1208,12 +1211,12 @@
                                        target:self
                                        action:@selector(toTeamCircleAction)]];
   }
-  if ([self isHaveEnterpriseHousekeeper]) {
-    [menuItems addObject:[KxMenuItem menuItem:@"发到管家区"
-                                        image:[UIImage imageNamed:@"sentto_tuanduiquan"]
-                                       target:self
-                                       action:@selector(toEnterpriseHousekeeperAction)]];
-  }
+//  if ([self isHaveEnterpriseHousekeeper]) {
+//    [menuItems addObject:[KxMenuItem menuItem:@"发到管家区"
+//                                        image:[UIImage imageNamed:@"sentto_tuanduiquan"]
+//                                       target:self
+//                                       action:@selector(toEnterpriseHousekeeperAction)]];
+//  }
   if ([CTStringUtil stringNotBlank:self.detail.qiniuUrl]) {
     [menuItems addObject:[KxMenuItem menuItem:@"下载文档"
                                         image:[UIImage imageNamed:@"downloadocument"]
@@ -1523,14 +1526,20 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-  self.currentPostion = scrollView.contentOffset.y;
-  if(self.manMadeScroll){
-    if(self.currentPostion <= 0){
-      [self hideStatusBar:NO];
-    }else{
-      [self hideStatusBar:YES];
-    }
-  }
+//  self.currentPostion = scrollView.contentOffset.y;
+//  if(self.manMadeScroll){
+//    if(self.currentPostion <= 0){
+////        [self hideStatusBar:NO];
+//        if (self.isStatusBar == YES) {
+//            [self hideStatusBar:NO];
+//        }
+//    }else{
+////      [self hideStatusBar:YES];
+//        if (self.isStatusBar == NO) {
+//            [self hideStatusBar:YES];
+//        }
+//    }
+//  }
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
   self.manMadeScroll = NO;
@@ -1543,6 +1552,9 @@
 
 //显示/隐藏状态栏
 -(void)hideStatusBar:(BOOL)show{
+    show = YES;
+    
+    
   self.isStatusBar = show;
   CGRect tuiRect = self.tuiBtn.frame;
   CGRect competeRect = self.rightBtn.frame;
@@ -1551,9 +1563,13 @@
   CGFloat horizontalHeight = self.isHorizontal?0:44;
   UIColor *btnColor;
   if(show){
-    tuiRect.origin.y = 10;
-    competeRect.origin.y = 10;
-    copyrighRect.origin.y = 15;
+//    tuiRect.origin.y = 10;
+//    competeRect.origin.y = 10;
+//    copyrighRect.origin.y = 15;
+      tuiRect.origin.y = 30;
+      competeRect.origin.y = 30;
+      copyrighRect.origin.y = 35;
+
     bgScrollViewRect.size.height = SCREEN_HEIGHT - horizontalHeight;
     bgScrollViewRect.origin.y = 0;
     btnColor = [CTCommonUtil convert16BinaryColor:HeadlineTopCircelColor];

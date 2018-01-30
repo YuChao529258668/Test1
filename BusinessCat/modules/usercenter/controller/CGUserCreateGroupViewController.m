@@ -117,7 +117,7 @@
   self.creatButton = [[UIButton alloc]initWithFrame:CGRectMake(15, 20, SCREEN_WIDTH-30, 44)];
   [view addSubview:self.creatButton];
 //  [self.creatButton setBackgroundColor:[CTCommonUtil convert16BinaryColor:@"#44BBFC"]];
-  [self.creatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+  [self.creatButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
   [self.creatButton setTitle:@"创建" forState:UIControlStateNormal];
   self.creatButton.titleLabel.font = [UIFont systemFontOfSize:15];
   self.creatButton.layer.cornerRadius =22;

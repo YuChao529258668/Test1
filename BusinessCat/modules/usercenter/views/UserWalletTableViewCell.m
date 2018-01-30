@@ -39,8 +39,10 @@
     self.moneyLabel.textColor = [CTCommonUtil convert16BinaryColor:@"#EC4836"];
   }else{
     self.moneyLabel.text = [NSString stringWithFormat:@"+%ld币",entity.rewardNum];
-    self.moneyLabel.textColor = CTThemeMainColor;
+//    self.moneyLabel.textColor = CTThemeMainColor;
+      self.moneyLabel.textColor = [YCTool colorOfHex:0xf68731];
   }
+    
   self.title.text = entity.relationInfo.title;
   if ([CTStringUtil stringNotBlank:entity.relationInfo.desc]) {
     self.titleCenter.constant = -10;

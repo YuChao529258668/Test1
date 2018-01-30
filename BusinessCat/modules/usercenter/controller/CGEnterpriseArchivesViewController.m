@@ -22,7 +22,7 @@
 
 @interface CGEnterpriseArchivesViewController ()<TZImagePickerControllerDelegate,AddressPickerViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, strong) NSArray<NSArray *> *titleArray;
 @property (nonatomic, strong) UIImage *icon;
 @property (nonatomic, copy) NSString *iconID;
 @property (nonatomic, strong) CGUserCenterBiz *biz;
@@ -85,8 +85,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-  NSArray *array = self.titleArray[section];
-  return array.count;
+    NSString *title = self.titleArray[section].firstObject;
+    if ([title isEqualToString:@"企业关心的知识"]) {
+        return 0;
+    } else {
+        NSArray *array = self.titleArray[section];
+        return array.count;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

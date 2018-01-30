@@ -66,7 +66,7 @@
 @property(nonatomic,retain)UILabel *systemRedHot;//消息红点
 @property (nonatomic, strong) UIActionSheet *inviteFriendsSheet;
 @property (nonatomic, strong) UIButton *leftBtn;
-@property(nonatomic,strong)NSTimer *timer;
+//@property(nonatomic,strong)NSTimer *timer;
 @end
 
 #define UserHeaderHeight (SCREEN_HEIGHT/6)//头部高度
@@ -104,17 +104,25 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(applicationDidEnterBackground) name:NotificationToApplicationDidEnterBackground object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryRemoteUserDetailInfo) name:NOTIFICATION_WEIXINPAYSUCCESS object:nil];
-  UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f, 30, 24, 24)];
-  rightBtn.contentMode = UIViewContentModeScaleAspectFit;
-  [rightBtn addTarget:self action:@selector(messageAction) forControlEvents:UIControlEventTouchUpInside];
-  [rightBtn setBackgroundImage:[UIImage imageNamed:@"nav_news"] forState:UIControlStateNormal];
-  [self.navi addSubview:rightBtn];
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notificationSystemMessageRedHot:) name:NotificationSystemMessageRedHot object:nil];
     
-    //检查本地是否有保存系统消息未读标识
-    [self setSystemRedHotState:[[[NSUserDefaults standardUserDefaults] objectForKey:NotificationSystemMessageRedHot]intValue]];
-  
+    // begin of 消息按钮
+    
+//  UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f, 30, 24, 24)];
+//  rightBtn.contentMode = UIViewContentModeScaleAspectFit;
+//  [rightBtn addTarget:self action:@selector(messageAction) forControlEvents:UIControlEventTouchUpInside];
+//  [rightBtn setBackgroundImage:[UIImage imageNamed:@"nav_news"] forState:UIControlStateNormal];
+//  [self.navi addSubview:rightBtn];
+    
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notificationSystemMessageRedHot:) name:NotificationSystemMessageRedHot object:nil];
+    
+//    //检查本地是否有保存系统消息未读标识
+//    [self setSystemRedHotState:[[[NSUserDefaults standardUserDefaults] objectForKey:NotificationSystemMessageRedHot]intValue]];
+    //  self.timer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(scoopLastTimer) userInfo:nil repeats:YES];
+
+    // end of 消息按钮
+    
+    
   self.leftBtn = [[UIButton alloc]initWithFrame:CGRectMake(15, 30, 34, 24)];
   self.leftBtn.contentMode = UIViewContentModeScaleAspectFit;
   [self.leftBtn addTarget:self action:@selector(dataAction) forControlEvents:UIControlEventTouchUpInside];
@@ -122,7 +130,8 @@
   self.leftBtn.titleLabel.font = [UIFont systemFontOfSize:15];
   self.leftBtn.hidden = NO;
   [self.navi addSubview:self.leftBtn];
-  self.timer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(scoopLastTimer) userInfo:nil repeats:YES];
+    
+    [self setupScanBtn];
 }
 
 -(void)scoopLastTimer{
@@ -243,7 +252,8 @@
         }else if(indexPath.row == 2){
             return NormalCellHeight;
         }else if(indexPath.row == 3){
-          if ([ChangeOrganizationViewModel getChangeOrganizationState] != ChangeOrganizationNone) {
+            // CGUserCompanyTowTableViewCell.h
+          if ([ChangeOrganizationViewModel getChangeOrganizationState] == ChangeOrganizationTypeSuperAdminYetClaimed) {
             return OrganizeOperateHeight*2;
           }
           return OrganizeOperateHeight;
@@ -959,5 +969,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - 扫一扫
+
+- (void)setupScanBtn {
+    UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f, 30, 24, 24)];
+    rightBtn.contentMode = UIViewContentModeScaleAspectFit;
+    [rightBtn addTarget:self action:@selector(clickScanBtn) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn setBackgroundImage:[UIImage imageNamed:@"icon_scan"] forState:UIControlStateNormal];
+    [self.navi addSubview:rightBtn];
+}
+
+- (void)clickScanBtn {
+    
+}
 
 @end

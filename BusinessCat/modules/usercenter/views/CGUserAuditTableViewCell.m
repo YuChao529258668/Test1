@@ -14,7 +14,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
   self.button.layer.cornerRadius = 4;
-  self.button.layer.borderColor = CTThemeMainColor.CGColor;
+    UIColor *color = [YCTool colorOfHex:0xf68731];
+  self.button.layer.borderColor = color.CGColor;
     [self.button addTarget:self action:@selector(auditClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -24,13 +25,15 @@
     [self.icon sd_setImageWithURL:[NSURL URLWithString:item.userIcon] placeholderImage:[UIImage imageNamed:@"user_icon"]];
     self.nameLabel.text = item.userName;
     self.phoneLabel.text = item.userMobile;
+    UIColor *color = [YCTool colorOfHex:0xf68731];
+
     if (item.auditState == 0) {
         [self.button setTitle:@"审核" forState:UIControlStateNormal];
-        [self.button setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
+        [self.button setTitleColor:color forState:UIControlStateNormal];
         self.button.layer.borderWidth = 0.5;
     }else if (item.auditState == 1){
         [self.button setTitle:@"已加入" forState:UIControlStateNormal];
-        [self.button setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
+        [self.button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         self.button.layer.borderWidth = 0;
     }else if(item.auditState == 2){
         [self.button setTitle:@"已拒绝" forState:UIControlStateNormal];

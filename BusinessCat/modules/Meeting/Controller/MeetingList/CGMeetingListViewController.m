@@ -54,7 +54,7 @@
 //    [self getMeetingModels];
 //    self.title = @"会议";
     
-    [self createCustomNavi];
+//    [self createCustomNavi];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -69,8 +69,9 @@
     UIView *footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 120)];
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, 30)];
     [footView addSubview:button];
-    [button setTitle:@"会议猫用户协议" forState:UIControlStateNormal];
-    [button setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
+    [button setTitle:@"用户协议" forState:UIControlStateNormal];
+//    [button setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
+    [button setTitleColor:[YCTool colorOfHex:0xf68731] forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:15];
     [button addTarget:self action:@selector(protocolClick) forControlEvents:UIControlEventTouchUpInside];
   
@@ -108,7 +109,7 @@
 
 - (void)protocolClick{
   CGUserHelpCatePageViewController *vc = [[CGUserHelpCatePageViewController alloc]init];
-  vc.title = @"会议猫用户协议";
+  vc.title = @"用户协议";
   vc.pageId = @"7c28fd89-2b55-50a5-163e-7474c0e996ad";
   [self.navigationController pushViewController:vc animated:YES];
 }

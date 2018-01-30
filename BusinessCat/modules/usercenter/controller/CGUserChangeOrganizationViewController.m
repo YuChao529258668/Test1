@@ -40,10 +40,11 @@
     self.biz = [[CGUserCenterBiz alloc]init];
     self.editBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-55, 22, 40, 40)];
     [self.editBtn addTarget:self action:@selector(rightBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.editBtn setImage:[UIImage imageNamed:@"editingcenter"] forState:UIControlStateNormal];
+    [self.editBtn setImage:[UIImage imageNamed:@"icon_panbook"] forState:UIControlStateNormal];
     self.editBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [self.navi addSubview:self.editBtn];
-    self.numberLabel.textColor = CTThemeMainColor;
+//    self.numberLabel.textColor = CTThemeMainColor;
+    self.numberLabel.textColor = [YCTool colorOfHex:0xf68731];
     [self.addbutton setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     [self getlocal];
     //发出拉取用户信息的通知，目的是检查用户加入的组织列表是否有变更
@@ -71,7 +72,7 @@
     if (!self.tableview.isEditing) {
         self.bottomView.hidden = NO;
         self.tableBottom.constant = 86;
-        [self.editBtn setImage:[UIImage imageNamed:@"editingcenter"] forState:UIControlStateNormal];
+        [self.editBtn setImage:[UIImage imageNamed:@"icon_panbook"] forState:UIControlStateNormal];
         [self.editBtn setTitle:@"" forState:UIControlStateNormal];
     }else{
         self.bottomView.hidden = YES;

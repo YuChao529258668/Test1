@@ -30,7 +30,8 @@
 #define kDiscoverMain 2
 #define kMyMain 3
 #define kCollege 4
-#define kMeeting 1
+#define kMeeting 8
+#define kSpace 1
 
 @interface CTRootViewController ()<SSZipArchiveDelegate>
 
@@ -85,8 +86,25 @@
             tabView.hidden = NO;
             [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
         }
-        else if(i ==  kMeeting){
+        else if(i ==  kSpace){
             tabEntity.title = @"空间";
+            tabEntity.normalImage = @"tab_phone_normal";
+            tabEntity.selectedName = @"tab_phone_highlighted";
+            [self.tabEntitys addObject:tabEntity];
+            
+            tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
+            [self.tabbarView addSubview:tabView];
+            [self.tabViews addObject:tabView];
+            
+            self.spaceVC = [[YCSpaceController alloc]init];
+            [self addChildViewController:self.spaceVC];
+            [self.spaceVC.view setFrame:self.contentView.bounds];
+            [self.contentView addSubview:self.spaceVC.view];
+            //            tabView.hidden = NO;
+            //            [tabView tabbarUpdateItemState:YES];//设置tab为选中状态
+        }
+        else if(i ==  kMeeting){
+            tabEntity.title = @"会议";
             tabEntity.normalImage = @"tab_phone_normal";
             tabEntity.selectedName = @"tab_phone_highlighted";
             [self.tabEntitys addObject:tabEntity];

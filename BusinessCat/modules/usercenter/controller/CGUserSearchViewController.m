@@ -26,6 +26,7 @@
 #import "CGSearchVoiceView.h"
 #import "CGMainLoginViewController.h"
 #import "CGEnterpriseMemberViewController.h"
+#import "CGUserCreateGroupViewController.h"
 
 @interface CGUserSearchViewController ()<UITableViewDataSource, UITableViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -64,24 +65,26 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     __weak typeof(self) weakSelf = self;
+    
+    // 百度搜索
     self.searchView = [[CGSearchVoiceView alloc]initWithPlaceholder:@"请输入名称" voiceBlock:^(NSString *content) {
         self.isSearchKeyWord = YES;
-        HeadlineBiz *biz = [[HeadlineBiz alloc]init];
-        [biz jpSearchWithKeyword:content success:^(NSMutableArray *result) {
-            weakSelf.keyWordArray = result;
-            [weakSelf.tableView reloadData];
-        } fail:^(NSError *error) {
-            
-        }];
+//        HeadlineBiz *biz = [[HeadlineBiz alloc]init];
+//        [biz jpSearchWithKeyword:content success:^(NSMutableArray *result) {
+//            weakSelf.keyWordArray = result;
+//            [weakSelf.tableView reloadData];
+//        } fail:^(NSError *error) {
+//
+//        }];
     } changeText:^(NSString *content) {
         weakSelf.isSearchKeyWord = YES;
-        HeadlineBiz *biz = [[HeadlineBiz alloc]init];
-        [biz jpSearchWithKeyword:content success:^(NSMutableArray *result) {
-            weakSelf.keyWordArray = result;
-            [weakSelf.tableView reloadData];
-        } fail:^(NSError *error) {
-            
-        }];
+//        HeadlineBiz *biz = [[HeadlineBiz alloc]init];
+//        [biz jpSearchWithKeyword:content success:^(NSMutableArray *result) {
+//            weakSelf.keyWordArray = result;
+//            [weakSelf.tableView reloadData];
+//        } fail:^(NSError *error) {
+//
+//        }];
     }];
     self.searchView.textField.delegate = self;
     [self.tableView setTableHeaderView:self.searchView];
@@ -164,9 +167,13 @@
     [self getUserName];
     return;
   }
-    CGUserChoseOrganizeViewController *vc = [[CGUserChoseOrganizeViewController alloc]init];
-    vc.keyWord = self.searchView.textField.text;
-    vc.isDiscover = self.isDiscover;
+//    CGUserChoseOrganizeViewController *vc = [[CGUserChoseOrganizeViewController alloc]init];
+//    vc.keyWord = self.searchView.textField.text;
+//    vc.isDiscover = self.isDiscover;
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+    CGUserCreateGroupViewController *vc = [CGUserCreateGroupViewController new];
+    vc.type = 1; // 创建公司
     [self.navigationController pushViewController:vc animated:YES];
 }
 

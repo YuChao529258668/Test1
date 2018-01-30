@@ -46,7 +46,7 @@
   self.tableView.tableFooterView = [[UIView alloc]init];
   if (self.type == 4) {
     //购买知识分；
-    self.title = @"充值知识币";
+    self.title = @"充值金币";
   }else if (self.type == 5){
     //购买VIP会员；
     self.title = @"购买下载套餐";
@@ -273,7 +273,8 @@
   if (self.type == 4) {//0购买会员 1购买企业会员 4知识分套餐 5下载套餐
     //购买知识分；
     payType = 1002;
-    body = @"充值知识币";
+//      body = @"充值知识币";
+      body = @"充值金币";
   }else if (self.type == 5){
     //购买下载；
     payType = 1003;

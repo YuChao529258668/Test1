@@ -16,6 +16,7 @@
 #import "RoomViewController.h"
 
 @interface YCCreateMeetingController ()<UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *navigationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *durautionLabel;
@@ -207,16 +208,26 @@
         
         self.oneView.hidden = YES;
         self.twoView.hidden = YES;
+        
+        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
+        NSString *str;
+        if ([app_Name containsString:@"会议"]) {
+            str = @"会议";
+        } else {
+            str = @"会面";
+        }
 
         if (room && count) {
             self.oneView.hidden = YES;
             self.twoView.hidden = NO;
+            
             if (isVideo) {
-                self.countLabelTwo.text = [NSString stringWithFormat:@"%ld人视频会议", (long)count];
-                self.countImageViewTwo.image = [UIImage imageNamed:@"video_videobtn_normal"];
+                self.countLabelTwo.text = [NSString stringWithFormat:@"%ld人视频%@", (long)count, str];
+                self.countImageViewTwo.image = [UIImage imageNamed:@"meeting_videobtn_normal"];
             } else {
-                self.countLabelTwo.text = [NSString stringWithFormat:@"%ld人语音会议", (long)count];
-                self.countImageViewTwo.image = [UIImage imageNamed:@"video_speech_normal"];
+                self.countLabelTwo.text = [NSString stringWithFormat:@"%ld人语音%@", (long)count, str];
+                self.countImageViewTwo.image = [UIImage imageNamed:@"meeting_speech_normal"];
             }
             self.roomNameLabel.text = room.roomName;
             self.roomImageView.image = [UIImage imageNamed:@"meeting_home_normal"];
@@ -230,11 +241,11 @@
             if (count) {
                 self.oneView.hidden = NO;
                 if (isVideo) {
-                    self.labelOneVIew.text = [NSString stringWithFormat:@"%ld人视频会议", (long)count];
-                    self.imageVIewOneView.image = [UIImage imageNamed:@"video_videobtn_normal"];
+                    self.labelOneVIew.text = [NSString stringWithFormat:@"%ld人视频%@", (long)count, str];
+                    self.imageVIewOneView.image = [UIImage imageNamed:@"meeting_videobtn_normal"];
                 } else {
-                    self.labelOneVIew.text = [NSString stringWithFormat:@"%ld人语音会议", (long)count];
-                    self.imageVIewOneView.image = [UIImage imageNamed:@"video_speech_normal"];
+                    self.labelOneVIew.text = [NSString stringWithFormat:@"%ld人语音%@", (long)count, str];
+                    self.imageVIewOneView.image = [UIImage imageNamed:@"meeting_speech_normal"];
                 }
             }
         }
@@ -242,14 +253,14 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (IBAction)clickPayBtn:(UIButton *)sender {
-    YCMeetingPayController *vc = [YCMeetingPayController new];
-    vc.count = self.count;
-    vc.durationString = [self.durationBtn titleForState:UIControlStateNormal];
-    vc.beginDate = self.beginDate;
-    vc.endDate = self.endDate;
-    [self.navigationController pushViewController:vc animated:YES];
-}
+//- (IBAction)clickPayBtn:(UIButton *)sender {
+//    YCMeetingPayController *vc = [YCMeetingPayController new];
+//    vc.count = self.count;
+//    vc.durationString = [self.durationBtn titleForState:UIControlStateNormal];
+//    vc.beginDate = self.beginDate;
+//    vc.endDate = self.endDate;
+//    [self.navigationController pushViewController:vc animated:YES];
+//}
 
 #pragma mark - 界面配置
 
@@ -302,6 +313,24 @@
     self.oneView.hidden = YES;
     self.twoView.hidden = YES;
     self.selectModeLabel.textColor = [YCTool colorOfHex:0xbababa];
+    
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
+    if ([app_Name containsString:@"会议"]) {
+        self.navigationLabel.text = @"预约会议";
+        self.titleLabel.text = @"会议主题";
+        self.dateLabel.text = @"会议日期";
+        self.durautionLabel.text = @"会议时长";
+        self.countLabel.text = @"会议模式";
+        self.selectModeLabel.text = @"请选择会议模式";
+    } else {
+        self.navigationLabel.text = @"预约会面";
+        self.titleLabel.text = @"会面主题";
+        self.dateLabel.text = @"会面日期";
+        self.durautionLabel.text = @"会面时长";
+        self.countLabel.text = @"会面模式";
+        self.selectModeLabel.text = @"请选择会面模式";
+    }
 }
 
 - (void)updateDateViews {
@@ -384,7 +413,8 @@
     
     
     __weak typeof(self) weakself = self;
-    int roomType = self.room.type; //roomType 视频的会议室类型 0:公司 1:用户
+//    int roomType = self.room.type; //roomType 视频的会议室类型 0:公司 1:用户
+    int roomType = self.rebate.type; //roomType 视频的会议室类型 0:公司 1:用户
     NSString *crID = self.room.roomId; //companyRoomId 公司会议房间Id（空为非公司会议）
     int meetingType = self.isVideo? 1: 0; //会议形式（0：音频，1：视频）
     int live = self.isLive? 1: 0;

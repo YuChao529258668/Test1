@@ -599,7 +599,7 @@
                                             <constraint firstAttribute="width" constant="1" id="OX0-0U-VqM"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="video_videobtn_normal" translatesAutoresizingMaskIntoConstraints="NO" id="hY3-9G-Ix2">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="meeting_videobtn_normal" translatesAutoresizingMaskIntoConstraints="NO" id="hY3-9G-Ix2">
                                         <rect key="frame" x="13" y="8" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="Mpv-z0-oMw"/>
@@ -915,11 +915,11 @@
         <image name="block_yellow" width="61" height="32"/>
         <image name="icon_back" width="22" height="22"/>
         <image name="meetingBackground" width="250" height="272"/>
+        <image name="meeting_videobtn_normal" width="31" height="31"/>
         <image name="personnel_icon_highlight" width="22" height="22"/>
         <image name="personnel_icon_normal" width="22" height="22"/>
         <image name="remove_add" width="22" height="22"/>
         <image name="remove_right" width="5" height="10"/>
-        <image name="video_videobtn_normal" width="41" height="41"/>
         <image name="work_line_1" width="1" height="1"/>
         <image name="work_rb_yes" width="22" height="22"/>
     </resources>

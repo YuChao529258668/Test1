@@ -124,7 +124,7 @@
   [self.rightBtn addTarget:self action:@selector(rightBtnAction:) forControlEvents:UIControlEventTouchUpInside];
   [self.rightBtn setTitle:@"保存" forState:UIControlStateNormal];
   self.rightBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-  [self.rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+  [self.rightBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
   [self.rightBtn setTitleColor:[CTCommonUtil convert16BinaryColor:@"#C7C7CC"] forState:UIControlStateSelected];
   [self.navi addSubview:self.rightBtn];
   [self.textField becomeFirstResponder];

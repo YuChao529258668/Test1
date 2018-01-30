@@ -45,7 +45,8 @@
   self.cebianBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-42.5f, 22, 40, 40)];
   self.cebianBtn.contentMode = UIViewContentModeScaleToFill;
   [self.cebianBtn addTarget:self action:@selector(cebianAction) forControlEvents:UIControlEventTouchUpInside];
-  [self.cebianBtn setImage:[UIImage imageNamed:@"cebianlan"] forState:UIControlStateNormal];
+//    [self.cebianBtn setImage:[UIImage imageNamed:@"cebianlan"] forState:UIControlStateNormal];
+    [self.cebianBtn setImage:[UIImage imageNamed:@"icon_sift"] forState:UIControlStateNormal];
   [self.navi addSubview:self.cebianBtn];
   
   self.rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f-40, 22, 40, 40)];
