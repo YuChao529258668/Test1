@@ -106,25 +106,20 @@
     }
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
+//- (void)layoutSubviews
+//{
+//    [super layoutSubviews];
+
 //    CGFloat totalWidth = kToolBarButtonWidth * kToolBarButtonCount + kToolBarButtonSpacing * (kToolBarButtonCount - 1);
     
 //    CGSize size = self.bounds.size;
-    
-    [_buttonArray enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        obj.frame = CGRectMake((size.width - totalWidth) / 2 + idx * (kToolBarButtonWidth + kToolBarButtonSpacing),
-//                               (size.height - kToolBarButtonHeight) / 2,
-//                               kToolBarButtonWidth,
-//                               kToolBarButtonHeight);
-        
-//        float x = self.superview.frame.size.width - 15 - 26;
-        float y = (10 + 26) * idx;
-        obj.frame = CGRectMake(0, y, 26, 26);
-    }];
-}
+
+//   竖排
+//    [_buttonArray enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        float y = (10 + 26) * idx;
+//        obj.frame = CGRectMake(0, y, 26, 26);
+//    }];
+//}
 
 - (IBAction)click:(UIButton *)button
 {

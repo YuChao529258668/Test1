@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YCJoinShareController">
+            <connections>
+                <outlet property="choseIV" destination="OW1-ir-zU7" id="h1O-tu-0Rv"/>
+                <outlet property="shareL" destination="KOH-l5-a0g" id="BeE-Mk-Ttn"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4RN-cl-9l2" userLabel="Nav">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ADk-F3-WQB">
+                            <rect key="frame" x="0.0" y="20" width="44" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="Na7-mC-VyV"/>
+                                <constraint firstAttribute="width" constant="44" id="a3B-tW-oVF"/>
+                            </constraints>
+                            <state key="normal" image="nav_back"/>
+                            <connections>
+                                <action selector="dismiss:" destination="-1" eventType="touchUpInside" id="ZCn-1z-FOc"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="加入共享" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XH6-4u-ZtP">
+                            <rect key="frame" x="152.5" y="32" width="70" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7XU-mG-j2R">
+                            <rect key="frame" x="309" y="28" width="58" height="29"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="退出共享"/>
+                            <connections>
+                                <action selector="clickQuitBtn:" destination="-1" eventType="touchUpInside" id="ych-sY-PdM"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.99517089130000003" green="0.91659629340000004" blue="0.055799357590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="ADk-F3-WQB" firstAttribute="leading" secondItem="4RN-cl-9l2" secondAttribute="leading" id="5h1-4m-2kf"/>
+                        <constraint firstItem="ADk-F3-WQB" firstAttribute="top" secondItem="4RN-cl-9l2" secondAttribute="top" constant="20" id="CKH-U9-HJd"/>
+                        <constraint firstItem="XH6-4u-ZtP" firstAttribute="centerX" secondItem="4RN-cl-9l2" secondAttribute="centerX" id="Ce1-EX-OqG"/>
+                        <constraint firstItem="7XU-mG-j2R" firstAttribute="top" secondItem="4RN-cl-9l2" secondAttribute="top" constant="28" id="Hbr-wh-lB9"/>
+                        <constraint firstAttribute="trailing" secondItem="7XU-mG-j2R" secondAttribute="trailing" constant="8" id="MdE-Qr-3NT"/>
+                        <constraint firstAttribute="height" constant="64" id="hgC-Ze-KxH"/>
+                        <constraint firstItem="XH6-4u-ZtP" firstAttribute="top" secondItem="4RN-cl-9l2" secondAttribute="top" constant="32" id="orb-iH-yRr"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EW9-YD-TjC">
+                    <rect key="frame" x="15" y="618" width="345" height="40"/>
+                    <color key="backgroundColor" red="0.99517089130000003" green="0.91659629340000004" blue="0.055799357590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="nae-pU-DhI"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" title=" 加入组织">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="clickJoinBtn:" destination="-1" eventType="touchUpInside" id="y84-Zd-JEd"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fiP-tc-GBk">
+                    <rect key="frame" x="76" y="548.5" width="222" height="49"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="同意" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ral-qW-644">
+                            <rect key="frame" x="65" y="15" width="28" height="23"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="0.46666666666666667" green="0.46666666666666667" blue="0.46666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="&quot;共享会议协议&quot;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KOH-l5-a0g">
+                            <rect key="frame" x="93" y="15" width="99" height="23"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="13"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="personnel_icon_normal" translatesAutoresizingMaskIntoConstraints="NO" id="OW1-ir-zU7">
+                            <rect key="frame" x="35" y="15" width="22" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lU6-tg-iqy">
+                            <rect key="frame" x="88" y="0.0" width="126" height="49"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="clickProtocolBtn:" destination="-1" eventType="touchUpInside" id="HrP-Tu-LXK"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84B-Wt-TnK" userLabel="Agree">
+                            <rect key="frame" x="0.0" y="0.0" width="85" height="49"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <connections>
+                                <action selector="clickAgreeBtn:" destination="-1" eventType="touchUpInside" id="s3v-t3-YIy"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="222" id="WKl-eE-rXe"/>
+                        <constraint firstAttribute="height" constant="49" id="zlF-vR-ZJt"/>
+                    </constraints>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="joinShareBg.png" translatesAutoresizingMaskIntoConstraints="NO" id="osV-dP-Qag">
+                    <rect key="frame" x="64" y="110" width="247" height="416"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="247" id="OnJ-w6-OYb"/>
+                        <constraint firstAttribute="height" constant="416" id="dOQ-Vk-VMu"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="4RN-cl-9l2" secondAttribute="trailing" id="23r-Kv-b41"/>
+                <constraint firstItem="fiP-tc-GBk" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="83T-Kj-6Kf"/>
+                <constraint firstItem="osV-dP-Qag" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="EmQ-F5-mO1"/>
+                <constraint firstItem="fiP-tc-GBk" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" multiplier="1.67" constant="16.055000000000064" id="FT6-1K-kwp"/>
+                <constraint firstItem="osV-dP-Qag" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" multiplier="0.92" constant="11.180000000000007" id="OXg-yp-yHJ"/>
+                <constraint firstAttribute="bottom" secondItem="EW9-YD-TjC" secondAttribute="bottom" constant="9" id="QLU-73-iFb"/>
+                <constraint firstItem="4RN-cl-9l2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="R0n-FR-GtN"/>
+                <constraint firstItem="4RN-cl-9l2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="dw6-tA-OBc"/>
+                <constraint firstAttribute="trailing" secondItem="EW9-YD-TjC" secondAttribute="trailing" constant="15" id="lOd-Fq-xUR"/>
+                <constraint firstItem="EW9-YD-TjC" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="uBW-rL-t9O"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="166.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="joinShareBg.png" width="498" height="818"/>
+        <image name="nav_back" width="22" height="22"/>
+        <image name="personnel_icon_normal" width="22" height="22"/>
+    </resources>
+</document>

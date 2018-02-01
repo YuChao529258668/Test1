@@ -16,7 +16,14 @@
 		0D1E964F202043B800B6187A /* YCSeeBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E964E202043B800B6187A /* YCSeeBoard.m */; };
 		0D1E9652202057A000B6187A /* YCLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E9651202057A000B6187A /* YCLabel.m */; };
 		0D1E965520205D2F00B6187A /* UILabel+TextColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E965420205D2F00B6187A /* UILabel+TextColor.m */; };
-		0D1E9657202075C000B6187A /* ios-间距.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E9656202075BF00B6187A /* ios-间距.png */; };
+		0D1E965A2021621C00B6187A /* YCMeetingProfit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E96592021621C00B6187A /* YCMeetingProfit.m */; };
+		0D1E965F2021680300B6187A /* YCPersonalProfitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E965D2021680300B6187A /* YCPersonalProfitController.m */; };
+		0D1E96602021680300B6187A /* YCPersonalProfitController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E965E2021680300B6187A /* YCPersonalProfitController.xib */; };
+		0D1E96662021A3F900B6187A /* YCPersonalProfitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E96642021A3F900B6187A /* YCPersonalProfitCell.m */; };
+		0D1E96672021A3F900B6187A /* YCPersonalProfitCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E96652021A3F900B6187A /* YCPersonalProfitCell.xib */; };
+		0D1E966F2022B2CD00B6187A /* YCJoinShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E966D2022B2CD00B6187A /* YCJoinShareController.m */; };
+		0D1E96702022B2CD00B6187A /* YCJoinShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E966E2022B2CD00B6187A /* YCJoinShareController.xib */; };
+		0D1E96742022BDC000B6187A /* joinShareBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E96732022BDC000B6187A /* joinShareBg.png */; };
 		0D29EAD61FF3437F005F1AD1 /* YCTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29EAD51FF3437F005F1AD1 /* YCTool.m */; };
 		0D316D1B2008ABD40097D79D /* YCVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D316D192008ABD40097D79D /* YCVideoController.m */; };
 		0D316D1C2008ABD40097D79D /* YCVideoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D316D1A2008ABD40097D79D /* YCVideoController.xib */; };
@@ -37,7 +44,6 @@
 		0D316E30201879A50097D79D /* YCMeetingRebate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D316E2F201879A50097D79D /* YCMeetingRebate.m */; };
 		0D35DBFA201F330D0087C20E /* YCSeeBoardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D35DBF8201F330D0087C20E /* YCSeeBoardController.m */; };
 		0D35DBFB201F330D0087C20E /* YCSeeBoardController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D35DBF9201F330D0087C20E /* YCSeeBoardController.xib */; };
-		0D35DBFE201F35200087C20E /* 看板.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D35DBFD201F35200087C20E /* 看板.png */; };
 		0D35DC02201F47910087C20E /* YCSeeBoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D35DC00201F47910087C20E /* YCSeeBoardCell.m */; };
 		0D35DC03201F47910087C20E /* YCSeeBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D35DC01201F47910087C20E /* YCSeeBoardCell.xib */; };
 		0D3EB2B71FBA9CC900DAE678 /* Meeting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D3EB2B61FBA9CC900DAE678 /* Meeting.storyboard */; };
@@ -1502,7 +1508,18 @@
 		0D1E9651202057A000B6187A /* YCLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCLabel.m; sourceTree = "<group>"; };
 		0D1E965320205D2F00B6187A /* UILabel+TextColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+TextColor.h"; sourceTree = "<group>"; };
 		0D1E965420205D2F00B6187A /* UILabel+TextColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+TextColor.m"; sourceTree = "<group>"; };
-		0D1E9656202075BF00B6187A /* ios-间距.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-间距.png"; sourceTree = "<group>"; };
+		0D1E96582021621C00B6187A /* YCMeetingProfit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingProfit.h; sourceTree = "<group>"; };
+		0D1E96592021621C00B6187A /* YCMeetingProfit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingProfit.m; sourceTree = "<group>"; };
+		0D1E965C2021680300B6187A /* YCPersonalProfitController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPersonalProfitController.h; sourceTree = "<group>"; };
+		0D1E965D2021680300B6187A /* YCPersonalProfitController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPersonalProfitController.m; sourceTree = "<group>"; };
+		0D1E965E2021680300B6187A /* YCPersonalProfitController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCPersonalProfitController.xib; sourceTree = "<group>"; };
+		0D1E96632021A3F900B6187A /* YCPersonalProfitCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPersonalProfitCell.h; sourceTree = "<group>"; };
+		0D1E96642021A3F900B6187A /* YCPersonalProfitCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPersonalProfitCell.m; sourceTree = "<group>"; };
+		0D1E96652021A3F900B6187A /* YCPersonalProfitCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCPersonalProfitCell.xib; sourceTree = "<group>"; };
+		0D1E966C2022B2CD00B6187A /* YCJoinShareController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCJoinShareController.h; sourceTree = "<group>"; };
+		0D1E966D2022B2CD00B6187A /* YCJoinShareController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCJoinShareController.m; sourceTree = "<group>"; };
+		0D1E966E2022B2CD00B6187A /* YCJoinShareController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCJoinShareController.xib; sourceTree = "<group>"; };
+		0D1E96732022BDC000B6187A /* joinShareBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = joinShareBg.png; sourceTree = "<group>"; };
 		0D29EAD41FF3437F005F1AD1 /* YCTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCTool.h; sourceTree = "<group>"; };
 		0D29EAD51FF3437F005F1AD1 /* YCTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCTool.m; sourceTree = "<group>"; };
 		0D316D182008ABD40097D79D /* YCVideoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCVideoController.h; sourceTree = "<group>"; };
@@ -1534,7 +1551,6 @@
 		0D35DBF7201F330D0087C20E /* YCSeeBoardController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCSeeBoardController.h; sourceTree = "<group>"; };
 		0D35DBF8201F330D0087C20E /* YCSeeBoardController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCSeeBoardController.m; sourceTree = "<group>"; };
 		0D35DBF9201F330D0087C20E /* YCSeeBoardController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCSeeBoardController.xib; sourceTree = "<group>"; };
-		0D35DBFD201F35200087C20E /* 看板.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "看板.png"; sourceTree = "<group>"; };
 		0D35DBFF201F47910087C20E /* YCSeeBoardCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCSeeBoardCell.h; sourceTree = "<group>"; };
 		0D35DC00201F47910087C20E /* YCSeeBoardCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCSeeBoardCell.m; sourceTree = "<group>"; };
 		0D35DC01201F47910087C20E /* YCSeeBoardCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCSeeBoardCell.xib; sourceTree = "<group>"; };
@@ -4113,8 +4129,45 @@
 			children = (
 				0D1E964D202043B800B6187A /* YCSeeBoard.h */,
 				0D1E964E202043B800B6187A /* YCSeeBoard.m */,
+				0D1E96582021621C00B6187A /* YCMeetingProfit.h */,
+				0D1E96592021621C00B6187A /* YCMeetingProfit.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		0D1E965B202167C000B6187A /* Personal profit */ = {
+			isa = PBXGroup;
+			children = (
+				0D1E965C2021680300B6187A /* YCPersonalProfitController.h */,
+				0D1E965D2021680300B6187A /* YCPersonalProfitController.m */,
+				0D1E965E2021680300B6187A /* YCPersonalProfitController.xib */,
+				0D1E96632021A3F900B6187A /* YCPersonalProfitCell.h */,
+				0D1E96642021A3F900B6187A /* YCPersonalProfitCell.m */,
+				0D1E96652021A3F900B6187A /* YCPersonalProfitCell.xib */,
+			);
+			path = "Personal profit";
+			sourceTree = "<group>";
+		};
+		0D1E96682022B14800B6187A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0D1E96692022B16600B6187A /* Join share */,
+				0D35DBFC201F33CF0087C20E /* Space */,
+				0D35DBF6201F32EE0087C20E /* See board */,
+				0D1E965B202167C000B6187A /* Personal profit */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		0D1E96692022B16600B6187A /* Join share */ = {
+			isa = PBXGroup;
+			children = (
+				0D1E96732022BDC000B6187A /* joinShareBg.png */,
+				0D1E966C2022B2CD00B6187A /* YCJoinShareController.h */,
+				0D1E966D2022B2CD00B6187A /* YCJoinShareController.m */,
+				0D1E966E2022B2CD00B6187A /* YCJoinShareController.xib */,
+			);
+			path = "Join share";
 			sourceTree = "<group>";
 		};
 		0D29EAD31FF34368005F1AD1 /* YCTool */ = {
@@ -4235,7 +4288,6 @@
 		0D35DBF6201F32EE0087C20E /* See board */ = {
 			isa = PBXGroup;
 			children = (
-				0D35DBFD201F35200087C20E /* 看板.png */,
 				0D35DBF7201F330D0087C20E /* YCSeeBoardController.h */,
 				0D35DBF8201F330D0087C20E /* YCSeeBoardController.m */,
 				0D35DBF9201F330D0087C20E /* YCSeeBoardController.xib */,
@@ -4249,7 +4301,6 @@
 		0D35DBFC201F33CF0087C20E /* Space */ = {
 			isa = PBXGroup;
 			children = (
-				0D1E9656202075BF00B6187A /* ios-间距.png */,
 				0D8904AD2019FD40009C1308 /* YCSpaceController.h */,
 				0D8904AE2019FD40009C1308 /* YCSpaceController.m */,
 				0D8904AF2019FD40009C1308 /* YCSpaceController.xib */,
@@ -4415,10 +4466,9 @@
 		0D8904AC2019FD13009C1308 /* Space */ = {
 			isa = PBXGroup;
 			children = (
+				0D1E96682022B14800B6187A /* Controller */,
 				0D1E964C202043A600B6187A /* Model */,
 				0D1E96482020211200B6187A /* Biz */,
-				0D35DBFC201F33CF0087C20E /* Space */,
-				0D35DBF6201F32EE0087C20E /* See board */,
 			);
 			path = Space;
 			sourceTree = "<group>";
@@ -8513,7 +8563,6 @@
 				0DDE74E51FFCD65600063651 /* 16.gif in Resources */,
 				0DBF478B1FB3087400707C12 /* status_host_on@3x.png in Resources */,
 				D73208891EA64EE4006BC285 /* scanline@2x.png in Resources */,
-				0D1E9657202075C000B6187A /* ios-间距.png in Resources */,
 				0DBF47A81FB3087400707C12 /* setting@3x.png in Resources */,
 				18C6C7EA1EE7E4B7009DFD89 /* CGInterfaceImageViewCollectionViewCell.xib in Resources */,
 				0DDE74DB1FFCD65600063651 /* 114.gif in Resources */,
@@ -8529,6 +8578,7 @@
 				D7F44BD41DA8A346004393C2 /* HeadlineTopicCell.xib in Resources */,
 				18D8C3741E8D094F009AD813 /* CGLocalSearchTableViewCell.xib in Resources */,
 				0DBF48071FB3087400707C12 /* AboutViewController.xib in Resources */,
+				0D1E96742022BDC000B6187A /* joinShareBg.png in Resources */,
 				D721626D1EC1C514007587A2 /* WKWebViewController.xib in Resources */,
 				0DBF47C51FB3087400707C12 /* message_normal@2x.png in Resources */,
 				0DBF47D81FB3087400707C12 /* pop_background@3x.png in Resources */,
@@ -8547,7 +8597,6 @@
 				0DDE74AB1FFCD65500063651 /* 31.gif in Resources */,
 				0DBF47A41FB3087400707C12 /* choose@3x.png in Resources */,
 				18E481121F04B0F500A94FF8 /* CGInviteMembersViewController.xib in Resources */,
-				0D35DBFE201F35200087C20E /* 看板.png in Resources */,
 				D7E417591D9A1EA100048E57 /* HeadlineLeftPicTableViewCell.xib in Resources */,
 				1827C4F11E35A6AA0019FE6B /* RecommendTableViewCell.xib in Resources */,
 				0DBF481D1FB3087400707C12 /* ServerAddressCell.xib in Resources */,
@@ -8703,6 +8752,7 @@
 				0D316E20201730EC0097D79D /* YCSelectRoomFooterView.xib in Resources */,
 				181C552F1EC46C540064354D /* CGProductInterfaceViewController.xib in Resources */,
 				1827C4EC1E3383DE0019FE6B /* CGLoginOutTableViewCell.xib in Resources */,
+				0D1E96672021A3F900B6187A /* YCPersonalProfitCell.xib in Resources */,
 				1842BE3F1E2F504400697332 /* HeadlineLeftPicAddTableViewCell.xib in Resources */,
 				18C6C8041EEE7FEC009DFD89 /* CGTeamDocumentCollectionViewCell.xib in Resources */,
 				1834BB501DB70C87008F4685 /* CGUserFireIconTableViewCell.xib in Resources */,
@@ -8827,6 +8877,7 @@
 				18D773EE1F317041000654E8 /* CGTutorialViewController.xib in Resources */,
 				187124851E768ADD00C16E9C /* CGAttentionSearchViewController.xib in Resources */,
 				0DBF475C1FB3087300707C12 /* status_camera_off_50@2x.png in Resources */,
+				0D1E96602021680300B6187A /* YCPersonalProfitController.xib in Resources */,
 				0DDE749C1FFCD65500063651 /* 132.gif in Resources */,
 				0D90E0671FB43C3A00EDB7CF /* DailyBuild-Info.plist in Resources */,
 				181C54E61EC1711C0064354D /* CGInviteFriendsViewController.xib in Resources */,
@@ -8905,6 +8956,7 @@
 				0DDE74F31FFCD65600063651 /* 38.gif in Resources */,
 				0DEBED4D1FCA8C6200354E4C /* LaunchView.xib in Resources */,
 				0DBF47D11FB3087400707C12 /* paint_normal_highlighted@2x.png in Resources */,
+				0D1E96702022B2CD00B6187A /* YCJoinShareController.xib in Resources */,
 				18ED53431F4C36AA00EB2D64 /* htmlDetailTemplate.html in Resources */,
 				0DBF47B91FB3087400707C12 /* function@2x.png in Resources */,
 				1834BB551DB70E07008F4685 /* CGUserFireTextTableViewCell.xib in Resources */,
@@ -9033,6 +9085,7 @@
 				D710B7EA1D99043100688D72 /* pinyin.c in Sources */,
 				184F4DAA1EFCF22E006E4EB3 /* CGCopyrightTipsView.m in Sources */,
 				181C54811EBC50720064354D /* CGOrderTableViewCell.m in Sources */,
+				0D1E965A2021621C00B6187A /* YCMeetingProfit.m in Sources */,
 				18400BED1ECC356900E3009D /* CGUserHelpCateEntity.m in Sources */,
 				1835D9651DB8669C0006ED07 /* CGUserMyPrivilegeTitleTableViewCell.m in Sources */,
 				183EBAB51F17733400D6157D /* CGChooseFocusKnowledgeTableViewCell.m in Sources */,
@@ -9041,6 +9094,7 @@
 				D710B7E91D99043100688D72 /* ParamUtil.m in Sources */,
 				180C020E1E84FF7200EDCD8E /* CGUserAttestationImageTableViewCell.m in Sources */,
 				0D90DFA11FB43C3A00EDB7CF /* IMAPlatform+Login.m in Sources */,
+				0D1E966F2022B2CD00B6187A /* YCJoinShareController.m in Sources */,
 				1838CF6D1EA86467005480B3 /* KnowledgeBaseEntity.m in Sources */,
 				D7799E381ED81C29009107E4 /* CGKnowledgeCatalogController.m in Sources */,
 				1835DA5D1DC084AE0006ED07 /* CGUserPCImportViewController.m in Sources */,
@@ -9158,6 +9212,7 @@
 				18D135DB1DC1DA77001EEE0A /* CGSourceCircleTableViewCell.m in Sources */,
 				D7B6DE721DBBB2F300FE62BA /* CGDiscoverMainController.m in Sources */,
 				0DBF477F1FB3087400707C12 /* JCMenuView.m in Sources */,
+				0D1E965F2021680300B6187A /* YCPersonalProfitController.m in Sources */,
 				183EBAA61F0E1BBC00D6157D /* CGChangePhoneViewController.m in Sources */,
 				D710B7E61D99043100688D72 /* CTToast.m in Sources */,
 				18483CCA1E001F8B00531C5A /* CGUserEditDepartmentViewController.m in Sources */,
@@ -9625,6 +9680,7 @@
 				1848392B1DF9365600531C5A /* CGRedPacketViewController.m in Sources */,
 				D7799E471ED9608B009107E4 /* CGDatePickerView.m in Sources */,
 				1835DA451DBDBC340006ED07 /* CGUserCompanyAttestationReadTableViewCell.m in Sources */,
+				0D1E96662021A3F900B6187A /* YCPersonalProfitCell.m in Sources */,
 				0D90E0401FB43C3A00EDB7CF /* ChatGroupMemberListViewController.m in Sources */,
 				1841E17D1E1647E50030376A /* OpponentTableViewCell.m in Sources */,
 				0DBF47571FB3087300707C12 /* JCVideoDisplayView.m in Sources */,

@@ -333,9 +333,10 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     
     BOOL audioState = [[[JCEngineManager sharedManager] getParticipantWithUserId:user.userid] isAudioUpload];
     [cell updateSpeakingImageWithUserState:user.state audioState:audioState];
-    //    cell.nameLabel.text = user.userName;
-    NSString *test = [NSString stringWithFormat:@"%@ 互动: %@ 语音: %@ 麦克风: %@", user.userName, @(user.interactionState), @(user.soundState), @(audioState)];
-    cell.nameLabel.text = test;
+    
+    cell.nameLabel.text = user.userName;
+//    NSString *test = [NSString stringWithFormat:@"%@ 互动: %@ 语音: %@ 麦克风: %@", user.userName, @(user.interactionState), @(user.soundState), @(audioState)];
+//    cell.nameLabel.text = test;
 
     // 如果是会议主持人
     if (self.isMeetingCreator) {

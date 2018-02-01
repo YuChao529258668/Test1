@@ -64,7 +64,7 @@
         for (int j=0; j<memberEntity.list.count+1; j++) {
             UIButton *label = [[UIButton alloc]initWithFrame:CGRectMake(width*j, 50+i*50, width, 50)];
             label.tag = j;
-            label.titleLabel.font = [UIFont systemFontOfSize:15];
+            label.titleLabel.font = [UIFont systemFontOfSize:13];
             [self.sv addSubview:label];
             if (j == 0) {
                 [label setTitle:memberEntity.title forState:UIControlStateNormal];
@@ -79,7 +79,7 @@
                     label.layer.cornerRadius = 3;
                     label.layer.masksToBounds = YES;
                     [label setBackgroundImage:[CTCommonUtil generateImageWithColor:[CTCommonUtil convert16BinaryColor:entity.color] size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-                    [label setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    [label setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 }else{
                     [label setTitleColor:[CTCommonUtil convert16BinaryColor:entity.color] forState:UIControlStateNormal];
                 }

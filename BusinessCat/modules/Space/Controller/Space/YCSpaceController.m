@@ -13,6 +13,7 @@
 @interface YCSpaceController ()
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIButton *meetingBtn;
+@property (weak, nonatomic) IBOutlet UIButton *seeBoardBtn;
 
 @property (nonatomic, strong) CGMeetingListViewController *meetingVC;
 @property (nonatomic, strong) YCSeeBoardController *seeBoardVC;
@@ -37,6 +38,11 @@
     [self.containerView addSubview:sc.view];
     
     [self clickMeetingBtn:self.meetingBtn];
+    
+    [self.meetingBtn setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+    [self.meetingBtn setTitleColor:[YCTool colorOfHex:0x777777] forState:UIControlStateNormal];
+    [self.seeBoardBtn setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+    [self.seeBoardBtn setTitleColor:[YCTool colorOfHex:0x777777] forState:UIControlStateNormal];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -49,10 +55,14 @@
 - (IBAction)clickMeetingBtn:(UIButton *)sender {
     [self.containerView bringSubviewToFront:self.meetingVC.view];
     [sender addSubview:self.buttonLine];
+    sender.selected = YES;
+    self.seeBoardBtn.selected = NO;
 }
 - (IBAction)clickSeeBoardBtn:(UIButton *)sender {
     [self.containerView bringSubviewToFront:self.seeBoardVC.view];
     [sender addSubview:self.buttonLine];
+    sender.selected = YES;
+    self.meetingBtn.selected = NO;
 }
 
 - (UIView *)buttonLine {

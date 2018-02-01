@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "YCMeetingProfit.h"
+
 @class NowMonthMeeting;
 @class NowMonthStatistics;
-@class BoardProfit;
 
 @interface YCSeeBoard : NSObject
 @property (nonatomic, strong) NowMonthMeeting *nowMonthMeeting;
 @property (nonatomic, strong) NowMonthStatistics *nowMonthStatistics;
-@property (nonatomic, strong) NSArray<BoardProfit *> *shareProfit;
+@property (nonatomic, strong) NSArray<YCOneMeetingProfit *> *shareProfit;
+@property (nonatomic, assign) int isShare;
 
 + (NSDictionary *)mj_objectClassInArray;
 
@@ -39,15 +41,6 @@
 
 @end
 
-@interface BoardProfit : NSObject
-@property (nonatomic, assign) double forIncome;
-@property (nonatomic, assign) double todayIncome;
-@property (nonatomic, assign) double totalIncome;
-@property (nonatomic, assign) int type;
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *id;
-
-@end
 //        {
 //            nowMonthMeeting =     {
 //                otherCount = 0;

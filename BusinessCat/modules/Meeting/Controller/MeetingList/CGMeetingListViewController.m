@@ -330,11 +330,11 @@
             imageName = @"work_icon_1";
             break;
         case 2: // 已结束
-            title = @"再次召开";
+            title = @"继续开会";
             imageName = @"work_icon_2";
             break;
         case 3: // 已取消
-            title = @"再次召开";
+            title = @"继续开会";
             imageName = @"work_icon_2";
             break;
     }

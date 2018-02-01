@@ -79,6 +79,24 @@
     }
 }
 
+// xx小时xx分钟
++ (NSString *)HMStringForSeconds:(NSInteger)seconds {
+    __block NSString *str;
+    [self HMSForSeconds:seconds block:^(NSInteger h, NSInteger m, NSInteger s, NSMutableString *string) {
+        if (h) {
+            [string appendFormat:@"%ld小时", (long)h];
+        }
+        if (m) {
+            [string appendFormat:@"%ld分钟", (long)m];
+        }
+        if (h + m == 0) {
+            [string appendString:@"0分钟"];
+        }
+        str = string;
+    }];
+    return str;
+}
+
 
 #pragma mark - Color
 

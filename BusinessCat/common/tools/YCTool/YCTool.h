@@ -19,6 +19,8 @@
 //+ (NSString *)countDonwStringWithSeconds:(int)seconds;
 // x 小时 x 分钟 x 秒，倒计时
 + (void)HMSForSeconds:(NSInteger)seconds block:(void(^)(NSInteger h, NSInteger m, NSInteger s, NSMutableString *string))block;
+// xx小时xx分钟
++ (NSString *)HMStringForSeconds:(NSInteger)seconds;
 
 // 16进制颜色, 0xffaabb
 + (UIColor *)colorOfHex:(NSInteger)s;

@@ -52,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/modules/usercenter/controller/CGMyMainViewController.m"
-            timestampString = "538987095.728476"
+            timestampString = "539184168.676741"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "440"
-            endingLineNumber = "440"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -404,11 +404,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/components/JCDemoResource/PublicSrc/conference/RoomViewController.m"
-            timestampString = "538901478.1710221"
+            timestampString = "539184168.67756"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1286"
-            endingLineNumber = "1286"
+            startingLineNumber = "1287"
+            endingLineNumber = "1287"
             landmarkName = "-handleJoinOkNotification:"
             landmarkType = "7">
          </BreakpointContent>
@@ -628,11 +628,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/components/JCDemoResource/PublicSrc/conference/RoomViewController.m"
-            timestampString = "538901478.171603"
+            timestampString = "539184168.67835"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2159"
-            endingLineNumber = "2159"
+            startingLineNumber = "2160"
+            endingLineNumber = "2160"
             landmarkName = "-test"
             landmarkType = "7">
          </BreakpointContent>
@@ -644,11 +644,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/components/JCDemoResource/PublicSrc/conference/RoomViewController.m"
-            timestampString = "538901478.171679"
+            timestampString = "539184168.67846"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2188"
-            endingLineNumber = "2188"
+            startingLineNumber = "2189"
+            endingLineNumber = "2189"
             landmarkName = "-test"
             landmarkType = "7">
          </BreakpointContent>
@@ -660,11 +660,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/common/tools/YCTool/YCTool.m"
-            timestampString = "538640551.305101"
+            timestampString = "539184168.678519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "+print:"
             landmarkType = "7">
             <Locations>
@@ -738,11 +738,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/common/tools/YCTool/YCTool.m"
-            timestampString = "538640551.305274"
+            timestampString = "539184168.678562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
             landmarkName = "+print:"
             landmarkType = "7">
          </BreakpointContent>
@@ -770,7 +770,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/components/JCDemoResource/PublicSrc/conference/RoomViewController.m"
-            timestampString = "538901478.171887"
+            timestampString = "539184168.678643"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "405"
@@ -786,7 +786,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/modules/Meeting/Biz/YCMeetingBiz.m"
-            timestampString = "538901478.1719609"
+            timestampString = "539184168.678704"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "34"
@@ -882,7 +882,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/components/JCDemoResource/PublicSrc/conference/RoomViewController.m"
-            timestampString = "538901478.172155"
+            timestampString = "539184168.678903"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "374"
@@ -929,54 +929,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/Meeting/Biz/YCMeetingBiz.m"
-            timestampString = "538901478.1723"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
-            landmarkName = "-bookMeeting2WithMeetingID:oldMeetingID:MeetingType:MeetingName:users:roomID:beginDate:endDate:live:accessNumber:roomType:companyRoomId:Success:fail:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[YCMeetingBiz bookMeeting2WithMeetingID:oldMeetingID:MeetingType:MeetingName:users:roomID:beginDate:endDate:live:accessNumber:roomType:companyRoomId:Success:fail:]"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/Meeting/Biz/YCMeetingBiz.m"
-                  timestampString = "539006938.217869"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "164"
-                  endingLineNumber = "164"
-                  offsetFromSymbolStart = "2000">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__164-[YCMeetingBiz bookMeeting2WithMeetingID:oldMeetingID:MeetingType:MeetingName:users:roomID:beginDate:endDate:live:accessNumber:roomType:companyRoomId:Success:fail:]_block_invoke"
-                  moduleName = "BusinessCat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/Meeting/Biz/YCMeetingBiz.m"
-                  timestampString = "539006938.2208591"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "164"
-                  endingLineNumber = "164"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "BusinessCat/modules/headline/biz/HeadlineBiz.m"
             timestampString = "538652571.154652"
             startingColumnNumber = "9223372036854775807"
@@ -994,7 +946,7 @@
                   moduleName = "BusinessCat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/headline/biz/HeadlineBiz.m"
-                  timestampString = "539006938.22671"
+                  timestampString = "539184170.81876"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "347"
@@ -1009,7 +961,7 @@
                   moduleName = "BusinessCat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/headline/biz/HeadlineBiz.m"
-                  timestampString = "539006938.229664"
+                  timestampString = "539184170.824901"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "347"
@@ -1017,22 +969,6 @@
                   offsetFromSymbolStart = "24">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/Meeting/Biz/YCMeetingBiz.m"
-            timestampString = "538901478.17241"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "422"
-            endingLineNumber = "422"
-            landmarkName = "-getMeetingMinuteListWithBeginDate:endDate:accessNumber:Success:fail:"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

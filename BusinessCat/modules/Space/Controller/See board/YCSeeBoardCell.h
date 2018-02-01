@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *todayL;
 @property (weak, nonatomic) IBOutlet UILabel *waitL;
 @property (weak, nonatomic) IBOutlet UILabel *totalL;
-
+@property (weak, nonatomic) IBOutlet UIButton *joinBtn;
++ (NSString *)notificationName;
 @end

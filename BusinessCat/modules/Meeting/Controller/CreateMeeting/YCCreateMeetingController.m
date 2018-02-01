@@ -169,10 +169,10 @@
     self.count = 16;
 }
 - (IBAction)clickCreateMeetingBtn:(id)sender {
-    if ([YCTool isBlankString:self.titleTF.text] ) {
-        [CTToast showWithText:@"会议主题不能为空"];
-        return;
-    }
+//    if ([YCTool isBlankString:self.titleTF.text] ) {
+//        [CTToast showWithText:@"会议主题不能为空"];
+//        return;
+//    }
     
     if (self.count == 0 && !self.room) {
         [CTToast showWithText:@"请选择会议模式"];
@@ -289,7 +289,7 @@
     [self.durationBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     
     // 占位符 placeholder 颜色和内容
-    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"少于30字" attributes:
+    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"少于30字(非必填)" attributes:
                                       @{NSForegroundColorAttributeName:gray2,
                                         NSFontAttributeName: self.titleTF.font
                                         }];
@@ -418,17 +418,26 @@
     NSString *crID = self.room.roomId; //companyRoomId 公司会议房间Id（空为非公司会议）
     int meetingType = self.isVideo? 1: 0; //会议形式（0：音频，1：视频）
     int live = self.isLive? 1: 0;
+    NSString *meetingName = self.titleTF.text;
+    if ([YCTool isBlankString:meetingName]) {
+        meetingName = @"";
+    }
     
-    [[YCMeetingBiz new] bookMeeting2WithMeetingID:@"" oldMeetingID:@"" MeetingType:meetingType MeetingName:self.titleTF.text users:@"" roomID:@"" beginDate:beginDate endDate:endDate live:live accessNumber:self.count roomType:roomType companyRoomId:crID Success:^(id data) {
-//        msg, validityState
-//        @"msg" : @"没有购买会议套餐，请先购买！"
-//        validityState = 0;
-//        [CTToast showWithText:@"创建成功"];
-//        [CTToast showWithText:data[@"msg"]];
-
-        
-        
-//
+    int shareType = self.rebate.shareType;
+    if (!self.rebate) {
+        shareType = -1;
+    }
+    int toType = 0;
+    NSString *toID;
+    if (shareType == 1) {
+        toType = self.rebate.type;
+        toID = self.rebate.id;
+    } else {
+        toType = -1;
+        toID = @"";
+    }
+    
+    [[YCMeetingBiz new] bookMeeting2WithMeetingID:@"" oldMeetingID:@"" MeetingType:meetingType MeetingName:meetingName users:@"" roomID:@"" beginDate:beginDate endDate:endDate live:live accessNumber:self.count roomType:roomType companyRoomId:crID shareType:self.rebate.shareType toType:toType toId:toID Success:^(id data) {
         NSDictionary *detail = data[@"detail"];
         if (detail) {
             [CTToast showWithText:@"创建成功"];

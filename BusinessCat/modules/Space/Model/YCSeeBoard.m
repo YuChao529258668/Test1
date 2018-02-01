@@ -10,7 +10,7 @@
 
 @implementation YCSeeBoard
 + (NSDictionary *)mj_objectClassInArray {
-    return @{@"shareProfit": [BoardProfit class]};
+    return @{@"shareProfit": [YCOneMeetingProfit class]};
 }
 
 @end
@@ -28,6 +28,4 @@
 @implementation NowMonthStatistics
 @end
 
-@implementation BoardProfit
-@end
 

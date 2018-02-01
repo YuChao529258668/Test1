@@ -45,6 +45,8 @@
   }else{
     self.title = @"VIP会员套餐";
   }
+    self.title = @"";
+    
     self.biz = [[CGUserCenterBiz alloc]init];
     self.selectIndex = 0;
     [self updateDate];

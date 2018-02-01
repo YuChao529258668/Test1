@@ -192,7 +192,7 @@
 
 // 再次召开
 - (void)configViewForReopen {
-    self.title = @"再次召开";
+    self.title = @"继续开会";
     self.modifyMeetingBtn.hidden = YES;
     self.cancelMeetingBtn.hidden = YES;
     self.tickBtn.hidden = YES;

@@ -24,39 +24,49 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="创将科技" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VXE-ZR-Z4w">
                                 <rect key="frame" x="0.0" y="14" width="100" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DMK-nq-Wq2">
                                 <rect key="frame" x="100" y="14" width="99.5" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5I-ST-cxN">
                                 <rect key="frame" x="199.5" y="14" width="100" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SKw-At-vzZ">
                                 <rect key="frame" x="299.5" y="14" width="99.5" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bdH-y7-gdl">
+                                <rect key="frame" x="100" y="7.5" width="291" height="29"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="您未加入共享，请加入">
+                                    <color key="titleColor" red="0.99215686274509807" green="0.50588235294117645" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="clickJoinBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="OAD-gw-cek"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="SKw-At-vzZ" firstAttribute="leading" secondItem="r5I-ST-cxN" secondAttribute="trailing" id="683-CU-cGy"/>
                             <constraint firstItem="SKw-At-vzZ" firstAttribute="centerY" secondItem="KsL-zH-SNk" secondAttribute="centerY" id="8v5-4L-ZgK"/>
                             <constraint firstItem="r5I-ST-cxN" firstAttribute="leading" secondItem="DMK-nq-Wq2" secondAttribute="trailing" id="9F9-ro-nkX"/>
+                            <constraint firstItem="bdH-y7-gdl" firstAttribute="centerY" secondItem="KsL-zH-SNk" secondAttribute="centerY" id="BQ4-Zi-uX3"/>
                             <constraint firstItem="r5I-ST-cxN" firstAttribute="centerY" secondItem="KsL-zH-SNk" secondAttribute="centerY" id="BX7-e7-oZi"/>
                             <constraint firstItem="r5I-ST-cxN" firstAttribute="width" secondItem="VXE-ZR-Z4w" secondAttribute="width" id="CWo-SE-whX"/>
                             <constraint firstItem="DMK-nq-Wq2" firstAttribute="centerY" secondItem="KsL-zH-SNk" secondAttribute="centerY" id="FkQ-bt-HgU"/>
                             <constraint firstItem="SKw-At-vzZ" firstAttribute="width" secondItem="VXE-ZR-Z4w" secondAttribute="width" id="SG4-SP-6kY"/>
+                            <constraint firstAttribute="trailing" secondItem="bdH-y7-gdl" secondAttribute="trailing" constant="8" id="Zs0-4W-Ddf"/>
                             <constraint firstItem="DMK-nq-Wq2" firstAttribute="leading" secondItem="VXE-ZR-Z4w" secondAttribute="trailing" id="coV-ED-MbV"/>
                             <constraint firstAttribute="trailing" secondItem="SKw-At-vzZ" secondAttribute="trailing" id="fS8-oK-7dz"/>
+                            <constraint firstItem="bdH-y7-gdl" firstAttribute="leading" secondItem="VXE-ZR-Z4w" secondAttribute="trailing" id="jjD-de-YYS"/>
                             <constraint firstItem="VXE-ZR-Z4w" firstAttribute="leading" secondItem="KsL-zH-SNk" secondAttribute="leading" id="lsZ-or-Ljb"/>
                             <constraint firstItem="VXE-ZR-Z4w" firstAttribute="centerY" secondItem="KsL-zH-SNk" secondAttribute="centerY" id="mA4-r4-obO"/>
                             <constraint firstItem="DMK-nq-Wq2" firstAttribute="width" secondItem="VXE-ZR-Z4w" secondAttribute="width" id="oA1-cN-JrL"/>
@@ -73,6 +83,7 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="joinBtn" destination="bdH-y7-gdl" id="7RQ-JL-eyw"/>
                 <outlet property="nameL" destination="VXE-ZR-Z4w" id="55E-wB-3we"/>
                 <outlet property="todayL" destination="DMK-nq-Wq2" id="dZF-47-eyU"/>
                 <outlet property="totalL" destination="SKw-At-vzZ" id="0RB-Z2-waf"/>

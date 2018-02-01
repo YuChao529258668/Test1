@@ -1,14 +1,14 @@
 //
-//  YCSeeBoardCell.m
+//  YCPersonalProfitCell.m
 //  BusinessCat
 //
-//  Created by 余超 on 2018/1/29.
+//  Created by 余超 on 2018/1/31.
 //  Copyright © 2018年 cgsyas. All rights reserved.
 //
 
-#import "YCSeeBoardCell.h"
+#import "YCPersonalProfitCell.h"
 
-@implementation YCSeeBoardCell
+@implementation YCPersonalProfitCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -21,4 +21,10 @@
     // Configure the view for the selected state
 }
 
++ (float)cellHeight {
+    return 30;
+}
++ (float)cellWidth {
+    return 414;
+}
 @end

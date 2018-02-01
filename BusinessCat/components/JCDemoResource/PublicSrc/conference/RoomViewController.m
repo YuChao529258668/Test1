@@ -1068,11 +1068,12 @@ typedef enum {
 - (void)layoutTabBar {
     self.tabBar.frame = CGRectMake(0, kVideoViewHeight, kMainScreenWidth, kTabBarHeight);
     
-    float btnWidth = kMainScreenWidth / 4;
+//    float btnWidth = kMainScreenWidth / 4;
+    float btnWidth = kMainScreenWidth / 3;
     self.whiteBoardTabBtn.frame = CGRectMake(0, 0, btnWidth, kTabBarHeight);
-    self.desktopBtn.frame = CGRectMake(btnWidth * 1, 0, btnWidth, kTabBarHeight);
-    self.chatTabBtn.frame = CGRectMake(btnWidth * 2, 0, btnWidth, kTabBarHeight);
-    self.memberTabBtn.frame = CGRectMake(btnWidth * 3, 0, btnWidth, kTabBarHeight);
+//    self.desktopBtn.frame = CGRectMake(btnWidth * 1, 0, btnWidth, kTabBarHeight);
+    self.chatTabBtn.frame = CGRectMake(btnWidth * 1, 0, btnWidth, kTabBarHeight);
+    self.memberTabBtn.frame = CGRectMake(btnWidth * 2, 0, btnWidth, kTabBarHeight);
     
     CGRect frame = self.btnLine.frame;
     frame.origin.y = kTabBarHeight - kBtnLineHeight;
@@ -1141,7 +1142,7 @@ typedef enum {
     self.tabBar.backgroundColor = [UIColor whiteColor];
     
     [self.tabBar addSubview:self.whiteBoardTabBtn];
-    [self.tabBar addSubview:self.desktopBtn];
+//    [self.tabBar addSubview:self.desktopBtn];
     [self.tabBar addSubview:self.chatTabBtn];
     [self.tabBar addSubview:self.memberTabBtn];
     [self.tabBar addSubview:self.btnLine];
@@ -1589,7 +1590,7 @@ __weak typeof(self) weakself = self;
     _mainView.hidden = NO; //显示加入会议后的主view
 
     [self setupTarBar];
-    [self setupDesktopController];
+//    [self setupDesktopController];
 
     [self.stopButton removeFromSuperview]; // 结束白板共享按钮
     [self.sidebar removeFromSuperview]; // 右边栏

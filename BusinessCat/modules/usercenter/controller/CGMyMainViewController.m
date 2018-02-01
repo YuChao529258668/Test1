@@ -41,6 +41,7 @@
 #import "CGParameterViewController.h"
 #import "CGTeamDocumentViewController.h"
 #import "CGDiscoverBiz.h"
+#import "YCPersonalProfitController.h"
 
 @interface CGMyMainViewController ()<UIActionSheetDelegate>
 
@@ -684,13 +685,15 @@
 
 //创建header的菜单
 -(void)generateFunctionMenuWithContentView:(UIView *)contentView{
-    int menuNum = 3;
+    int menuNum = 4;
     float itemWidth = SCREEN_WIDTH/menuNum;
     float itemHeight = 55;
-  [contentView addSubview:[self createFunctionMenuWith:CGRectMake(0, 0, itemWidth, itemHeight) titleStr:@"收藏" showVerLine:YES method:@selector(collectAction) index:1 image:[UIImage imageNamed:@"minecollection"]]]; // "管家"
-    [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth, 0, itemWidth, itemHeight) titleStr:@"钱包" showVerLine:YES method:@selector(integralAction) index:4 image:[UIImage imageNamed:@"knowledgegold"]]];
+    [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*0, 0, itemWidth, itemHeight) titleStr:@"收益" showVerLine:YES method:@selector(clickIncomeBtn) index:6 image:[UIImage imageNamed:@"knowledgegold"]]];
+    [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*1, 0, itemWidth, itemHeight) titleStr:@"钱包" showVerLine:YES method:@selector(integralAction) index:4 image:[UIImage imageNamed:@"iconmoney"]]];
+
+  [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*2, 0, itemWidth, itemHeight) titleStr:@"收藏" showVerLine:YES method:@selector(collectAction) index:1 image:[UIImage imageNamed:@"minecollection"]]]; // "管家"
 //    [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*2, 0, itemWidth, itemHeight) titleStr:@"点评" showVerLine:YES method:@selector(reviewAction) index:5 image:[UIImage imageNamed:@"dianping"]]];
-  [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*2, 0, itemWidth, itemHeight) titleStr:@"订单" showVerLine:NO method:@selector(orderAction) index:2 image:[UIImage imageNamed:@"mineorder"]]];
+  [contentView addSubview:[self createFunctionMenuWith:CGRectMake(itemWidth*3, 0, itemWidth, itemHeight) titleStr:@"订单" showVerLine:NO method:@selector(orderAction) index:2 image:[UIImage imageNamed:@"mineorder"]]];
 }
 
 -(UIView *)createFunctionMenuWith:(CGRect)frame titleStr:(NSString *)titleStr showVerLine:(BOOL)showVerLine method:(SEL)method index:(int)index image:(UIImage *)image{
@@ -981,6 +984,17 @@
 
 - (void)clickScanBtn {
     
+}
+
+
+#pragma mark - 收益
+
+- (void)clickIncomeBtn {
+    YCPersonalProfitController *vc = [YCPersonalProfitController new];
+    vc.type = 1;// 个人
+    vc.companyID = @"";
+    vc.title = @"收益";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

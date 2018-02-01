@@ -131,7 +131,8 @@
 
 //roomType 视频的会议室类型 0:公司 1:用户
 //companyRoomId 公司会议房间Id（空为非公司会议）
-- (void)bookMeeting2WithMeetingID:(NSString *)mid oldMeetingID:(NSString *)oldMid MeetingType:(int)type MeetingName:(NSString *)name users:(NSString *)users roomID:(NSString *)rid beginDate:(NSDate *)bDate endDate:(NSDate *)eDate live:(int)live accessNumber:(NSInteger)an roomType:(int)roomType companyRoomId:(NSString *)crID Success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+//http://doc.cgsays.com:50123/index.php?s=/1&page_id=391
+- (void)bookMeeting2WithMeetingID:(NSString *)mid oldMeetingID:(NSString *)oldMid MeetingType:(int)type MeetingName:(NSString *)name users:(NSString *)users roomID:(NSString *)rid beginDate:(NSDate *)bDate endDate:(NSDate *)eDate live:(int)live accessNumber:(NSInteger)an roomType:(int)roomType companyRoomId:(NSString *)crID shareType:(int)shareType toType:(int)toType toId:(NSString *)toID Success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
     NSString *companyId = [ObjectShareTool sharedInstance].currentUser.getCompanyID;
     NSNumber *bn = [NSNumber numberWithLong:bDate.timeIntervalSince1970*1000];
     NSNumber *en = [NSNumber numberWithLong:eDate.timeIntervalSince1970*1000];
@@ -158,7 +159,10 @@
                           @"live": @(live),
                           @"accessNumber": @(an),
                           @"roomType": @(roomType),
-                          @"companyRoomId": crID
+                          @"companyRoomId": crID,
+                          @"shareType": @(shareType),
+                          @"toType": @(toType),
+                          @"toId": toID
                           };
     
     [self.component UIPostRequestWithURL:URL_Meeting_BespeakMeeting param:dic success:^(id data) {

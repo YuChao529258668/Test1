@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSArray<YCMeetingRebate *> *shareList;
 
 @property (nonatomic, strong) YCMeetingRebate *rebate;
+@property (nonatomic, assign) int shareType; // 我的，或者共享
 
 @end
 
@@ -33,7 +34,7 @@
     // Do any additional setup after loading the view from its nib.
     
     self.firstHeader = [self labelWithText:@"我的"];
-    self.secondHeader = [self labelWithText:@"会议共享方"];
+    self.secondHeader = [self labelWithText:@"共享"];
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -101,8 +102,10 @@
     
     if (indexPath.section == 0) {
         self.rebate = self.myList[indexPath.row];
+        self.shareType = 0;
     } else {
         self.rebate = self.shareList[indexPath.row];
+        self.shareType = 1;
     }
 }
 
@@ -134,31 +137,46 @@
     
     YCMeetingPayCell *cell = [tableView dequeueReusableCellWithIdentifier:@"YCMeetingPayCell" forIndexPath:indexPath];
     cell.nameLabel.text = rebate.name;
-    cell.hintLabel1.text = rebate.msg;
+    
     if (indexPath.section == 0 && indexPath.row == 0) {
         cell.iv.image = [UIImage imageNamed:@"icon_pay_me"];// 我的
     } else {
         cell.iv.image = [UIImage imageNamed:@"icon_pay_company_1"];
     }
     
-    if (!rebate.msg) {
-        cell.hintLabel1.text = @"后台没有返回msg";
-    }
-    
-    [YCTool HMSForSeconds:rebate.duration * 60 block:^(NSInteger h, NSInteger m, NSInteger s, NSMutableString *string) {
-        [string appendString:@"剩余"];
+    if (indexPath.section == 0) {
+        // 我的
+        cell.hintLabel1.text = rebate.msg;
+        if (!rebate.msg) {
+            cell.hintLabel1.text = @"后台没有返回msg";
+        }
+        
+        [YCTool HMSForSeconds:rebate.duration * 60 block:^(NSInteger h, NSInteger m, NSInteger s, NSMutableString *string) {
+            [string appendString:@"剩余"];
+            
+            if (h) {
+                [string appendFormat:@" %ld 小时", h];
+            }
+            if (m) {
+                [string appendFormat:@" %ld 分钟", m];
+            }
+            if (h + m == 0) {
+                [string appendString:@" 0 分钟"];
+            }
+            cell.hintLabel2.text = string;
+        }];
+    } else {
+        // 共享
+        // 0原价,1八折，2免费
+        if (rebate.rebate == 2) {
+            cell.hintLabel1.text = @"免费";
+        } else {
+            cell.hintLabel1.text = [NSString stringWithFormat:@"%g币", rebate.price];
+        }
+        cell.hintLabel2.text = @"成为好友免费";
 
-        if (h) {
-            [string appendFormat:@" %ld 小时", h];
-        }
-        if (m) {
-            [string appendFormat:@" %ld 分钟", m];
-        }
-        if (h + m == 0) {
-            [string appendString:@" 0 分钟"];
-        }
-        cell.hintLabel2.text = string;
-    }];
+    }
+
     return cell;
 }
 
@@ -193,11 +211,14 @@
         return;
     }
     
-    if (self.rebate.duration < self.durationMinute) {
-        [CTToast showWithText:@"剩余折扣时长不足，请重新选择"];
-        return;
+    if (self.shareType == 0) {
+        if (self.rebate.duration < self.durationMinute) {
+            [CTToast showWithText:@"余额不够支付，请重新选择"];
+            return;
+        }
     }
 
+    self.rebate.shareType = self.shareType;
     if (self.onClickPayBtnBlock) {
         self.onClickPayBtnBlock(self.rebate);
     }

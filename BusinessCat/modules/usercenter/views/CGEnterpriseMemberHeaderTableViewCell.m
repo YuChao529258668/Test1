@@ -32,7 +32,7 @@
 -(void)update:(CGCorporateMemberEntity *)item type:(int)type{
     self.gradeName.text = item.gradeName;
 //    self.expireDate.textColor = [UIColor whiteColor];
-    self.expireDate.textColor = [YCTool colorOfHex:0xf68731];
+//    self.expireDate.textColor = [YCTool colorOfHex:0xf68731];
     if(item.isVip == 1){
         self.expireDate.text = [NSString stringWithFormat:@"有效期至%@",item.vipTime];
         self.vipDay.text = [NSString stringWithFormat:@"(还有%d天到期)",item.vipDays];
