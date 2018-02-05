@@ -72,7 +72,7 @@ typedef NS_ENUM(NSInteger, IMAConType)
 #define kSubGroupMaxLength  30
 
 #define kDefaultUserIcon            [UIImage imageNamed:@"defaultAvatar"]
-#define kDefaultGroupIcon           [UIImage imageNamed:@"defaultAvatar"]
+#define kDefaultGroupIcon           [UIImage imageNamed:@"news_icon_people"]
 #define kDefaultSystemIcon          [UIImage imageNamed:@"default_system"]
 
 

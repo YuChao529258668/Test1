@@ -57,5 +57,6 @@
 @property(nonatomic,strong)NSMutableDictionary *discoverDict;
 
 + (NSString *)currentUserID;
++ (NSString *)stringFromAppName; // 会议、会面
 
 @end

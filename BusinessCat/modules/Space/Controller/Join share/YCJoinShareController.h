@@ -11,4 +11,6 @@
 @interface YCJoinShareController : UIViewController
 @property (nonatomic, assign) int type;
 @property (nonatomic, strong) NSString *companyID;
+@property (nonatomic,copy) void (^onJoinSuccessBlock)();
+
 @end

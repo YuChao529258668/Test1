@@ -24,6 +24,10 @@
 		0D1E966F2022B2CD00B6187A /* YCJoinShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E966D2022B2CD00B6187A /* YCJoinShareController.m */; };
 		0D1E96702022B2CD00B6187A /* YCJoinShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E966E2022B2CD00B6187A /* YCJoinShareController.xib */; };
 		0D1E96742022BDC000B6187A /* joinShareBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E96732022BDC000B6187A /* joinShareBg.png */; };
+		0D1E9677202591FC00B6187A /* YCChatListMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E9676202591FC00B6187A /* YCChatListMenu.m */; };
+		0D1E968D2027F86E00B6187A /* QRCScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E96792027F86D00B6187A /* QRCScanner.m */; };
+		0D1E96952027F86E00B6187A /* UIImage+MDQRCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E968B2027F86D00B6187A /* UIImage+MDQRCode.m */; };
+		0D1E96982027F8C700B6187A /* QRCScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E96962027F8C300B6187A /* QRCScannerViewController.m */; };
 		0D29EAD61FF3437F005F1AD1 /* YCTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29EAD51FF3437F005F1AD1 /* YCTool.m */; };
 		0D316D1B2008ABD40097D79D /* YCVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D316D192008ABD40097D79D /* YCVideoController.m */; };
 		0D316D1C2008ABD40097D79D /* YCVideoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D316D1A2008ABD40097D79D /* YCVideoController.xib */; };
@@ -1520,6 +1524,14 @@
 		0D1E966D2022B2CD00B6187A /* YCJoinShareController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCJoinShareController.m; sourceTree = "<group>"; };
 		0D1E966E2022B2CD00B6187A /* YCJoinShareController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCJoinShareController.xib; sourceTree = "<group>"; };
 		0D1E96732022BDC000B6187A /* joinShareBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = joinShareBg.png; sourceTree = "<group>"; };
+		0D1E9675202591FC00B6187A /* YCChatListMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCChatListMenu.h; sourceTree = "<group>"; };
+		0D1E9676202591FC00B6187A /* YCChatListMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCChatListMenu.m; sourceTree = "<group>"; };
+		0D1E96792027F86D00B6187A /* QRCScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCScanner.m; sourceTree = "<group>"; };
+		0D1E967B2027F86D00B6187A /* UIImage+MDQRCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+MDQRCode.h"; sourceTree = "<group>"; };
+		0D1E968B2027F86D00B6187A /* UIImage+MDQRCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MDQRCode.m"; sourceTree = "<group>"; };
+		0D1E968C2027F86D00B6187A /* QRCScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCScanner.h; sourceTree = "<group>"; };
+		0D1E96962027F8C300B6187A /* QRCScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCScannerViewController.m; sourceTree = "<group>"; };
+		0D1E96972027F8C500B6187A /* QRCScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCScannerViewController.h; sourceTree = "<group>"; };
 		0D29EAD41FF3437F005F1AD1 /* YCTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCTool.h; sourceTree = "<group>"; };
 		0D29EAD51FF3437F005F1AD1 /* YCTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCTool.m; sourceTree = "<group>"; };
 		0D316D182008ABD40097D79D /* YCVideoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCVideoController.h; sourceTree = "<group>"; };
@@ -4170,6 +4182,27 @@
 			path = "Join share";
 			sourceTree = "<group>";
 		};
+		0D1E96782027F86D00B6187A /* QRCodeScanner */ = {
+			isa = PBXGroup;
+			children = (
+				0D1E968C2027F86D00B6187A /* QRCScanner.h */,
+				0D1E96792027F86D00B6187A /* QRCScanner.m */,
+				0D1E96972027F8C500B6187A /* QRCScannerViewController.h */,
+				0D1E96962027F8C300B6187A /* QRCScannerViewController.m */,
+				0D1E967A2027F86D00B6187A /* resource */,
+			);
+			path = QRCodeScanner;
+			sourceTree = "<group>";
+		};
+		0D1E967A2027F86D00B6187A /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				0D1E967B2027F86D00B6187A /* UIImage+MDQRCode.h */,
+				0D1E968B2027F86D00B6187A /* UIImage+MDQRCode.m */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
 		0D29EAD31FF34368005F1AD1 /* YCTool */ = {
 			isa = PBXGroup;
 			children = (
@@ -5768,6 +5801,8 @@
 		0DA9C3881FA824B400A91427 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				0D1E9675202591FC00B6187A /* YCChatListMenu.h */,
+				0D1E9676202591FC00B6187A /* YCChatListMenu.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -7867,6 +7902,7 @@
 		D7BF3EAC1D98F9D900FC94E6 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				0D1E96782027F86D00B6187A /* QRCodeScanner */,
 				0DAB309920088DA600E0DA26 /* TengXunYunVideo */,
 				0D90DC5C1FB43C3800EDB7CF /* TengXunYunDemoResource */,
 				0D1C8E3E1FB3F315003F1958 /* TengXunYun */,
@@ -9150,6 +9186,7 @@
 				1834BB591DB710A4008F4685 /* CGUserFireTitleTableViewCell.m in Sources */,
 				0D90E0041FB43C3A00EDB7CF /* UIViewAdditions.m in Sources */,
 				183CDE5A1F258C720099520F /* CGKonwledgeTextTableViewCell.m in Sources */,
+				0D1E9677202591FC00B6187A /* YCChatListMenu.m in Sources */,
 				181C55001EC2E7B60064354D /* CGMassageTableViewCell.m in Sources */,
 				0D90E0441FB43C3A00EDB7CF /* FriendProfileViewController.m in Sources */,
 				18427D4C1DC71D9B00E19BC0 /* CGPartSeeTableViewCell.m in Sources */,
@@ -9206,6 +9243,7 @@
 				0DBF478E1FB3087400707C12 /* JCParticipantCell.m in Sources */,
 				0D90DF5A1FB43C3900EDB7CF /* UIView+RelativeCoordinate.m in Sources */,
 				186853591EA70BFB00B79EFD /* LWProgeressHUD.m in Sources */,
+				0D1E968D2027F86E00B6187A /* QRCScanner.m in Sources */,
 				0D90E0611FB43C3A00EDB7CF /* RichMenuTableViewCell.m in Sources */,
 				0D90DFA41FB43C3A00EDB7CF /* IMAConversation.m in Sources */,
 				180F339E1E8220090007D7F8 /* CGAttentionDynamicViewController.m in Sources */,
@@ -9329,6 +9367,7 @@
 				1835D9881DB8B3A60006ED07 /* CGUserCreateGroupTableViewCell.m in Sources */,
 				0D90DF481FB43C3900EDB7CF /* NSData+Common.m in Sources */,
 				181C54E01EC160F30064354D /* CGReviewCollectionViewCell.m in Sources */,
+				0D1E96982027F8C700B6187A /* QRCScannerViewController.m in Sources */,
 				0D35DC02201F47910087C20E /* YCSeeBoardCell.m in Sources */,
 				183EBAC31F18B29600D6157D /* AddressPickerView.m in Sources */,
 				181C55151EC3049C0064354D /* CGMessageDetailSingleGraphicTableViewCell.m in Sources */,
@@ -9686,6 +9725,7 @@
 				0DBF47571FB3087300707C12 /* JCVideoDisplayView.m in Sources */,
 				183284571EE155C100964D0B /* CGMainLoginViewController.m in Sources */,
 				0D90DFEC1FB43C3A00EDB7CF /* ChatInputTextView.m in Sources */,
+				0D1E96952027F86E00B6187A /* UIImage+MDQRCode.m in Sources */,
 				D7799E341ED70231009107E4 /* CGRelevantInformationEntity.m in Sources */,
 				0D90E0641FB43C3A00EDB7CF /* TextViewTableViewCell.m in Sources */,
 				181C551A1EC307270064354D /* CGMessageDetailMoreGraphicTableViewCell.m in Sources */,

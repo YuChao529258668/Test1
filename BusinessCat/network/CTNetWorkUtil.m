@@ -83,6 +83,7 @@ static CTNetWorkUtil *_sharedManager;
     self.urlString = urlString;
     //保留参数，用于重新请求
     self.paramDict = parameter;
+    
     //参数签名组装
     NSDictionary *paramString = [self signParam:parameter];
     //请求
@@ -134,6 +135,8 @@ static CTNetWorkUtil *_sharedManager;
                 [weakSelf autoLogin];
             }else if(errCode == 110006){//非法uuid
                 NSString *text = [NSString stringWithFormat:@"非法 UUID：%@", param[@"identity"]];
+                NSLog(@"%@", text);
+
                 //                    [CTToast showWithText:text];
                 //                    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:text preferredStyle:UIAlertControllerStyleAlert];
                 //                    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -142,12 +145,14 @@ static CTNetWorkUtil *_sharedManager;
                 //                    [ac addAction:sure];
                 //                    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
                 
+                [[[CGUserDao alloc]init]cleanLoginedUser];// 2018.2.3 后台让加的，清除用户信息
                 
-                NSLog(@"%@", text);
-                //                    [weakSelf autoLogin];
-                
+                // 下面4行代码是原来的
                 [ObjectShareTool sharedInstance].isloginState = 1;
                 [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
+                //                    [[[CGUserDao alloc]init] cleanLoginedUser];
+                //                    [weakSelf autoLogin];
+                
             }else{
                 if(failcallback){
                     failcallback([NSError errorWithDomain:NetworkRequestErrorDomain code:errCode userInfo:res]);
@@ -162,7 +167,7 @@ static CTNetWorkUtil *_sharedManager;
                 if(errCode == 110131 || errCode == 110113 || errCode == 110005){//不弹提示
                     return;
                 }
-                if (errCode == 10086) {
+                if (errCode == 404) { // 10086
                     UIWindow *window = [UIApplication sharedApplication].keyWindow;
                     [[CTToast makeText:@"服务正在升级"]show:window];
                     return;

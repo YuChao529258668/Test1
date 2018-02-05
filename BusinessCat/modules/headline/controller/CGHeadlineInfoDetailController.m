@@ -470,7 +470,7 @@
   }else if (self.detail.viewPermit == 4||self.detail.viewPermit == 8){
     //初始化AlertView
     [self hiddenHUD];
-    NSString *message = [NSString stringWithFormat:@"是否确定支付%ld知识币查看内容",(long)self.detail.integral];
+    NSString *message = [NSString stringWithFormat:@"是否确定支付%ld金币查看内容",(long)self.detail.integral];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
                                                     message:message
                                                    delegate:self
@@ -554,8 +554,8 @@
   }else if (alertView.tag == 1001){
     if (buttonIndex == 1) {
       if ([ObjectShareTool sharedInstance].currentUser.integralNum<self.detail.integral) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"知识币不够提示"
-                                                        message:@"你可以通过以下两个方式增加知识币：\n1）按知识币奖励规则完成任务获得知识币\n2）在线支付充值知识币"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"金币不够提示"
+                                                        message:@"你可以通过以下两个方式增加金币：\n1）按金币奖励规则完成任务获得金币\n2）在线支付充值金币"
                                                        delegate:self
                                               cancelButtonTitle:@"取消"
                                               otherButtonTitles:@"我要充值",nil];
@@ -757,7 +757,7 @@
         self.webView.hidden = YES;
         self.permissionsBGView.hidden = NO;
         NSString *integral = [NSString stringWithFormat:@"%ld",(long)self.detail.integral];
-        NSString *str = [NSString stringWithFormat:@"需支付%ld知识币才能查看",(long)self.detail.integral];
+        NSString *str = [NSString stringWithFormat:@"需支付%ld金币才能查看",(long)self.detail.integral];
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:str];
         [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(0, [str length])];
         [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(0, [str length])];
@@ -1260,7 +1260,7 @@
   [self hiddenHUD];
   if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
     if (self.detail.viewPermit == 8) {
-      NSString *message = [NSString stringWithFormat:@"是否确定支付%ld知识币下载内容",(long)self.detail.integral];
+      NSString *message = [NSString stringWithFormat:@"是否确定支付%ld金币下载内容",(long)self.detail.integral];
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
                                                       message:message
                                                      delegate:self
@@ -1384,7 +1384,7 @@
 -(void)detailToolbarPayFeeAction{
   //初始化AlertView
   [self hiddenHUD];
-  NSString *message = [NSString stringWithFormat:@"是否确定支付%ld知识币查看内容",self.detail.integral];
+  NSString *message = [NSString stringWithFormat:@"是否确定支付%ld金币查看内容",self.detail.integral];
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
                                                   message:message
                                                  delegate:self
@@ -1419,7 +1419,7 @@
   [self hiddenHUD];
   if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
     if (self.detail.viewPermit == 8) {
-      NSString *message = [NSString stringWithFormat:@"是否确定支付%ld知识币下载内容",(long)self.detail.integral];
+      NSString *message = [NSString stringWithFormat:@"是否确定支付%ld金币下载内容",(long)self.detail.integral];
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
                                                       message:message
                                                      delegate:self

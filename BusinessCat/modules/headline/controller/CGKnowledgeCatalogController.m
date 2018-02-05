@@ -203,7 +203,7 @@ static NSString * const Identifier = @"CGInterfaceImageViewCell";
 -(void)doDownLoadAction{
   if (self.dataList.viewPermit == 8) {
     self.isPay = YES;
-    NSString *message = [NSString stringWithFormat:@"是否确定支付%ld知识币下载文档",self.dataList.integral];
+    NSString *message = [NSString stringWithFormat:@"是否确定支付%ld金币下载文档",self.dataList.integral];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
                                                     message:message
                                                    delegate:self
@@ -296,7 +296,7 @@ static NSString * const Identifier = @"CGInterfaceImageViewCell";
     }
   }else if (entity.viewPermit==4){
     NSString *integral = [NSString stringWithFormat:@"%ld",entity.integral];
-    NSString *str = [NSString stringWithFormat:@"需支付%ld知识币才能查看",entity.integral];
+    NSString *str = [NSString stringWithFormat:@"需支付%ld金币才能查看",entity.integral];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:str];
     [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(0, [str length])];
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(0, [str length])];
@@ -324,7 +324,7 @@ static NSString * const Identifier = @"CGInterfaceImageViewCell";
     [self.navigationController pushViewController:vc animated:YES];
   }else if (self.permission.viewPermit == 4){
     //初始化AlertView
-    NSString *message = [NSString stringWithFormat:@"是否确定支付%ld知识币查看专辑",self.permission.integral];
+    NSString *message = [NSString stringWithFormat:@"是否确定支付%ld金币查看专辑",self.permission.integral];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
                                                     message:message
                                                    delegate:self
@@ -342,8 +342,8 @@ static NSString * const Identifier = @"CGInterfaceImageViewCell";
   if (alertView.tag == 1001) {
     if (buttonIndex == 1) {
       if ([ObjectShareTool sharedInstance].currentUser.integralNum<self.permission.integral) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"知识币不够提示"
-                                                        message:@"你可以通过以下两个方式增加知识币：\n1）按知识币奖励规则完成任务获得知识币\n2）在线支付充值知识币"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"金币不够提示"
+                                                        message:@"你可以通过以下两个方式增加金币：\n1）按金币奖励规则完成任务获得金币\n2）在线支付充值金币"
                                                        delegate:self
                                               cancelButtonTitle:@"取消"
                                               otherButtonTitles:@"我要充值",nil];

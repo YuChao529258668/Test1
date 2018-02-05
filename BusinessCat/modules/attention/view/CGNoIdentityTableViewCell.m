@@ -42,7 +42,7 @@
     }
   }else if (entity.viewPermit==4){
     NSString *integral = [NSString stringWithFormat:@"%ld",entity.integral];
-    NSString *str = [NSString stringWithFormat:@"需支付%ld知识币才能查看",entity.integral];
+    NSString *str = [NSString stringWithFormat:@"需支付%ld金币才能查看",entity.integral];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:str];
     [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(0, [str length])];
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(0, [str length])];

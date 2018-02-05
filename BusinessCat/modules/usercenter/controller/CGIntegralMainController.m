@@ -24,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *integralLabel;
 @property (nonatomic, strong) NSMutableArray *typeArray;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *topSegmentButton;
-@property (weak, nonatomic) IBOutlet UIButton *howEarnBtn;// 如何赚取知识币按钮
+@property (weak, nonatomic) IBOutlet UIButton *howEarnBtn;// 如何赚取金币按钮
 @property (nonatomic, strong) CGUserCenterBiz *biz;
 @end
 
@@ -98,7 +98,7 @@
 
 - (IBAction)howBuyIntegralAction:(UIButton *)sender {
   CGUserHelpCatePageViewController *vc = [[CGUserHelpCatePageViewController alloc]init];
-  vc.title = @"如何赚取和增加知识币";
+  vc.title = @"如何赚取和增加金币";
   vc.pageId = @"b5c497f6-f1de-f208-060a-7b2804b0268f";
   [self.navigationController pushViewController:vc animated:YES];
 }

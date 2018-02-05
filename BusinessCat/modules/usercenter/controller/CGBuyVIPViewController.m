@@ -273,7 +273,7 @@
   if (self.type == 4) {//0购买会员 1购买企业会员 4知识分套餐 5下载套餐
     //购买知识分；
     payType = 1002;
-//      body = @"充值知识币";
+//      body = @"充值金币";
       body = @"充值金币";
   }else if (self.type == 5){
     //购买下载；
@@ -415,19 +415,29 @@
   }
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
+
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
   [self.biz.component stopBlockAnimation];
   [self.payButton setUserInteractionEnabled:YES];
   self.payButton.backgroundColor = CTThemeMainColor;
-  if(transaction.error.code != SKErrorPaymentCancelled) {
-//    NSLog(@"购买失败");
-    [[CTToast makeText:@"购买失败"]show:[UIApplication sharedApplication].keyWindow];
-  } else {
-//    NSLog(@"用户取消交易");
-    [[CTToast makeText:@"用户取消交易"]show:[UIApplication sharedApplication].keyWindow];
-  }
+    
+//  if(transaction.error.code != SKErrorPaymentCancelled) {
+////    NSLog(@"购买失败");
+//    [[CTToast makeText:@"购买失败"]show:[UIApplication sharedApplication].keyWindow];
+//  } else {
+////    NSLog(@"用户取消交易");
+//    [[CTToast makeText:@"用户取消交易"]show:[UIApplication sharedApplication].keyWindow];
+//  }
+    
+    if(transaction.error.code == SKErrorPaymentCancelled) {
+        [[CTToast makeText:@"用户取消交易"]show:[UIApplication sharedApplication].keyWindow];
+    } else {
+        NSString *msg = [NSString stringWithFormat:@"购买失败：%@", transaction.error.userInfo[@"NSLocalizedDescription"]];
+        [CTToast showWithText:msg];
+    }
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
+
 - (void)restoreTransaction:(SKPaymentTransaction *)transaction {
   // 对于已购商品，处理恢复购买的逻辑
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];

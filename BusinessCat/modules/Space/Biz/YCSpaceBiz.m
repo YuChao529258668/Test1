@@ -33,7 +33,9 @@
             success(board);
         }
     } fail:^(NSError *error) {
-        NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
+        if (fail) {
+            fail(error);
+        }
     }];
 }
 
@@ -49,7 +51,9 @@
             success(profit);
         }
     } fail:^(NSError *error) {
-        NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
+        if (fail) {
+            fail(error);
+        }
     }];
 }
 
@@ -63,7 +67,9 @@
             success();
         }
     } fail:^(NSError *error) {
-        NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
+        if (fail) {
+            fail(error);
+        }
     }];
 }
 

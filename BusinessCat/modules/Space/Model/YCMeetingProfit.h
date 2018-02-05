@@ -15,7 +15,6 @@
 @property (nonatomic, strong) NSArray<YCMeetingRecord *> *meetingRecordList;
 @property (nonatomic, strong) NSArray<YCOneMeetingProfit *> *shareProfit;
 @property (nonatomic, assign) int isShare;
-
 + (NSDictionary *)mj_objectClassInArray;
 @end
 
@@ -41,6 +40,7 @@
 @property (nonatomic, assign) int type;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *id;
+@property (nonatomic, assign) int isShare;
 @end
 
 //        {

@@ -53,11 +53,21 @@
     tb.tableHeaderView = self.headerView;
     tb.tableFooterView = [UIView new];
     tb.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+    tb.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getData)];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleClickCellJoinBtn:) name:[YCSeeBoardCell notificationName] object:nil];
     
-    [self getData];
+//    [self getData];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData) name:NOTIFICATION_LOGINSUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self.tableView.mj_header selector:@selector(beginRefreshing) name:NOTIFICATION_LOGINSUCCESS object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+//    [self.tableView.mj_header beginRefreshing];
+    [self getData];
+}
 
 #pragma mark - UITableViewDataSource
 
@@ -74,7 +84,7 @@
     cell.totalL.text = [NSString stringWithFormat:@"%.02g", profit.totalIncome];
 
     if (profit.type == 1) {// 个人
-        if (self.board.isShare) { // 已加入共享
+        if (profit.isShare) { // 已加入共享
             cell.joinBtn.hidden = YES;
         } else {
             cell.joinBtn.hidden = NO;
@@ -109,7 +119,8 @@
         weakself.board = board;
         weakself.shareProfits = board.shareProfit;
         [weakself.tableView reloadData];
-        
+        [weakself.tableView.mj_header endRefreshing];
+
         weakself.todayL.text = [NSString stringWithFormat:@"%d/%d 场", [nowMonthMeeting toDayUnBeginMeetCount], [nowMonthMeeting toDayMeetCount]];
         weakself.tomorrowL.text = [NSString stringWithFormat:@"%d 场", nowMonthMeeting.tomorrowMeetCount];
         weakself.weekL.text = [NSString stringWithFormat:@"%d 场", nowMonthMeeting.weekMeetCount];
@@ -144,7 +155,7 @@
         }
         
     } fail:^(NSError *error){
-        
+        [weakself.tableView.mj_header endRefreshing];
     }];
 }
 

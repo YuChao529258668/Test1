@@ -130,12 +130,12 @@
   double payMoney = money.doubleValue;
   if (payMoney<10) {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [[CTToast makeText:@"知识币不能少于10币"]show:window];
+    [[CTToast makeText:@"金币不能少于10币"]show:window];
     return;
   }
   if ([ObjectShareTool sharedInstance].currentUser.integralNum<money.intValue) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"知识币不够提示"
-                                                    message:@"你可以通过以下两个方式增加知识币：\n1）按知识币奖励规则完成任务获得知识币\n2）在线支付充值知识币"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"金币不够提示"
+                                                    message:@"你可以通过以下两个方式增加金币：\n1）按金币奖励规则完成任务获得金币\n2）在线支付充值金币"
                                                    delegate:self
                                           cancelButtonTitle:@"取消"
                                           otherButtonTitles:@"我要充值",nil];

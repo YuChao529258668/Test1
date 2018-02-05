@@ -288,4 +288,11 @@ _conversation.receiveMsg = ^(NSArray *imamsgList, BOOL succ) {
 };
 
 
+聊天消息 昵称
+[IMAPlatform sharedInstance].host.nickName
+IMAGroup *group = (IMAGroup *)[[IMAPlatform sharedInstance].contactMgr getUserByGroupId:self.groupId];
+IMAUser *user = [[IMAPlatform sharedInstance].contactMgr getUserByUserId:self.toUser];
+
+修改聊天界面 系统消息 id 改为昵称
+TIMElem+ShowDescription.m 文件
 

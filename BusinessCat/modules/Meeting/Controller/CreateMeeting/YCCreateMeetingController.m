@@ -14,6 +14,7 @@
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoom.h"
 #import "RoomViewController.h"
+#import "CGBuyVIPViewController.h"
 
 @interface YCCreateMeetingController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *navigationLabel;
@@ -230,13 +231,15 @@
                 self.countImageViewTwo.image = [UIImage imageNamed:@"meeting_speech_normal"];
             }
             self.roomNameLabel.text = room.roomName;
-            self.roomImageView.image = [UIImage imageNamed:@"meeting_home_normal"];
+//            self.roomImageView.image = [UIImage imageNamed:@"meeting_home_normal"];
+            self.roomImageView.image = [UIImage imageNamed:@"meeting_bighome_normal"];
 
         } else {
             if (room) {
                 self.oneView.hidden = NO;
                 self.labelOneVIew.text = room.roomName;
-                self.imageVIewOneView.image = [UIImage imageNamed:@"meeting_home_normal"];
+//                self.imageVIewOneView.image = [UIImage imageNamed:@"meeting_home_normal"];
+                self.imageVIewOneView.image = [UIImage imageNamed:@"meeting_bighome_normal"];
             }
             if (count) {
                 self.oneView.hidden = NO;
@@ -418,9 +421,13 @@
     NSString *crID = self.room.roomId; //companyRoomId 公司会议房间Id（空为非公司会议）
     int meetingType = self.isVideo? 1: 0; //会议形式（0：音频，1：视频）
     int live = self.isLive? 1: 0;
+    
     NSString *meetingName = self.titleTF.text;
     if ([YCTool isBlankString:meetingName]) {
-        meetingName = @"";
+        // 02月02日周六 16:28会议
+        f.dateFormat = @"MM月dd日EE HH:mm";
+        meetingName = [f stringFromDate:beginDate];
+        meetingName = [NSString stringWithFormat:@"%@%@", meetingName, [ObjectShareTool stringFromAppName]];
     }
     
     int shareType = self.rebate.shareType;
@@ -448,12 +455,30 @@
             //        [weakself.navigationController popViewControllerAnimated:YES];
             [weakself.navigationController popToRootViewControllerAnimated:YES];
         } else {
+            // 显示充值对话框
             [CTToast showWithText:data[@"msg"]];
+//            [weakself showChargeAlertWithMessage:data[@"msg"]];
         }
         
     } fail:^(NSError *error) {
-        
+        [weakself showChargeAlertWithMessage:error.userInfo[@"message"]];
     }];
+}
+
+- (void)showChargeAlertWithMessage:(NSString *)msg {
+    if (![msg isEqualToString:@"金币不够支付"]) {
+        return;
+    }
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"是否充值?" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"我要充值" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        CGBuyVIPViewController *vc = [[CGBuyVIPViewController alloc]init];
+        vc.type = 4;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [ac addAction:sure];
+    [ac addAction:cancel];
+    [self presentViewController:ac animated:YES completion:nil];
 }
 
 - (void)goToMeetingRoomWithMeetingID:(NSString *)mid {

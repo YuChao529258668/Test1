@@ -302,13 +302,21 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
         return self.groupTip;
     }
     
+    NSString *opName = self.opUserInfo.nickname;
+    if ([opName isEqualToString:@"腾讯云通讯账号管理员"]) {
+        opName = @"管理员";
+    }
+    if (!opName) {
+        opName = self.opUser;
+    }
+
     NSString *opStr = nil;
     NSString *endStr = nil;
     switch (self.type)
     {
         case TIM_GROUP_TIPS_TYPE_QUIT_GRP:
         {
-            self.groupTip = [NSString stringWithFormat:@"%@退出了%@", self.opUser, self.groupType];
+            self.groupTip = [NSString stringWithFormat:@"%@退出了%@", opName, self.groupType];
             return self.groupTip;
         }
             break;
@@ -355,28 +363,28 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
                 {
                     case TIM_GROUP_INFO_CHANGE_GROUP_NAME:
                     {
-                        [tip appendString:[NSString stringWithFormat:@"%@修改%@名称为%@", self.opUser, self.groupType, info.value]];
+                        [tip appendString:[NSString stringWithFormat:@"%@修改%@名称为%@", opName, self.groupType, info.value]];
                     }
                         break;
                     case TIM_GROUP_INFO_CHANGE_GROUP_INTRODUCTION:
                     {
-                        [tip appendString:[NSString stringWithFormat:@"%@修改了%@介绍", self.opUser, self.groupType]];
+                        [tip appendString:[NSString stringWithFormat:@"%@修改了%@介绍", opName, self.groupType]];
                     }
                         break;
                     case TIM_GROUP_INFO_CHANGE_GROUP_NOTIFICATION:
                     {
-                        [tip appendString:[NSString stringWithFormat:@"%@修改了%@公告", self.opUser, self.groupType]];
+                        [tip appendString:[NSString stringWithFormat:@"%@修改了%@公告", opName, self.groupType]];
                     }
                         break;
                     case TIM_GROUP_INFO_CHANGE_GROUP_FACE:
                     {
-                        [tip appendString:[NSString stringWithFormat:@"%@修改%@头像", self.opUser, self.groupType]];
+                        [tip appendString:[NSString stringWithFormat:@"%@修改%@头像", opName, self.groupType]];
                     }
                         break;
                     case TIM_GROUP_INFO_CHANGE_GROUP_OWNER:
                     {
                         // TODO：暂不支持该接口
-                        [tip appendString:[NSString stringWithFormat:@"%@已转让%@", self.opUser, self.groupType]];
+                        [tip appendString:[NSString stringWithFormat:@"%@已转让%@", opName, self.groupType]];
                     }
                         break;
                         
@@ -418,17 +426,30 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
         default:
             break;
     }
+    
+    IMAContactManager *mgr = [IMAPlatform sharedInstance].contactMgr;
     NSMutableString *userListString = [NSMutableString string];
     for (NSString *uid in self.userList)
     {
-        [userListString appendString:uid];
+//        [userListString appendString:uid];
+        NSString *nickName = [mgr getUserByUserId:uid].nickName;
+        if (!nickName) {
+            if ([uid isEqualToString:[IMAPlatform sharedInstance].host.userId]) {
+                nickName = [IMAPlatform sharedInstance].host.nickName;
+            } else {
+                nickName = uid;
+            }
+        }
+        [userListString appendString:nickName];
         [userListString appendString:@"，"];
     }
     if (userListString.length > 1)
     {
         [userListString deleteCharactersInRange:NSMakeRange(userListString.length - 1, 1)];
     }
-    self.groupTip = [NSString stringWithFormat:@"%@%@%@%@", self.opUser, opStr, userListString, endStr];
+    
+    self.groupTip = [NSString stringWithFormat:@"%@%@\"%@\"%@", opName, opStr, userListString, endStr];
+//    self.groupTip = [NSString stringWithFormat:@"%@%@%@%@", self.opUser, opStr, userListString, endStr];
     return self.groupTip;
 }
 
@@ -488,6 +509,22 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
 // 显示描述
 - (NSString *)showDescriptionOf:(IMAMsg *)msg
 {
+    IMAContactManager *mgr = [IMAPlatform sharedInstance].contactMgr;
+    NSString *nickName = [mgr getUserByUserId:self.user].nickName;
+    if (!nickName) {
+        if ([self.user isEqualToString:[IMAPlatform sharedInstance].host.userId]) {
+            nickName = [IMAPlatform sharedInstance].host.nickName;
+        } else {
+            nickName = self.user;
+        }
+    }
+    
+    IMAGroup *group = (IMAGroup *)[[IMAPlatform sharedInstance].contactMgr getUserByGroupId:self.group];
+    NSString *groupName = group.groupInfo.groupName;
+    if (!groupName) {
+        groupName = self.group;
+    }
+
     // 后面转成对应的描述信息
     NSMutableString *retStr = [NSMutableString string];
     switch (self.type)
@@ -497,7 +534,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_ADD_GROUP_REQUEST_TYPE://              = 0x01,
         {
-            [retStr appendFormat:@"%@申请加入群%@请求", self.user, self.group];
+            [retStr appendFormat:@"%@申请加入群%@请求", nickName, groupName];
         }
             break;
             /**
@@ -506,7 +543,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
             
         case TIM_GROUP_SYSTEM_ADD_GROUP_ACCEPT_TYPE://                           = 0x02,
         {
-            [retStr appendFormat:@"%@同意你加入群%@请求", self.user, self.group];
+            [retStr appendFormat:@"%@同意你加入群%@请求", nickName, groupName];
         }
             break;
             
@@ -515,7 +552,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_ADD_GROUP_REFUSE_TYPE://               = 0x03,
         {
-            [retStr appendFormat:@"%@拒绝你加入群%@请求", self.user, self.group];
+            [retStr appendFormat:@"%@拒绝你加入群%@请求", nickName, groupName];
             if (self.msg.length)
             {
                 [retStr appendFormat:@" 理由:%@", self.msg];
@@ -528,7 +565,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_KICK_OFF_FROM_GROUP_TYPE://            = 0x04,
         {
-            [retStr appendFormat:@"您被%@踢出群%@", self.user, self.group];
+            [retStr appendFormat:@"您被%@踢出群%@", nickName, groupName];
         }
             break;
             /**
@@ -536,7 +573,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_DELETE_GROUP_TYPE://                   = 0x05,
         {
-            [retStr appendFormat:@"%@解散群%@", self.user, self.group];
+            [retStr appendFormat:@"%@解散群%@", nickName, groupName];
         }
             break;
             /**
@@ -544,7 +581,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_CREATE_GROUP_TYPE://                   = 0x06,
         {
-            [retStr appendFormat:@"%@创建群%@成功", self.user, self.group];
+            [retStr appendFormat:@"%@创建群%@成功", nickName, groupName];
         }
             break;
             /**
@@ -552,7 +589,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_INVITED_TO_GROUP_TYPE://               = 0x07,
         {
-            [retStr appendFormat:@"%@邀请你加入群%@", self.user, self.group];
+            [retStr appendFormat:@"%@邀请你加入群%@", nickName, groupName];
         }
             break;
             
@@ -561,7 +598,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_QUIT_GROUP_TYPE://                     = 0x08
         {
-            [retStr appendFormat:@"%@退群%@成功", self.user, self.group];
+            [retStr appendFormat:@"%@退群%@成功", nickName, groupName];
         }
             break;
             /**
@@ -569,7 +606,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_GRANT_ADMIN_TYPE://                    = 0x09,
         {
-            [retStr appendFormat:@"%@设置你为群%@管理员", self.user, self.group];
+            [retStr appendFormat:@"%@设置你为群%@管理员", nickName, groupName];
         }
             break;
             
@@ -578,7 +615,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_CANCEL_ADMIN_TYPE://                   = 0x0a,
         {
-            [retStr appendFormat:@"%@取消你群%@管理员资格", self.user, self.group];
+            [retStr appendFormat:@"%@取消你群%@管理员资格", nickName, groupName];
         }
             break;
             /**
@@ -586,7 +623,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_REVOKE_GROUP_TYPE://                           = 0x0b,
         {
-            [retStr appendFormat:@"群%@已被回收",  self.group];
+            [retStr appendFormat:@"群%@已被回收",  groupName];
         }
             break;
             /**
@@ -594,7 +631,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_INVITE_TO_GROUP_REQUEST_TYPE://                           = 0x0c,
         {
-            [retStr appendFormat:@"%@邀请你加入群%@", self.user, self.group];
+            [retStr appendFormat:@"%@邀请你加入群%@", nickName, groupName];
         }
             break;
             /**
@@ -602,7 +639,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_INVITE_TO_GROUP_ACCEPT_TYPE://                     = 0x0d,
         {
-            [retStr appendFormat:@"%@同意你发出的加入群%@的邀请", self.user, self.group];
+            [retStr appendFormat:@"%@同意你发出的加入群%@的邀请", nickName, groupName];
         }
             break;
             /**
@@ -610,7 +647,7 @@ static NSString *const kGroupTypeKey = @"kGroupTypeKey";
              */
         case TIM_GROUP_SYSTEM_INVITE_TO_GROUP_REFUSE_TYPE://         = 0x0e,
         {
-            [retStr appendFormat:@"%@拒绝你发出的加入群%@的邀请", self.user, self.group];
+            [retStr appendFormat:@"%@拒绝你发出的加入群%@的邀请", nickName, groupName];
         }
             break;
             

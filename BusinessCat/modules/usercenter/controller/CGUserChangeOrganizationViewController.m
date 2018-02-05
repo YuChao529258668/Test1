@@ -44,7 +44,7 @@
     self.editBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [self.navi addSubview:self.editBtn];
 //    self.numberLabel.textColor = CTThemeMainColor;
-    self.numberLabel.textColor = [YCTool colorOfHex:0xf68731];
+    self.numberLabel.textColor = [YCTool colorOfHex:0xffcc00];
     [self.addbutton setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     [self getlocal];
     //发出拉取用户信息的通知，目的是检查用户加入的组织列表是否有变更
@@ -63,7 +63,7 @@
         self.morenBG.hidden = YES;
     }
     [self.tableview reloadData];
-    self.numberLabel.text = [NSString stringWithFormat:@"你的账号加入%lu个组织：",(unsigned long)([ObjectShareTool sharedInstance].currentUser.companyList?[ObjectShareTool sharedInstance].currentUser.companyList.count:0)];
+    self.numberLabel.text = [NSString stringWithFormat:@"您的账号加入%lu个组织：",(unsigned long)([ObjectShareTool sharedInstance].currentUser.companyList?[ObjectShareTool sharedInstance].currentUser.companyList.count:0)];
 }
 
 -(void)rightBtnAction:(UIButton *)sender{
@@ -155,7 +155,7 @@
                 [[ObjectShareTool sharedInstance].currentUser.companyList removeObjectAtIndex:indexPath.row];
                 [[[CGUserDao alloc]init]saveLoginedInLocal:[ObjectShareTool sharedInstance].currentUser];
                 [weakSelf.tableview reloadData];
-                weakSelf.numberLabel.text = [NSString stringWithFormat:@"你的账号加入%ld个组织：",(unsigned long)[ObjectShareTool sharedInstance].currentUser.companyList.count];
+                weakSelf.numberLabel.text = [NSString stringWithFormat:@"您的账号加入%ld个组织：",(unsigned long)[ObjectShareTool sharedInstance].currentUser.companyList.count];
                 [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_TOUPDATEUSERINFO object:nil];
             } fail:^(NSError *error) {
                 [weakSelf.biz.component stopBlockAnimation];

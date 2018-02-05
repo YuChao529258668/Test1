@@ -116,14 +116,10 @@
 - (void)getProfit {
     __weak typeof(self) weakself = self;
     [YCSpaceBiz getProfitWithType:self.type companyID:self.companyID Success:^(YCMeetingProfit *profit){
+        weakself.profit = profit;
         [weakself.tableView reloadData];
-        
         weakself.noIncomeView.hidden = profit.isShare;
-        
         YCOneMeetingProfit *op = profit.shareProfit.firstObject;
-//        weakself.todayL.text = [NSString stringWithFormat:@"%0.2lf", op.todayIncome];
-//        weakself.waitL.text = [NSString stringWithFormat:@"%0.2lf", op.forIncome];
-//        weakself.totalL.text = [NSString stringWithFormat:@"%0.2lf", op.totalIncome];
         weakself.todayL.text = [NSString stringWithFormat:@"%0.2g", op.todayIncome];
         weakself.waitL.text = [NSString stringWithFormat:@"%0.2g", op.forIncome];
         weakself.totalL.text = [NSString stringWithFormat:@"%0.2g", op.totalIncome];

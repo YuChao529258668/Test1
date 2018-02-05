@@ -65,6 +65,7 @@
     [YCSpaceBiz joinShareWithType:self.type companyID:self.companyID doShare:0 Success:^{
         [CTToast showWithText:@"退出成功"];
         [weakself.navigationController popViewControllerAnimated:YES];
+        
     } fail:^(NSError *error) {
         
     }];

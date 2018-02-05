@@ -69,7 +69,7 @@
                         <constraint firstAttribute="height" constant="40" id="nae-pU-DhI"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" title=" 加入组织">
+                    <state key="normal" title=" 我要加入">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                     <userDefinedRuntimeAttributes>

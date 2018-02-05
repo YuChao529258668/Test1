@@ -278,7 +278,7 @@
     
   }else if ([command isEqualToString:@"FaSongDuiHuanGongNeng"]){//发送兑换功能
   
-  }else if ([command isEqualToString:@"JiFenGongNeng"]){//知识币功能
+  }else if ([command isEqualToString:@"JiFenGongNeng"]){//金币功能
     if ([[self.rootController.navigationController.viewControllers lastObject] isKindOfClass:[CGIntegralMainController class]]) {
       CGIntegralMainController *controller = [self.rootController.navigationController.viewControllers lastObject];
       [controller refresh];
@@ -286,7 +286,7 @@
       CGIntegralMainController *controller = [[CGIntegralMainController alloc]init];
       [self.rootController.navigationController pushViewController:controller animated:YES];
     }
-  }else if ([command isEqualToString:@"JiFenGouMaiGongNeng"]){//知识币购买功能
+  }else if ([command isEqualToString:@"JiFenGouMaiGongNeng"]){//金币购买功能
     CGBuyVIPViewController *vc = [[CGBuyVIPViewController alloc]init];
     vc.type = 4;
     [self.rootController.navigationController pushViewController:vc animated:YES];

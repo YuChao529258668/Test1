@@ -24,7 +24,6 @@
 #import "CGOrderProgressEntity.h"
 #import "CGSearchSourceCircleEntity.h"
 #import "CGMessageEntity.h"
-#import "CGMessageDetailEntity.h"
 #import "CGUserHelpCateEntity.h"
 #import "CGUserHelpCateListEntity.h"
 #import "CGGradesPackageEntity.h"
@@ -46,8 +45,8 @@
         [param setObject:secuCode forKey:@"secuCode"];
         NSLog(@"secuCode = %@", secuCode);
     }else{
-      UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"获取 token: secucode 为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-      [al show];
+//      UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"获取 token: secucode 为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//      [al show];
         NSLog(@"secucode = nil %@", NSStringFromSelector(_cmd));
         NSLog(@"获取 token: secucode 为空");
 //        [CTToast showWithText:@"获取 token: secucode 为空"];
@@ -172,6 +171,7 @@
         if(user.isLogin == 0 && [CTStringUtil stringNotBlank:user.phone]){
             NSString *message2 = [NSString stringWithFormat:@"后台返回用户详情：isLogin = 0，即将清除数据。phone =  %@, token = %@,  secuCode = %@, uuid = %@, 请求参数 = %@", user.phone, user.token, user.secuCode, user.uuid, [YCTool stringOfDictionary:param]];
             NSLog(@"%@", message2);
+            
             NSString *message = @"您的账号已在其他终端登录！";
             UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
             
@@ -1272,4 +1272,19 @@
     fail(error);
   }];
 }
+
+// 二维码登录
+- (void)loginWithQRCode:(NSString *)code success:(void(^)())success fail:(void (^)(NSError *error))fail {
+    // http://cloud.cgsays.com:8070/jeeweb/cjData/二维码&token=asdasdasd
+    NSString *preStr = @"http://cloud.cgsays.com:8070/jeeweb/cjData/";
+    NSString *token = [ObjectShareTool sharedInstance].currentUser.token;
+    NSString *urlStr = [NSString stringWithFormat:@"%@%@&token=%@", preStr, code, token];
+    
+    [self.component sendPostRequestWithURL:urlStr param:nil success:^(id data) {
+        success();
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
 @end

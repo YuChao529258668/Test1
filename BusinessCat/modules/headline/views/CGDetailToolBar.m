@@ -58,7 +58,7 @@
       [self.topicButton setUserInteractionEnabled:NO];
     }
   }else if(isDocument == 3){
-    [self.topicButton setTitle:[NSString stringWithFormat:@"支付%ld知识币后全部查看",detail.integral] forState:UIControlStateNormal];
+    [self.topicButton setTitle:[NSString stringWithFormat:@"支付%ld金币后全部查看",detail.integral] forState:UIControlStateNormal];
     [self.topicButton setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     [self.topicButton setUserInteractionEnabled:YES];
     [self.topicButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

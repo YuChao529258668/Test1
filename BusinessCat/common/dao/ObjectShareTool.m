@@ -186,4 +186,15 @@ static ObjectShareTool *_sharedManager;
     return [ObjectShareTool sharedInstance].currentUser.uuid;
 }
 
+ // 会议、会面
++ (NSString *)stringFromAppName {
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
+    if ([app_Name containsString:@"会议"]) {
+        return @"会议";
+    } else {
+        return @"会面";
+    }
+}
+
 @end

@@ -11,7 +11,7 @@
 #import "CGUserContactsViewController.h" // 通讯录
 #import "CGSelectContactsViewController.h" // 选择通讯录
 #import "YCMultiCallHelper.h"
-
+#import "CGUserCenterBiz.h"
 #import "CGMessageDetailViewController.h"
 #import "CGDiscoverBiz.h"
 
@@ -62,8 +62,9 @@
     [self createCustomNavi];
     [self setupCreateGroupChatBtn];
     
-    [self setupMessageBtn];
+//    [self setupMessageBtn];
     
+    [self setupHeaderView];
 //    [self setupCallVideoBtn];
 //    [self setupCallBtn];
 }
@@ -122,6 +123,7 @@
     CGRect frame = CGRectMake(x, y, 44, 44);
     btn.frame = frame;
     [btn setTitle:@"群聊" forState: UIControlStateNormal];
+    [btn.titleLabel setFont:[UIFont systemFontOfSize:14]];
     [self.navi addSubview:btn];
     [btn addTarget:self action:@selector(createGroupChatBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -655,7 +657,7 @@
     //    CGMessageViewController *controller = [[CGMessageViewController alloc]init];
     //    [self.navigationController pushViewController:controller animated:YES];
     CGMessageDetailViewController *vc = [[CGMessageDetailViewController alloc]init];
-    vc.title = @"消息";
+    vc.title = @"系统消息";
     vc.type = 1000;
     vc.ID = @"";
     [self.navigationController pushViewController:vc animated:YES];
@@ -675,6 +677,55 @@
         [defaults setObject:@(1) forKey:NotificationSystemMessageRedHot];
         [defaults synchronize];
         [[NSNotificationCenter defaultCenter]postNotificationName:NotificationSystemMessageRedHot object:@(1)];//1代表有未读消息，标红
+    } fail:^(NSError *error) {
+    }];
+}
+
+#pragma mark -
+
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+//    view.backgroundColor = [UIColor redColor];
+//    return view;
+//}
+
+- (void)setupHeaderView {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 64.5)];
+//    view.backgroundColor = [UIColor redColor];
+    self.tableView.tableHeaderView = view;
+
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(8, 10.5, 44, 44);
+    [btn setImage:[UIImage imageNamed:@"news_icon_news"] forState:UIControlStateNormal];
+    [view addSubview:btn];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(60, 10.25, 239, 28)];
+    label.text = @"系统消息";
+    label.font = [UIFont systemFontOfSize:14];
+    [view addSubview:label];
+    
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(60, 38.25, 239, 16)];
+    label2.text = @"没有未读消息";
+    label2.font = [UIFont systemFontOfSize:13];
+    label2.textColor = [UIColor darkGrayColor];
+    [view addSubview:label2];
+    
+    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, 63.5, 600, 0.5)];
+    line.backgroundColor = [YCTool colorWithRed:180 green:180 blue:180 alpha:1];
+    [view addSubview:line];
+    
+    UIButton *mb = [UIButton buttonWithType:UIButtonTypeCustom];
+    mb.frame = view.frame;
+    [mb addTarget:self action:@selector(messageAction) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:mb];
+    
+    [[CGUserCenterBiz new] authUserMessageSystemListWithID:@"" page:1 type:1000 success:^(NSMutableArray *reslut) {
+        if (reslut.count == 0) {
+            label2.text = @"没有未读消息";
+        } else {
+            CGMessageDetailEntity *message = reslut.firstObject;
+            label2.text = message.infoTitle;
+        }
     } fail:^(NSError *error) {
     }];
 }

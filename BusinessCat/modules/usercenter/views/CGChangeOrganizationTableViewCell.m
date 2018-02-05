@@ -60,7 +60,8 @@
     self.button.tag = organizaSate;
     self.detailLabel.textColor = [UIColor lightGrayColor];
     [self.button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    self.button.layer.borderColor = [UIColor lightGrayColor].CGColor;
+//    self.button.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.button.layer.borderColor = CTThemeMainColor.CGColor;
     typestr = [NSString stringWithFormat:@"已认领%@",companyType];
     
     UIColor *color = [YCTool colorOfHex:0xf68731];
@@ -69,8 +70,10 @@
             typestr = [NSString stringWithFormat:@"未认领%@",companyType];
             self.detailLabel.textColor = [UIColor redColor];
             [self.button setTitle:@"认领组织" forState:UIControlStateNormal];
-            [self.button setTitleColor: [UIColor redColor] forState:UIControlStateNormal];
-            self.button.layer.borderColor =  [UIColor redColor].CGColor;
+//            [self.button setTitleColor: [UIColor redColor] forState:UIControlStateNormal];
+//            self.button.layer.borderColor =  [UIColor redColor].CGColor;
+            [self.button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            self.button.backgroundColor = CTThemeMainColor;
             break;
         case OrganizationTypeClaimedInReview:
             [self.button setTitle:@"加入待审核中" forState:UIControlStateNormal];
@@ -79,8 +82,11 @@
             [self.button setTitle:@"购买企业会员" forState:UIControlStateNormal];
 //            [self.button setTitleColor:CTThemeMainColor forState:UIControlStateNormal];
 //            self.button.layer.borderColor = CTThemeMainColor.CGColor;
-            [self.button setTitleColor:color forState:UIControlStateNormal];
-            self.button.layer.borderColor = color.CGColor;
+            [self.button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//            self.button.layer.borderColor = color.CGColor;
+            self.button.backgroundColor = CTThemeMainColor;
+//            self.button.layer.borderColor = nil;
+
             break;
         case OrganizationTypeClaimedjoin:
             [self.button setTitle:@"已加入" forState:UIControlStateNormal];
@@ -93,16 +99,21 @@
             typestr = @"加入审核未通过，请查看原因";
             self.detailLabel.textColor = [UIColor redColor];
             [self.button setTitle:@"审核详情" forState:UIControlStateNormal];
-            [self.button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-            self.button.layer.borderColor = [UIColor redColor].CGColor;
+//            [self.button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//            self.button.layer.borderColor = [UIColor redColor].CGColor;
+            [self.button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            self.button.backgroundColor = CTThemeMainColor;
             break;
         case OrganizationTypeClaimedIng:
             //认领中
             typestr = [NSString stringWithFormat:@"认领中%@",companyType];
             self.detailLabel.textColor = [UIColor redColor];
             [self.button setTitle:@"认领审核中" forState:UIControlStateNormal];
-            [self.button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-            self.button.layer.borderColor = [UIColor redColor].CGColor;
+//            [self.button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//            self.button.layer.borderColor = [UIColor redColor].CGColor;
+            [self.button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            self.button.backgroundColor = CTThemeMainColor;
+
             break;
         case OrganizationTypeClaimedFail:
             //认领失败
@@ -114,8 +125,10 @@
                 [self.button setTitle:@"认领组织" forState:UIControlStateNormal];
             }
             self.detailLabel.textColor = [UIColor redColor];
-            [self.button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-            self.button.layer.borderColor = [UIColor redColor].CGColor;
+//            [self.button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//            self.button.layer.borderColor = [UIColor redColor].CGColor;
+            [self.button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            self.button.backgroundColor = CTThemeMainColor;
             break;
             
         default:

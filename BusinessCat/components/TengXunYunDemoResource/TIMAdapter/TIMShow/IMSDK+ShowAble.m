@@ -248,21 +248,33 @@
 
 - (NSString *)detailInfo
 {
-    IMAUser *user = [[IMAUser alloc] initWith:self.toUser];
+    IMAGroup *group = (IMAGroup *)[[IMAPlatform sharedInstance].contactMgr getUserByGroupId:self.groupId];
+    NSString *groupName = group.groupInfo.groupName;
+    groupName = [NSString stringWithFormat:@"\"%@\"", groupName];
+    
+    IMAUser *user = [[IMAPlatform sharedInstance].contactMgr getUserByUserId:self.toUser];
+
+//    IMAUser *user1 = [[IMAUser alloc] initWith:self.toUser];
     
     BOOL isToUserIsMe = [[IMAPlatform sharedInstance].host isMe:user];
     
-    NSString *toUserStr = isToUserIsMe ? @"你" : self.toUser;
-    
+//    NSString *toUserStr = isToUserIsMe ? @"你" : self.toUser;
+    NSString *nickName = [NSString stringWithFormat:@"\"%@\"", user.nickName];
+    NSString *toUserStr = isToUserIsMe ? @"你" : nickName;
+
     if (self.handleStatus == TIM_GROUP_PENDENCY_HANDLE_STATUS_UNHANDLED)
     {
         switch (self.getType)
         {
-            case TIM_GROUP_PENDENCY_GET_TYPE_JOIN:
-                return [NSString stringWithFormat:@"申请加入群%@",self.groupId];
+            case TIM_GROUP_PENDENCY_GET_TYPE_JOIN: {
+//                return [NSString stringWithFormat:@"申请加入群%@",self.groupId];
+                return [NSString stringWithFormat:@"申请加入群%@",groupName];
+            }
                 break;
-            case TIM_GROUP_PENDENCY_GET_TYPE_INVITE:
-                return [NSString stringWithFormat:@"邀请%@加入群%@", toUserStr, self.groupId];
+            case TIM_GROUP_PENDENCY_GET_TYPE_INVITE: {
+//                return [NSString stringWithFormat:@"邀请%@加入群%@", toUserStr, self.groupId];
+                return [NSString stringWithFormat:@"邀请%@加入群%@", toUserStr, groupName];
+            }
                 break;
             default:
                 break;
@@ -270,13 +282,20 @@
     }
     else
     {
+//        IMAUser *fromUser = [[IMAUser alloc] initWith:self.fromUser];
+        IMAUser *fromUser = [[IMAPlatform sharedInstance].contactMgr getUserByUserId:self.fromUser];
+        NSString *nickName = [NSString stringWithFormat:@"\"%@\"", fromUser.nickName];
+
         switch (self.getType)
         {
-            case TIM_GROUP_PENDENCY_GET_TYPE_JOIN:
-                return [NSString stringWithFormat:@"已同意%@进群%@",self.fromUser, self.groupId];
+            case TIM_GROUP_PENDENCY_GET_TYPE_JOIN: {
+//                return [NSString stringWithFormat:@"已同意%@进群%@",self.fromUser, self.groupId];
+                return [NSString stringWithFormat:@"已同意%@进群%@",nickName, groupName];
+            }
                 break;
-            case TIM_GROUP_PENDENCY_GET_TYPE_INVITE:
-                return [NSString stringWithFormat:@"受%@邀请进群%@", self.fromUser, self.groupId];
+            case TIM_GROUP_PENDENCY_GET_TYPE_INVITE: {
+//                return [NSString stringWithFormat:@"受%@邀请进群%@", self.fromUser, self.groupId];
+                return [NSString stringWithFormat:@"受%@邀请进群%@", nickName, groupName];}
                 break;
             default:
                 break;

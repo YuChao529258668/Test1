@@ -42,8 +42,9 @@
 #import "CGTeamDocumentViewController.h"
 #import "CGDiscoverBiz.h"
 #import "YCPersonalProfitController.h"
+#import "QRCScannerViewController.h"
 
-@interface CGMyMainViewController ()<UIActionSheetDelegate>
+@interface CGMyMainViewController ()<UIActionSheetDelegate, QRCodeScannerViewControllerDelegate>
 
 @property(nonatomic,retain)UIImageView *userIcon;//用户头像
 @property(nonatomic,retain)UILabel *userNameLabel;//用户名
@@ -983,7 +984,30 @@
 }
 
 - (void)clickScanBtn {
+    QRCScannerViewController *vc = [QRCScannerViewController new];
+    vc.delegate = self;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)didFinshedScanning:(NSString *)result {
+//
+//    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"扫描结果" message:result preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+//    [ac addAction:cancel];
+//    [self presentViewController:ac animated:YES completion:nil];
     
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"是否登录?" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[CGUserCenterBiz new] loginWithQRCode:result success:^{
+            
+        } fail:^(NSError *error) {
+            
+        }];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [ac addAction:sure];
+    [ac addAction:cancel];
+    [self presentViewController:ac animated:YES completion:nil];
 }
 
 

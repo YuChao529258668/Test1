@@ -20,7 +20,7 @@
 #import "CGInviteFriendEntity.h"
 #import "CGOrganizationEntity.h"
 #import "FeedbackInfoEntity.h"
-
+#import "CGMessageDetailEntity.h"
 @interface CGUserCenterBiz : CGBaseBiz
 
 //获取token
@@ -201,4 +201,8 @@
 
 //修改技能接口
 -(void)userInfoUpdateSkillLevel:(NSInteger)skillLevel success:(void(^)())success fail:(void (^)(NSError *error))fail;
+
+
+// 二维码登录
+- (void)loginWithQRCode:(NSString *)code success:(void(^)())success fail:(void (^)(NSError *error))fail;
 @end
