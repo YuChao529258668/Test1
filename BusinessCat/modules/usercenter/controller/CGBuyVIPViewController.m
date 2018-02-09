@@ -30,6 +30,8 @@
 @property (nonatomic, strong) CGRewardEntity *entity;
 @property (nonatomic, strong) UIView *footView;
 @property (nonatomic, assign) BOOL check;
+@property (nonatomic, assign) BOOL useWeiXinPay;//使用微信或者苹果支付
+
 @end
 
 @implementation CGBuyVIPViewController
@@ -61,7 +63,13 @@
       weakSelf.dataArray = reslut;
       if (reslut.count>0) {
         CGGradesPackageEntity *entity = reslut[0];
-        weakSelf.payMoney.text = [NSString stringWithFormat:@"￥%.2f",entity.packagePrice/100.0];
+//        weakSelf.payMoney.text = [NSString stringWithFormat:@"￥%.2f",entity.packagePrice/100.0];
+          if (self.useWeiXinPay) {
+              self.payMoney.text = [NSString stringWithFormat:@"￥%ld",entity.packagePrice/100];
+          } else {
+              self.payMoney.text = [NSString stringWithFormat:@"￥%ld",entity.iosPrice/100];
+          }
+
       }
       [weakSelf.tableView reloadData];
       [weakSelf.biz.component stopBlockAnimation];
@@ -73,7 +81,13 @@
       weakSelf.dataArray = reslut;
       if (reslut.count>0) {
         CGGradesPackageEntity *entity = reslut[0];
-        weakSelf.payMoney.text = [NSString stringWithFormat:@"￥%.2f",entity.packagePrice/100.0];
+//        weakSelf.payMoney.text = [NSString stringWithFormat:@"￥%.2f",entity.packagePrice/100.0];
+          if (self.useWeiXinPay) {
+              self.payMoney.text = [NSString stringWithFormat:@"￥%ld",entity.packagePrice/100];
+          } else {
+              self.payMoney.text = [NSString stringWithFormat:@"￥%ld",entity.iosPrice/100];
+          }
+
       }
       [weakSelf.tableView reloadData];
       [weakSelf.biz.component stopBlockAnimation];
@@ -207,13 +221,25 @@
   if (indexPath.section == 0) {
     self.selectIndex = indexPath.row;
     [self.tableView reloadData];
-    CGGradesPackageEntity *entity = self.dataArray[indexPath.row];
-    self.payMoney.text = [NSString stringWithFormat:@"￥%ld",entity.packagePrice/100];
+//    CGGradesPackageEntity *entity = self.dataArray[indexPath.row];
+//    self.payMoney.text = [NSString stringWithFormat:@"￥%ld",entity.packagePrice/100];
   }else{
     self.methodIndex = indexPath.row;
+      if (indexPath.row == 0) {
+          self.useWeiXinPay = NO;
+      } else {
+          self.useWeiXinPay = YES;
+      }
     [self.tableView reloadData];
     self.tableView.tableFooterView = [self getMehodView];
   }
+    
+    CGGradesPackageEntity *entity = self.dataArray[self.selectIndex];
+    if (self.useWeiXinPay) {
+        self.payMoney.text = [NSString stringWithFormat:@"￥%ld",entity.packagePrice/100];
+    } else {
+        self.payMoney.text = [NSString stringWithFormat:@"￥%ld",entity.iosPrice/100];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -247,7 +273,11 @@
     }
     CGGradesPackageEntity *entity = self.dataArray[indexPath.row];
     cell.title.text = entity.packageTitle;
-    cell.money.text = [NSString stringWithFormat:@"￥%.2f",entity.packagePrice/100.0];
+      if (self.useWeiXinPay) {
+          cell.money.text = [NSString stringWithFormat:@"￥%.2f",entity.packagePrice/100.0];
+      } else {
+          cell.money.text = [NSString stringWithFormat:@"￥%.2f",entity.iosPrice/100.0];
+      }
     cell.desc.text = entity.packageDesc;
     return cell;
   }
@@ -297,7 +327,13 @@
     toid = [ObjectShareTool sharedInstance].currentUser.uuid;
   }
   self.check = YES;
-  [self.commonBiz authUserPlaceOrderWithToId:toid toType:self.type ==1?3:24 subType:self.companyType payType:payType payMethod:methodEntity.method toUserId:@"123" body:body detail:nil attach:dic trade_type:@"APP" device_info:nil total_fee:packEntity.packagePrice notify_url:nil order_type:0 iOSProductId:packEntity.iOSProductId success:^(CGRewardEntity *entity) {
+    
+    NSInteger fee = packEntity.iosPrice;
+    if (self.useWeiXinPay) {
+        fee = packEntity.packagePrice;
+    }
+    
+  [self.commonBiz authUserPlaceOrderWithToId:toid toType:self.type ==1?3:24 subType:self.companyType payType:payType payMethod:methodEntity.method toUserId:@"123" body:body detail:nil attach:dic trade_type:@"APP" device_info:nil total_fee:fee notify_url:nil order_type:0 iOSProductId:packEntity.iOSProductId success:^(CGRewardEntity *entity) {
     weakSelf.entity = entity;
     [weakSelf.commonBiz.component stopBlockAnimation];
     if ([methodEntity.method isEqualToString:@"ApplePay"]) {
@@ -349,7 +385,9 @@
     [[CTToast makeText:@"无法获取产品信息，购买失败。"]show:[UIApplication sharedApplication].keyWindow];
     return;
   }
-  SKPayment * payment = [SKPayment paymentWithProduct:myProduct[0]];
+    SKProduct *product = myProduct.firstObject;
+    SKPayment * payment = [SKPayment paymentWithProduct:product];
+//  SKPayment * payment = [SKPayment paymentWithProduct:myProduct[0]];
   [[SKPaymentQueue defaultQueue] addPayment:payment];
 }
 

@@ -16,7 +16,10 @@
 #import "CGDiscoverBiz.h"
 
 #import "RoomViewController.h"
-
+#import "YCChatListMenu.h"
+#import "YCCreateMeetingController.h"
+#import "CGMainLoginViewController.h"
+#import "CGUserContactsViewController.h"
 
 // 生意猫
 #define kTLSAppid       @"1400047877"
@@ -41,6 +44,7 @@
 
 @property(nonatomic,retain)UILabel *systemRedHot;//消息红点
 @property(nonatomic,strong)NSTimer *timer;
+@property (nonatomic, strong) YCChatListMenu *menu;
 
 @end
 
@@ -60,13 +64,15 @@
     [self loginTengXunYun];
     
     [self createCustomNavi];
-    [self setupCreateGroupChatBtn];
+//    [self setupCreateGroupChatBtn];
     
 //    [self setupMessageBtn];
     
     [self setupHeaderView];
 //    [self setupCallVideoBtn];
 //    [self setupCallBtn];
+    [self setupMenuBtn];
+    [self setupAddressBookBtn];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -202,6 +208,7 @@
 
 - (void)layoutTableView {
     float y = TOPBARHEIGHT;
+    y += 56;// 搜索栏高度
     //    float bottomBarH = [((AppDelegate *)[UIApplication sharedApplication].delegate) bottomBarHeight];
     //    float height = self.tableView.frame.size.height - y;
     //    float height = SCREEN_HEIGHT - y - bottomBarH;
@@ -289,7 +296,9 @@
 //            [self configOwnViews];
 //        }];
         [[AppDelegate sharedAppDelegate] enterLoginUI];
-        [self configOwnViews];
+//        [self configOwnViews];
+        _conversationList = nil;
+        [self.tableView reloadData];
         
     } fail:^(int code, NSString *err) {
         [[HUDHelper sharedInstance] syncStopLoadingMessage:IMALocalizedError(code, err) delay:2 completion:^{
@@ -728,6 +737,80 @@
         }
     } fail:^(NSError *error) {
     }];
+}
+
+
+#pragma mark - 右上角+
+
+- (void)setupMenuBtn {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    float x = SCREEN_WIDTH - 44 - 6;
+    float y = CTMarginTop;
+    CGRect frame = CGRectMake(x, y, 44, 44);
+    btn.frame = frame;
+    UIImage *image = [UIImage imageNamed:@"icon_add"];
+    image = [image imageWithColor:[UIColor blackColor]];
+    [btn setImage:image forState:UIControlStateNormal];
+    [self.navi addSubview:btn];
+    [btn addTarget:self action:@selector(clickMenuBtn) forControlEvents:UIControlEventTouchUpInside];
+    
+    y = self.navi.frame.size.height;
+    CGRect rect = self.view.frame;
+    rect.origin = CGPointZero;
+    YCChatListMenu *menu = [[YCChatListMenu alloc]initWithFrame:rect];
+    menu.menuY = y;
+    menu.pointToView = btn;
+    menu.hidden = YES;
+    [self.view addSubview:menu];
+    _menu = menu;
+    
+    // 发起会议、发起群聊、添加好友
+    [menu addButtonTarget:self selector:@selector(createMeeting) buttonIndex:0];
+    [menu addButtonTarget:self selector:@selector(createGroupChatBtnClick) buttonIndex:1];
+    [menu addButtonTarget:self selector:@selector(addFriend) buttonIndex:2];
+}
+
+- (void)createMeeting {
+    if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
+        YCCreateMeetingController *vc = [YCCreateMeetingController new];
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        CGMainLoginViewController *controller = [[CGMainLoginViewController alloc]init];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+}
+
+- (void)clickMenuBtn {
+    _menu.hidden = NO;
+}
+
+- (void)addFriend {
+    
+}
+
+
+#pragma mark - 左上角
+
+- (void)setupAddressBookBtn {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    float x = 6;
+    float y = CTMarginTop;
+    
+    CGRect frame = CGRectMake(x, y, 44, 44);
+    btn.frame = frame;
+    [btn setImage:[UIImage imageNamed:@"news_icon_pr"] forState: UIControlStateNormal];
+    [self.navi addSubview:btn];
+    [btn addTarget:self action:@selector(clickAddressBookBtn) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)clickAddressBookBtn {
+    if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
+        CGUserContactsViewController *vc = [[CGUserContactsViewController alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        CGMainLoginViewController *controller = [[CGMainLoginViewController alloc]init];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 
 @end

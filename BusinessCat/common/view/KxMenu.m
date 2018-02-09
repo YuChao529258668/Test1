@@ -326,20 +326,24 @@ typedef enum {
     [overlay addSubview:self];
     [view addSubview:overlay];
     
-    _contentView.hidden = YES;
-    const CGRect toFrame = self.frame;
-    self.frame = (CGRect){self.arrowPoint, 1, 1};
+    // 老手机动画太卡，注释掉了
+//    _contentView.hidden = YES;
+//    const CGRect toFrame = self.frame;
+//    self.frame = (CGRect){self.arrowPoint, 1, 1};
     
-    [UIView animateWithDuration:0.2
-                     animations:^(void) {
-                         
-                         self.alpha = 1.0f;
-                         self.frame = toFrame;
-                         
-                     } completion:^(BOOL completed) {
-                         _contentView.hidden = NO;
-                     }];
-   
+//    [UIView animateWithDuration:0.2
+//                     animations:^(void) {
+//
+//                         self.alpha = 1.0f;
+//                         self.frame = toFrame;
+//
+//                     } completion:^(BOOL completed) {
+//                         _contentView.hidden = NO;
+//                     }];
+    
+    self.alpha = 1.0f;
+    _contentView.hidden = NO;
+
 }
 
 - (void)dismissMenu:(BOOL) animated

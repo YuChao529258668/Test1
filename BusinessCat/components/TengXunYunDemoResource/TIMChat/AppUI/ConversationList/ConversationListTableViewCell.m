@@ -34,8 +34,10 @@
 - (void)addOwnViews
 {
     _conversationIcon = [[UIButton alloc] init];
-    _conversationIcon.backgroundColor = kGrayColor;
-    _conversationIcon.layer.cornerRadius = 22;
+    //    _conversationIcon.backgroundColor = kGrayColor;
+    _conversationIcon.backgroundColor = kClearColor;
+//    _conversationIcon.layer.cornerRadius = 22;
+    _conversationIcon.layer.cornerRadius = 4;
     _conversationIcon.layer.masksToBounds = YES;
     [self.contentView addSubview:_conversationIcon];
     
@@ -136,7 +138,7 @@ static void extracted(ConversationListTableViewCell *object) {
         [_conversationIcon setBackgroundImage:[_showItem defaultShowImage] forState:UIControlStateNormal];
     }
     
-    _conversationName.text = [_showItem showTitle];
+    _conversationName.text = [_showItem showTitle];//IMAConversation
     
     _lastMsgTime.text = [_showItem lastMsgTime];
     

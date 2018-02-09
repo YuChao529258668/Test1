@@ -65,9 +65,9 @@
   [self.rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
   [self.rightBtn setTitleColor:[CTCommonUtil convert16BinaryColor:@"#C7C7CC"] forState:UIControlStateSelected];
   [self.navi addSubview:self.rightBtn];
-  self.originalIntegralLabel.text = [NSString stringWithFormat:@"%d币",[ObjectShareTool sharedInstance].currentUser.integralNum];
+  self.originalIntegralLabel.text = [NSString stringWithFormat:@"%@币", [YCTool numberStringOf:[ObjectShareTool sharedInstance].currentUser.integralNum]];
   NSString *str = self.moneyArray[self.selectButton.tag];
-  self.remainingPoints.text = [NSString stringWithFormat:@"%d币",[ObjectShareTool sharedInstance].currentUser.integralNum-str.intValue];
+  self.remainingPoints.text = [NSString stringWithFormat:@"%@币",[YCTool numberStringOf:[ObjectShareTool sharedInstance].currentUser.integralNum-str.intValue]];
   [self.textField addTarget:self action:@selector(textChange:) forControlEvents:
    UIControlEventEditingChanged];
   // Do any  additional setup after loading the view from its nib.
@@ -78,7 +78,7 @@
     NSString * subString2 = [textField.text substringToIndex:textField.text.length-1];
     textField.text = subString2;
   }
-  self.remainingPoints.text = [NSString stringWithFormat:@"%d币",[ObjectShareTool sharedInstance].currentUser.integralNum-textField.text.intValue];
+  self.remainingPoints.text = [NSString stringWithFormat:@"%@币", [YCTool numberStringOf:[ObjectShareTool sharedInstance].currentUser.integralNum-textField.text.intValue]];
 }
 
 -(void)paySuccess{
@@ -102,7 +102,7 @@
   if (sender.tag<6) {
     [self.textField resignFirstResponder];
     NSString *str = self.moneyArray[sender.tag];
-    self.remainingPoints.text = [NSString stringWithFormat:@"%d币",[ObjectShareTool sharedInstance].currentUser.integralNum-str.intValue];
+    self.remainingPoints.text = [NSString stringWithFormat:@"%@币", [YCTool numberStringOf:[ObjectShareTool sharedInstance].currentUser.integralNum-str.intValue]];
   }else{
     [self.textField becomeFirstResponder];
   }

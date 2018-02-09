@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface YCChatListMenu : UIView
+@property (nonatomic, strong) UIView *pointToView;
+@property (nonatomic, assign) CGFloat menuY;
+
+- (void)addButtonTarget:(id)target selector:(SEL)aSelector buttonIndex:(NSInteger)index;
 
 @end

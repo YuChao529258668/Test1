@@ -27,6 +27,6 @@
 @property (nonatomic, copy) NSString *rewardInfo;
 @property (nonatomic, assign) NSInteger rewardType;
 @property (nonatomic, assign) NSInteger dateTime;
-@property (nonatomic, assign) NSInteger rewardNum;
+@property (nonatomic, assign) double rewardNum;
 @property (nonatomic, strong) RelationInfoEntity *relationInfo;
 @end

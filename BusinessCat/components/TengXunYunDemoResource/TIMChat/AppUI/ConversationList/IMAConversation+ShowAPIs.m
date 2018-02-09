@@ -70,8 +70,16 @@
 {
     NSString *recerive = [_conversation getReceiver];
     IMAUser *user = [[IMAPlatform sharedInstance].contactMgr getUserByUserId:recerive];
+    if (user) {
+        return [user showIconUrl];
+    }
     
-    return [user showIconUrl];
+    IMAGroup *group = (IMAGroup *)[[IMAPlatform sharedInstance].contactMgr getUserByGroupId:recerive];
+    if (group) {
+        return [group showIconUrl];
+    }
+//    return [user showIconUrl];
+    return nil;
 }
 - (NSString *)lastMsgTime
 {

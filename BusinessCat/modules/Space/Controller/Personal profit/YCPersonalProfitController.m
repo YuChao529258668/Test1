@@ -86,7 +86,7 @@
     YCMeetingRecord *record = self.profit.meetingRecordList[indexPath.row];
     cell.dateL.text = record.dateString;
     cell.nameL.text = record.userName;
-    cell.incomeL.text = [NSString stringWithFormat:@"%.02lf 元", record.videoCost];
+    cell.incomeL.text = [YCTool numberStringOf:record.videoCost];
     cell.durationL.text = record.durationString;
     cell.stateL.text = record.stateString;
     cell.stateL.textColor = record.stateColor;
@@ -120,9 +120,9 @@
         [weakself.tableView reloadData];
         weakself.noIncomeView.hidden = profit.isShare;
         YCOneMeetingProfit *op = profit.shareProfit.firstObject;
-        weakself.todayL.text = [NSString stringWithFormat:@"%0.2g", op.todayIncome];
-        weakself.waitL.text = [NSString stringWithFormat:@"%0.2g", op.forIncome];
-        weakself.totalL.text = [NSString stringWithFormat:@"%0.2g", op.totalIncome];
+        weakself.todayL.text = [YCTool numberStringOf:op.todayIncome];
+        weakself.waitL.text = [YCTool numberStringOf:op.forIncome];
+        weakself.totalL.text = [YCTool numberStringOf:op.totalIncome];
     } fail:^(NSError *error) {
         
     }];

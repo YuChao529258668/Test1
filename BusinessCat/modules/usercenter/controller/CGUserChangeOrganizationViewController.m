@@ -44,7 +44,8 @@
     self.editBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [self.navi addSubview:self.editBtn];
 //    self.numberLabel.textColor = CTThemeMainColor;
-    self.numberLabel.textColor = [YCTool colorOfHex:0xffcc00];
+//    self.numberLabel.textColor = [YCTool colorOfHex:0xffcc00];
+    self.numberLabel.textColor = [UIColor blackColor];
     [self.addbutton setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     [self getlocal];
     //发出拉取用户信息的通知，目的是检查用户加入的组织列表是否有变更

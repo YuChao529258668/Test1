@@ -147,6 +147,7 @@
         return nil;
     }
     IMAUser *item = [[IMAGroup alloc] initWith:groupID];
+//    TIMGroupInfo *gi = [self syncGetGroupInfo:groupID];
     return [self isContainUser:item];
     
 }

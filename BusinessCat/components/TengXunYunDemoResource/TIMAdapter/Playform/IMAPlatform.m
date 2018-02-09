@@ -136,6 +136,7 @@ static Class kHostClass = Nil;
     TIMGroupInfoOption *giOption = [[TIMGroupInfoOption alloc] init];
     giOption.groupFlags = 0xffffff;//需要获取的群组信息标志（TIMGetGroupBaseInfoFlag）,默认为0xffffff
     giOption.groupCustom = nil;//需要获取群组资料的自定义信息（NSString*）列表
+//    giOption.groupCustom = @[@"faceURL"];//需要获取群组资料的自定义信息（NSString*）列表
     userConfig.groupInfoOpt = giOption;//设置默认拉取的群组资料
     TIMGroupMemberInfoOption *gmiOption = [[TIMGroupMemberInfoOption alloc] init];
     gmiOption.memberFlags = 0xffffff;//需要获取的群成员标志（TIMGetGroupMemInfoFlag）,默认为0xffffff

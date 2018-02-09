@@ -451,9 +451,12 @@
         
 //        IMAUser *user = [[IMAUser alloc] initWith:[_msg sender]];// 原配。这里是没有头像的
         
-        TIMUserProfile *p = [_msg getSenderProfile]; // 单聊拿不到头像，群聊就可以。
-        IMAUser *user = [[IMAUser alloc] initWithUserInfo:p]; // 从下面的选择分支TIM_GROUP复制的
+//        TIMUserProfile *p = [_msg getSenderProfile]; // 单聊拿不到头像，群聊就可以。
+//        IMAUser *user = [[IMAUser alloc] initWithUserInfo:p]; // 从下面的选择分支TIM_GROUP复制的
         
+        TIMConversation *conv = _msg.getConversation;
+        IMAConversation *conv2 = [[IMAConversation alloc] initWith:conv];
+        IMAUser *user = [[IMAPlatform sharedInstance] getReceiverOf:conv2];
 
         return user;
     }

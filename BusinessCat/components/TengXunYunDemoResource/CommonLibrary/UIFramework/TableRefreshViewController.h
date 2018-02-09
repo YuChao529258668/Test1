@@ -8,7 +8,6 @@
 
 #import "ScrollRefreshViewController.h"
 
-
 @interface RequestPageParamItem : NSObject
 
 @property (nonatomic, assign) NSInteger pageIndex;

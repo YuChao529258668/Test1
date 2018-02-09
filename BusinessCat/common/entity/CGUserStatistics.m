@@ -14,7 +14,8 @@
 //MJCodingImplementation
 
 -(void)encodeWithCoder:(NSCoder *)aCoder{
-  [aCoder encodeObject:[NSNumber numberWithInt:self.integralNum]      forKey:@"integralNum"];
+//    [aCoder encodeObject:[NSNumber numberWithInt:self.integralNum]      forKey:@"integralNum"];
+    [aCoder encodeObject:[NSNumber numberWithDouble:self.integralNum]      forKey:@"integralNum"];
   [aCoder encodeObject:[NSNumber numberWithInt:self.subjectNum]      forKey:@"subjectNum"];
   [aCoder encodeObject:[NSNumber numberWithInt:self.subscribeNum]      forKey:@"subscribeNum"];
   [aCoder encodeObject:[NSNumber numberWithInt:self.advicesNum]      forKey:@"advicesNum"];
@@ -26,7 +27,8 @@
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
   if((self = [super init])) {
-    self.integralNum       = [[aDecoder decodeObjectForKey:@"integralNum"] intValue];
+//      self.integralNum       = [[aDecoder decodeObjectForKey:@"integralNum"] intValue];
+      self.integralNum       = [[aDecoder decodeObjectForKey:@"integralNum"] doubleValue];
     self.subjectNum       = [[aDecoder decodeObjectForKey:@"subjectNum"] intValue];
     self.subscribeNum       = [[aDecoder decodeObjectForKey:@"subscribeNum"] intValue];
     self.advicesNum       = [[aDecoder decodeObjectForKey:@"advicesNum"] intValue];

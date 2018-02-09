@@ -105,7 +105,7 @@
       break;
     case 1:
       cell.textlabel.text = @"我的金币";
-      [cell updateData:[NSString stringWithFormat:@"%d枚",self.userInfo.statistics.integralNum]];
+      [cell updateData:[NSString stringWithFormat:@"%@枚", [YCTool numberStringOf:self.userInfo.statistics.integralNum]]];
       break;
     case 2:
       cell.textlabel.text = @"关注数";

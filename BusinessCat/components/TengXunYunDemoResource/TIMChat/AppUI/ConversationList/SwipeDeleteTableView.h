@@ -12,4 +12,6 @@ typedef void (^SwipeDeleteAction)(NSIndexPath *index);
 
 @interface SwipeDeleteTableView : UITableView <UIGestureRecognizerDelegate>
 
+//@property (nonatomic, assign) BOOL shouldBeginLeftSwipe;
+
 @end

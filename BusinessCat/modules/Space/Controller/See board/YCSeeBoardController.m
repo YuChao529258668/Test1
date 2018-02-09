@@ -79,9 +79,9 @@
     YCSeeBoardCell *cell = [tableView dequeueReusableCellWithIdentifier:@"YCSeeBoardCell" forIndexPath:indexPath];
     YCOneMeetingProfit *profit = self.shareProfits[indexPath.row];
     cell.nameL.text = profit.name;
-    cell.todayL.text = [NSString stringWithFormat:@"%.02g", profit.todayIncome];
-    cell.waitL.text = [NSString stringWithFormat:@"%.02g", profit.forIncome];
-    cell.totalL.text = [NSString stringWithFormat:@"%.02g", profit.totalIncome];
+    cell.todayL.text = [YCTool numberStringOf:profit.todayIncome];
+    cell.waitL.text = [YCTool numberStringOf:profit.forIncome];
+    cell.totalL.text = [YCTool numberStringOf:profit.totalIncome];
 
     if (profit.type == 1) {// 个人
         if (profit.isShare) { // 已加入共享

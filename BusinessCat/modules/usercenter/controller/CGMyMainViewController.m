@@ -505,7 +505,7 @@
             self.collect.text = [NSString stringWithFormat:@"%d",[ObjectShareTool sharedInstance].currentUser.followNum];
             self.order.text = [NSString stringWithFormat:@"%d",[ObjectShareTool sharedInstance].currentUser.orderNum];
             self.wallet.text = [NSString stringWithFormat:@"%.2f",[ObjectShareTool sharedInstance].currentUser.totalAmount/100];
-            self.integral.text = [NSString stringWithFormat:@"%d",[ObjectShareTool sharedInstance].currentUser.integralNum];
+            self.integral.text = [NSString stringWithFormat:@"%@",[YCTool numberStringOf:[ObjectShareTool sharedInstance].currentUser.integralNum]];
 //          self.privilege.text = [NSString stringWithFormat:@""]
         }else if(indexPath.row == 2){//所属组织
             if([ObjectShareTool sharedInstance].currentUser.companyList.count > 0){

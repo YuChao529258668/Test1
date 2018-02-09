@@ -48,4 +48,7 @@
 // 解码(解密)
 + (NSString *)decodeBase64String:(NSString *)base64String;
 
+// 保留两位有意义小数
++ (NSString *)numberStringOf:(double)number;
+
 @end

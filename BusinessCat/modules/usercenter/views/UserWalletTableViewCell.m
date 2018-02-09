@@ -35,10 +35,10 @@
   self.titleLabel.text = entity.title;
   self.rewardInfoLabel.text = entity.rewardInfo;
   if (entity.rewardType == 2) {
-    self.moneyLabel.text = [NSString stringWithFormat:@"-%ld币",entity.rewardNum];
+    self.moneyLabel.text = [NSString stringWithFormat:@"-%@币",[YCTool numberStringOf:entity.rewardNum]];
     self.moneyLabel.textColor = [CTCommonUtil convert16BinaryColor:@"#EC4836"];
   }else{
-    self.moneyLabel.text = [NSString stringWithFormat:@"+%ld币",entity.rewardNum];
+    self.moneyLabel.text = [NSString stringWithFormat:@"+%@币",[YCTool numberStringOf:entity.rewardNum]];
 //    self.moneyLabel.textColor = CTThemeMainColor;
       self.moneyLabel.textColor = [YCTool colorOfHex:0xf68731];
   }

@@ -275,6 +275,13 @@
     return decodedString;
 }
 
+// 保留两位有意义小数
++ (NSString *)numberStringOf:(double)number {
+    long l = number * 100;
+    number = l/100.0;
+    NSString *str = [NSString stringWithFormat:@"%@", @(number)];
+    return str;
+}
 
 #pragma mark - UIViewController
 

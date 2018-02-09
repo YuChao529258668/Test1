@@ -63,7 +63,16 @@
 
 - (NSString *)showTitle
 {
-    return ![NSString isEmpty:self.remark] ? self.remark : ![NSString isEmpty:self.nickName] ? self.nickName : self.userId;
+    if (![NSString isEmpty:self.remark] && ![self.remark isEqualToString:self.userId]) {
+        return self.remark;
+    }
+    
+    if (![NSString isEmpty:self.nickName]) {
+        return self.nickName;
+    }
+    return self.userId;
+
+//    return ![NSString isEmpty:self.remark] ? self.remark : ![NSString isEmpty:self.nickName] ? self.nickName : self.userId;
 }
 
 #pragma - mark IMAConversationAble

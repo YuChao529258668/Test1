@@ -153,7 +153,7 @@
         self.button.layer.borderWidth = 0.7f;
         self.button.tag = OrganizationTypeQuit;
     }
-  self.button.hidden = entity.companyType == 4?YES:NO;
+//  self.button.hidden = entity.companyType == 4?YES:NO;
 }
 - (IBAction)click:(UIButton *)sender {
     int tag = (int)sender.tag;

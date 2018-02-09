@@ -31,7 +31,8 @@
   [aCoder encodeObject:self.userIntro      forKey:@"userIntro"];
   [aCoder encodeObject:[NSNumber numberWithInt:self.messageNum]      forKey:@"messageNum"];
   [aCoder encodeObject:[NSNumber numberWithInt:self.readMessageNum]      forKey:@"readMessageNum"];
-  [aCoder encodeObject:[NSNumber numberWithInt:self.integralNum]     forKey:@"integralNum"];
+//    [aCoder encodeObject:[NSNumber numberWithInt:self.integralNum]     forKey:@"integralNum"];
+    [aCoder encodeObject:[NSNumber numberWithDouble:self.integralNum]     forKey:@"integralNum"];
   [aCoder encodeObject:[NSNumber numberWithInt:self.followNum]      forKey:@"followNum"];
   [aCoder encodeObject:[NSNumber numberWithInt:self.orderNum]      forKey:@"orderNum"];
   [aCoder encodeObject:[NSNumber numberWithFloat:self.totalAmount]      forKey:@"totalAmount"];
@@ -70,7 +71,8 @@
     self.userIntro       = [aDecoder decodeObjectForKey:@"userIntro"];
     self.messageNum       = [[aDecoder decodeObjectForKey:@"messageNum"]intValue];
     self.readMessageNum       = [[aDecoder decodeObjectForKey:@"readMessageNum"]intValue];
-    self.integralNum       = [[aDecoder decodeObjectForKey:@"integralNum"]intValue];
+//      self.integralNum       = [[aDecoder decodeObjectForKey:@"integralNum"]intValue];
+      self.integralNum       = [[aDecoder decodeObjectForKey:@"integralNum"]doubleValue];
     self.followNum       = [[aDecoder decodeObjectForKey:@"followNum"]intValue];
     self.orderNum       = [[aDecoder decodeObjectForKey:@"orderNum"]intValue];
     self.totalAmount       = [[aDecoder decodeObjectForKey:@"totalAmount"]floatValue];

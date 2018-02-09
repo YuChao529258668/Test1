@@ -10,7 +10,8 @@
 
 @interface CGUserStatistics : NSObject
 
-@property(nonatomic,assign)int integralNum;//积分
+//@property(nonatomic,assign)int integralNum;//积分
+@property(nonatomic,assign)double integralNum;//积分
 @property(nonatomic,assign)int subjectNum;//主题数
 @property(nonatomic,assign)int subscribeNum;//关注数
 @property(nonatomic,assign)int advicesNum;//爆料数

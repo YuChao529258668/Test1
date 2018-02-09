@@ -67,8 +67,24 @@ static ChatSystemFaceHelper *kSharedHelper = nil;
 {
     if (self = [super init])
     {
-        NSString *cfgPath = [[NSBundle mainBundle] pathForResource:@"ChatSystemFaceConfig" ofType:@"plist"];
-        NSArray *array = [NSArray arrayWithContentsOfFile:cfgPath];
+//        NSString *cfgPath = [[NSBundle mainBundle] pathForResource:@"ChatSystemFaceConfig" ofType:@"plist"];
+//        NSArray *array2 = [NSArray arrayWithContentsOfFile:cfgPath];
+        // 聊天表情
+        int count = 105;
+        NSMutableArray<NSMutableDictionary *> *array = [NSMutableArray arrayWithCapacity:count];
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        dic[@"emojiIndex"] = @0;
+        dic[@"com.tencent.rdm.uuid"] = @"0cd8945f-a84a-4c98-a318-ab31e0dac457";
+        dic[@"emojiTag"] = [NSString stringWithFormat:@"[%d]", 0];
+        [array addObject:dic];
+        
+        for (int i = 1; i < count; i++) {
+            dic = [NSMutableDictionary dictionary];
+            dic[@"emojiIndex"] = @(i);
+            dic[@"emojiTag"] = [NSString stringWithFormat:@"[%d]", i];
+            [array addObject:dic];
+        }
+
         _systemFaces = [NSObject loadItem:[ChatSystemFaceItem class] fromArrayDictionary:array];
     }
     return self;

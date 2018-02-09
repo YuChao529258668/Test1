@@ -14,4 +14,6 @@
 @property (nonatomic, assign) NSInteger packagePrice;
 @property (nonatomic, copy) NSString *packageDesc;
 @property (nonatomic, copy) NSString *iOSProductId;
+@property (nonatomic, assign) NSInteger iosPrice;
+
 @end

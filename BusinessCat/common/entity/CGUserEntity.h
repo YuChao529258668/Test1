@@ -35,7 +35,7 @@
 @property (nonatomic,retain) NSString *userIntro;//一句话介绍
 @property(nonatomic,assign)int messageNum;//消息数
 @property(nonatomic,assign)int readMessageNum;//阅读过的消息数
-@property(nonatomic,assign)int integralNum;//知识分 服务器改成 double 类型
+@property(nonatomic,assign)double integralNum;//知识分 服务器改成 double 类型
 @property(nonatomic,assign)int followNum;//收藏数
 @property(nonatomic,assign)int orderNum;//订单数
 @property(nonatomic,assign)float totalAmount;//余额

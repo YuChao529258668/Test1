@@ -34,7 +34,8 @@
     self.title = @"我的钱包";
     [super viewDidLoad];
   self.bgView.backgroundColor = CTThemeMainColor;
-  self.integralLabel.text = [NSString stringWithFormat:@"%d币",[ObjectShareTool sharedInstance].currentUser.integralNum];
+    self.integralLabel.text = [NSString stringWithFormat:@"%@币",[YCTool numberStringOf:[ObjectShareTool sharedInstance].currentUser.integralNum]];
+//    self.integralLabel.text = [NSString stringWithFormat:@"%@币",[YCTool numberStringOf:12453.666]];
   UIView *view = [[UIView alloc]init];
   view.backgroundColor = [UIColor whiteColor];
   UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-52.5f, 22, 50, 40)];
@@ -70,14 +71,14 @@
   }
   [self.collectionView reloadData];
   [self.tableview reloadData];
-  self.integralLabel.text = [NSString stringWithFormat:@"%d币",[ObjectShareTool sharedInstance].currentUser.integralNum];
+  self.integralLabel.text = [NSString stringWithFormat:@"%@币",[YCTool numberStringOf:[ObjectShareTool sharedInstance].currentUser.integralNum]];
 }
 
 -(void)refresh{
   __weak typeof(self) weakSelf = self;
   [[[CGUserCenterBiz alloc]init] queryUserDetailInfoWithCode:nil success:^(CGUserEntity *user) {
     [weakSelf.tableview reloadData];
-    weakSelf.integralLabel.text = [NSString stringWithFormat:@"%d币",[ObjectShareTool sharedInstance].currentUser.integralNum];
+    weakSelf.integralLabel.text = [NSString stringWithFormat:@"%@币",[YCTool numberStringOf:[ObjectShareTool sharedInstance].currentUser.integralNum]];
     [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOUPDATEUSERINFO object:nil];
   } fail:^(NSError *error) {
     

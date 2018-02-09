@@ -19,7 +19,8 @@
 #define IP_ADDR_IPv6    @"ipv6"
 
 #define kWXAPP_ID @"wx73bea73b9ead58e8"
-#define kWXAPP_SECRET @"1bc7ba5d9ba71c319b7691c5f65b18af"
+//#define kWXAPP_SECRET @"1bc7ba5d9ba71c319b7691c5f65b18af"
+#define kWXAPP_SECRET @"bada03ad07a1caf57d555449dceaae39"
 
 //用户信息的key
 #define CurrentLoginedUser @"CurrentLoginedUser"

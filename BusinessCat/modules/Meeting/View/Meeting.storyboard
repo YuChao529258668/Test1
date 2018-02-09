@@ -418,7 +418,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pSn-jr-Jux">
-                                <rect key="frame" x="0.0" y="258" width="375" height="360"/>
+                                <rect key="frame" x="0.0" y="280" width="375" height="338"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell2" rowHeight="74" id="cLM-Dl-PLB">
@@ -491,8 +491,8 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="所选时段空闲可用" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DJI-Hg-yHt">
-                                                    <rect key="frame" x="231.5" y="8" width="106.5" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="空闲" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DJI-Hg-yHt">
+                                                    <rect key="frame" x="311" y="8" width="27" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -540,8 +540,8 @@
                                     <constraint firstItem="2ol-DM-DnM" firstAttribute="top" secondItem="9el-2o-ZuF" secondAttribute="top" constant="35" id="w09-js-IFe"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="会议模式支持现场和远程组合开会" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BO0-4A-l4M">
-                                <rect key="frame" x="0.0" y="67" width="375" height="38"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 视频开会" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BO0-4A-l4M">
+                                <rect key="frame" x="0.0" y="64" width="375" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="J8E-26-uGm"/>
                                 </constraints>
@@ -550,7 +550,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PDt-qG-Izt">
-                                <rect key="frame" x="0.0" y="104" width="375" height="139"/>
+                                <rect key="frame" x="0.0" y="101" width="375" height="139"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="work_line_1" translatesAutoresizingMaskIntoConstraints="NO" id="tjQ-Es-RU3" userLabel="Line1">
                                         <rect key="frame" x="0.0" y="42" width="375" height="1"/>
@@ -558,8 +558,8 @@
                                             <constraint firstAttribute="height" constant="0.59999999999999998" id="hgu-R4-GJn"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="远程开会" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CyF-e6-bba">
-                                        <rect key="frame" x="50" y="14" width="61.5" height="18"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CyF-e6-bba">
+                                        <rect key="frame" x="50" y="14" width="4" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -693,25 +693,37 @@
                                     <action selector="clickOKBtn:" destination="vLP-Yh-QGD" eventType="touchUpInside" id="Jfi-DW-f5x"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 会议室开会" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UH6-5W-nZc">
+                                <rect key="frame" x="0.0" y="241" width="375" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="VOL-Sr-s0S"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.95269626380000005" green="0.95671778919999995" blue="0.96903771159999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="PDt-qG-Izt" secondAttribute="trailing" id="1hY-ZX-1kz"/>
+                            <constraint firstAttribute="trailing" secondItem="UH6-5W-nZc" secondAttribute="trailing" id="3Q2-Bs-JIA"/>
                             <constraint firstItem="PDt-qG-Izt" firstAttribute="top" secondItem="BO0-4A-l4M" secondAttribute="bottom" constant="-1" id="B1N-EP-QsQ"/>
                             <constraint firstItem="PDt-qG-Izt" firstAttribute="leading" secondItem="2MV-Xl-EqH" secondAttribute="leading" id="BYu-hU-0pz"/>
                             <constraint firstAttribute="trailing" secondItem="9el-2o-ZuF" secondAttribute="trailing" id="JLV-17-Qi0"/>
                             <constraint firstAttribute="trailing" secondItem="pSn-jr-Jux" secondAttribute="trailing" id="KOo-AY-EZW"/>
                             <constraint firstItem="ZVI-uH-HXf" firstAttribute="top" secondItem="AQd-Zz-ULE" secondAttribute="bottom" id="N53-Jf-SW8"/>
-                            <constraint firstItem="pSn-jr-Jux" firstAttribute="top" secondItem="PDt-qG-Izt" secondAttribute="bottom" constant="15" id="Ncs-le-omq"/>
                             <constraint firstItem="pSn-jr-Jux" firstAttribute="leading" secondItem="2MV-Xl-EqH" secondAttribute="leading" id="PnF-aU-aiW"/>
                             <constraint firstItem="9el-2o-ZuF" firstAttribute="leading" secondItem="2MV-Xl-EqH" secondAttribute="leading" id="Tf5-rL-abp"/>
                             <constraint firstItem="BO0-4A-l4M" firstAttribute="leading" secondItem="2MV-Xl-EqH" secondAttribute="leading" id="efr-WJ-nkI"/>
                             <constraint firstAttribute="trailing" secondItem="AQd-Zz-ULE" secondAttribute="trailing" id="g4h-CR-Aj8"/>
+                            <constraint firstItem="pSn-jr-Jux" firstAttribute="top" secondItem="UH6-5W-nZc" secondAttribute="bottom" constant="1" id="jY6-9l-ubc"/>
                             <constraint firstAttribute="trailing" secondItem="BO0-4A-l4M" secondAttribute="trailing" id="lRQ-r1-xSd"/>
                             <constraint firstItem="ZVI-uH-HXf" firstAttribute="top" secondItem="pSn-jr-Jux" secondAttribute="bottom" constant="49" id="nZZ-Vl-eSN"/>
                             <constraint firstItem="AQd-Zz-ULE" firstAttribute="leading" secondItem="2MV-Xl-EqH" secondAttribute="leading" id="pvi-TX-Blx"/>
                             <constraint firstItem="9el-2o-ZuF" firstAttribute="top" secondItem="2MV-Xl-EqH" secondAttribute="top" id="sFX-Ke-7J7"/>
-                            <constraint firstItem="BO0-4A-l4M" firstAttribute="top" secondItem="9el-2o-ZuF" secondAttribute="bottom" constant="3" id="uq0-fK-fgh"/>
+                            <constraint firstItem="BO0-4A-l4M" firstAttribute="top" secondItem="9el-2o-ZuF" secondAttribute="bottom" id="uq0-fK-fgh"/>
+                            <constraint firstItem="UH6-5W-nZc" firstAttribute="leading" secondItem="2MV-Xl-EqH" secondAttribute="leading" id="wa2-ew-of7"/>
+                            <constraint firstItem="UH6-5W-nZc" firstAttribute="top" secondItem="PDt-qG-Izt" secondAttribute="bottom" constant="1" id="wct-oK-Pz6"/>
                         </constraints>
                     </view>
                     <connections>

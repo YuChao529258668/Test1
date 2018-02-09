@@ -9,11 +9,15 @@
 #import "ConversationListViewController.h"
 
 #import "ConversationListTableViewCell.h"
+#import "SwipeDeleteTableView.h"
 
-@interface ConversationListViewController ()
+@interface ConversationListViewController ()<UISearchBarDelegate>
 {
     
 }
+@property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, assign) BOOL isSearch;
+@property (nonatomic, strong) NSMutableArray<id<IMAConversationShowAble>> *searchResult;
 
 @end
 
@@ -61,6 +65,8 @@
     [super viewDidLoad];
 //    self.navigationItem.title = @"会话";
 //    [self pinHeaderView];
+    
+    [self setupSearchBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -122,6 +128,10 @@
 
 - (void)onConversationChanged:(IMAConversationChangedNotifyItem *)item
 {
+    if (self.isSearch) {
+        return;
+    }
+
     switch (item.type)
     {
         case EIMAConversation_SyncLocalConversation:
@@ -139,6 +149,7 @@
             break;
         case EIMAConversation_NewConversation:
         {
+            
             [self.tableView beginUpdates];
             NSIndexPath *index = [NSIndexPath indexPathForRow:item.index inSection:0];
             [self.tableView insertRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
@@ -192,6 +203,7 @@
     //    });
 }
 
+#pragma mark -
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -202,17 +214,30 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.isSearch) {
+        return self.searchResult.count;
+    }
     return [_conversationList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id<IMAConversationShowAble> conv = [_conversationList objectAtIndex:indexPath.row];
+    // 可能是 IMAConversation
+    id<IMAConversationShowAble> conv;
+    id<IMAConversationShowAble> tempCon;
+    
+    if (self.isSearch) {
+        conv = self.searchResult[indexPath.row];
+        tempCon = conv;
+    } else {
+        conv = [_conversationList objectAtIndex:indexPath.row];
+        tempCon = [[[IMAPlatform sharedInstance].conversationMgr conversationList] objectAtIndex:indexPath.row];
+    }
+    
     NSString *reuseidentifier = [conv showReuseIndentifier];
     [conv attributedDraft];
-    id<IMAConversationShowAble> tempCon = [[[IMAPlatform sharedInstance].conversationMgr conversationList] objectAtIndex:indexPath.row];
     [tempCon attributedDraft];
-    
+
     ConversationListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseidentifier];
     if (!cell)
     {
@@ -223,7 +248,8 @@
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+//    return YES;
+    return !self.isSearch;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -239,7 +265,13 @@
         return;
     }
     
-    id<IMAConversationShowAble> convable = [_conversationList objectAtIndex:indexPath.row];
+    id<IMAConversationShowAble> convable;
+    if (self.isSearch) {
+        convable = self.searchResult[indexPath.row];
+    } else {
+        convable = [_conversationList objectAtIndex:indexPath.row];
+    }
+
     ConversationListTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     IMAConversation *conv = (IMAConversation *)convable;
     switch ([convable conversationType])
@@ -315,5 +347,69 @@
     
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
+}
+
+#pragma mark - 搜索栏
+
+- (void)setupSearchBar {
+    UISearchBar *sb = [[UISearchBar alloc]initWithFrame:CGRectMake(0, TOPBARHEIGHT, SCREEN_WIDTH, 56)];
+    self.searchBar = sb;
+    [self.view addSubview:sb];
+    
+    sb.placeholder = @"请输入关键字";
+    sb.delegate = self;
+    sb.searchBarStyle = UISearchBarStyleMinimal;
+    sb.returnKeyType = UIReturnKeyDone;
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    // 点击键盘的回车键有反应
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self searchWithText:searchText];
+    [self.tableView reloadData];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = YES;
+    self.isSearch = YES;
+    [self.tableView reloadData];
+    
+//    ((SwipeDeleteTableView *)self.tableView).shouldBeginLeftSwipe = NO;
+}
+
+//- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
+//    // 点取消按钮会调用。点键盘没反应
+//    return YES;
+//}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = NO;
+    self.searchBar.text = nil;
+    [self.searchBar resignFirstResponder];
+    
+    self.isSearch = NO;
+    [self.tableView reloadData];
+    
+//    ((SwipeDeleteTableView *)self.tableView).shouldBeginLeftSwipe = YES;
+}
+
+- (void)searchWithText:(NSString *)text {
+//     CLSafeMutableArray
+//    _conversationList
+//    id<IMAConversationShowAble> conv = [_conversationList objectAtIndex:indexPath.row];
+    
+    self.searchResult = [NSMutableArray arrayWithCapacity:0];
+    
+    [_conversationList.safeArray enumerateObjectsUsingBlock:^(id<IMAConversationShowAble> conv, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([[conv showTitle] containsString:text]) {
+            [self.searchResult addObject:conv];
+        }
+    }];
+}
 
 @end

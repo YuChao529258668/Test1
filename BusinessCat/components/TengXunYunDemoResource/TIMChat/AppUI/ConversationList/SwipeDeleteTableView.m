@@ -61,15 +61,15 @@ const static char * kSwipeDeleteTableViewCellIndexPathKey = "SwipeDeleteTableVie
     if (self)
     {
         
-        _leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
-        _leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-        _leftSwipe.delegate = self;
-        [self addGestureRecognizer:_leftSwipe];
-
-        _rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
-        _rightSwipe.delegate = self;
-        _rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-        [self addGestureRecognizer:_rightSwipe];
+//        _leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
+//        _leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+//        _leftSwipe.delegate = self;
+//        [self addGestureRecognizer:_leftSwipe];
+//
+//        _rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
+//        _rightSwipe.delegate = self;
+//        _rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+//        [self addGestureRecognizer:_rightSwipe];
 
         _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
         _tapGesture.delegate = self;
@@ -85,6 +85,8 @@ const static char * kSwipeDeleteTableViewCellIndexPathKey = "SwipeDeleteTableVie
         [self addSubview:_deleteButton];
 
         [self setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+        
+//        self.shouldBeginLeftSwipe = YES;
     }
     return self;
 }
@@ -221,5 +223,16 @@ const static char * kSwipeDeleteTableViewCellIndexPathKey = "SwipeDeleteTableVie
 {
     return NO; // Recognizers of this class are the first priority
 }
+
+//- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+//    if (gestureRecognizer == _leftSwipe) {
+//        NSLog(@"手势左滑 = %@", gestureRecognizer);
+//
+//        return self.shouldBeginLeftSwipe;
+//    } else {
+//        NSLog(@"手势 = %@", gestureRecognizer);
+//        return YES;
+//    }
+//}
 
 @end
