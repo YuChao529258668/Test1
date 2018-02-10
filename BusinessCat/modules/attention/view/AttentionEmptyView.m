@@ -26,7 +26,7 @@
         [self addSubview:title];
         
 //        UILabel *desc = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(title.frame), SCREEN_WIDTH, 30)];
-//        desc.text = @"关注后会议猫将自动挖掘更多数据";
+//        desc.text = @"关注后开会猫将自动挖掘更多数据";
 //        desc.textAlignment = NSTextAlignmentCenter;
 //        desc.font = [UIFont systemFontOfSize:13];
 //        desc.textColor = [UIColor grayColor];

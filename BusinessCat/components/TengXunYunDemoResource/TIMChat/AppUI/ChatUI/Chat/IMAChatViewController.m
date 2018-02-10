@@ -441,4 +441,14 @@
     [self moreVideVideoAction];
 }
 
+- (void)onChatInputMeeting:(UIView<ChatInputAbleView> *)chatInput
+{
+    [self moreViewMeetingAction];
+}
+- (void)onChatInputVote:(UIView<ChatInputAbleView> *)chatInput
+{
+    [self moreViewVoteAction];
+}
+
+
 @end

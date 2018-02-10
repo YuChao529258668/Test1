@@ -15,5 +15,6 @@
 @property (nonatomic, copy) NSString *packageDesc;
 @property (nonatomic, copy) NSString *iOSProductId;
 @property (nonatomic, assign) NSInteger iosPrice;
+@property (nonatomic, strong) NSString *iosTitle; // getter：为空则返回 packageTitle
 
 @end

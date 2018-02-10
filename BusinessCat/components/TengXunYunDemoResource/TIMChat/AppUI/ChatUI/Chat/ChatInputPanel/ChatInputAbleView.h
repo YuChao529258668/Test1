@@ -50,4 +50,7 @@
 - (void)onChatInputSendFile:(UIView<ChatInputAbleView> *)chatInput;
 - (void)onChatInputRecordVideo:(UIView<ChatInputAbleView> *)chatInput;
 
+- (void)onChatInputMeeting:(UIView<ChatInputAbleView> *)chatInput;
+- (void)onChatInputVote:(UIView<ChatInputAbleView> *)chatInput;
+
 @end

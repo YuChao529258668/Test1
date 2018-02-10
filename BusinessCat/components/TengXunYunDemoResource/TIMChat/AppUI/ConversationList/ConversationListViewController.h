@@ -14,4 +14,8 @@
     __weak CLSafeMutableArray   *_conversationList;
 }
 
+
+#pragma mark - 子类重写
+- (void)clickAppMessage;
+
 @end

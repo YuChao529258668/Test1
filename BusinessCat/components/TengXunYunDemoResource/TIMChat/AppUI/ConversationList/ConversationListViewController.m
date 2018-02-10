@@ -231,19 +231,26 @@
         tempCon = conv;
     } else {
         conv = [_conversationList objectAtIndex:indexPath.row];
-        tempCon = [[[IMAPlatform sharedInstance].conversationMgr conversationList] objectAtIndex:indexPath.row];
+//        tempCon = [[[IMAPlatform sharedInstance].conversationMgr conversationList] objectAtIndex:indexPath.row];
+        tempCon = conv;
     }
     
-    NSString *reuseidentifier = [conv showReuseIndentifier];
-    [conv attributedDraft];
-    [tempCon attributedDraft];
+    NSString *reuseidentifier = [conv showReuseIndentifier];//IMAConnectConversation_ReuseIndentifier
 
     ConversationListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseidentifier];
     if (!cell)
     {
         cell = [[[conv showCellClass] alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseidentifier];
     }
-    [cell configCellWith:conv];
+    
+    IMAConversation *con = (IMAConversation *)conv;
+    if (con.isCustom) {
+        [cell configCellWithTimeStr:con.customTimeStr lastMsg:con.customLastMsg badge:con.customBadge];
+    } else {
+        [conv attributedDraft];
+        [tempCon attributedDraft];
+        [cell configCellWith:conv];
+    }
     return cell;
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -271,7 +278,12 @@
     } else {
         convable = [_conversationList objectAtIndex:indexPath.row];
     }
-
+    IMAConversation *con = (IMAConversation *)convable;
+    if (con.isCustom) {
+        [self clickAppMessage];
+        return;
+    }
+    
     ConversationListTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     IMAConversation *conv = (IMAConversation *)convable;
     switch ([convable conversationType])
@@ -410,6 +422,13 @@
             [self.searchResult addObject:conv];
         }
     }];
+}
+
+
+#pragma mark - 子类重写
+
+- (void)clickAppMessage {
+    
 }
 
 @end

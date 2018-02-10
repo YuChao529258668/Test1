@@ -45,6 +45,7 @@
 @property(nonatomic,retain)UILabel *systemRedHot;//消息红点
 @property(nonatomic,strong)NSTimer *timer;
 @property (nonatomic, strong) YCChatListMenu *menu;
+@property (nonatomic, strong) IMAConversation *appMessage;
 
 @end
 
@@ -73,6 +74,7 @@
 //    [self setupCallBtn];
     [self setupMenuBtn];
     [self setupAddressBookBtn];
+    [self addAppMessage];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -286,6 +288,8 @@
 - (void)handleLoginSuccessNotification {
 //    [self onViewDidLoad]; // 腾讯云登录
     [self loginTengXunYun]; // 腾讯云登录
+    
+    [self addAppMessage];
 }
 
 - (void)handleLogoutSuccessNotification {
@@ -299,6 +303,9 @@
 //        [self configOwnViews];
         _conversationList = nil;
         [self.tableView reloadData];
+        
+        [self deleteAppMessage];
+        self.appMessage = nil;
         
     } fail:^(int code, NSString *err) {
         [[HUDHelper sharedInstance] syncStopLoadingMessage:IMALocalizedError(code, err) delay:2 completion:^{
@@ -640,10 +647,12 @@
     self.timer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(scoopLastTimer) userInfo:nil repeats:YES];
 
 }
-
+// 收到系统消息？
 -(void)notificationSystemMessageRedHot:(NSNotification *)notification{
     int state = [notification.object intValue];
     [self setSystemRedHotState:state];
+    
+    [self moveAppMessage];
 }
 -(void)setSystemRedHotState:(int)state{
     if(state == 1){
@@ -811,6 +820,63 @@
         CGMainLoginViewController *controller = [[CGMainLoginViewController alloc]init];
         [self.navigationController pushViewController:controller animated:YES];
     }
+}
+
+#pragma mark - APP 消息
+// [[TIMManager sharedInstance] getConversationList];
+
+- (IMAConversation *)appMessage {
+    if (!_appMessage) {
+        _appMessage = [IMAConversation new];
+        _appMessage.isCustom = YES;
+        _appMessage.customTimeStr = @"时间";
+        _appMessage.customLastMsg = @"内容";
+        _appMessage.customBadge = 99;
+//        @property (nonatomic, strong) NSString *customTimeStr;
+//        @property (nonatomic, strong) NSString *customLastMsg;
+//        @property (nonatomic, assign) NSInteger customBadge;
+
+    }
+    return _appMessage;
+}
+
+// 登录成功后调用
+- (void)addAppMessage {
+    return;
+    
+    if (_conversationList) {
+        if (![_conversationList containsObject:self.appMessage]) {
+//            IMAConversationManager *mgr = [IMAPlatform sharedInstance].conversationMgr;
+//            _conversationList = [mgr conversationList];
+            [_conversationList insertObject:self.appMessage atIndex:0];
+        }
+    } else {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self addAppMessage];
+        });
+    }
+}
+
+// 移到首位，收到新消息后调用。notificationSystemMessageRedHot
+- (void)moveAppMessage {
+    return;
+    
+    [self deleteAppMessage];
+    [self addAppMessage];
+}
+
+// 注销后调用
+- (void)deleteAppMessage {
+    return;
+    
+    [_conversationList removeObject:self.appMessage];
+}
+
+// 重写父类方法
+- (void)clickAppMessage {
+    return;
+    
+    [self messageAction];
 }
 
 @end

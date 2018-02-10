@@ -235,7 +235,7 @@ static NSString * const Identifier = @"CGInterfaceImageViewCell";
   if ([self.dataList.fileName hasSuffix:@"rar"]||[self.dataList.fileName hasSuffix:@"zip"]) {
     desc = @"此压缩文件无法在手机上浏览，请在电脑端下载后解压打开";
   }else{
-    desc = @"我在会议猫上面下载了这份文件，现在也发送给你";
+    desc = @"我在开会猫上面下载了这份文件，现在也发送给你";
   }
   [self.shareUtil showShareMenuWithTitle:self.dataList.fileName desc:desc isqrcode:1 image:[UIImage imageNamed:@"login_image"] url:self.dataList.downloadUrl block:^(NSMutableArray *array) {
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:array applicationActivities:nil];
@@ -271,7 +271,7 @@ static NSString * const Identifier = @"CGInterfaceImageViewCell";
 //  url = [self encodeString:url];
   __weak typeof(self) weakSlef = self;
   self.shareUtil = [[ShareUtil alloc]init];
-  [self.shareUtil showShareMenuWithTitle:self.dataList.title desc:@"我在会议猫发现了这份非常优质的专辑，现在也推荐给你" isqrcode:1 image:self.dataList.cover url:url block:^(NSMutableArray *array) {
+  [self.shareUtil showShareMenuWithTitle:self.dataList.title desc:@"我在开会猫发现了这份非常优质的专辑，现在也推荐给你" isqrcode:1 image:self.dataList.cover url:url block:^(NSMutableArray *array) {
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:array applicationActivities:nil];
     [weakSlef presentViewController:activityVC animated:YES completion:nil];
   }];

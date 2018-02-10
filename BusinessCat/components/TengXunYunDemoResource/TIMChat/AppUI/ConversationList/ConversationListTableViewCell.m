@@ -192,5 +192,20 @@ static void extracted(ConversationListTableViewCell *object) {
     [_unReadBadge alignVerticalCenterOf:_lastMsg];
 }
 
+#pragma mark -
 
+- (void)configCellWithTimeStr:(NSString *)timeStr lastMsg:(NSString *)msg badge:(NSInteger)badge {
+    [_conversationIcon setBackgroundImage:[UIImage imageNamed:@"news_icon_news"] forState:UIControlStateNormal];
+    
+    _conversationName.text = @"系统消息";
+    
+    _lastMsgTime.text =  timeStr;
+    
+    _lastMsg.text = msg;
+    
+    _unReadBadge.hidden = badge == 0;
+    
+    [_unReadBadge setTitle:badge > 99 ? @"99+" : [NSString stringWithFormat:@"%ld", (long)badge] forState:UIControlStateNormal];
+
+}
 @end

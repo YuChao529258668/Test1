@@ -562,6 +562,21 @@
 }
 
 #pragma mark - MyMoreViewDelegate
+// 聊天界面 继续开会
+- (void)moreViewMeetingAction
+{
+    // 隐藏键盘
+    [self hiddenKeyBoard];
+    [CTToast showWithText:@"继续开会"];
+}
+// 聊天界面 投票
+- (void)moreViewVoteAction
+{
+    // 隐藏键盘
+    [self hiddenKeyBoard];
+    [CTToast showWithText:@"投票"];
+}
+
 - (void)moreViewPhotoAction
 {
     // 隐藏键盘

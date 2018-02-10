@@ -1502,11 +1502,11 @@
   __weak typeof(self) weakSelf = self;
   NSString *desc = @"";
   if (self.detailType == 4) {
-    desc = @"我在会议猫发现了这个非常优质的岗位工具，现在也推荐给你";
+    desc = @"我在开会猫发现了这个非常优质的岗位工具，现在也推荐给你";
   }else if (self.type == 1){
-    desc = @"我在会议猫发现了这份非常优质的知识，现在也推荐给你";
+    desc = @"我在开会猫发现了这份非常优质的知识，现在也推荐给你";
   }else{
-    desc = @"我在会议猫发现了这份非常优质的文档，现在也推荐给你";
+    desc = @"我在开会猫发现了这份非常优质的文档，现在也推荐给你";
   }
   [self.shareUtil showShareMenuWithTitle:self.detail.title desc:desc isqrcode:1 image:[UIImage imageNamed:@"login_image"] url:self.detail.shareUrl block:^(NSMutableArray *array) {
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:array applicationActivities:nil];
@@ -1674,7 +1674,7 @@
   if ([self.detail.fileName hasSuffix:@"rar"]||[self.detail.fileName hasSuffix:@"zip"]) {
     desc = @"此压缩文件无法在手机上浏览，请在电脑端下载后解压打开";
   }else{
-    desc = @"我在会议猫上面下载了这份文件，现在也发送给你";
+    desc = @"我在开会猫上面下载了这份文件，现在也发送给你";
   }
   self.shareUtil.isDownFire = YES;
   [self.shareUtil showShareMenuWithTitle:self.detail.fileName desc:desc isqrcode:1 image:[UIImage imageNamed:@"login_image"] url:self.detail.downloadUrl block:^(NSMutableArray *array) {

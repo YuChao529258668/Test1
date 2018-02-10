@@ -25,4 +25,7 @@
 
 - (void)refreshCell;
 
+// 用于生意猫
+- (void)configCellWithTimeStr:(NSString *)timeStr lastMsg:(NSString *)msg badge:(NSInteger)badge;
+
 @end

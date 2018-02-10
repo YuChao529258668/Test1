@@ -9,5 +9,11 @@
 #import "CGGradesPackageEntity.h"
 
 @implementation CGGradesPackageEntity
-
+- (NSString *)iosTitle {
+    if (_iosTitle) {
+        return _iosTitle;
+    } else {
+        return _packageTitle;
+    }
+}
 @end

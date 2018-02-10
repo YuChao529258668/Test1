@@ -15,6 +15,10 @@
     ImageTitleButton    *_photo;
     ImageTitleButton    *_file;
     ImageTitleButton    *_video;
+    
+    ImageTitleButton    *_meeting;
+    ImageTitleButton    *_vote;// 投票
+
 }
 
 @end

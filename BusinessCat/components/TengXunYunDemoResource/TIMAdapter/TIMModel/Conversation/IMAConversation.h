@@ -72,6 +72,14 @@ typedef void (^RemoveMsgBlock)(NSArray *imamsgList, BOOL succ, CommonVoidBlock r
 
 - (TIMMessageDraft *)getDraft;
 
+
+// 下面几个属性用于生意猫
+@property (nonatomic, assign) BOOL isCustom; // 用于判断是否表示生意猫的系统消息
+@property (nonatomic, strong) NSString *customTimeStr;
+@property (nonatomic, strong) NSString *customLastMsg;
+@property (nonatomic, assign) NSInteger customBadge;
+
+
 //===========================
 // Protected方法
 - (void)onReceiveNewMessage:(IMAMsg *)msg;

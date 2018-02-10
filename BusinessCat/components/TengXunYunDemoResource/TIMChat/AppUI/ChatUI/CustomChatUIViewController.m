@@ -18,29 +18,48 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupRightBtn];
+    [self setupMeetingBtn];
 }
 
-- (void)setupRightBtn {
-    BOOL isUser = [_receiver isC2CType];
-    UIImage *person = [UIImage imageNamed:@"person"];
-    person = [person imageWithTintColor:[UIColor blackColor]];
-    UIImage *group = [UIImage imageNamed:@"group"];
-    group = [group imageWithTintColor:[UIColor blackColor]];
-    
-//    UIImage *norimage =  isUser ? [UIImage imageNamed:@"person"] :  [UIImage imageNamed:@"group"];
-    UIImage *norimage =  isUser ? person :  group;
-//    UIImage *higimage =  isUser ? [UIImage imageNamed:@"person_hover"] :  [UIImage imageNamed:@"group_hover"];
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, norimage.size.width, norimage.size.height)];
-    [btn setImage:norimage forState:UIControlStateNormal];
-//    [btn setImage:higimage forState:UIControlStateHighlighted];
-    [btn addTarget:self action:@selector(onClickChatSetting) forControlEvents:UIControlEventTouchUpInside];
+// 好友信息、群信息
+//- (void)setupRightBtn {
+//    BOOL isUser = [_receiver isC2CType];
+//    UIImage *person = [UIImage imageNamed:@"person"];
+//    person = [person imageWithTintColor:[UIColor blackColor]];
+//    UIImage *group = [UIImage imageNamed:@"group"];
+//    group = [group imageWithTintColor:[UIColor blackColor]];
+//
+////    UIImage *norimage =  isUser ? [UIImage imageNamed:@"person"] :  [UIImage imageNamed:@"group"];
+//    UIImage *norimage =  isUser ? person :  group;
+////    UIImage *higimage =  isUser ? [UIImage imageNamed:@"person_hover"] :  [UIImage imageNamed:@"group_hover"];
+//    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, norimage.size.width, norimage.size.height)];
+//    [btn setImage:norimage forState:UIControlStateNormal];
+////    [btn setImage:higimage forState:UIControlStateHighlighted];
+//    [btn addTarget:self action:@selector(onClickChatSetting) forControlEvents:UIControlEventTouchUpInside];
+//
+//    CGRect frame = btn.frame;
+//    frame.origin.x = [UIScreen mainScreen].bounds.size.width - frame.size.width - 8;
+//    frame.origin.y = 30;
+//    btn.frame = frame;
+//    [self.navi addSubview:btn];
+//}
+
+// 跳转到会议界面
+- (void)setupMeetingBtn {
+    UIImage *image = [UIImage imageNamed:@"news_icon_meetting"];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
+    [btn setImage:image forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(clickMeetingBtn) forControlEvents:UIControlEventTouchUpInside];
     
     CGRect frame = btn.frame;
     frame.origin.x = [UIScreen mainScreen].bounds.size.width - frame.size.width - 8;
-    frame.origin.y = 30;
+    frame.origin.y = 24;
     btn.frame = frame;
     [self.navi addSubview:btn];
+}
+
+- (void)clickMeetingBtn {
+    [CTToast showWithText:@"点击会议室按钮"];
 }
 
 #pragma mark -

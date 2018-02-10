@@ -272,11 +272,12 @@
       cell.selectIcon.image = [UIImage imageNamed:@"weixuanzhong"];
     }
     CGGradesPackageEntity *entity = self.dataArray[indexPath.row];
-    cell.title.text = entity.packageTitle;
       if (self.useWeiXinPay) {
           cell.money.text = [NSString stringWithFormat:@"￥%.2f",entity.packagePrice/100.0];
+          cell.title.text = entity.packageTitle;
       } else {
           cell.money.text = [NSString stringWithFormat:@"￥%.2f",entity.iosPrice/100.0];
+          cell.title.text = entity.iosTitle;
       }
     cell.desc.text = entity.packageDesc;
     return cell;

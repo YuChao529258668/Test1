@@ -23,6 +23,8 @@
 - (void)moreViewFileAction;
 - (void)moreVideVideoAction;
 
+- (void)moreViewMeetingAction;
+- (void)moreViewVoteAction;
 @end
 
 @interface MyMoreView : UIView{
