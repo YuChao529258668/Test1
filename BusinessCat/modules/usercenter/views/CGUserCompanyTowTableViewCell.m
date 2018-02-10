@@ -40,17 +40,21 @@
       [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"加入审核" imageName:@"toexamine" method:@selector(JoinAudit) count:[ObjectShareTool sharedInstance].currentUser.auditNum]];
       [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"通讯录" imageName:@"jurisdiction" method:@selector(teamAddressBook) count:0]];
       break;
+          
     case ChangeOrganizationSuperAdmin:
       [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"加入审核" imageName:@"toexamine" method:@selector(JoinAudit) count:[ObjectShareTool sharedInstance].currentUser.auditNum]];
       [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"通讯录" imageName:@"jurisdiction" method:@selector(teamAddressBook) count:0]];
       break;
+          
     case ChangeOrganizationYetClaimed:
       [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"认领组织" imageName:@"authenticationgsi" method:@selector(claimOrganize) count:[ChangeOrganizationViewModel getOrganizationYetClaimedCount]]];
       [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"通讯录" imageName:@"jurisdiction" method:@selector(teamAddressBook) count:0]];
       break;
+          
     case ChangeOrganizationBasicPermissions:
       [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"通讯录" imageName:@"jurisdiction" method:@selector(teamAddressBook) count:0]];
       break;
+          
     case ChangeOrganizationNone:
       
       break;
@@ -58,9 +62,13 @@
     default:
       break;
   }
-  [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"邀请成员" imageName:@"yaoqingtongshi" method:@selector(inviteMember) count:0]];
+    
+    [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"邀请成员" imageName:@"yaoqingtongshi" method:@selector(inviteMember) count:0]];
+    
+    [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"共享收益" imageName:@"me_icon_money" method:@selector(shareProfit) count:0]];
+
   if ([ChangeOrganizationViewModel isOrganizationPrivilege]) {
-    [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"VIP企业特权" imageName:@"user_companyprivilege" method:@selector(teamPrivilege) count:0]];
+    [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"VIP特权" imageName:@"user_companyprivilege" method:@selector(teamPrivilege) count:0]];
   }else{
     [viewArray addObject:[self createOrganizeMenuWith:CGRectMake(0, 0, width, 70) titleStr:@"成为VIP企业" imageName:@"user_companyprivilege" method:@selector(teamPrivilege) count:[ChangeOrganizationViewModel getOrganizationPrivilegeCount]]];
   }
@@ -232,5 +240,15 @@
   }else{
     self.block(OrganisationSelectTypeToSearch);
   }
+}
+
+- (void)shareProfit {
+    if ([ObjectShareTool sharedInstance].currentUser.isLogin ==NO) {
+        self.block(OrganisationSelectTypeIsLogOut);
+    }else if ([ObjectShareTool sharedInstance].currentUser.companyList.count>0) {
+        self.block(OrganisationSelectTypeShareProfit);
+    }else{
+        self.block(OrganisationSelectTypeToSearch);
+    }
 }
 @end

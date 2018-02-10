@@ -43,7 +43,8 @@
 #import "CGDiscoverBiz.h"
 #import "YCPersonalProfitController.h"
 #import "QRCScannerViewController.h"
-
+#import "YCAllShareProfitController.h"
+#import "YCShareProfitsController.h"
 @interface CGMyMainViewController ()<UIActionSheetDelegate, QRCodeScannerViewControllerDelegate>
 
 @property(nonatomic,retain)UIImageView *userIcon;//用户头像
@@ -255,10 +256,11 @@
             return NormalCellHeight;
         }else if(indexPath.row == 3){
             // CGUserCompanyTowTableViewCell.h
-          if ([ChangeOrganizationViewModel getChangeOrganizationState] == ChangeOrganizationTypeSuperAdminYetClaimed) {
-            return OrganizeOperateHeight*2;
+            // 通讯录高度
+          if ([ChangeOrganizationViewModel getChangeOrganizationState] == ChangeOrganizationBasicPermissions || [ChangeOrganizationViewModel getChangeOrganizationState] == ChangeOrganizationNone) {
+            return OrganizeOperateHeight;
           }
-          return OrganizeOperateHeight;
+          return OrganizeOperateHeight*2;
         }
     }else if(indexPath.section == 1){
         return NormalCellHeight;
@@ -391,6 +393,10 @@
                     [weakSelf clickToLoginAction];
                   }
                     break;
+                    case OrganisationSelectTypeShareProfit: {
+                        // 共享收益
+                        [weakSelf clickShareProfit];
+                    }
                   default:
                     break;
                 }
@@ -1019,6 +1025,19 @@
     vc.companyID = @"";
     vc.title = @"收益";
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)clickShareProfit {
+//    NSArray *ay = [[NSBundle mainBundle]loadNibNamed:@"YCAllShareProfitController" owner:nil options:nil];
+    //    YCShareProfitsController *vc = [YCShareProfitsController new];
+
+    YCAllShareProfitController *vc = [YCAllShareProfitController new];
+    vc.type = 0;// 公司
+    vc.companyID = @"";
+    
+    [self.navigationController pushViewController:vc animated:YES];
+
+    
 }
 
 @end

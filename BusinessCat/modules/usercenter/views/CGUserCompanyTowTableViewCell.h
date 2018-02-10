@@ -19,6 +19,8 @@ typedef NS_ENUM(NSInteger, OrganisationSelectType) {
   OrganisationSelectTypeHousekeeper      = 8,  //企业管家
   OrganisationSelectTypeToSearch         = 9,  //跳搜索功能的
   OrganisationSelectTypeIsLogOut         = 10, //未登录
+    OrganisationSelectTypeShareProfit         = 11 //共享收益
+
 };
 
 typedef void(^SelectedButtonIndex)(NSInteger type);

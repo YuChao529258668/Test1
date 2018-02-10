@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *waitL;
 @property (weak, nonatomic) IBOutlet UILabel *totalL;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *navHeightConstraint;
 @property (nonatomic, strong) YCMeetingProfit *profit;
 @end
 
@@ -30,6 +31,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if (self.shouldHideNavigationBar) {
+        self.navHeightConstraint.constant = 0;
+    }
     
     self.titleL.text = self.title;
     self.noIncomeView.hidden = YES;
@@ -59,6 +64,9 @@
     
     CGRect topFrame = [UIScreen mainScreen].bounds;
     topFrame.origin.y = 64;
+    if (self.shouldHideNavigationBar) {
+        topFrame.origin.y = 0;
+    }
     topFrame.size.height = 99;
     self.topView.frame = topFrame;
 
@@ -118,7 +126,10 @@
     [YCSpaceBiz getProfitWithType:self.type companyID:self.companyID Success:^(YCMeetingProfit *profit){
         weakself.profit = profit;
         [weakself.tableView reloadData];
-        weakself.noIncomeView.hidden = profit.isShare;
+        
+        if (weakself.type == 1) {
+            weakself.noIncomeView.hidden = profit.isShare;
+        }
         YCOneMeetingProfit *op = profit.shareProfit.firstObject;
         weakself.todayL.text = [YCTool numberStringOf:op.todayIncome];
         weakself.waitL.text = [YCTool numberStringOf:op.forIncome];
@@ -127,5 +138,11 @@
         
     }];
 }
+
+- (void)reloadDataWithCompanyID:(NSString *)cid {
+    self.companyID = cid;
+    [self getProfit];
+}
+
 
 @end

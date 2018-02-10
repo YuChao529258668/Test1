@@ -694,6 +694,10 @@
 		0DCD733E1FB3F3EB00972501 /* IMSDKBugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73301FB3F3EA00972501 /* IMSDKBugly.framework */; };
 		0DCD73401FB3F3EB00972501 /* readme in Resources */ = {isa = PBXBuildFile; fileRef = 0DCD73321FB3F3EA00972501 /* readme */; };
 		0DCD73411FB3F3EB00972501 /* TLSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73331FB3F3EB00972501 /* TLSSDK.framework */; };
+		0DD8321B202ED9BD00AFC8F5 /* YCShareProfitsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DD83219202ED9BD00AFC8F5 /* YCShareProfitsController.m */; };
+		0DD8321C202ED9BD00AFC8F5 /* YCShareProfitsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DD8321A202ED9BD00AFC8F5 /* YCShareProfitsController.xib */; };
+		0DD83225202EDEA300AFC8F5 /* YCAllShareProfitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DD83223202EDEA200AFC8F5 /* YCAllShareProfitController.m */; };
+		0DD83226202EDEA300AFC8F5 /* YCAllShareProfitController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DD83224202EDEA300AFC8F5 /* YCAllShareProfitController.xib */; };
 		0DDE741D1FF4F22200063651 /* YCCompereCommandController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */; };
 		0DDE741E1FF4F22200063651 /* YCCompereCommandController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */; };
 		0DEBED4D1FCA8C6200354E4C /* LaunchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */; };
@@ -2690,6 +2694,12 @@
 		0DCD73301FB3F3EA00972501 /* IMSDKBugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IMSDKBugly.framework; sourceTree = "<group>"; };
 		0DCD73321FB3F3EA00972501 /* readme */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme; sourceTree = "<group>"; };
 		0DCD73331FB3F3EB00972501 /* TLSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TLSSDK.framework; sourceTree = "<group>"; };
+		0DD83218202ED9BD00AFC8F5 /* YCShareProfitsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCShareProfitsController.h; sourceTree = "<group>"; };
+		0DD83219202ED9BD00AFC8F5 /* YCShareProfitsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCShareProfitsController.m; sourceTree = "<group>"; };
+		0DD8321A202ED9BD00AFC8F5 /* YCShareProfitsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCShareProfitsController.xib; sourceTree = "<group>"; };
+		0DD83222202EDEA200AFC8F5 /* YCAllShareProfitController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCAllShareProfitController.h; sourceTree = "<group>"; };
+		0DD83223202EDEA200AFC8F5 /* YCAllShareProfitController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCAllShareProfitController.m; sourceTree = "<group>"; };
+		0DD83224202EDEA300AFC8F5 /* YCAllShareProfitController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YCAllShareProfitController.xib; sourceTree = "<group>"; };
 		0DDE741A1FF4F22200063651 /* YCCompereCommandController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCompereCommandController.h; sourceTree = "<group>"; };
 		0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCompereCommandController.m; sourceTree = "<group>"; };
 		0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCCompereCommandController.xib; sourceTree = "<group>"; };
@@ -6571,6 +6581,19 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		0DD83212202E9A8700AFC8F5 /* 共享收益 */ = {
+			isa = PBXGroup;
+			children = (
+				0DD83222202EDEA200AFC8F5 /* YCAllShareProfitController.h */,
+				0DD83223202EDEA200AFC8F5 /* YCAllShareProfitController.m */,
+				0DD83224202EDEA300AFC8F5 /* YCAllShareProfitController.xib */,
+				0DD83218202ED9BD00AFC8F5 /* YCShareProfitsController.h */,
+				0DD83219202ED9BD00AFC8F5 /* YCShareProfitsController.m */,
+				0DD8321A202ED9BD00AFC8F5 /* YCShareProfitsController.xib */,
+			);
+			path = "共享收益";
+			sourceTree = "<group>";
+		};
 		0DDE74191FF4F1F500063651 /* CompereCommand */ = {
 			isa = PBXGroup;
 			children = (
@@ -8162,6 +8185,7 @@
 		D7E4176B1D9A499A00048E57 /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				0DD83212202E9A8700AFC8F5 /* 共享收益 */,
 				D78D106D1E7CD6B000B894B3 /* CGMyMainViewController.h */,
 				D78D106E1E7CD6B000B894B3 /* CGMyMainViewController.m */,
 				D78D106F1E7CD6B000B894B3 /* CGMyMainViewController.xib */,
@@ -8582,6 +8606,7 @@
 				D7B6DE781DBBB31800FE62BA /* AttentionMenuCell.xib in Resources */,
 				0DBF47F71FB3087400707C12 /* volume_on@2x.png in Resources */,
 				0DBF48181FB3087400707C12 /* SettingsViewController.xib in Resources */,
+				0DD83226202EDEA300AFC8F5 /* YCAllShareProfitController.xib in Resources */,
 				0D5F94871FD6A65A00E69143 /* JusDoodle.bundle in Resources */,
 				18ED53351F4AB34200EB2D64 /* CGDetailTableViewCell.xib in Resources */,
 				0DBF47F11FB3087400707C12 /* video_window_on_pressed@2x.png in Resources */,
@@ -8600,6 +8625,7 @@
 				0DBF47A81FB3087400707C12 /* setting@3x.png in Resources */,
 				18C6C7EA1EE7E4B7009DFD89 /* CGInterfaceImageViewCollectionViewCell.xib in Resources */,
 				181C55091EC2F6A20064354D /* CGMessageDetailViewController.xib in Resources */,
+				0DD8321C202ED9BD00AFC8F5 /* YCShareProfitsController.xib in Resources */,
 				1835D9611DB864F40006ED07 /* CGUserMyPrivilegeViewController.xib in Resources */,
 				18400BFD1ECC3AFF00E3009D /* CGUserHelpCateViewController.xib in Resources */,
 				0DB9E656202C579F00ACA8D0 /* 89.gif in Resources */,
@@ -9718,6 +9744,7 @@
 				1835D9BF1DB8ECB00006ED07 /* CGUserContactsViewController.m in Sources */,
 				1848392B1DF9365600531C5A /* CGRedPacketViewController.m in Sources */,
 				D7799E471ED9608B009107E4 /* CGDatePickerView.m in Sources */,
+				0DD8321B202ED9BD00AFC8F5 /* YCShareProfitsController.m in Sources */,
 				1835DA451DBDBC340006ED07 /* CGUserCompanyAttestationReadTableViewCell.m in Sources */,
 				0D1E96662021A3F900B6187A /* YCPersonalProfitCell.m in Sources */,
 				0D90E0401FB43C3A00EDB7CF /* ChatGroupMemberListViewController.m in Sources */,
@@ -9858,6 +9885,7 @@
 				0D90DFB71FB43C3A00EDB7CF /* AddGroupProfileViewController.m in Sources */,
 				0D90DFEF1FB43C3A00EDB7CF /* MsgSendingTip.m in Sources */,
 				D73749C21DB263BB002FD9EE /* CGInfoDetailEntity.m in Sources */,
+				0DD83225202EDEA300AFC8F5 /* YCAllShareProfitController.m in Sources */,
 				0D90DF491FB43C3900EDB7CF /* NSData+CRC.m in Sources */,
 				0D90E0351FB43C3A00EDB7CF /* FutureFriendsViewController.m in Sources */,
 				18B975281E8214FF00473FE0 /* AttentionStatisticsTableViewCell.m in Sources */,

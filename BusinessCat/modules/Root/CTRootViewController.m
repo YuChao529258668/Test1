@@ -88,8 +88,8 @@
         }
         else if(i ==  kSpace){
             tabEntity.title = @"空间";
-            tabEntity.normalImage = @"tab_phone_normal";
-            tabEntity.selectedName = @"tab_phone_highlighted";
+            tabEntity.normalImage = @"tab_word_normal";
+            tabEntity.selectedName = @"tab_word_highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];
@@ -184,8 +184,8 @@
             [self.contentView addSubview:self.baseVC.view];
         }else if(i == kDiscoverMain){
             tabEntity.title = @"发现"; // 发现
-            tabEntity.normalImage = @"tab_word_normal";
-            tabEntity.selectedName = @"tab_word_highlighted";
+            tabEntity.normalImage = @"tab_phone_normal";
+            tabEntity.selectedName = @"tab_phone_highlighted";
             [self.tabEntitys addObject:tabEntity];
             
             tabView = [[CGTabbarView alloc]initWithFrame:CGRectMake(x, 0, width, length) entity:tabEntity target:self];

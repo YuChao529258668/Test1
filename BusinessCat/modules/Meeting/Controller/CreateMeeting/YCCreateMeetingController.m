@@ -213,7 +213,7 @@
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
         NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
         NSString *str;
-        if ([app_Name containsString:@"会议"]) {
+        if ([app_Name isEqualToString:@"开会猫"]) {
             str = @"会议";
         } else {
             str = @"会面";
@@ -319,7 +319,7 @@
     
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
-    if ([app_Name containsString:@"会议"]) {
+    if ([app_Name isEqualToString:@"开会猫"]) {
         self.navigationLabel.text = @"预约会议";
         self.titleLabel.text = @"会议主题";
         self.dateLabel.text = @"会议日期";

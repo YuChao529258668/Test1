@@ -6,8 +6,8 @@
 //  Copyright © 2018年 cgsyas. All rights reserved.
 //
 
-#define kMenuW 106
-#define kRowW 76
+#define kMenuW 114
+#define kRowW 84
 #define kRowH 30
 
 #import "YCChatListMenu.h"
@@ -74,7 +74,9 @@
         [btn setTitle:titles[i] forState:UIControlStateNormal];
         [btn setImage:[UIImage imageNamed:imageNames[i]] forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        btn.titleLabel.font = [UIFont systemFontOfSize:13];
+//        btn.titleLabel.font = [UIFont systemFontOfSize:13];
+        btn.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+
         [btn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
 
         y = i * kRowH + edgeH;

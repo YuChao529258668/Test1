@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YCPersonalProfitController">
             <connections>
                 <outlet property="bar" destination="J6c-oW-tLe" id="q51-bB-4Ez"/>
+                <outlet property="navHeightConstraint" destination="Ezy-zi-W0G" id="G2i-BB-Gig"/>
                 <outlet property="noIncomeView" destination="1hQ-n8-nqB" id="fK3-P4-1fM"/>
                 <outlet property="scrollView" destination="OeQ-rW-pwL" id="Ces-Eg-KcL"/>
                 <outlet property="titleL" destination="TnG-Ji-64Y" id="6HG-bx-9W5"/>
