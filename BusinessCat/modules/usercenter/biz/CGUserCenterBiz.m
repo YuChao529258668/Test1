@@ -424,7 +424,7 @@
 }
 
 //公司&管理员认证
--(void)userCompanyAttestation:(CGUserOrganizaJoinEntity *)authEntity success:(void(^)())success fail:(void (^)(NSError *error))fail{
+-(void)userCompanyAttestation:(CGUserOrganizaJoinEntity *)authEntity isShare:(int)isShare success:(void(^)())success fail:(void (^)(NSError *error))fail{
     NSMutableDictionary *param = [NSMutableDictionary dictionaryWithObjectsAndKeys:authEntity.authInfo.additional,@"additional",[NSNumber numberWithInteger:authEntity.companyType],@"type",authEntity.authInfo.name,@"name", nil];
     if(authEntity.companyType != 2){
         [param setObject:authEntity.authInfo.legalPerson forKey:@"legalPerson"];
@@ -437,6 +437,9 @@
     if([CTStringUtil stringNotBlank:authEntity.authInfo.verifyCode]){
         [param setObject:authEntity.authInfo.verifyCode forKey:@"verifyCode"];
     }
+    
+    param[@"isShare"] = @(isShare);
+    
     [self.component sendPostRequestWithURL:URL_USER_ORGANIZA_AUTH param:param success:^(id data) {
         success();
     } fail:^(NSError *error) {

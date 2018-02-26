@@ -8,7 +8,6 @@
 
 #import "YCPersonalProfitController.h"
 #import "YCPersonalProfitCell.h"
-#import "YCSpaceBiz.h"
 #import "YCJoinShareController.h"
 
 @interface YCPersonalProfitController ()<UITableViewDataSource, UITableViewDelegate>
@@ -124,25 +123,28 @@
 - (void)getProfit {
     __weak typeof(self) weakself = self;
     [YCSpaceBiz getProfitWithType:self.type companyID:self.companyID Success:^(YCMeetingProfit *profit){
-        weakself.profit = profit;
-        [weakself.tableView reloadData];
-        
-        if (weakself.type == 1) {
-            weakself.noIncomeView.hidden = profit.isShare;
-        }
-        YCOneMeetingProfit *op = profit.shareProfit.firstObject;
-        weakself.todayL.text = [YCTool numberStringOf:op.todayIncome];
-        weakself.waitL.text = [YCTool numberStringOf:op.forIncome];
-        weakself.totalL.text = [YCTool numberStringOf:op.totalIncome];
+        [weakself updateWithProfit:profit];
     } fail:^(NSError *error) {
         
     }];
 }
 
-- (void)reloadDataWithCompanyID:(NSString *)cid {
-    self.companyID = cid;
-    [self getProfit];
-}
+//- (void)reloadDataWithCompanyID:(NSString *)cid {
+//    self.companyID = cid;
+//    [self getProfit];
+//}
 
+- (void)updateWithProfit:(YCMeetingProfit *)profit {
+    self.profit = profit;
+    [self.tableView reloadData];
+    
+    if (self.type == 1) {
+        self.noIncomeView.hidden = profit.isShare;
+    }
+    YCOneMeetingProfit *op = profit.shareProfit.firstObject;
+    self.todayL.text = [YCTool numberStringOf:op.todayIncome];
+    self.waitL.text = [YCTool numberStringOf:op.forIncome];
+    self.totalL.text = [YCTool numberStringOf:op.totalIncome];
+}
 
 @end

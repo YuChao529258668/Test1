@@ -72,7 +72,7 @@
 -(void)userCompanyPrivilegeSuccess:(void(^)(CGUserCompanyPrivilegeEntity *result))success fail:(void (^)(NSError *error))fail;
 
 //公司&管理员认证
--(void)userCompanyAttestation:(CGUserOrganizaJoinEntity *)authEntity success:(void(^)())success fail:(void (^)(NSError *error))fail;
+-(void)userCompanyAttestation:(CGUserOrganizaJoinEntity *)authEntity isShare:(int)isShare success:(void(^)())success fail:(void (^)(NSError *error))fail;
 
 //通讯录接口
 -(void)userCompanyContactsWithKeyword:(NSString *)keyword organizaId:(NSString *)organizaId type:(NSInteger)type success:(void(^)(NSMutableArray *reslut))success fail:(void (^)(NSError *error))fail;

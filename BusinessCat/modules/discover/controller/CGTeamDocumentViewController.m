@@ -16,8 +16,9 @@
 #import "CGDiscoverBiz.h"
 #import "CGLineLayout.h"
 #import "commonViewModel.h"
+#import "QRCScannerViewController.h"
 
-@interface CGTeamDocumentViewController ()
+@interface CGTeamDocumentViewController ()<QRCodeScannerViewControllerDelegate>
 @property (retain, nonatomic) CGHorrolView *bigTypeScrollView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (weak, nonatomic) IBOutlet UIView *topView;
@@ -48,6 +49,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupScanBtn];
   if (self.type == 2) {
     [self getCompanyList];
   }else{
@@ -201,6 +203,29 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
   return self.collectionView.bounds.size;
+}
+
+#pragma mark - 扫一扫
+
+- (void)setupScanBtn {
+    UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f, 30, 24, 24)];
+    rightBtn.contentMode = UIViewContentModeScaleAspectFit;
+    [rightBtn addTarget:self action:@selector(clickScanBtn) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn setBackgroundImage:[UIImage imageNamed:@"icon_scan"] forState:UIControlStateNormal];
+    [self.navi addSubview:rightBtn];
+}
+
+- (void)clickScanBtn {
+    QRCScannerViewController *vc = [QRCScannerViewController new];
+    vc.delegate = self;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)didFinshedScanning:(NSString *)result {
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"扫描成功" message:result preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+    [ac addAction:cancel];
+    [self presentViewController:ac animated:YES completion:nil];
 }
 
 @end

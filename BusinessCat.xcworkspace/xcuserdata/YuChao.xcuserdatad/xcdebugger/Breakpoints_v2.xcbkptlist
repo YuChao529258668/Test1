@@ -52,7 +52,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/modules/usercenter/controller/CGMyMainViewController.m"
-            timestampString = "539951156.39675"
+            timestampString = "541308285.12998"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "448"
@@ -196,7 +196,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
-            timestampString = "539604543.3"
+            timestampString = "540280912.093263"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "180"
@@ -228,7 +228,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusinessCat/modules/usercenter/biz/CGUserCenterBiz.m"
-            timestampString = "539604543.300175"
+            timestampString = "540280912.093568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "100"
@@ -818,7 +818,7 @@
                   moduleName = "BusinessCat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/headline/biz/HeadlineBiz.m"
-                  timestampString = "539951158.010517"
+                  timestampString = "541308286.300933"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "347"
@@ -833,7 +833,7 @@
                   moduleName = "BusinessCat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/YuChao/Documents/Github/Test1/BusinessCat/modules/headline/biz/HeadlineBiz.m"
-                  timestampString = "539951158.014698"
+                  timestampString = "541308286.303381"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "347"
@@ -1208,22 +1208,6 @@
             startingLineNumber = "133"
             endingLineNumber = "133"
             landmarkName = "-onClickVote:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BusinessCat/modules/Space/Controller/Personal profit/YCPersonalProfitController.m"
-            timestampString = "539951156.4008451"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
-            landmarkName = "-clickJoinBtn:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

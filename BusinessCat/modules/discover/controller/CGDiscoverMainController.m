@@ -30,7 +30,7 @@
 #import "CGTeamDocumentViewController.h"
 #import "CGEnterpriseMemberViewController.h"
 #import "CGUserOrganizaJoinEntity.h"
-
+#import "YCMyDocumentController.h"
 #import "CGUrlView.h"
 
 @interface CGDiscoverMainController ()<SDCycleScrollViewDelegate, UITableViewDelegate>
@@ -459,6 +459,11 @@
                   vc.titleStr = entity.name;
                   vc.type = 9;
                   [weakSelf.navigationController pushViewController:vc animated:YES];
+                } else if ([entity.code isEqualToString:@"discover/originalityList"]) {//我的文档
+                    YCMyDocumentController *vc = [YCMyDocumentController new];
+                    vc.title = entity.name;
+                    vc.type = 999;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
                 }
             }];
             return cell;

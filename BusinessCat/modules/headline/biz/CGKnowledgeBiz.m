@@ -104,4 +104,44 @@
   }];
 }
 
+// 我的文档 接口
+- (void)getMyDocumentWithPage:(int)page success:(void(^)(CGKnowledgePackageEntity *result ,CGPermissionsEntity *entity))success fail:(void (^)(NSError *error))fail {
+    NSDictionary *dic = @{@"page": @(page)};
+    [self.component sendPostRequestWithURL:URL_DISCOVER_My_Document param:dic success:^(id data) {
+        NSDictionary *dic = data;
+        if ([dic[@"showType"]integerValue]) {
+            [CGKnowledgePackageEntity mj_setupObjectClassInArray:^NSDictionary *{
+                return @{
+                         @"list" : @"CGKnowLedgeListEntity",
+                         };
+            }];
+        }else{
+            [CGKnowledgePackageEntity mj_setupObjectClassInArray:^NSDictionary *{
+                return @{
+                         @"list" : @"CGInfoHeadEntity",
+                         };
+            }];
+        }
+        [CGKnowLedgeListEntity mj_setupObjectClassInArray:^NSDictionary *{
+            return @{
+                     @"list" : @"CGInfoHeadEntity",
+                     };
+        }];
+        if (dic) {
+            if ([[dic allKeys] containsObject:@"viewPermit"]) {
+                if ([dic[@"viewPermit"]integerValue] == 8) {
+                    success([CGKnowledgePackageEntity mj_objectWithKeyValues:dic],nil);
+                }else{
+                    CGPermissionsEntity *entity = [CGPermissionsEntity mj_objectWithKeyValues:dic];
+                    success(nil,entity);
+                }
+            }else{
+                success([CGKnowledgePackageEntity mj_objectWithKeyValues:dic],nil);
+            }
+        }
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
 @end

@@ -22,4 +22,8 @@
 
 //知识餐套餐目录列表
 -(void)headlinesKnowledgePackageIndexWithTime:(NSString *)time navType:(NSString *)navType page:(NSInteger)page type:(NSInteger)type success:(void(^)(NSMutableArray *result))success fail:(void (^)(NSError *error))fail;
+
+// 我的文档
+- (void)getMyDocumentWithPage:(int)page success:(void(^)(CGKnowledgePackageEntity *result,CGPermissionsEntity *entity))success fail:(void (^)(NSError *error))fail;
+
 @end

@@ -66,7 +66,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 //    [self.tableView.mj_header beginRefreshing];
-    [self getData];
+    if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
+        [self getData];
+    }
 }
 
 #pragma mark - UITableViewDataSource

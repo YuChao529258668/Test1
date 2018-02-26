@@ -73,7 +73,30 @@
       [weakSelf.tableView.mj_header endRefreshing];
       [weakSelf.tableView.mj_footer endRefreshing];
     }];
-  }else{
+  } else if (self.type == 999) {
+      // 我的文档
+      [biz getMyDocumentWithPage:1 success:^(CGKnowledgePackageEntity *result,CGPermissionsEntity *entity) {
+          //把列表放到内存
+          if(mode == 0){
+              weakSelf.entity.data = result.list;
+              [weakSelf.tableView.mj_header endRefreshing];
+              weakSelf.tableView.mj_footer.state = MJRefreshStateIdle;
+          }else{
+              if (result.list.count == 0) {
+                  weakSelf.tableView.mj_footer.state = MJRefreshStateNoMoreData;
+              }else{
+                  [weakSelf.entity.data addObjectsFromArray:result.list];
+                  [weakSelf.tableView.mj_footer endRefreshing];
+              }
+          }
+          [weakSelf.tableView reloadData];
+      } fail:^(NSError *error) {
+          [weakSelf.tableView.mj_header endRefreshing];
+          [weakSelf.tableView.mj_footer endRefreshing];
+
+      }];
+  }
+  else{
     [biz queryKnowledgePackageWithMainId:nil packageId:weakSelf.entity.rolId companyId:nil cataId:@"" page:page type:0 success:^(CGKnowledgePackageEntity *result,CGPermissionsEntity *entity) {
         //把列表放到内存
         if(mode == 0){

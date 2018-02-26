@@ -14,7 +14,9 @@
 
 #import "CGUserHelpCatePageViewController.h"
 #import "YCSpaceBiz.h"
+#import "CGUserCenterBiz.h"
 #import "YCPersonalProfitController.h"
+#import "CGAttestationController.h"
 
 // 代码复制：YCJoinShareController、CGInviteMembersViewController
 
@@ -29,9 +31,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *shareL;
 @property (nonatomic, assign) BOOL isAgree;
 @property (weak, nonatomic) IBOutlet UIButton *joinBtn;
+@property (weak, nonatomic) IBOutlet UIView *agreeView;
+@property (weak, nonatomic) IBOutlet UILabel *notManagerLabel;
 
 @property (nonatomic, strong) YCPersonalProfitController *profitVC;
 @property (weak, nonatomic) IBOutlet UIView *profitContainerView;
+
+@property (nonatomic, strong) NSMutableDictionary<NSString *, YCMeetingProfit *> *profitsDic;
 
 @end
 
@@ -40,12 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    如果当前组织未认领，就显示为“认领组织并加入”，然后打开认领组织功能，增加传加入共享参数（需接口增加）
-//    如果当前组织已认领，并且我是管理员，就显示为“我要加入”，需提供加入组织共享接口
-//    如果当前组织已认领，并且我不是管理员，两种判断：
-//    1）已加入共享，您不是管理员无法查看！
-//    2）未加入共享，您不是管理员无法操作！
-//    如果已加入，并且是管理员直接显示收益清单：
+    self.profitsDic = [NSMutableDictionary dictionary];
     
   self.title = @"共享收益";
   [self.topView addSubview:self.organizaHeaderView];
@@ -64,6 +65,7 @@
     _profitVC.companyID = entity.rolId;
     [self addChildViewController:_profitVC];
     [self.profitContainerView addSubview:_profitVC.view];
+    [self selectItemWithIndex:self.currentIndex data:entity];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -117,19 +119,6 @@
 }
 
 
-//- (IBAction)shareAction:(UIButton *)sender {
-//  CGUserOrganizaJoinEntity *local = [ObjectShareTool sharedInstance].currentUser.companyList[self.currentIndex];
-//  NSString *url = local.inviteUrl;
-//  NSString *desc = [NSString stringWithFormat:@"%@邀请你加入%@，很多成员已在里面，尽快加入哦。",[ObjectShareTool sharedInstance].currentUser.username,local.companyName];
-//  self.shareUtil = [[ShareUtil alloc]init];
-//  __weak typeof(self) weakSelf = self;
-//  UIImage *image = [UIImage imageNamed:@"login_image"];
-//  [self.shareUtil showShareMenuWithTitle:@"邀请你加入组织" desc:desc isqrcode:1 image:image url:url block:^(NSMutableArray *array) {
-//    UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:array applicationActivities:nil];
-//    [weakSelf presentViewController:activityVC animated:YES completion:nil];
-//  }];
-//}
-
 #pragma mark -
 
 - (IBAction)clickAgreeBtn:(id)sender {
@@ -141,18 +130,46 @@
     }
 }
 
+// 未认证、已认证才能点
 - (IBAction)clickJoinBtn:(id)sender {
     if (!self.isAgree) {
         [CTToast showWithText:@"请同意协议"];
-    } else {
-        __weak typeof(self) weakself = self;
+        return;
+    }
+    
+    BOOL isClaim;//认领
+    CGUserOrganizaJoinEntity *entity = [ObjectShareTool sharedInstance].currentUser.companyList[self.currentIndex];
+    isClaim = (entity.companyState == 1);
+
+    __weak typeof(self) weakself = self;
+    if (isClaim) {
+        // 加入共享
         // 0:公司 1：用户
-        [YCSpaceBiz joinShareWithType:self.type companyID:self.companyID doShare:1 Success:^{
+        [YCSpaceBiz joinShareWithType:0 companyID:entity.companyId doShare:1 Success:^{
             [CTToast showWithText:@"加入成功"];
-//            [weakself.navigationController popViewControllerAnimated:YES];
+            
+            YCMeetingProfit *profit = weakself.profitsDic[entity.companyId];
+            profit.isShare = 1;
+            
+            // 更新界面
+            CGHorrolEntity *entity = weakself.headViewEntitys[weakself.currentIndex];
+            [weakself selectItemWithIndex:weakself.currentIndex data:entity];
+            // 获取收益数据
         } fail:^(NSError *error) {
             
         }];
+        
+    } else {
+        // 认领并加入
+        CGAttestationController *vc = [[CGAttestationController alloc]initWithOrganiza:entity block:^(NSString *success) {
+//            NSLog(@"%@",success);
+            entity.companyState = 2;// 认证中
+            // 更新界面
+            CGHorrolEntity *data = weakself.headViewEntitys[weakself.currentIndex];
+            [weakself selectItemWithIndex:weakself.currentIndex data:data];
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
+        
     }
 }
 
@@ -167,13 +184,124 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)selectItemWithIndex:(int)index data:(CGHorrolEntity *)data {
-//    CGHorrolEntity *entity = self.headViewEntitys.firstObject;
-//    _profitVC = [YCPersonalProfitController new];
-//    _profitVC.shouldHideNavigationBar = YES;
-//    _profitVC.type = 0;// 1 个人，0 公司
-//    _profitVC.companyID = entity.rolId;
-    [_profitVC reloadDataWithCompanyID:data.rolId];
+- (void)selectItemWithIndex:(NSInteger)index data:(CGHorrolEntity *)entity {
+    __weak typeof(self) weakself = self;
+    
+    [self getProfitWithCompanyID:entity.rolId success:^(YCMeetingProfit *profit, NSString *companyID) {
+        
+        CGHorrolEntity *currentEntity = weakself.headViewEntitys[weakself.currentIndex];
+        // 如果不是当前界面
+        if (![currentEntity.rolId isEqualToString:companyID]) {
+            return ;
+        }
+
+        weakself.profitContainerView.hidden = YES;
+
+        //    如果当前组织未认领，就显示为“认领组织并加入”，然后打开认领组织功能，增加传加入共享参数（需接口增加）
+        //    如果当前组织已认领，并且我是管理员，就显示为“我要加入”，需提供加入组织共享接口
+        //    如果当前组织已认领，并且我不是管理员，两种判断：
+        //    1）已加入共享，您不是管理员无法查看！
+        //    2）未加入共享，您不是管理员无法操作！
+        //    如果已加入，并且是管理员直接显示收益清单：
+
+//        BOOL isClaim;//认领
+        BOOL isManager;//是否管理员
+        BOOL isShare;// 是否加入共享
+        
+        // ??
+        CGUserOrganizaJoinEntity *local = [ObjectShareTool sharedInstance].currentUser.companyList[index];
+//        isClaim = (local.companyState == 1);
+        isManager = (local.companyManage == 1);
+        isShare = (profit.isShare == 1);
+        
+        if (isManager) {
+            if (isShare) {
+                weakself.profitContainerView.hidden = NO;
+                [weakself.profitVC updateWithProfit:profit];
+            } else {
+                
+                // 0-未认证，1-已认证 2-认证中 3-认证不通过
+                switch (local.companyState) {
+                    case 0:
+                    {
+                        weakself.agreeView.hidden = NO;
+                        weakself.joinBtn.hidden = NO;
+                        weakself.notManagerLabel.hidden= YES;
+                        [weakself.joinBtn setTitle:@"认领组织并加入" forState:UIControlStateNormal];
+                    }
+                        break;
+                    case 1:
+                    {
+                        weakself.agreeView.hidden = NO;
+                        weakself.joinBtn.hidden = NO;
+                        weakself.notManagerLabel.hidden= YES;
+                        [weakself.joinBtn setTitle:@"我要加入" forState:UIControlStateNormal];
+                    }
+                        break;
+                    case 2:
+                    {
+                        weakself.agreeView.hidden = YES;
+                        weakself.joinBtn.hidden = YES;
+                        weakself.notManagerLabel.hidden= NO;
+                        weakself.notManagerLabel.text = @"认领组织审核中";
+                    }
+                        break;
+                    case 3:
+                    {
+                        weakself.agreeView.hidden = YES;
+                        weakself.joinBtn.hidden = YES;
+                        weakself.notManagerLabel.hidden= NO;
+                        weakself.notManagerLabel.text = @"认领组织审核不通过";
+                    }
+                        break;
+
+                    default:
+                    {
+                        weakself.agreeView.hidden = YES;
+                        weakself.joinBtn.hidden = YES;
+                        weakself.notManagerLabel.hidden= NO;
+                        weakself.notManagerLabel.text = @"认领组织状态未知";
+                    }
+                        break;
+                }
+            }
+            
+        } else { // 不是管理员
+            weakself.agreeView.hidden = YES;
+            weakself.joinBtn.hidden = YES;
+            weakself.notManagerLabel.hidden= NO;
+
+            if (isShare) {
+                weakself.notManagerLabel.text = @"已加入共享，您不是管理员无法查看！";
+            } else {
+                weakself.notManagerLabel.text = @"未加入共享，您不是管理员无法操作！";
+            }
+        }
+        
+    }];
+}
+
+
+#pragma mark -
+
+- (void)getProfitWithCompanyID:(NSString *)cid success:(void (^)(YCMeetingProfit *data, NSString *companyID))success{
+    YCMeetingProfit *profit = self.profitsDic[cid];
+    if (profit) {
+        if (success) {
+            success(profit, cid);
+        }
+        return ;
+    }
+    
+    __weak typeof(self) weakself = self;
+    [YCSpaceBiz getProfitWithType:0 companyID:cid Success:^(YCMeetingProfit *data){
+        weakself.profitsDic[cid] = data;
+        if (success) {
+            success(data, cid);
+        }
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 @end

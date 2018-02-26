@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YCSpaceBiz.h"
 
 @interface YCPersonalProfitController : UIViewController
 @property (nonatomic, assign) int type;// 0 公司，1 个人
 @property (nonatomic, strong) NSString *companyID;
 @property (nonatomic, assign) BOOL shouldHideNavigationBar;
 
-- (void)reloadDataWithCompanyID:(NSString *)cid;
+//- (void)reloadDataWithCompanyID:(NSString *)cid;
+- (void)updateWithProfit:(YCMeetingProfit *)profit;
+
 @end

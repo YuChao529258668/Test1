@@ -12,8 +12,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YCAllShareProfitController">
             <connections>
+                <outlet property="agreeView" destination="rVq-GR-vHf" id="Hds-vi-Vh4"/>
                 <outlet property="choseIV" destination="8JY-L9-gGD" id="eAv-s2-PB5"/>
                 <outlet property="joinBtn" destination="mDk-9W-2CU" id="Fah-0b-SMb"/>
+                <outlet property="notManagerLabel" destination="UXo-F5-0cJ" id="XVb-tQ-ZZ5"/>
                 <outlet property="profitContainerView" destination="3GM-1h-8AI" id="7ag-zS-kFb"/>
                 <outlet property="shareL" destination="doQ-7L-aZL" id="5sT-Yf-LSS"/>
                 <outlet property="topView" destination="Mov-cx-K89" id="SVZ-fy-wTj"/>
@@ -25,6 +27,15 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已加入共享，您不是管理员无法查看！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXo-F5-0cJ">
+                    <rect key="frame" x="0.0" y="556.5" width="375" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="3e1-lU-UAd"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.99215686270000003" green="0.49803921569999998" blue="0.4941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R7R-ia-wAz" userLabel="Nav">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                     <subviews>
@@ -55,6 +66,13 @@
                         <constraint firstItem="tN6-vP-3p2" firstAttribute="top" secondItem="R7R-ia-wAz" secondAttribute="top" constant="32" id="swZ-jH-yNz"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mov-cx-K89" userLabel="TopView">
+                    <rect key="frame" x="0.0" y="64" width="375" height="40"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="i2a-d0-kMI"/>
+                    </constraints>
+                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mDk-9W-2CU">
                     <rect key="frame" x="15" y="618" width="345" height="40"/>
                     <color key="backgroundColor" red="0.99517089130000003" green="0.91659629340000004" blue="0.055799357590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -74,7 +92,7 @@
                         <action selector="clickJoinBtn:" destination="-1" eventType="touchUpInside" id="oy0-qV-wMX"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVq-GR-vHf" userLabel="同意协议">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVq-GR-vHf" userLabel="agreeView">
                     <rect key="frame" x="76.5" y="548.5" width="222" height="49"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="同意" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nK3-Ym-D1i">
@@ -116,13 +134,6 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="222" id="7Ha-m8-toY"/>
                         <constraint firstAttribute="height" constant="49" id="UU5-Zd-yhq"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mov-cx-K89" userLabel="TopView">
-                    <rect key="frame" x="0.0" y="64" width="375" height="40"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" id="i2a-d0-kMI"/>
                     </constraints>
                 </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="share_line" translatesAutoresizingMaskIntoConstraints="NO" id="imx-4X-avP">
@@ -190,14 +201,17 @@
                 <constraint firstItem="imx-4X-avP" firstAttribute="centerY" secondItem="QxX-JN-wl1" secondAttribute="centerY" multiplier="0.51" id="NU0-bv-6en"/>
                 <constraint firstAttribute="bottom" secondItem="3GM-1h-8AI" secondAttribute="bottom" id="Nnt-cs-4ec"/>
                 <constraint firstAttribute="trailing" secondItem="3GM-1h-8AI" secondAttribute="trailing" id="QBv-GF-UtE"/>
+                <constraint firstAttribute="trailing" secondItem="UXo-F5-0cJ" secondAttribute="trailing" id="f90-A5-nVd"/>
                 <constraint firstItem="rVq-GR-vHf" firstAttribute="centerY" secondItem="QxX-JN-wl1" secondAttribute="centerY" multiplier="1.67" constant="16.055000000000064" id="gFT-YM-aax"/>
                 <constraint firstItem="mDk-9W-2CU" firstAttribute="leading" secondItem="QxX-JN-wl1" secondAttribute="leading" constant="15" id="i4g-QP-K8X"/>
+                <constraint firstItem="UXo-F5-0cJ" firstAttribute="leading" secondItem="QxX-JN-wl1" secondAttribute="leading" id="rJc-ua-PpK"/>
                 <constraint firstAttribute="trailing" secondItem="R7R-ia-wAz" secondAttribute="trailing" id="sdA-wf-52i"/>
                 <constraint firstItem="dSz-RW-4wq" firstAttribute="centerX" secondItem="QxX-JN-wl1" secondAttribute="centerX" id="snC-En-DMM"/>
                 <constraint firstItem="to8-0x-QZg" firstAttribute="centerX" secondItem="QxX-JN-wl1" secondAttribute="centerX" id="ucd-MD-Xfs"/>
                 <constraint firstItem="3GM-1h-8AI" firstAttribute="leading" secondItem="QxX-JN-wl1" secondAttribute="leading" id="uuE-RO-Wef"/>
                 <constraint firstAttribute="bottom" secondItem="mDk-9W-2CU" secondAttribute="bottom" constant="9" id="wPn-of-I0c"/>
                 <constraint firstItem="R7R-ia-wAz" firstAttribute="top" secondItem="QxX-JN-wl1" secondAttribute="top" id="xY5-XY-uM8"/>
+                <constraint firstItem="UXo-F5-0cJ" firstAttribute="centerY" secondItem="QxX-JN-wl1" secondAttribute="centerY" multiplier="1.74" id="ziO-4G-h9Z"/>
             </constraints>
             <point key="canvasLocation" x="947.5" y="48.5"/>
         </view>

@@ -358,6 +358,7 @@
             self.uploadBtn.layer.cornerRadius = 3;
             self.uploadBtn.layer.masksToBounds = YES;
             [self.uploadBtn setTitle:@"提交审核" forState:UIControlStateNormal];
+            [self.uploadBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [self.uploadBtn setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
             [self.uploadBtn addTarget:self action:@selector(upload:) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:self.uploadBtn];
@@ -449,8 +450,9 @@
             if(entity.companyState == 0){//0-未认证，1-已认证 2-认证中 3-认证不通过
                 self.uploadBtn.userInteractionEnabled = YES;
                 [self.uploadBtn setTitle:@"提交审核" forState:UIControlStateNormal];
-                [self.uploadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [self.uploadBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 [self.uploadBtn setBackgroundImage:[CTCommonUtil generateImageWithColor:CTThemeMainColor size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+                
             }else if(entity.companyState == 1){
                 self.uploadBtn.userInteractionEnabled = NO;
                 [self.uploadBtn setTitle:@"认领审核通过" forState:UIControlStateNormal];
@@ -570,8 +572,11 @@
         
     } success:^{
         entity.authInfo.additional = key;
-        [[[CGUserCenterBiz alloc]init]userCompanyAttestation:entity success:^{
+        [[[CGUserCenterBiz alloc]init]userCompanyAttestation:entity isShare:0 success:^{
             [[CTToast makeText:@"提交成功"]show:self.view];
+            if (self.block) {
+                self.block(@"提交成功");
+            }
             [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
         } fail:^(NSError *error) {
             [biz.component stopBlockAnimation];
@@ -623,6 +628,8 @@
     TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:1 delegate:self];
     imagePickerVc.navigationBar.barTintColor = CTThemeMainColor;//导航栏背景颜色
     imagePickerVc.navigationBar.tintColor = [UIColor whiteColor];//返回箭头和文字的颜色
+//    imagePickerVc.navigationBar.tintColor = [UIColor blackColor];//返回箭头和文字的颜色
+//    imagePickerVc.navigationBar.barStyle = UIBarStyleBlack;
     imagePickerVc.allowTakePicture = YES; // 在内部显示拍照按钮
     imagePickerVc.allowPickingOriginalPhoto = NO;//不支持原图
     imagePickerVc.sortAscendingByModificationDate = YES;//图片显示按时间排序的升序

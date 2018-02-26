@@ -698,6 +698,8 @@
 		0DD8321C202ED9BD00AFC8F5 /* YCShareProfitsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DD8321A202ED9BD00AFC8F5 /* YCShareProfitsController.xib */; };
 		0DD83225202EDEA300AFC8F5 /* YCAllShareProfitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DD83223202EDEA200AFC8F5 /* YCAllShareProfitController.m */; };
 		0DD83226202EDEA300AFC8F5 /* YCAllShareProfitController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DD83224202EDEA300AFC8F5 /* YCAllShareProfitController.xib */; };
+		0DD8322B2032E6FD00AFC8F5 /* YCMyDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DD832292032E6FD00AFC8F5 /* YCMyDocumentController.m */; };
+		0DD8322C2032E6FD00AFC8F5 /* YCMyDocumentController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DD8322A2032E6FD00AFC8F5 /* YCMyDocumentController.xib */; };
 		0DDE741D1FF4F22200063651 /* YCCompereCommandController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */; };
 		0DDE741E1FF4F22200063651 /* YCCompereCommandController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */; };
 		0DEBED4D1FCA8C6200354E4C /* LaunchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */; };
@@ -2700,6 +2702,9 @@
 		0DD83222202EDEA200AFC8F5 /* YCAllShareProfitController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCAllShareProfitController.h; sourceTree = "<group>"; };
 		0DD83223202EDEA200AFC8F5 /* YCAllShareProfitController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCAllShareProfitController.m; sourceTree = "<group>"; };
 		0DD83224202EDEA300AFC8F5 /* YCAllShareProfitController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YCAllShareProfitController.xib; sourceTree = "<group>"; };
+		0DD832282032E6FD00AFC8F5 /* YCMyDocumentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMyDocumentController.h; sourceTree = "<group>"; };
+		0DD832292032E6FD00AFC8F5 /* YCMyDocumentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMyDocumentController.m; sourceTree = "<group>"; };
+		0DD8322A2032E6FD00AFC8F5 /* YCMyDocumentController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCMyDocumentController.xib; sourceTree = "<group>"; };
 		0DDE741A1FF4F22200063651 /* YCCompereCommandController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCompereCommandController.h; sourceTree = "<group>"; };
 		0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCompereCommandController.m; sourceTree = "<group>"; };
 		0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCCompereCommandController.xib; sourceTree = "<group>"; };
@@ -6594,6 +6599,16 @@
 			path = "共享收益";
 			sourceTree = "<group>";
 		};
+		0DD832272032E6DA00AFC8F5 /* 我的文档 */ = {
+			isa = PBXGroup;
+			children = (
+				0DD832282032E6FD00AFC8F5 /* YCMyDocumentController.h */,
+				0DD832292032E6FD00AFC8F5 /* YCMyDocumentController.m */,
+				0DD8322A2032E6FD00AFC8F5 /* YCMyDocumentController.xib */,
+			);
+			path = "我的文档";
+			sourceTree = "<group>";
+		};
 		0DDE74191FF4F1F500063651 /* CompereCommand */ = {
 			isa = PBXGroup;
 			children = (
@@ -7609,6 +7624,7 @@
 		D7B6DE6D1DBBB2F300FE62BA /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				0DD832272032E6DA00AFC8F5 /* 我的文档 */,
 				D7B6DE6E1DBBB2F300FE62BA /* CGDiscoverMainController.h */,
 				D7B6DE6F1DBBB2F300FE62BA /* CGDiscoverMainController.m */,
 				D7B6DE701DBBB2F300FE62BA /* CGDiscoverMainController.xib */,
@@ -9018,6 +9034,7 @@
 				0DBF47D11FB3087400707C12 /* paint_normal_highlighted@2x.png in Resources */,
 				0D1E96702022B2CD00B6187A /* YCJoinShareController.xib in Resources */,
 				18ED53431F4C36AA00EB2D64 /* htmlDetailTemplate.html in Resources */,
+				0DD8322C2032E6FD00AFC8F5 /* YCMyDocumentController.xib in Resources */,
 				0DBF47B91FB3087400707C12 /* function@2x.png in Resources */,
 				1834BB551DB70E07008F4685 /* CGUserFireTextTableViewCell.xib in Resources */,
 				0DBF47EA1FB3087400707C12 /* user_waiting@3x.png in Resources */,
@@ -9520,6 +9537,7 @@
 				D732088A1EA64EE4006BC285 /* ZbarController.m in Sources */,
 				D73749BF1DB25A39002FD9EE /* CGInfoHeadEntity.m in Sources */,
 				0D90DFED1FB43C3A00EDB7CF /* ChatTextView.m in Sources */,
+				0DD8322B2032E6FD00AFC8F5 /* YCMyDocumentController.m in Sources */,
 				0D90DF861FB43C3A00EDB7CF /* PopupView.m in Sources */,
 				0D90DF521FB43C3900EDB7CF /* UIImage+TintColor.m in Sources */,
 				183EBA9F1F0B6ED600D6157D /* CGPermissionsEntity.m in Sources */,
