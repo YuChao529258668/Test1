@@ -17,6 +17,7 @@
 #import "CGLineLayout.h"
 #import "commonViewModel.h"
 #import "QRCScannerViewController.h"
+#import "CGUserCenterBiz.h"
 
 
 // 复制 CGTeamDocumentViewController
@@ -57,7 +58,9 @@
     if (self.type == 2) {
         [self getCompanyList];
     } else if (self.type == 999) {
-        
+        self.dataArray = [NSMutableArray array];
+        CGHorrolEntity *info = [[CGHorrolEntity alloc]initWithRolId:@"999" rolName:@"" sort:0];
+        [self.dataArray addObject:info];
     } else{
         [self.biz.component startBlockAnimation];
         __weak typeof(self) weakSelf = self;
@@ -192,6 +195,7 @@
             CGKnowledgeCatalogController *controller = [[CGKnowledgeCatalogController alloc]initWithmainId:nil packageId:entity.packageId companyId:nil cataId:entity.infoId];
             controller.titleStr = entity.title;
             controller.isShowMenu = YES;
+            controller.isPresendByMyDocumentController = YES;
             [weakSelf.navigationController pushViewController:controller animated:YES];
         }else{//非目录
             [self.viewModel messageCommandWithCommand:entity.command parameterId:entity.parameterId commpanyId:entity.commpanyId recordId:entity.recordId messageId:entity.messageId detial:entity typeArray:nil];
@@ -218,21 +222,36 @@
     UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f, 30, 24, 24)];
     rightBtn.contentMode = UIViewContentModeScaleAspectFit;
     [rightBtn addTarget:self action:@selector(clickScanBtn) forControlEvents:UIControlEventTouchUpInside];
-    [rightBtn setBackgroundImage:[UIImage imageNamed:@"icon_scan"] forState:UIControlStateNormal];
+    [rightBtn setBackgroundImage:[UIImage imageNamed:@"icon_upload"] forState:UIControlStateNormal];
     [self.navi addSubview:rightBtn];
 }
 
 - (void)clickScanBtn {
     QRCScannerViewController *vc = [QRCScannerViewController new];
     vc.delegate = self;
+    vc.title = @"上传我的文档";
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didFinshedScanning:(NSString *)result {
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"扫描成功" message:result preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+//    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"扫描成功" message:result preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+//    [ac addAction:cancel];
+//    [self presentViewController:ac animated:YES completion:nil];
+    
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"是否登录?" message:@"登录并跳转到上传文件页面" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[CGUserCenterBiz new] loginAndUploadWithQRCode:result success:^{
+            
+        } fail:^(NSError *error) {
+            
+        }];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [ac addAction:sure];
     [ac addAction:cancel];
     [self presentViewController:ac animated:YES completion:nil];
+
 }
 
 @end

@@ -20,6 +20,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 @property (weak, nonatomic) IBOutlet UIButton *button; // 点击发送通知,通知里的参数是 cell
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIImageView *typeImageView; 
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;// 会议室地点
+@property (weak, nonatomic) IBOutlet UIImageView *absendImageView;
 
 @property (nonatomic,strong) NSArray *titles;
 @property (nonatomic,strong) NSIndexPath *indexPath;
@@ -27,6 +30,8 @@
 - (void)setImageName:(NSString *)name;
 - (void)setCountLabelTextWithNumber:(NSUInteger)count;
 - (void)setTimeLabelTextWithTimeInterval:(NSString *)interval;
+- (void)setTypeImageName:(NSString *)name;
+
 + (float)cellHeight;
 
 @end

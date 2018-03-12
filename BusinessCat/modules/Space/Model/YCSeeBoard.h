@@ -11,15 +11,25 @@
 
 @class NowMonthMeeting;
 @class NowMonthStatistics;
+@class MyMeeting;
 
 @interface YCSeeBoard : NSObject
 @property (nonatomic, strong) NowMonthMeeting *nowMonthMeeting;
 @property (nonatomic, strong) NowMonthStatistics *nowMonthStatistics;
 @property (nonatomic, strong) NSArray<YCOneMeetingProfit *> *shareProfit;
 @property (nonatomic, assign) int isShare;
+@property (nonatomic, strong) MyMeeting *myMeeting;
 
 + (NSDictionary *)mj_objectClassInArray;
 
+@end
+
+@interface MyMeeting : NSObject
+@property (nonatomic, assign) int absentCount;
+@property (nonatomic, assign) int lateCount;
+@property (nonatomic, assign) int meetingCount;
+@property (nonatomic, assign) int onTimeCount;
+@property (nonatomic, assign) int useTotal;
 @end
 
 @interface NowMonthMeeting : NSObject

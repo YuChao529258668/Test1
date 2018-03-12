@@ -24,6 +24,13 @@
 @property (nonatomic,assign) int meetingState; // 会议状态 0:未开始 1：进行中 2：已结束 3：已取消
 @property (nonatomic,assign) long attendance;
 @property (nonatomic,strong) NSMutableArray<YCMeetingUser *> *meetingUserList; // 当前状态:0未进入,1开会中,2已离开,4禁止
+@property (nonatomic,strong) NSMutableArray<YCMeetingUser *> *remoteUserList; // 当前状态:0未进入,1开会中,2已离开,4禁止
+@property (nonatomic,strong) NSMutableArray<YCMeetingUser *> *sceneUserList; // 当前状态:0未进入,1开会中,2已离开,4禁止
+
+@property (nonatomic, assign) int totalPeopleNumber;
+@property (nonatomic, assign) int onlinePeopleNumber;
+@property (nonatomic, assign) int accessNumber; // 视频会议最大人数，添加人员时不能超过
+
 
 @property (nonatomic,strong) NSString *groupId; // 群聊 id，用于腾讯云获取群信息
 

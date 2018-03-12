@@ -19,9 +19,25 @@
 
 @implementation YCCompereCommandController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.compereBtnClickAble = YES;
+        self.interactBtnClickAble = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    if (self.compereBtnClickAble) {
+        self.menuForLocalMember.hidden = YES;
+    } else {
+        self.menuForLocalMember.hidden = NO;
+    }
     
     self.CycleView.layer.cornerRadius = self.CycleView.frame.size.width/2;
     self.CycleView.clipsToBounds = YES;

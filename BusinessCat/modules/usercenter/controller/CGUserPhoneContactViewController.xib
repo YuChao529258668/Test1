@@ -36,7 +36,7 @@
                                 <constraint firstAttribute="height" constant="98" id="kFD-Ow-rl4"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开会猫没有权限访问你的通讯录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nLa-H9-zki">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="议事猫没有权限访问你的通讯录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nLa-H9-zki">
                             <rect key="frame" x="0.0" y="320.5" width="375" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="Uie-jh-s1d"/>
@@ -45,7 +45,7 @@
                             <color key="textColor" red="0.56862745098039214" green="0.56862745098039214" blue="0.56862745098039214" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你需要进入系统“设置”-“隐私”-“通讯录”中打开开会猫的开关" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eaK-Dh-KpR">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你需要进入系统“设置”-“隐私”-“通讯录”中打开议事猫的开关" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eaK-Dh-KpR">
                             <rect key="frame" x="15" y="351.5" width="345" height="31.5"/>
                             <constraints>
                                 <constraint firstAttribute="height" priority="250" constant="60" id="kXd-ac-o48"/>

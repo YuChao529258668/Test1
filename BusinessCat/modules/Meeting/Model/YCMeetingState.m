@@ -11,7 +11,7 @@
 @implementation YCMeetingState
 
 + (NSDictionary *)mj_objectClassInArray {
-    return @{@"meetingUserList": [YCMeetingUser class]};
+    return @{@"meetingUserList": [YCMeetingUser class], @"remoteUserList": [YCMeetingUser class], @"sceneUserList": [YCMeetingUser class]};
 }
 
 

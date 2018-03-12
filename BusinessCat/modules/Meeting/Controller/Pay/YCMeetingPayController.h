@@ -15,10 +15,14 @@
 
 @property (nonatomic, strong) NSDate *beginDate;
 @property (nonatomic, strong) NSDate *endDate;
-@property (nonatomic, assign) NSInteger count;
+
+@property (nonatomic, assign) NSInteger count;// 4 8 16
+@property (nonatomic, assign) BOOL isVideo;// 会议类型
+
 @property (nonatomic, copy) NSString *durationString;
 @property (nonatomic, assign) long durationMinute;// 会议时长，分钟
 
 @property (nonatomic,copy) void (^onClickPayBtnBlock)(YCMeetingRebate *rebate);
+
 
 @end

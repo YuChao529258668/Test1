@@ -1290,4 +1290,18 @@
     }];
 }
 
+- (void)loginAndUploadWithQRCode:(NSString *)code success:(void(^)())success fail:(void (^)(NSError *error))fail {
+    // http://cloud.cgsays.com:8070/jeeweb/cjData/二维码&token=asdasdasd
+    NSString *preStr = @"http://cloud.cgsays.com:8070/jeeweb/cjData/";
+    NSString *token = [ObjectShareTool sharedInstance].currentUser.token;
+    NSString *urlStr = [NSString stringWithFormat:@"%@%@&token=%@&goTo=1", preStr, code, token];
+    
+    [self.component sendPostRequestWithURL:urlStr param:nil success:^(id data) {
+        success();
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
+
 @end

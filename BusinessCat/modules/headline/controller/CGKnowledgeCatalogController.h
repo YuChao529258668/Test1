@@ -15,4 +15,7 @@
 @property (nonatomic, assign) NSInteger isShowMenu;
 @property (nonatomic, copy) NSString *icon;
 @property (nonatomic, copy) NSString *titleStr;
+
+@property (nonatomic, assign) BOOL isPresendByMyDocumentController; // 是否从我的文档那里跳转过来
+
 @end

@@ -206,8 +206,11 @@ NSString * const kScreenShare = @"kScreenShare";
             cell.markStringId = nil;
         }
         
+        RenderMode mode = RenderFullScreen;
+//        RenderMode mode = RenderFullContent;
+//        RenderMode mode = RenderAuto;
         //开始渲染
-        [[JCEngineManager sharedManager] startRender:cell.renderView userId:model.userId mode:RenderFullScreen completed:^{
+        [[JCEngineManager sharedManager] startRender:cell.renderView userId:model.userId mode:mode completed:^{
             
         }];
         

@@ -11,7 +11,7 @@
 #import "CGMainLoginViewController.h"
 
 #import "CGMeetingListCell.h"
-
+#import "CGMeetingListTopBar.h"
 #import "CGMeeting.h"
 #import "YCMeetingBiz.h"
 
@@ -33,9 +33,14 @@
 @property (nonatomic,strong) UIView *bottomBar;
 @property (nonatomic,strong) UIButton *createMeetingBtn;
 @property (nonatomic,strong) UIView *headerView;
+@property (nonatomic, strong) UIImageView *backImageView;
+
+
+@property (nonatomic, strong) CGMeetingListTopBar *topBar;
 
 @property (nonatomic,strong) NSArray<CGMeeting *> *meetings;
 @property (nonatomic,assign) int currentPage; // 页数，用于获取后台分页数据
+@property (nonatomic, assign) int dateType; //0：所有 1：今天 2：明天 3：本周 4：其他
 
 @end
 
@@ -46,8 +51,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     [YCJCSDKHelper loginMultiCallWithUserID:[ObjectShareTool sharedInstance].currentUser.uuid];
     
+    [self setupTopBar];
     [self setupTableView];
     [self setupHeaderView];
     [self setupCreateMeetingBtn];
@@ -67,13 +75,21 @@
     [super viewWillLayoutSubviews];
 
     {
+        CGRect rect = self.topBar.frame;
+        rect.size.width = self.view.frame.size.width;
+        rect.size.height = [CGMeetingListTopBar barHeight];
+        self.topBar.frame = rect;
+    }
+    
+    {
         CGRect frame = self.view.frame;
         frame.origin = CGPointZero;
         self.tableView.frame = frame;
         
         // 适配旧代码
         float naviH = self.navi.frame.size.height;
-        frame.origin = CGPointMake(0, naviH);
+        float topBarHeight = [CGMeetingListTopBar barHeight];
+        frame.origin = CGPointMake(0, naviH + topBarHeight);
         frame.size = CGSizeMake(frame.size.width, frame.size.height - naviH);
         self.tableView.frame = frame;
     }
@@ -84,6 +100,8 @@
         CGRect frame = CGRectMake(x, y, kCreateMeetingBtnHeight, kCreateMeetingBtnHeight);
         self.createMeetingBtn.frame = frame;
     }
+    
+    self.backImageView.frame = self.view.bounds;
 }
 
 - (void)dealloc {
@@ -176,6 +194,32 @@
     [self.view addSubview:btn];
 }
 
+- (void)setupTopBar {
+    self.topBar = [CGMeetingListTopBar bar];
+    [self.view addSubview:self.topBar];
+    
+    __weak typeof(self) weakself = self;
+    self.topBar.didClickIndex = ^(int index) {
+        weakself.dateType = index;
+        [weakself.tableView.mj_header beginRefreshing];
+    };
+    self.topBar.didUnSelectBlock = ^{
+        weakself.dateType = 0; // 所有
+        [weakself.tableView.mj_header beginRefreshing];
+        [CTToast showWithText:@"显示所有数据"];
+    };
+}
+
+- (UIImageView *)backImageView {
+    if (!_backImageView) {
+        _backImageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
+        _backImageView.contentMode = UIViewContentModeCenter;
+        _backImageView.hidden = YES;
+        _backImageView.image = [UIImage imageNamed:@"word_picture"];
+        [self.view addSubview:_backImageView];
+    }
+    return _backImageView;
+}
 
 #pragma mark - Action
 
@@ -239,17 +283,28 @@
 #pragma mark - Data
 
 - (void)getMeetingModels {
-    if (![ObjectShareTool sharedInstance].currentUser.token) {
+    if (![ObjectShareTool sharedInstance].currentUser.isLogin) {
         return;
     }
     
+    self.backImageView.hidden = YES;
+    self.tableView.hidden = NO;
+    
     self.currentPage = 1;
     __weak typeof(self) weakself = self;
-    [[YCMeetingBiz new] getMeetingListWithPage:self.currentPage Success:^(NSArray<CGMeeting *> *meetings) {
+    [[YCMeetingBiz new] getMeetingListWithPage:self.currentPage type:self.dateType Success:^(NSArray<CGMeeting *> *meetings, CGMeetingStatistics *statistics) {
         weakself.meetings = meetings;
         [weakself updateHeaderView];
         [weakself.tableView reloadData];
         [weakself.tableView.mj_header endRefreshing];
+        if (meetings.count) {
+            weakself.backImageView.hidden = YES;
+            weakself.tableView.hidden = NO;
+        } else {
+            weakself.backImageView.hidden = NO;
+            weakself.tableView.hidden = YES;
+        }
+        [weakself.topBar updateWithToday0:statistics.toDayUnBeginMeetCount today1:statistics.toDayMeetCount tomorrow:statistics.tomorrowMeetCount week:statistics.weekMeetCount other:statistics.otherCount];
     } fail:^(NSError *error) {
         [weakself.tableView.mj_header endRefreshing];
         [CTToast showWithText:[NSString stringWithFormat:@"获取会议列表失败 : %@", error]];
@@ -263,7 +318,7 @@
     
     self.currentPage ++;
     __weak typeof(self) weakself = self;
-    [[YCMeetingBiz new] getMeetingListWithPage:self.currentPage Success:^(NSArray<CGMeeting *> *meetings) {
+    [[YCMeetingBiz new] getMeetingListWithPage:self.currentPage type:self.dateType Success:^(NSArray<CGMeeting *> *meetings, CGMeetingStatistics *statistics) {
         weakself.meetings = [weakself.meetings arrayByAddingObjectsFromArray:meetings];
 //        [self updateHeaderView];
         [weakself.tableView reloadData];
@@ -273,6 +328,30 @@
         [CTToast showWithText:[NSString stringWithFormat:@"获取更多会议列表失败 : %@", error]];
     }];
 }
+
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGMeeting *meeting = self.meetings[indexPath.row];
+    if (!meeting.meetingRoomId) {
+        // conferenceNumber?
+        [CTToast showWithText:@"本地会议"];
+        return;
+    }
+    __weak typeof(self) weakself = self;
+    [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *q) {
+        // 状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
+        if (state == 1 || state == 3) {
+            [weakself goToVideoMeetingWithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId state:state AccessKey:AccessKey SecretKey:SecretKey BucketName:BucketName q:q];
+        } else {
+            [CTToast showWithText:message];
+        }
+    } fail:^(NSError *error) {
+        
+    }];
+}
+
 
 #pragma mark - UITableViewDataSource
 
@@ -295,6 +374,7 @@
     [cell setCountLabelTextWithNumber:meeting.meetingUserList.count];
     [cell setTimeLabelTextWithTimeInterval:meeting.startTime];
     [cell setTitles:titles];
+    cell.absendImageView.hidden = !meeting.isAbsent;
     [self configCell:cell withMeeting:meeting];
     return cell;
 }
@@ -330,16 +410,44 @@
             imageName = @"work_icon_1";
             break;
         case 2: // 已结束
-            title = @"继续开会";
+            title = @"再次开会";
             imageName = @"work_icon_2";
             break;
         case 3: // 已取消
-            title = @"继续开会";
+            title = @"再次开会";
             imageName = @"work_icon_2";
             break;
     }
     [cell.button setTitle:title forState:UIControlStateNormal];
     [cell setImageName:imageName];
+    
+    
+    BOOL isGray = meeting.meetingState == 2;
+    NSString *typeImageName; // 本地会议：meeting_bighome_normal，远程视频：meeting_videobtn_normal，远程语音：meeting_speech_normal
+    // 0远程，1现场
+    if (meeting.absentOrRemote == 1) {// 现场开会
+        typeImageName = @"meeting_bighome_normal";
+        if (isGray) {
+            typeImageName = @"meeting_bighome_visited";
+        }
+        cell.locationLabel.text = meeting.roomName;
+    } else {
+        // 会议形式（0：音频，1：视频）
+        if (meeting.meetingType) {
+            typeImageName = @"meeting_videobtn_normal";
+            if (isGray) {
+                typeImageName = @"meeting_videobtn_visited";
+            }
+            cell.locationLabel.text = @"视频会议";
+        } else {
+            typeImageName = @"meeting_speech_normal";
+            if (isGray) {
+                typeImageName = @"meeting_bigspeech_visited";
+            }
+            cell.locationLabel.text = @"音频会议";
+        }
+    }
+    [cell setTypeImageName:typeImageName];
 }
 
 - (BOOL)isMeetingCreater:(CGMeeting *)meeting {
@@ -368,6 +476,12 @@
 }
 
 - (void)updateHeaderView {
+    // 只在今天显示
+    if (self.dateType != 1) {
+        self.tableView.tableHeaderView = nil;
+        return;
+    }
+    
     // 会议状态 0:未开始 1：进行中
     int ready = 0;
     for (CGMeeting *meeting in self.meetings) {
@@ -391,29 +505,6 @@
     }
     
     self.tableView.tableHeaderView = nil;
-}
-
-
-#pragma mark - UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGMeeting *meeting = self.meetings[indexPath.row];
-    if (!meeting.meetingRoomId) {
-        // conferenceNumber?
-        [CTToast showWithText:@"本地会议"];
-        return;
-    }
-    __weak typeof(self) weakself = self;
-    [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *q) {
-        // 状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
-        if (state == 1 || state == 3) {
-            [weakself goToVideoMeetingWithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId state:state AccessKey:AccessKey SecretKey:SecretKey BucketName:BucketName q:q];
-        } else {
-            [CTToast showWithText:message];
-        }
-    } fail:^(NSError *error) {
-        
-    }];
 }
 
 

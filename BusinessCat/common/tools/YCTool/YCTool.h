@@ -51,4 +51,17 @@
 // 保留两位有意义小数
 + (NSString *)numberStringOf:(double)number;
 
+// 日期字符串，明天，后天，大后天。。。
++ (NSString *)dateStringWithDaHouTianOfDate:(NSDate *)date;
+
+#pragma mark - WKWebView
+
+// 隐藏 PDF 左上角的页数
++ (void)hidePageNumberIndicatorOfWebView:(WKWebView *)webView;
+
+
+#pragma mark - URL
+
++ (NSURL *)urlWithString:(NSString *)urlStr;
+
 @end

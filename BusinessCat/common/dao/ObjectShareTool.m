@@ -190,7 +190,7 @@ static ObjectShareTool *_sharedManager;
 + (NSString *)stringFromAppName {
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
-    if ([app_Name isEqualToString:@"开会猫"]) {
+    if ([app_Name isEqualToString:@"议事猫"]) {
         return @"会议";
     } else {
         return @"会面";

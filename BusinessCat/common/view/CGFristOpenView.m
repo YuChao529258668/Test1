@@ -45,7 +45,7 @@
   
   UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, imageView.frame.origin.y+imageView.frame.size.height+20, view.frame.size.width, 20)];
   label.font = [UIFont systemFontOfSize:18];
-  label.text = @"欢迎来到开会猫";
+  label.text = @"欢迎来到议事猫";
   label.textAlignment = NSTextAlignmentCenter;
   [view addSubview:label];
   label.textColor = CTThemeMainColor;

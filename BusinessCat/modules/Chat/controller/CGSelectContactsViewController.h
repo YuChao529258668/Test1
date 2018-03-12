@@ -22,3 +22,8 @@
 @property (nonatomic,copy) void (^completeBtnClickBlock)(NSMutableArray<CGUserCompanyContactsEntity *> *contacts);
 
 @end
+
+
+@interface CGSelectContactsViewControllerCell : UICollectionViewCell
+@property (nonatomic, strong) UIImageView *imageView;
+@end

@@ -136,7 +136,7 @@
                                           }];
   [systemArray addObject:item8];
   if (isqrcode&&!self.isDownFire) {
-    ZYShareItem *item9 = [ZYShareItem itemWithTitle:[self.title isEqualToString:@"好友邀请你使用开会猫"]?@"H5二维码":@"二维码"
+    ZYShareItem *item9 = [ZYShareItem itemWithTitle:[self.title isEqualToString:@"好友邀请你使用议事猫"]?@"H5二维码":@"二维码"
                                                icon:@"QRcode_shareit"
                                             handler:^{
                                               CGQrCodeView *view = [[CGQrCodeView alloc]initWithUrl:self.url];
@@ -145,7 +145,7 @@
                                             }];
     [systemArray addObject:item9];
   }
-  if ([self.title isEqualToString:@"好友邀请你使用开会猫"]) {
+  if ([self.title isEqualToString:@"好友邀请你使用议事猫"]) {
     ZYShareItem *item10 = [ZYShareItem itemWithTitle:@"微信公众号"
                                                 icon:@"QRcode_shareit"
                                              handler:^{

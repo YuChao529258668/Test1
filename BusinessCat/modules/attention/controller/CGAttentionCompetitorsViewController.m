@@ -31,6 +31,7 @@
 @property (nonatomic, strong) UIButton *selectButton;
 @property (nonatomic, strong) NSMutableArray *typeArray;
 @property (nonatomic, strong) UIButton *rightBtn;
+
 @end
 
 @implementation CGAttentionCompetitorsViewController

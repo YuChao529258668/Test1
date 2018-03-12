@@ -299,4 +299,12 @@ TIMElem+ShowDescription.m 文件
 群头像
 修改文件 IMAConversation+ShowAPIs.m 的 - (NSURL *)showIconUrl 方法。
 
+隐藏导航栏
+搜 NavigationBarHidden ，
+
+
+二维码扫描
+QRCScannerViewController
+
+
 

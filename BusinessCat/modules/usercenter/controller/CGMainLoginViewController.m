@@ -33,8 +33,15 @@
   return self;
 }
 
+- (void)dealloc {
+    [self removeObserverForWeiXinLogin];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self addObserverForWeiXinLogin];
+    
 //  self.title = @"登录";
     
 //  self.WXButton.layer.cornerRadius = 4;
@@ -60,6 +67,10 @@
     // Do any additional setup after loading the view from its nib.
     
     self.navi.backgroundColor = [UIColor clearColor];
+    
+    if (self.shouldHideNavi) {
+        [self hideCustomNavi];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -91,7 +102,12 @@
       
       [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_LOGINSUCCESS object:nil];
       [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOUPDATEUSERINFO object:nil];
-      weakSelf.loginSuccess(user);
+        if (weakSelf.loginSuccess) {
+            weakSelf.loginSuccess(user); // 偶尔微信登录成功后会崩溃，Thread 1: EXC_BAD_ACCESS (code=1, address=0x10)
+        } else {
+            int i = 0;
+            i = 1;
+        }
       [weakSelf.navigationController popViewControllerAnimated:YES];
     }else{
       CGLoginController *controller = [[CGLoginController alloc]initWithBlock:^(CGUserEntity *user) {
@@ -128,4 +144,20 @@
   [self.navigationController pushViewController:controller animated:YES];
 //  [self presentViewController:controller animated:YES completion:nil];
 }
+
+
+#pragma mark -
+
+- (void)addObserverForWeiXinLogin {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiXinLoginSuccess:) name:NOTIFICATION_LOGINSUCCESS object:nil];
+}
+
+- (void)removeObserverForWeiXinLogin {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)weiXinLoginSuccess:(NSNotification *)noti {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end

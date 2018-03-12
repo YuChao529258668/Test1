@@ -66,7 +66,7 @@
 //    self.navigationItem.title = @"会话";
 //    [self pinHeaderView];
     
-    [self setupSearchBar];
+//    [self setupSearchBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -217,6 +217,9 @@
     if (self.isSearch) {
         return self.searchResult.count;
     }
+    
+    [self callInNumberOfRowsInSection];
+    NSArray *a = _conversationList.safeArray;
     return [_conversationList count];
 }
 
@@ -256,6 +259,10 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //    return YES;
+    IMAConversation *conv = [_conversationList objectAtIndex:indexPath.row];
+    if (conv.isCustom) {
+        return NO;
+    }
     return !self.isSearch;
 }
 
@@ -428,6 +435,10 @@
 #pragma mark - 子类重写
 
 - (void)clickAppMessage {
+    
+}
+
+- (void)callInNumberOfRowsInSection {
     
 }
 

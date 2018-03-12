@@ -78,6 +78,7 @@ typedef void (^RemoveMsgBlock)(NSArray *imamsgList, BOOL succ, CommonVoidBlock r
 @property (nonatomic, strong) NSString *customTimeStr;
 @property (nonatomic, strong) NSString *customLastMsg;
 @property (nonatomic, assign) NSInteger customBadge;
+@property (nonatomic, assign) NSInteger customTime;
 
 
 //===========================

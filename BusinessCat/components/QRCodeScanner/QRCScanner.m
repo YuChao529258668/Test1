@@ -42,8 +42,10 @@
     if(self){
         self.backgroundColor = [UIColor clearColor];
         _transparentAreaSize = CGSizeMake(200, 200);
-        _cornerLineColor = [UIColor redColor];
-        _scanningLieColor = [UIColor redColor];
+        _cornerLineColor = CTThemeMainColor;
+        _scanningLieColor = [UIColor greenColor];
+        
+        [self addCustomView];
     }
     return self;
 }
@@ -370,4 +372,75 @@
     return [UIImage imageWithCGImage:imageMasked];
     //  CGContextDrawImage(contextRef, CGRectMake(100, 50, 200, 80), [smallImg CGImage]);
 }
+
+#pragma mark -
+
+- (void)addCustomView {
+    UINavigationController *nav = [UINavigationController new]; //navigationBar的宽度=0，高度有值。。。
+    
+    float screenW = [UIScreen mainScreen].bounds.size.width;
+    float height = [UIApplication sharedApplication].statusBarFrame.size.height + nav.navigationBar.frame.size.height;
+    CGRect rect = CGRectMake(0, 0, screenW, height);
+    
+    UIView *bar = [[UIView alloc]initWithFrame:rect];
+    bar.backgroundColor = CTThemeMainColor;
+    [self addSubview:bar];
+    
+    UILabel *titleL = [[UILabel alloc]initWithFrame:CGRectMake(0, 28, 200, 26)];
+    titleL.textColor = [UIColor blackColor];
+    titleL.textAlignment = NSTextAlignmentCenter;
+    CGPoint point = titleL.center;
+    point.x = screenW / 2;
+    titleL.center = point;
+    [bar addSubview:titleL];
+    self.titleLabel = titleL;
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 28, 30, 26);
+    [btn setImage:[UIImage imageNamed:@"nav_back"] forState:UIControlStateNormal];
+    [bar addSubview:btn];
+    self.backBtn = btn;
+    
+    CGRect frame = CGRectMake(0, 0, 300, 15);
+    
+    UILabel *l1 = [[UILabel alloc]initWithFrame:frame];
+    UILabel *l2 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 300, 26)];
+    UILabel *l3 = [[UILabel alloc]initWithFrame:frame];
+    
+    CGPoint center = CGPointZero;
+    center.x = [UIScreen mainScreen].bounds.size.width/2;
+    float y = bar.frame.size.height;
+    center.y = y + 30;
+    l1.center = center;
+    center.y += 30;
+    l2.center = center;
+    center.y += 38;
+    l3.center = center;
+    
+    l1.font = [UIFont systemFontOfSize:15];
+    l2.font = [UIFont systemFontOfSize:24];
+    l3.font = [UIFont systemFontOfSize:15];
+    
+    l1.textColor = [UIColor whiteColor];
+    l2.textColor = CTThemeMainColor;
+    l3.textColor = [UIColor whiteColor];
+
+    l1.textAlignment = NSTextAlignmentCenter;
+    l2.textAlignment = NSTextAlignmentCenter;
+    l3.textAlignment = NSTextAlignmentCenter;
+    
+    l1.text = @"在电脑浏览器打开";
+    l2.text = @"user.jp580.com";
+    l3.text = @"并扫描页面中的二维码登录页面版操作";
+
+    [self addSubview:l1];
+    [self addSubview:l2];
+    [self addSubview:l3];
+}
+
+- (void)setTitle:(NSString *)title {
+    _title = title;
+    self.titleLabel.text = title;
+}
+
 @end

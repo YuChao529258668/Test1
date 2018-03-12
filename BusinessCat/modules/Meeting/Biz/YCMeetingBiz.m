@@ -17,11 +17,16 @@
 
 @implementation YCMeetingBiz
 
-- (void)getMeetingListWithPage:(int)page Success:(void(^)(NSArray<CGMeeting *> *meetings))success fail:(void(^)(NSError *error))fail {
-    NSDictionary *dic = @{@"page":@(page)};
+//type 0：所有, 1：今天, 2：明天, 3：本周, 4：其他
+- (void)getMeetingListWithPage:(int)page type:(int)type Success:(void(^)(NSArray<CGMeeting *> *meetings, CGMeetingStatistics *statistics))success fail:(void(^)(NSError *error))fail {
+    NSDictionary *dic = @{@"page":@(page), @"type": @(type)};
     [self.component sendPostRequestWithURL:URL_Meeting_MeetingList param:dic success:^(id data) {
-        NSArray *meetingModels = [CGMeeting mj_objectArrayWithKeyValuesArray:data];
-        success(meetingModels);
+        NSDictionary *meetingList = data[@"meetingList"];
+        NSArray *meetingModels = [CGMeeting mj_objectArrayWithKeyValuesArray:meetingList];
+        
+        NSDictionary *statisticsDic = data[@"meetingStatistics"];
+        CGMeetingStatistics *statistics = [CGMeetingStatistics statisticsWithDictionary:statisticsDic];
+        success(meetingModels, statistics);
     } fail:^(NSError *error) {
         fail(error);
     }];
@@ -180,7 +185,20 @@
 
     NSDictionary *dic = @{@"meetingId": mid};
     [self.component sendPostRequestWithURL:URL_Meeting_MeetingDetail param:dic success:^(id data) {
-        CGMeeting *meeting = [CGMeeting mj_objectWithKeyValues:data];
+        // 接口有变，修改返回的数据再解析
+        NSDictionary *meetingUserList = data[@"meetingUserList"];
+        NSArray *remoteUserList = meetingUserList[@"remoteUserList"];
+        NSArray *sceneUserList = meetingUserList[@"sceneUserList"];
+        
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:data];
+        dic[@"remoteUserList"] = remoteUserList;
+        dic[@"sceneUserList"] = sceneUserList;
+        [dic removeObjectForKey:@"meetingUserList"];
+
+        CGMeeting *meeting = [CGMeeting mj_objectWithKeyValues:dic];
+        meeting.meetingUserList = [NSMutableArray arrayWithArray:meeting.remoteUserList];
+        [meeting.meetingUserList addObjectsFromArray:meeting.sceneUserList];
+
         success(meeting);
     } fail:^(NSError *error) {
         fail(error);
@@ -302,39 +320,44 @@
 
 #pragma mark - 成员
 
-
+// 这里的 meetingMode 默认是 1，远程会议
 // 03.会议成员接口 - ShowDoc http://doc.cgsays.com:50123/index.php?s=/1&page_id=407
 // userId: 传all时代表所有人，除了主持人外
 // compereState: 更换主持人
 // userState: 参会状态 0未进入,1开会中,2已离开,4禁止
 - (void)meetingUserWithMeetingID:(NSString *)mid userId:(NSString *)userId soundState:(NSString *)soundState videoState:(NSString *)videoState interactionState:(NSString *)interactionState compereState:(NSString *)compereState userState:(NSString *)userState userAdd:(NSString *)userAdd userDel:(NSString *)userDel success:(void(^)(YCMeetingState *state))success fail:(void(^)(NSError *error))fail {
+    
+    [self meetingUser22222WithMeetingID:mid userId:userId soundState:soundState videoState:videoState interactionState:interactionState compereState:compereState userState:userState userAdd:userAdd userDel:userDel meetingMode:@"1" success:success fail:fail];
+}
 
+// meetingMode: 0：会议室 1：视频会议
+- (void)meetingUser22222WithMeetingID:(NSString *)mid userId:(NSString *)userId soundState:(NSString *)soundState videoState:(NSString *)videoState interactionState:(NSString *)interactionState compereState:(NSString *)compereState userState:(NSString *)userState userAdd:(NSString *)userAdd userDel:(NSString *)userDel meetingMode:(NSString *)meetingMode success:(void(^)(YCMeetingState *state))success fail:(void(^)(NSError *error))fail {
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObject:mid forKey:@"meetingId"];
     
     if (userId) {
         dic[@"userId"] = userId;
     }
-
+    
     if (soundState) {
         dic[@"soundState"] = soundState;
     }
-
+    
     if (videoState) {
         dic[@"videoState"] = videoState;
     }
-
+    
     if (interactionState) {
         dic[@"interactionState"] = interactionState;
     }
-
+    
     if (compereState) {
         dic[@"compereState"] = compereState;
     }
-
+    
     if (userState) {
         dic[@"userState"] = userState;
     }
-
+    
     if (userAdd) {
         dic[@"userAdd"] = userAdd;
     }
@@ -343,9 +366,26 @@
         dic[@"userDel"] = userDel;
     }
     
-    [self.component sendPostRequestWithURL:URL_Meeting_User param:dic success:^(id data) {
+    if (!meetingMode) {
+        meetingMode = @"1";
+    }
+    dic[@"meetingMode"] = meetingMode; // 0：会议室 1：视频会议
+    
+    [self.component sendPostRequestWithURL:URL_Meeting_User param:dic success:^(NSDictionary *data) {
         if (success) {
-            YCMeetingState *state = [YCMeetingState mj_objectWithKeyValues:data];
+            // 接口有变，修改返回的数据再解析
+            NSDictionary *meetingUserList = data[@"meetingUserList"];
+            NSArray *remoteUserList = meetingUserList[@"remoteUserList"];
+            NSArray *sceneUserList = meetingUserList[@"sceneUserList"];
+            
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:data];
+            dic[@"remoteUserList"] = remoteUserList;
+            dic[@"sceneUserList"] = sceneUserList;
+            [dic removeObjectForKey:@"meetingUserList"];
+            
+            YCMeetingState *state = [YCMeetingState mj_objectWithKeyValues:dic];
+            state.meetingUserList = [NSMutableArray arrayWithArray:state.remoteUserList];
+            [state.meetingUserList addObjectsFromArray:state.sceneUserList];
             success(state);
         }
     } fail:^(NSError *error) {
@@ -431,6 +471,47 @@
         NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
     }];
 
+}
+
+
+// 代码复制的使用 URL_COMMON_PLACE_ORDER 作为参数的接口。
+// 使用会议共享金币不足时的微信支付
+- (void)authUserPlaceOrderWithToId:(NSString *)toId toType:(NSInteger)toType subType:(NSInteger)subType payType:(NSInteger)payType payMethod:(NSString *)payMethod toUserId:(NSString *)toUserId body:(NSString *)body detail:(NSString *)detail attach:(id)attach trade_type:(NSString *)trade_type device_info:(NSString *)device_info total_fee:(double)total_fee notify_url:(NSString *)notify_url order_type:(NSInteger)order_type iOSProductId:(NSString *)iOSProductId success:(void(^)(CGRewardEntity * entity))success fail:(void (^)(NSError *error))fail{
+    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithObjectsAndKeys:toId,@"toId",[NSNumber numberWithInteger:toType],@"toType",[NSNumber numberWithInteger:payType],@"payType",payMethod,@"payMethod",toUserId,@"toUserId",body,@"body",trade_type,@"trade_type",[NSNumber numberWithDouble:total_fee],@"total_fee",[NSNumber numberWithInteger:order_type],@"order_type", nil];
+    
+    if ([CTStringUtil stringNotBlank:detail]) {
+        [param setObject:detail forKey:@"detail"];
+    }
+    if (attach) {
+        if ([attach isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *dic = attach;
+            NSString *json = [dic mj_JSONString];
+            [param setObject:json forKey:@"attach"];
+        }
+    }
+    if ([CTStringUtil stringNotBlank:device_info]) {
+        [param setObject:device_info forKey:@"device_info"];
+    }
+    
+    if ([CTStringUtil stringNotBlank:notify_url]) {
+        [param setObject:notify_url forKey:@"notify_url"];
+    }
+    
+    if ([CTStringUtil stringNotBlank:iOSProductId]) {
+        [param setObject:iOSProductId forKey:@"iOSProductId"];
+    }
+    
+    if (toType == 3) {
+        [param setObject:[NSNumber numberWithInteger:subType] forKey:@"subType"];
+    }
+    
+    [self.component UIPostRequestWithURL:URL_Meeting_Order param:param success:^(id data) {
+        NSDictionary *dict = data;
+        CGRewardEntity *comment = [CGRewardEntity mj_objectWithKeyValues:dict];
+        success(comment);
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
 }
 
 @end

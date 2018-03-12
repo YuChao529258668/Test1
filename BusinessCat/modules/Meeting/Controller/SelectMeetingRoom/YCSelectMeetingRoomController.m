@@ -268,8 +268,8 @@
     BOOL isDisplay = self.isSectionDisplays[view.section].intValue == 1? YES: NO;
     isDisplay = !isDisplay;
     self.isSectionDisplays[view.section] = @(isDisplay);
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:view.section] withRowAnimation:UITableViewRowAnimationFade];
-//    [self.tableView reloadData];
+//    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:view.section] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView reloadData];
 }
 
 - (IBAction)clickVideoBtn:(UIButton *)sender {

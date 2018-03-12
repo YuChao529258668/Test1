@@ -13,4 +13,6 @@ typedef void (^CGLoginCancelBlock)(NSError *error);
 
 -(instancetype)initWithBlock:(CGLoginSuccessBlock)success fail:(CGLoginCancelBlock)fail;
 
+@property (nonatomic, assign) BOOL shouldHideNavi;
+
 @end

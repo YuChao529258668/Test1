@@ -70,7 +70,7 @@
         break;
       case 2:
         titleLabel.text = @"上传名单";
-        textLabel.text = @"点击”导入数据“，将团队成员名单导入开会猫，即可完成批量添加";
+        textLabel.text = @"点击”导入数据“，将团队成员名单导入议事猫，即可完成批量添加";
         image.image = [UIImage imageNamed:@"user_ uploads"];
         break;
         

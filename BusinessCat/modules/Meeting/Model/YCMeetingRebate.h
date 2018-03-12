@@ -14,12 +14,12 @@
 @property (nonatomic, assign) NSInteger duration;// 分钟
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *id;
-@property (nonatomic, assign) int state; // 0不可用 1可用
+@property (nonatomic, assign) int state; // 0不可用 1可用 ，共享的没有这个字段
 @property (nonatomic, assign) int type;// 0为公司 1为用户
 @property (nonatomic, assign) int rebate; // 0原价,1八折，2免费
 @property (nonatomic, assign) double price;
 
-// 自定义数据
+// 自定义数据，在支付时用到，table view cell 用不到
 @property (nonatomic, assign) int shareType; // 0 myList，我的。1 shareList，共享
 
 @end

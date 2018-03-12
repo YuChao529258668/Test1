@@ -700,4 +700,8 @@
     [[NSNotificationQueue defaultQueue] enqueueNotification:[item changedNotification] postingStyle:NSPostWhenIdle];
 }
 
+//- (CLSafeMutableArray *)conversationList {
+//    return _conversationList;
+//}
+
 @end

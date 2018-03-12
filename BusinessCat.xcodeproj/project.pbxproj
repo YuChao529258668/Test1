@@ -29,6 +29,9 @@
 		0D1E96952027F86E00B6187A /* UIImage+MDQRCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E968B2027F86D00B6187A /* UIImage+MDQRCode.m */; };
 		0D1E96982027F8C700B6187A /* QRCScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E96962027F8C300B6187A /* QRCScannerViewController.m */; };
 		0D29EAD61FF3437F005F1AD1 /* YCTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29EAD51FF3437F005F1AD1 /* YCTool.m */; };
+		0D3057182046A84D00337CE7 /* CGMeetingListTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3057172046A84D00337CE7 /* CGMeetingListTopBar.m */; };
+		0D30571A2046A86500337CE7 /* CGMeetingListTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D3057192046A86500337CE7 /* CGMeetingListTopBar.xib */; };
+		0D30571C2046A97200337CE7 /* 会议列表.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D30571B2046A97200337CE7 /* 会议列表.png */; };
 		0D316D1B2008ABD40097D79D /* YCVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D316D192008ABD40097D79D /* YCVideoController.m */; };
 		0D316D1C2008ABD40097D79D /* YCVideoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D316D1A2008ABD40097D79D /* YCVideoController.xib */; };
 		0D316DEB200C93F30097D79D /* TXLiteAVSDK_UGC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D316DEA200C93F10097D79D /* TXLiteAVSDK_UGC.framework */; };
@@ -681,6 +684,7 @@
 		0DBF481E1FB3087400707C12 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DBF47551FB3087300707C12 /* Toast.m */; };
 		0DBF4CB81FB3139C00707C12 /* libzmf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF4CB61FB3139800707C12 /* libzmf.a */; };
 		0DBF4CB91FB3139C00707C12 /* libmtc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF4CB71FB3139C00707C12 /* libmtc.a */; };
+		0DC04F1B2050CD5400177F2C /* LaunchView1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DC04F1A2050CD5400177F2C /* LaunchView1.png */; };
 		0DCD73341FB3F3EB00972501 /* IMGroupExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73261FB3F3E800972501 /* IMGroupExt.framework */; };
 		0DCD73351FB3F3EB00972501 /* ImSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73271FB3F3E800972501 /* ImSDK.framework */; };
 		0DCD73361FB3F3EB00972501 /* TLSUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73281FB3F3E800972501 /* TLSUI.framework */; };
@@ -1540,6 +1544,10 @@
 		0D1E96972027F8C500B6187A /* QRCScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCScannerViewController.h; sourceTree = "<group>"; };
 		0D29EAD41FF3437F005F1AD1 /* YCTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCTool.h; sourceTree = "<group>"; };
 		0D29EAD51FF3437F005F1AD1 /* YCTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCTool.m; sourceTree = "<group>"; };
+		0D3057162046A84D00337CE7 /* CGMeetingListTopBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CGMeetingListTopBar.h; sourceTree = "<group>"; };
+		0D3057172046A84D00337CE7 /* CGMeetingListTopBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CGMeetingListTopBar.m; sourceTree = "<group>"; };
+		0D3057192046A86500337CE7 /* CGMeetingListTopBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CGMeetingListTopBar.xib; sourceTree = "<group>"; };
+		0D30571B2046A97200337CE7 /* 会议列表.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "会议列表.png"; sourceTree = "<group>"; };
 		0D316D182008ABD40097D79D /* YCVideoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCVideoController.h; sourceTree = "<group>"; };
 		0D316D192008ABD40097D79D /* YCVideoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCVideoController.m; sourceTree = "<group>"; };
 		0D316D1A2008ABD40097D79D /* YCVideoController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCVideoController.xib; sourceTree = "<group>"; };
@@ -2683,6 +2691,7 @@
 		0DBF47551FB3087300707C12 /* Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toast.m; sourceTree = "<group>"; };
 		0DBF4CB61FB3139800707C12 /* libzmf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libzmf.a; sourceTree = "<group>"; };
 		0DBF4CB71FB3139C00707C12 /* libmtc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmtc.a; sourceTree = "<group>"; };
+		0DC04F1A2050CD5400177F2C /* LaunchView1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchView1.png; sourceTree = "<group>"; };
 		0DCD73261FB3F3E800972501 /* IMGroupExt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IMGroupExt.framework; sourceTree = "<group>"; };
 		0DCD73271FB3F3E800972501 /* ImSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ImSDK.framework; sourceTree = "<group>"; };
 		0DCD73281FB3F3E800972501 /* TLSUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TLSUI.framework; sourceTree = "<group>"; };
@@ -4375,8 +4384,12 @@
 		0D3EB2B51FBA9C8900DAE678 /* MeetingList */ = {
 			isa = PBXGroup;
 			children = (
+				0D30571B2046A97200337CE7 /* 会议列表.png */,
 				0D7431041FB93D91002867FA /* CGMeetingListViewController.h */,
 				0D7431051FB93D91002867FA /* CGMeetingListViewController.m */,
+				0D3057162046A84D00337CE7 /* CGMeetingListTopBar.h */,
+				0D3057172046A84D00337CE7 /* CGMeetingListTopBar.m */,
+				0D3057192046A86500337CE7 /* CGMeetingListTopBar.xib */,
 			);
 			path = MeetingList;
 			sourceTree = "<group>";
@@ -7269,6 +7282,7 @@
 				D71142781D59CC720037F633 /* main.m */,
 				D7BF3EAF1D98F9D900FC94E6 /* resource */,
 				0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */,
+				0DC04F1A2050CD5400177F2C /* LaunchView1.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -8631,6 +8645,7 @@
 				181C552A1EC453E10064354D /* CGProductReviewCollectionViewCell.xib in Resources */,
 				1817C3001DDE288E00711EF0 /* CGHeadlineGlobalSearchCommonDetailViewController.xib in Resources */,
 				0D90E0161FB43C3A00EDB7CF /* youtubeauty.bundle in Resources */,
+				0D30571C2046A97200337CE7 /* 会议列表.png in Resources */,
 				1806D2D41DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.xib in Resources */,
 				181A9CE91E8DF3850009104A /* CGSearchTitleTableViewCell.xib in Resources */,
 				182CC0731ECDA05B008B19B9 /* CGInterfaceViewController.xib in Resources */,
@@ -8733,6 +8748,7 @@
 				0DB9E61D202C579E00ACA8D0 /* 33.gif in Resources */,
 				18B668151DB5B6F3003EA387 /* CGUserHeaderCollectionViewCell.xib in Resources */,
 				0DB9E621202C579F00ACA8D0 /* 18.gif in Resources */,
+				0DC04F1B2050CD5400177F2C /* LaunchView1.png in Resources */,
 				0DBF47861FB3087400707C12 /* JCMessageCell.xib in Resources */,
 				0DBF47AE1FB3087400707C12 /* camera_off@3x.png in Resources */,
 				181C54CC1EC044C60064354D /* CGEnterpriseMemberTableViewCell.xib in Resources */,
@@ -8878,6 +8894,7 @@
 				1890F3D31E5EE9FF00A0F1BF /* juhua.gif in Resources */,
 				18ED533F1F4C2A0B00EB2D64 /* CGHelpBigImageViewController.xib in Resources */,
 				0DBF478A1FB3087400707C12 /* status_host_on@2x.png in Resources */,
+				0D30571A2046A86500337CE7 /* CGMeetingListTopBar.xib in Resources */,
 				18400BF81ECC390900E3009D /* CGHelpCateTableViewCell.xib in Resources */,
 				1835DA161DBA17FD0006ED07 /* CGUserCompanySearchTableViewCell.xib in Resources */,
 				0DB9E67D202C579F00ACA8D0 /* 38.gif in Resources */,
@@ -9509,6 +9526,7 @@
 				0D90DF4B1FB43C3900EDB7CF /* NSObject+CommonBlock.m in Sources */,
 				1868533C1EA70BFA00B79EFD /* LWImageStorage.m in Sources */,
 				0D90DF4C1FB43C3900EDB7CF /* NSObject+KVOCategory.m in Sources */,
+				0D3057182046A84D00337CE7 /* CGMeetingListTopBar.m in Sources */,
 				1841E1881E1BA7F40030376A /* HeadlineTopicMyReplyCell.m in Sources */,
 				0D90E0031FB43C3A00EDB7CF /* PYMethod.m in Sources */,
 				1834BB4A1DB70BFE008F4685 /* CGUserFireViewController.m in Sources */,

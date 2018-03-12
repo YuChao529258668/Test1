@@ -445,6 +445,8 @@
             [cell.contentView addSubview:self.toSeeVIPDetailBtn];
             
             if([ObjectShareTool sharedInstance].currentUser.isLogin == 0){//未登录
+//                [self gotoLoginViewController];
+                
                 self.userIcon.image = [UIImage imageNamed:@"Default_login"];
                 [cell.contentView addSubview:self.clickToLoginBtn];
                 [self.userNameLabel removeFromSuperview];
@@ -968,7 +970,7 @@
   self.shareUtil = [[ShareUtil alloc]init];
   __weak typeof(self) weakSelf = self;
   UIImage *image = [UIImage imageNamed:@"login_image"];
-  [self.shareUtil showShareMenuWithTitle:@"好友邀请你使用开会猫" desc:@"我正在使用开会猫，它是非常棒的智能知识管家，现在也推荐给你" isqrcode:1 image:image url:url block:^(NSMutableArray *array) {
+  [self.shareUtil showShareMenuWithTitle:@"好友邀请你使用议事猫" desc:@"我正在使用议事猫，它是非常棒的智能知识管家，现在也推荐给你" isqrcode:1 image:image url:url block:^(NSMutableArray *array) {
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:array applicationActivities:nil];
     [weakSelf presentViewController:activityVC animated:YES completion:nil];
   }];
@@ -992,6 +994,7 @@
 - (void)clickScanBtn {
     QRCScannerViewController *vc = [QRCScannerViewController new];
     vc.delegate = self;
+    vc.title = @"登录管理后台";
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -1039,5 +1042,12 @@
 
     
 }
+
+#pragma mark - 强制登录
+
+- (void)gotoLoginViewController {
+    
+}
+
 
 @end

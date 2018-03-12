@@ -97,6 +97,91 @@
     return str;
 }
 
+// 日期字符串，明天，后天，大后天。。。
++ (NSString *)dateStringWithDaHouTianOfDate:(NSDate *)date {
+    NSTimeInterval secondsPerDay = 24 * 60 * 60;
+    
+    NSDate *today = [NSDate date];
+    NSDate *yesterday = [today dateByAddingTimeInterval: -secondsPerDay];
+    NSDate *tomorrow = [today dateByAddingTimeInterval: secondsPerDay];
+    NSDate *houTian = [today dateByAddingTimeInterval:secondsPerDay * 2];
+    NSDate *daHouTian = [today dateByAddingTimeInterval:secondsPerDay * 3];
+    
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    formatter.dateFormat = @"yyyy-MM-dd";
+
+
+    NSString * todayString = [formatter stringFromDate:today];
+    NSString * yesterdayString = [formatter stringFromDate:yesterday];
+    NSString * tomorrowString = [formatter stringFromDate:tomorrow];
+    NSString * houTianString = [formatter stringFromDate:houTian];
+    NSString * daHouTianString = [formatter stringFromDate:daHouTian];
+
+    NSString * dateString = [formatter stringFromDate:date];
+
+    NSString *prefixStr = @"";
+    
+    if ([dateString isEqualToString:todayString])
+    {
+        prefixStr = @"今天";
+    } else if ([dateString isEqualToString:tomorrowString])
+    {
+        prefixStr = @"明天";
+    } else if ([dateString isEqualToString:houTianString])
+    {
+        prefixStr = @"后天";
+    } else if ([dateString isEqualToString:daHouTianString])
+    {
+        prefixStr = @"大后天";
+    } else if ([dateString isEqualToString:yesterdayString])
+    {
+        prefixStr = @"昨天";
+    }
+    else
+    {
+        formatter.dateFormat = @"MM月dd日 EE HH:mm";
+        return [formatter stringFromDate:date];
+    }
+    
+    formatter.dateFormat = @"HH:mm";
+    return [NSString stringWithFormat:@"%@ %@", prefixStr, [formatter stringFromDate:date]];
+}
+
+-(NSString *)compareDate:(NSDate *)date{
+    
+    NSTimeInterval secondsPerDay = 24 * 60 * 60;
+    NSDate *today = [[NSDate alloc] init];
+    NSDate *tomorrow, *yesterday;
+    
+    tomorrow = [today dateByAddingTimeInterval: secondsPerDay];
+    yesterday = [today dateByAddingTimeInterval: -secondsPerDay];
+    
+    // 10 first characters of description is the calendar date:
+    NSString * todayString = [[today description] substringToIndex:10];
+    NSString * yesterdayString = [[yesterday description] substringToIndex:10];
+    NSString * tomorrowString = [[tomorrow description] substringToIndex:10];
+    
+    NSString * dateString = [[date description] substringToIndex:10];
+    
+    if ([dateString isEqualToString:todayString])
+    {
+        NSLog(@"the day is today");
+        return @"今天";
+    } else if ([dateString isEqualToString:yesterdayString])
+    {
+        NSLog(@"the day is yesterday");
+        return @"昨天";
+    }else if ([dateString isEqualToString:tomorrowString])
+    {
+        NSLog(@"the day is tomorrowString");
+        return @"明天";
+    }
+    else
+    {
+        return dateString;
+    }
+}
+
 
 #pragma mark - Color
 
@@ -283,6 +368,16 @@
     return str;
 }
 
+
+#pragma mark - URL
+
++ (NSURL *)urlWithString:(NSString *)urlStr {
+    NSString *str = [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSURL *url = [NSURL URLWithString:str];
+    return url;
+}
+
+
 #pragma mark - UIViewController
 
 // 如果最上层的是 UIAlertController，viewControllerToPresent 的 modalPresentationStyle 会被修改为 UIModalPresentationOverFullScreen。不然 UIAlertController 的对话框会漂移到屏幕顶部。
@@ -320,5 +415,19 @@
     }
     return topModalVC;
 }
+
+
+#pragma mark - WKWebView
+
+// 隐藏 PDF 左上角的页数
++ (void)hidePageNumberIndicatorOfWebView:(WKWebView *)webView {
+    UIView *view = webView.subviews.lastObject;
+    for (UIView *v in view.subviews) {
+        if ([v.description containsString:@"WKPDFPageNumberIndicator"]) {
+            v.hidden = YES;
+        }
+    }
+}
+
 
 @end

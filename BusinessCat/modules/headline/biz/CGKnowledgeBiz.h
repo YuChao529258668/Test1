@@ -26,4 +26,7 @@
 // 我的文档
 - (void)getMyDocumentWithPage:(int)page success:(void(^)(CGKnowledgePackageEntity *result,CGPermissionsEntity *entity))success fail:(void (^)(NSError *error))fail;
 
+// 我的文档 接口
+- (void)getMyDocumentWithMainId:(NSString *)mainId packageId:(NSString *)packageId cataId:(NSString *)cataId page:(NSInteger)page type:(NSInteger)type success:(void(^)(CGKnowledgePackageEntity *result ,CGPermissionsEntity *entity))success fail:(void (^)(NSError *error))fail;
+
 @end

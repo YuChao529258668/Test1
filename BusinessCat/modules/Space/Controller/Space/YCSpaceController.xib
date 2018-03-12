@@ -49,7 +49,7 @@
                                 <constraint firstAttribute="width" constant="46" id="q89-Wb-Lua"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <state key="normal" title="会议">
+                            <state key="normal" title="行程">
                                 <color key="titleColor" red="0.99607843139999996" green="0.79607843140000001" blue="0.18039215689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <state key="selected">

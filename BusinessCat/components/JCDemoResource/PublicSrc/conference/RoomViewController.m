@@ -1324,6 +1324,7 @@ typedef enum {
         // 成员
         [weakself addMembersControllerWithUsers:meeting.meetingUserList];
         [weakself updateTitleBtn];
+        [weakself updateMemberBtn];
         [weakself setupTimer];
         weakself.desktopVC.meeting = meeting;
     } fail:^(NSError *error) {
@@ -1574,7 +1575,7 @@ __weak typeof(self) weakself = self;
 }
 
 - (void)updateMemberBtn {
-    NSString *title = [NSString stringWithFormat:@"成员(%d/%ld人) ", (int)[[JCEngineManager sharedManager] getRoomInfo].participants.count, self.meeting.meetingUserList.count];
+    NSString *title = [NSString stringWithFormat:@"成员(%d/%d人) ", self.meeting.onlinePeopleNumber, self.meeting.totalPeopleNumber];
     [self.memberTabBtn setTitle:title forState:UIControlStateNormal];
 }
 

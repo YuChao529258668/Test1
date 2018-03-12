@@ -396,8 +396,7 @@
             weakSelf.loginSuccess(user);
           }
           [self closeKeyBoard];
-          NSInteger index = [[weakSelf.navigationController viewControllers]indexOfObject:weakSelf];
-          [weakSelf.navigationController popToViewController:[weakSelf.navigationController.viewControllers objectAtIndex:index-2]animated:YES];
+            [weakSelf dismiss];
         } fail:^(NSError *error) {
           
         }];
@@ -474,6 +473,15 @@
 - (void)setupTap {
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
     [self.view addGestureRecognizer:tap];
+}
+
+- (void)dismiss {
+    if (self.presentingViewController) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        NSInteger index = [[self.navigationController viewControllers]indexOfObject:self];
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:index-2]animated:YES];
+    }
 }
 
 @end

@@ -116,18 +116,25 @@
 - (void)getData {
     __weak typeof(self) weakself = self;
     [YCSpaceBiz getBoardWithSuccess:^(YCSeeBoard *board) {
-        NowMonthMeeting *nowMonthMeeting = board.nowMonthMeeting;
+//        NowMonthMeeting *nowMonthMeeting = board.nowMonthMeeting;
         NowMonthStatistics *nowMonthStatistics = board.nowMonthStatistics;
+        MyMeeting *myMeeting = board.myMeeting;
+        
         weakself.board = board;
         weakself.shareProfits = board.shareProfit;
         [weakself.tableView reloadData];
         [weakself.tableView.mj_header endRefreshing];
 
-        weakself.todayL.text = [NSString stringWithFormat:@"%d/%d 场", [nowMonthMeeting toDayUnBeginMeetCount], [nowMonthMeeting toDayMeetCount]];
-        weakself.tomorrowL.text = [NSString stringWithFormat:@"%d 场", nowMonthMeeting.tomorrowMeetCount];
-        weakself.weekL.text = [NSString stringWithFormat:@"%d 场", nowMonthMeeting.weekMeetCount];
-        weakself.otherL.text = [NSString stringWithFormat:@"%d 场", nowMonthMeeting.otherCount];
+//        weakself.todayL.text = [NSString stringWithFormat:@"%d/%d 场", [nowMonthMeeting toDayUnBeginMeetCount], [nowMonthMeeting toDayMeetCount]];
+//        weakself.tomorrowL.text = [NSString stringWithFormat:@"%d 场", nowMonthMeeting.tomorrowMeetCount];
+//        weakself.weekL.text = [NSString stringWithFormat:@"%d 场", nowMonthMeeting.weekMeetCount];
+//        weakself.otherL.text = [NSString stringWithFormat:@"%d 场", nowMonthMeeting.otherCount];
         
+        weakself.todayL.text = [NSString stringWithFormat:@"%d 场",myMeeting.meetingCount];
+        weakself.tomorrowL.text = [NSString stringWithFormat:@"%d 场", myMeeting.onTimeCount];
+        weakself.weekL.text = [NSString stringWithFormat:@"%d 场", myMeeting.lateCount];
+        weakself.otherL.text = [NSString stringWithFormat:@"%d 场", myMeeting.absentCount];
+
         weakself.meetingCountL.text = [NSString stringWithFormat:@"%d 场", nowMonthStatistics.meetingCount];
         [YCTool HMSForSeconds:nowMonthStatistics.useTotal*60 block:^(NSInteger h, NSInteger m, NSInteger s, NSMutableString *string) {
             if (h) {
@@ -141,9 +148,9 @@
             }
             weakself.meetingTimeL.text = string;
         }];
-        weakself.onTimetL.text = [NSString stringWithFormat:@"%d次", nowMonthStatistics.onTimeCount];
-        weakself.lateL.text = [NSString stringWithFormat:@"%d次", nowMonthStatistics.lateCount];
-        weakself.absentL.text = [NSString stringWithFormat:@"%d次", nowMonthStatistics.absentCount];
+        weakself.onTimetL.text = [NSString stringWithFormat:@"%d场", nowMonthStatistics.onTimeCount];
+        weakself.lateL.text = [NSString stringWithFormat:@"%d场", nowMonthStatistics.lateCount];
+        weakself.absentL.text = [NSString stringWithFormat:@"%d场", nowMonthStatistics.absentCount];
         
         float total = nowMonthStatistics.meetingCount;
         if (total) {

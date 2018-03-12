@@ -51,7 +51,8 @@
 }
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation{
     [self executeFontSize];
-    [GiFHUD setGifWithImageName:@"loading.gif"];
+//    [GiFHUD setGifWithImageName:@"loading.gif"];
+    [GiFHUD setGifWithImageName:@"juhua.gif"];
     [GiFHUD show];
 }
 

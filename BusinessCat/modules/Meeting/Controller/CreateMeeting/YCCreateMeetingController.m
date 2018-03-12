@@ -53,13 +53,21 @@
 
 @end
 
+
+#pragma mark -
+
 @implementation YCCreateMeetingController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    [self addObserverForWeiXinPay];
     [self configViews];
+}
+
+- (void)dealloc {
+    [self removeObserverForWeiXinPay];
 }
 
 #pragma mark - Actions
@@ -213,7 +221,7 @@
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
         NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
         NSString *str;
-        if ([app_Name isEqualToString:@"开会猫"]) {
+        if ([app_Name isEqualToString:@"议事猫"]) {
             str = @"会议";
         } else {
             str = @"会面";
@@ -319,7 +327,7 @@
     
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
-    if ([app_Name isEqualToString:@"开会猫"]) {
+    if ([app_Name isEqualToString:@"议事猫"]) {
         self.navigationLabel.text = @"预约会议";
         self.titleLabel.text = @"会议主题";
         self.dateLabel.text = @"会议日期";
@@ -386,6 +394,7 @@
     vc.beginDate = self.beginDate;
     vc.endDate = self.endDate;
     vc.durationMinute = self.durationMinute;
+    vc.isVideo = self.isVideo;
     
     __weak typeof(self) weakself = self;
     vc.onClickPayBtnBlock = ^(YCMeetingRebate *rebate) {
@@ -423,12 +432,12 @@
     int live = self.isLive? 1: 0;
     
     NSString *meetingName = self.titleTF.text;
-    if ([YCTool isBlankString:meetingName]) {
-        // 02月02日周六 16:28会议
-        f.dateFormat = @"MM月dd日EE HH:mm";
-        meetingName = [f stringFromDate:beginDate];
-        meetingName = [NSString stringWithFormat:@"%@%@", meetingName, [ObjectShareTool stringFromAppName]];
-    }
+//    if ([YCTool isBlankString:meetingName]) {
+//        // 02月02日周六 16:28会议
+//        f.dateFormat = @"MM月dd日EE HH:mm";
+//        meetingName = [f stringFromDate:beginDate];
+//        meetingName = [NSString stringWithFormat:@"%@%@", meetingName, [ObjectShareTool stringFromAppName]];
+//    }
     
     int shareType = self.rebate.shareType;
     if (!self.rebate) {
@@ -469,11 +478,17 @@
     if (![msg isEqualToString:@"金币不够支付"]) {
         return;
     }
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"是否充值?" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"是否微信充值?" message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"我要充值" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        CGBuyVIPViewController *vc = [[CGBuyVIPViewController alloc]init];
-        vc.type = 4;
-        [self.navigationController pushViewController:vc animated:YES];
+        // 共享，只用微信支付
+        if (self.rebate.shareType) {
+//            [CTToast showWithText:@"共享的微信支付未完成"];
+            [self gotoWeiXinPay];
+        } else {
+            CGBuyVIPViewController *vc = [[CGBuyVIPViewController alloc]init];
+            vc.type = 4;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     [ac addAction:sure];
@@ -500,6 +515,37 @@
 //
 //    }];
 
+}
+
+#pragma mark - 微信支付
+
+- (void)addObserverForWeiXinPay {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccess:) name:NOTIFICATION_WEIXINPAYSUCCESS object:nil];
+}
+
+- (void)removeObserverForWeiXinPay {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)paySuccess:(NSNotification *)noti {
+    [self createMeeting];
+}
+
+- (void)gotoWeiXinPay {
+//    data = {"body":"充值金币","order_type":0,"toType":24,"toId":"47cd5da6-49db-4390-abfe-f67e15f567a2","payMethod":"WECHATPAY","attach":"{\"identity\":\"CGKnowledgeIOS26BAFADF-3233-4D6F-B63F-5C8A89BF7250\",\"packageid\":\"2f60a945-cfa2-eec0-d6de-90f2164debc2\"}","total_fee":600,"payType":1002,"token":"496dbcb0-3363-4de0-b50d-c3995dc5442c","toUserId":"123","trade_type":"APP","iOSProductId":"com.jp.knowledgeIntegrals6"},
+
+    NSString *toId = [ObjectShareTool currentUserID];
+    NSString *identifier = [CTDeviceTool getUniqueDeviceIdentifierAsString];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@1,@"packageid",identifier,@"identity", nil];
+
+    // 后台下单
+    [[YCMeetingBiz new]
+     authUserPlaceOrderWithToId:toId toType:24 subType:0 payType:1002 payMethod:@"WECHATPAY" toUserId:@"123" body:@"充值金币" detail:@"" attach:dic trade_type:@"APP" device_info:@"" total_fee:self.rebate.price notify_url:@"" order_type:0 iOSProductId:@"" success:^(CGRewardEntity *entity) {
+         // 拉起微信支付
+         [[CGCommonBiz new] jumpToBizPayWithEntity:entity];
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 @end

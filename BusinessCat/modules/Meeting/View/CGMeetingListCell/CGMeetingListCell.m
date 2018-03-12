@@ -14,6 +14,7 @@
 
 
 @interface CGMeetingListCell()<UICollectionViewDelegate, UICollectionViewDataSource>
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewWidthConstraint;
 
 @end
 
@@ -31,6 +32,15 @@
     self.timeLabel.textColor = [CTCommonUtil convert16BinaryColor:@"#999999"];
     [self.button setTitleColor:[CTCommonUtil convert16BinaryColor:@"#999999"] forState:UIControlStateNormal];
     self.backgroundColor = [CTCommonUtil convert16BinaryColor:@"#ebebeb"];
+    
+    float width = [UIScreen mainScreen].bounds.size.width;
+    float constant = 0;
+    if (width == 320) {
+        constant = 50 * 3 + 4 * 2;
+    } else {
+        constant = 50 * 4 + 4 * 3;
+    }
+    self.collectionViewWidthConstraint.constant = constant;
 }
 
 - (void)buttonClick {
@@ -41,7 +51,7 @@
 #pragma mark - Setter
 
 - (void)setCountLabelTextWithNumber:(NSUInteger)count {
-    self.countLabel.text = [NSString stringWithFormat:@"%@人参会", [NSString stringWithFormat:@"%ld", count]];
+    self.countLabel.text = [NSString stringWithFormat:@"%@人", [NSString stringWithFormat:@"%ld", count]];
 }
 
 - (void)setTimeLabelTextWithTimeInterval:(NSString *)interval {
@@ -56,6 +66,8 @@
     NSString *ymd = [f stringFromDate:[NSDate date]];
     dateStr = [dateStr stringByReplacingOccurrencesOfString:ymd withString:@""];
     self.timeLabel.text = dateStr;
+    
+    self.timeLabel.text = [YCTool dateStringWithDaHouTianOfDate:date];
 }
 
 - (void)setTitles:(NSArray *)titles {
@@ -66,6 +78,12 @@
 - (void)setImageName:(NSString *)name {
     self.myImageView.image = [UIImage imageNamed:name];
 }
+
+- (void)setTypeImageName:(NSString *)name {
+    UIImage *image = [UIImage imageNamed:name];
+    self.typeImageView.image = image;
+}
+
 
 
 #pragma mark - Config

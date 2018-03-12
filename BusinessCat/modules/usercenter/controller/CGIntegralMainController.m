@@ -42,7 +42,8 @@
   [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
   [rightBtn setTitle:@"充值" forState:UIControlStateNormal];
   rightBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-  [self.navi addSubview:rightBtn];
+//  [self.navi addSubview:rightBtn];
+    
   self.topSegmentButton.selectedSegmentIndex = self.selectIndex;
     // Do any additional setup after loading the view from its nib.
   [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(update) name:NOTIFICATION_BUYMEMBER object:nil];

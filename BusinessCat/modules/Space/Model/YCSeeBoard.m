@@ -15,6 +15,8 @@
 
 @end
 
+@implementation MyMeeting
+@end
 
 @implementation NowMonthMeeting
 - (int)toDayMeetCount {

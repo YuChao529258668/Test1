@@ -81,4 +81,10 @@
  *  @return 二维码信息
  */
 + (NSString *)scQRReaderForImage:(UIImage *)qrimage NS_AVAILABLE_IOS(8_0);
+
+
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) UIButton *backBtn;
+@property (nonatomic, strong) UILabel *titleLabel;
+
 @end

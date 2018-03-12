@@ -22,6 +22,10 @@
 
 @implementation YCChatListMenu
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -51,6 +55,8 @@
         
         [self addButtons];
 
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleHideNotification:) name:@"YCChatListMenuHideNotification" object:nil];
     }
     return self;
 }
@@ -140,6 +146,14 @@
 
 - (void)dismiss {
     self.hidden = YES;
+}
+
++ (void)postHideNotification {
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"YCChatListMenuHideNotification" object:nil];
+}
+
+- (void)handleHideNotification:(NSNotification *)noti {
+    [self dismiss];
 }
 
 @end

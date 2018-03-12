@@ -18,6 +18,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     QRCScanner *scanner = [[QRCScanner alloc]initQRCScannerWithView:self.view];
+    [scanner.backBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    scanner.title = self.title;
     scanner.delegate = self;
     [self.view addSubview:scanner];
     
@@ -26,7 +28,7 @@
     
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, 40, 30)];
     [btn setTitle:@"取消" forState:UIControlStateNormal];
-    [self.view addSubview:btn];
+//    [self.view addSubview:btn];
     [btn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:14];

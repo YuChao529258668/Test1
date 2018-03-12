@@ -60,6 +60,9 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 @property (nonatomic,strong) UIButton *enableVideoBtn; // 全部禁频
 @property (nonatomic,strong) UIButton *changeCompereBtn; // 更换主持
 @property (nonatomic,strong) UIButton *addUserBtn; // 增加成员
+@property (nonatomic,strong) UIButton *addUserBtnOnHeaderView1; // 增加成员
+@property (nonatomic,strong) UIButton *addUserBtnOnHeaderView2; // 增加成员
+@property (nonatomic,strong) NSString *addUserType; // 添加成员类型，1远程, 0本地
 @property (nonatomic,strong) UIButton *requestInteractBtn; // 申请互动
 @property (nonatomic,strong) UIButton *endInteractBtn; // 结束互动
 
@@ -69,6 +72,9 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 
 @property (nonatomic,strong) YCMeetingState *meetingState; //会议状态，摄像头是否打开等等
 @property (nonatomic,strong) NSArray<YCMeetingUser *> *users; // 保存 meetingState 的成员
+
+@property (nonatomic, strong) UIView *firstHeaderView;
+@property (nonatomic, strong) UIView *secondHeaderView;
 
 @end
 
@@ -236,7 +242,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         [btn addTarget:self action:@selector(clickAddUserBtn) forControlEvents:UIControlEventTouchUpInside];
 //        [btn setTitle:@"增加成员" forState:UIControlStateNormal];
         [btn setImage:[UIImage imageNamed:@"video_add"] forState:UIControlStateNormal];
-        self.addUserBtn = btn;
+//        self.addUserBtn = btn; // 由底部栏改为在 header view 显示
         
     } else {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -309,12 +315,46 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 
 #pragma mark - UITableViewDataSource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 30;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section) {
+        if (self.meetingState.sceneUserList.count > 0) {
+            return self.secondHeaderView;
+        } else {
+            return nil;
+        }
+    } else {
+        if (self.meetingState.remoteUserList.count > 0) {
+            return self.firstHeaderView;
+        } else {
+            return nil;
+        }
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.users.count;
+//    return self.users.count;
+    if (section) {
+        return self.meetingState.sceneUserList.count;
+    }
+    return self.meetingState.remoteUserList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    YCMeetingUser *user = self.users[indexPath.row];
+    YCMeetingUser *user;
+    if (indexPath.section) {
+        user = self.meetingState.sceneUserList[indexPath.row];
+    } else {
+        user = self.meetingState.remoteUserList[indexPath.row];
+    }
+    
     YCMeetingRoomMembersCell *cell = [tableView dequeueReusableCellWithIdentifier:@"YCMeetingRoomMembersCell" forIndexPath:indexPath];
 
 //    cell.positionLabel.text = user.position;
@@ -407,7 +447,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     }
     
     NSInteger row = indexPath.row;
-    if (row == 0) {
+    if (indexPath.section == 0 && row == 0) {
         return;
     }
     
@@ -415,11 +455,26 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         return;
     }
     
+    YCMeetingUser *user;
+    if (indexPath.section == 0) {
+        user = self.meetingState.remoteUserList[indexPath.row];
+    } else {
+        user = self.meetingState.sceneUserList[indexPath.row];
+    }
+    
     __weak typeof(self) weakself = self;
-    YCCompereCommandController *vc = [YCCompereCommandController controllerWithMeetingState:self.meetingState user:self.users[row]];
+    YCCompereCommandController *vc = [YCCompereCommandController controllerWithMeetingState:self.meetingState user:user];
     vc.completeBlock = ^{
         [weakself getMeetingUser];
     };
+    
+    if (indexPath.section == 0) {
+        vc.compereBtnClickAble = YES;
+        vc.interactBtnClickAble = YES;
+    } else {
+        vc.compereBtnClickAble = NO;
+        vc.interactBtnClickAble = NO;
+    }
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -428,6 +483,8 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+    
     // 能否侧滑
     if (self.isMeetingCreator) {
         if (indexPath.row == 0) {
@@ -557,17 +614,35 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     [CTToast showWithText:@"未选择主持人"];
 }
 
+// 添加远程会议人员
 - (void)clickAddUserBtn {
+    self.addUserType = @"1";
     CGSelectContactsViewController *vc = [[CGSelectContactsViewController alloc]init];
     vc.titleForBar = @"选择人员";
-    vc.maxSelectCount = 50;
-    vc.contacts = [self convertYCMeetingUsersToCGUserCompanyContactsEntitys:self.users];
+    vc.maxSelectCount = self.meetingState.accessNumber;
+    vc.contacts = [self convertYCMeetingUsersToCGUserCompanyContactsEntitys:self.meetingState.remoteUserList];
     vc.completeBtnClickBlock = ^(NSMutableArray<CGUserCompanyContactsEntity *> *contacts) {
         NSArray *users = [self convertCGUserCompanyContactsEntitysToYCMeetingUsers:contacts];
         [self onAddUserFinish:users];
     };
 //    [self.navigationController pushViewController:vc animated:YES];
 //    [self presentViewController:vc animated:YES completion:nil];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:vc animated:YES completion:nil];
+}
+
+// 添加本地参会人员
+- (void)clickAddUserBtnOnHeaderView2 {
+    self.addUserType = @"0";
+    CGSelectContactsViewController *vc = [[CGSelectContactsViewController alloc]init];
+    vc.titleForBar = @"选择人员";
+    vc.maxSelectCount = 99;
+    vc.contacts = [self convertYCMeetingUsersToCGUserCompanyContactsEntitys:self.meetingState.sceneUserList];
+    vc.completeBtnClickBlock = ^(NSMutableArray<CGUserCompanyContactsEntity *> *contacts) {
+        NSArray *users = [self convertCGUserCompanyContactsEntitysToYCMeetingUsers:contacts];
+        [self onAddUserFinish:users];
+    };
+    //    [self.navigationController pushViewController:vc animated:YES];
+    //    [self presentViewController:vc animated:YES completion:nil];
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:vc animated:YES completion:nil];
 }
 
@@ -616,7 +691,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     }
     
     __weak typeof(self) weakself = self;
-    [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:nil soundState:nil videoState:nil interactionState:nil compereState:nil userState:nil userAdd:userAddString userDel:userDelString success:^(YCMeetingState *state) {
+    [[YCMeetingBiz new] meetingUser22222WithMeetingID:self.meetingID userId:nil soundState:nil videoState:nil interactionState:nil compereState:nil userState:nil userAdd:userAddString userDel:userDelString meetingMode:self.addUserType success:^(YCMeetingState *state) {
         weakself.meetingState = state;
         weakself.users = state.meetingUserList;
         [weakself.tableView reloadData];
@@ -845,7 +920,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
             weakself.onGetMeetingDateSuccessBlock(state.ycIsCompere);
         }
         
-        if (state.meetingState != 1) { // 1 进行中
+        if (state.meetingState == 2 || state.meetingState == 3) { // 结束、已取消
             [weakself checkMeetingState]; // 结束或取消会议
         } else {
             [weakself updateAbility];
@@ -854,6 +929,15 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
             [weakself.tableView reloadData];
             [weakself updateRequestInteractionBtn];
         }
+        
+        if (!state.ycIsCompere || state.meetingState == 2 || state.meetingState == 3) {
+            weakself.addUserBtnOnHeaderView1.hidden = YES;
+            weakself.addUserBtnOnHeaderView2.hidden = YES;
+        } else {
+            weakself.addUserBtnOnHeaderView1.hidden = NO;
+            weakself.addUserBtnOnHeaderView2.hidden = NO;
+        }
+
     } fail:^(NSError *error) {
         [weakself.tableView.mj_header endRefreshing];
     }];
@@ -1096,6 +1180,64 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     self.enableVideoBtn.userInteractionEnabled = enable;
     self.enableVoiceBtn.userInteractionEnabled = enable;
     self.addUserBtn.userInteractionEnabled = enable;
+}
+
+#pragma mark - HeaderVIew
+
+- (UIView *)firstHeaderView {
+    if (!_firstHeaderView) {
+        _firstHeaderView = [self createHeaderViewWithText:@"视频开会"];
+        [_firstHeaderView addSubview:self.addUserBtnOnHeaderView1];
+    }
+    return _firstHeaderView;
+}
+
+- (UIView *)secondHeaderView {
+    if (!_secondHeaderView) {
+        _secondHeaderView = [self createHeaderViewWithText:@"会议室开会"];
+        [_secondHeaderView addSubview:self.addUserBtnOnHeaderView2];
+    }
+    return _secondHeaderView;
+}
+
+- (UIView *)createHeaderViewWithText:(NSString *)str {
+    float height = 30;
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 100, height)];
+    label.text = str;
+    label.font = [UIFont systemFontOfSize:14];
+    
+    UIView *view = [UIView new];
+    view.frame = CGRectMake(0, 0, 100, height);
+    view.backgroundColor = [YCTool colorWithRed:200 green:200 blue:200 alpha:1];
+    
+    [view addSubview:label];
+    return view;
+}
+
+- (UIButton *)addUserBtnOnHeaderView1 {
+    if (!_addUserBtnOnHeaderView1) {
+        _addUserBtnOnHeaderView1 = [self createAddUserBtnOnHeaderView];
+        [_addUserBtnOnHeaderView1 addTarget:self action:@selector(clickAddUserBtn) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _addUserBtnOnHeaderView1;
+}
+
+- (UIButton *)addUserBtnOnHeaderView2 {
+    if (!_addUserBtnOnHeaderView2) {
+        _addUserBtnOnHeaderView2 = [self createAddUserBtnOnHeaderView];
+        [_addUserBtnOnHeaderView2 addTarget:self action:@selector(clickAddUserBtnOnHeaderView2) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _addUserBtnOnHeaderView2;
+
+}
+
+- (UIButton *)createAddUserBtnOnHeaderView {
+    float height = 30;
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    float x = [UIScreen mainScreen].bounds.size.width - 60;
+    btn.frame = CGRectMake(x, 0, 60, height);
+    [btn setImage:[UIImage imageNamed:@"icon_add"] forState:UIControlStateNormal];
+    return btn;
 }
 
 @end

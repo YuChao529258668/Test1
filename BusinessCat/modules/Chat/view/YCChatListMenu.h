@@ -13,5 +13,6 @@
 @property (nonatomic, assign) CGFloat menuY;
 
 - (void)addButtonTarget:(id)target selector:(SEL)aSelector buttonIndex:(NSInteger)index;
++ (void)postHideNotification;
 
 @end

@@ -214,68 +214,66 @@
         isManager = (local.companyManage == 1);
         isShare = (profit.isShare == 1);
         
-        if (isManager) {
-            if (isShare) {
-                weakself.profitContainerView.hidden = NO;
-                [weakself.profitVC updateWithProfit:profit];
-            } else {
-                
-                // 0-未认证，1-已认证 2-认证中 3-认证不通过
-                switch (local.companyState) {
-                    case 0:
-                    {
-                        weakself.agreeView.hidden = NO;
-                        weakself.joinBtn.hidden = NO;
-                        weakself.notManagerLabel.hidden= YES;
-                        [weakself.joinBtn setTitle:@"认领组织并加入" forState:UIControlStateNormal];
-                    }
-                        break;
-                    case 1:
-                    {
+        // 0-未认证，1-已认证 2-认证中 3-认证不通过
+        switch (local.companyState) {
+            case 0:
+            {
+                weakself.agreeView.hidden = NO;
+                weakself.joinBtn.hidden = NO;
+                weakself.notManagerLabel.hidden= YES;
+                [weakself.joinBtn setTitle:@"认领组织并加入" forState:UIControlStateNormal];
+            }
+                break;
+            case 1:
+            {
+                if (isManager) {
+                    if (isShare) {
+                        weakself.profitContainerView.hidden = NO;
+                        [weakself.profitVC updateWithProfit:profit];
+                    } else {
                         weakself.agreeView.hidden = NO;
                         weakself.joinBtn.hidden = NO;
                         weakself.notManagerLabel.hidden= YES;
                         [weakself.joinBtn setTitle:@"我要加入" forState:UIControlStateNormal];
                     }
-                        break;
-                    case 2:
-                    {
-                        weakself.agreeView.hidden = YES;
-                        weakself.joinBtn.hidden = YES;
-                        weakself.notManagerLabel.hidden= NO;
-                        weakself.notManagerLabel.text = @"认领组织审核中";
+                } else { // 不是管理员
+                    weakself.agreeView.hidden = YES;
+                    weakself.joinBtn.hidden = YES;
+                    weakself.notManagerLabel.hidden= NO;
+                    
+                    if (isShare) {
+                        weakself.notManagerLabel.text = @"已加入共享，您不是管理员无法查看！";
+                    } else {
+                        weakself.notManagerLabel.text = @"未加入共享，您不是管理员无法操作！";
                     }
-                        break;
-                    case 3:
-                    {
-                        weakself.agreeView.hidden = YES;
-                        weakself.joinBtn.hidden = YES;
-                        weakself.notManagerLabel.hidden= NO;
-                        weakself.notManagerLabel.text = @"认领组织审核不通过";
-                    }
-                        break;
-
-                    default:
-                    {
-                        weakself.agreeView.hidden = YES;
-                        weakself.joinBtn.hidden = YES;
-                        weakself.notManagerLabel.hidden= NO;
-                        weakself.notManagerLabel.text = @"认领组织状态未知";
-                    }
-                        break;
                 }
             }
-            
-        } else { // 不是管理员
-            weakself.agreeView.hidden = YES;
-            weakself.joinBtn.hidden = YES;
-            weakself.notManagerLabel.hidden= NO;
-
-            if (isShare) {
-                weakself.notManagerLabel.text = @"已加入共享，您不是管理员无法查看！";
-            } else {
-                weakself.notManagerLabel.text = @"未加入共享，您不是管理员无法操作！";
+                break;
+            case 2:
+            {
+                weakself.agreeView.hidden = YES;
+                weakself.joinBtn.hidden = YES;
+                weakself.notManagerLabel.hidden= NO;
+                weakself.notManagerLabel.text = @"认领组织审核中";
             }
+                break;
+            case 3:
+            {
+                weakself.agreeView.hidden = YES;
+                weakself.joinBtn.hidden = YES;
+                weakself.notManagerLabel.hidden= NO;
+                weakself.notManagerLabel.text = @"认领组织审核不通过";
+            }
+                break;
+                
+            default:
+            {
+                weakself.agreeView.hidden = YES;
+                weakself.joinBtn.hidden = YES;
+                weakself.notManagerLabel.hidden= NO;
+                weakself.notManagerLabel.text = @"认领组织状态未知";
+            }
+                break;
         }
         
     }];

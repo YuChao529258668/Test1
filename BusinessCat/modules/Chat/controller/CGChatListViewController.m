@@ -69,19 +69,19 @@
     
 //    [self setupMessageBtn];
     
-    [self setupHeaderView];
+//    [self setupHeaderView];
 //    [self setupCallVideoBtn];
 //    [self setupCallBtn];
     [self setupMenuBtn];
     [self setupAddressBookBtn];
-    [self addAppMessage];
+//    [self addAppMessage];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [self pinHeaderView];
-    [self configOwnViews];
+//    [self configOwnViews];
     
 //    [self editMultiCallViewController];
 
@@ -105,12 +105,19 @@
     //    }];
 }
 
-//- (void)viewDidAppear:(BOOL)animated {
-//    [super viewDidAppear:animated];
-//
-//    // 设置为 nil，释放资源
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    // 设置为 nil，释放资源
 //    [self editMultiCallViewController];
-//}
+    
+//    NSArray *a = _conversationList.safeArray;
+//    for (IMAConversation *obj in a) {
+//        TIMMessage *message = obj.lastMessage.msg;
+//        NSDate *date = message.timestamp;
+//        NSLog(@"%@", date.description);
+//    }
+}
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -210,7 +217,8 @@
 
 - (void)layoutTableView {
     float y = TOPBARHEIGHT;
-    y += 56;// 搜索栏高度
+//    y += 56;// 搜索栏高度
+    
     //    float bottomBarH = [((AppDelegate *)[UIApplication sharedApplication].delegate) bottomBarHeight];
     //    float height = self.tableView.frame.size.height - y;
     //    float height = SCREEN_HEIGHT - y - bottomBarH;
@@ -289,7 +297,7 @@
 //    [self onViewDidLoad]; // 腾讯云登录
     [self loginTengXunYun]; // 腾讯云登录
     
-    [self addAppMessage];
+//    [self addAppMessage];
 }
 
 - (void)handleLogoutSuccessNotification {
@@ -304,7 +312,7 @@
         _conversationList = nil;
         [self.tableView reloadData];
         
-        [self deleteAppMessage];
+//        [self deleteAppMessage];
         self.appMessage = nil;
         
     } fail:^(int code, NSString *err) {
@@ -652,7 +660,7 @@
     int state = [notification.object intValue];
     [self setSystemRedHotState:state];
     
-    [self moveAppMessage];
+//    [self moveAppMessage];
 }
 -(void)setSystemRedHotState:(int)state{
     if(state == 1){
@@ -695,6 +703,8 @@
         [defaults setObject:@(1) forKey:NotificationSystemMessageRedHot];
         [defaults synchronize];
         [[NSNotificationCenter defaultCenter]postNotificationName:NotificationSystemMessageRedHot object:@(1)];//1代表有未读消息，标红
+        
+        
     } fail:^(NSError *error) {
     }];
 }
@@ -823,18 +833,27 @@
 }
 
 #pragma mark - APP 消息
-// [[TIMManager sharedInstance] getConversationList];
 
 - (IMAConversation *)appMessage {
     if (!_appMessage) {
         _appMessage = [IMAConversation new];
         _appMessage.isCustom = YES;
-        _appMessage.customTimeStr = @"时间";
-        _appMessage.customLastMsg = @"内容";
-        _appMessage.customBadge = 99;
-//        @property (nonatomic, strong) NSString *customTimeStr;
-//        @property (nonatomic, strong) NSString *customLastMsg;
-//        @property (nonatomic, assign) NSInteger customBadge;
+        _appMessage.customTimeStr = @"";
+        _appMessage.customLastMsg = @"暂无未读消息";
+        _appMessage.customBadge = 0;
+        _appMessage.customTime = [[NSDate date]timeIntervalSince1970];
+        
+        [[CGUserCenterBiz new] authUserMessageSystemListWithID:@"" page:1 type:1000 success:^(NSMutableArray *reslut) {
+            if (reslut.count == 0) {
+                _appMessage.customLastMsg = @"没有未读消息";
+            } else {
+                CGMessageDetailEntity *message = reslut.firstObject;
+                _appMessage.customLastMsg = message.infoTitle;
+                _appMessage.customTime = message.createTime;
+            }
+        } fail:^(NSError *error) {
+            
+        }];
 
     }
     return _appMessage;
@@ -842,41 +861,76 @@
 
 // 登录成功后调用
 - (void)addAppMessage {
-    return;
-    
     if (_conversationList) {
-        if (![_conversationList containsObject:self.appMessage]) {
-//            IMAConversationManager *mgr = [IMAPlatform sharedInstance].conversationMgr;
-//            _conversationList = [mgr conversationList];
+        if ([_conversationList.safeArray containsObject:self.appMessage]) {
+            return;
+        }
+        
+        // 如果没有插入成功，就添加到最后
+        if (![_conversationList.safeArray containsObject:self.appMessage]) {
             [_conversationList insertObject:self.appMessage atIndex:0];
         }
-    } else {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self addAppMessage];
-        });
+        
+//
+//        TIMManager *m = [TIMManager sharedInstance];
+//        TIMLoginStatus status = [m getLoginStatus];
+//
+//        if (status == TIM_STATUS_LOGINED) {
+//            NSArray * conversations = [[TIMManager sharedInstance] getConversationList];
+//
+//            [conversations enumerateObjectsUsingBlock:^(TIMConversation *con, NSUInteger idx, BOOL * _Nonnull stop) {
+//                NSArray *msgs = [con getLastMsgs:1];
+//                TIMMessage *timmsg = msgs.firstObject;
+//
+//                NSDate *date = [timmsg timestamp];
+//                NSTimeInterval t = date.timeIntervalSince1970;
+//
+//                if (self.appMessage.customTime > t) {
+//                    [_conversationList insertObject:self.appMessage atIndex:idx];
+//                    *stop = YES;
+//                }
+//            }];
+//
+//            // 如果没有插入成功，就添加到最后
+//            if (![_conversationList.safeArray containsObject:self.appMessage]) {
+//                [_conversationList addObject:self.appMessage];
+//            }
+//
+//        }
     }
 }
 
 // 移到首位，收到新消息后调用。notificationSystemMessageRedHot
-- (void)moveAppMessage {
-    return;
-    
-    [self deleteAppMessage];
-    [self addAppMessage];
-}
+//- (void)moveAppMessage {
+//    return;
+//
+//    [self deleteAppMessage];
+//    [self addAppMessage];
+//}
 
 // 注销后调用
 - (void)deleteAppMessage {
-    return;
+//    return;
     
-    [_conversationList removeObject:self.appMessage];
+    if ([_conversationList containsObject:self.appMessage]) {
+        [_conversationList removeObject:self.appMessage];
+    }
 }
 
 // 重写父类方法
 - (void)clickAppMessage {
-    return;
+//    return;
     
     [self messageAction];
+}
+
+- (void)callInNumberOfRowsInSection {
+    // 检查和插入系统消息
+    if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
+        [self addAppMessage];
+    } else {
+        [self deleteAppMessage];
+    }
 }
 
 @end

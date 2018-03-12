@@ -204,5 +204,14 @@
 
 
 // 二维码登录
+// http://doc.cgsays.com:50123/index.php?s=/1&page_id=421
+//扫描后登陆请求URL：
+//http://cloud.cgsays.com:8070/jeeweb/cjData/二维码&token=592b77c4a96d6587b913670e6056236b
+//扫描后进入文件管理请求URL：
+//http://cloud.cgsays.com:8070/jeeweb/cjData/二维码&token=592b77c4a96d6587b913670e6056236b&goTo=1
+//扫描后进入用户组织管理请求URL：
+//http://cloud.cgsays.com:8070/jeeweb/cjData/二维码&token=592b77c4a96d6587b913670e6056236b&goTo=2
 - (void)loginWithQRCode:(NSString *)code success:(void(^)())success fail:(void (^)(NSError *error))fail;
+- (void)loginAndUploadWithQRCode:(NSString *)code success:(void(^)())success fail:(void (^)(NSError *error))fail;
+
 @end

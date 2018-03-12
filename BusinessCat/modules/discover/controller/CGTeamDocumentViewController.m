@@ -211,13 +211,14 @@
     UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-34.5f, 30, 24, 24)];
     rightBtn.contentMode = UIViewContentModeScaleAspectFit;
     [rightBtn addTarget:self action:@selector(clickScanBtn) forControlEvents:UIControlEventTouchUpInside];
-    [rightBtn setBackgroundImage:[UIImage imageNamed:@"icon_scan"] forState:UIControlStateNormal];
+    [rightBtn setBackgroundImage:[UIImage imageNamed:@"icon_upload"] forState:UIControlStateNormal];
     [self.navi addSubview:rightBtn];
 }
 
 - (void)clickScanBtn {
     QRCScannerViewController *vc = [QRCScannerViewController new];
     vc.delegate = self;
+    vc.title = @"上传公司文档";
     [self.navigationController pushViewController:vc animated:YES];
 }
 

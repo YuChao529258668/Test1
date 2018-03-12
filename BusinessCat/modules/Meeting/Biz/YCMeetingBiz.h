@@ -7,7 +7,8 @@
 //
 
 #import "CGBaseBiz.h"
-@class CGMeeting;
+#import "CGMeeting.h"
+//@class CGMeeting;
 @class YCMeetingState;
 @class YCMeetingCompanyRoom;
 @class YCMeetingRebate;
@@ -15,7 +16,7 @@
 @interface YCMeetingBiz : CGBaseBiz
 
 // 获取会议列表
-- (void)getMeetingListWithPage:(int)page Success:(void(^)(NSArray<CGMeeting *> *meetings))success fail:(void(^)(NSError *error))fail;
+- (void)getMeetingListWithPage:(int)page type:(int)type Success:(void(^)(NSArray<CGMeeting *> *meetings, CGMeetingStatistics *statistics))success fail:(void(^)(NSError *error))fail;
 
 // 能否进入会议 状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
 - (void)meetingEntranceWithMeetingID:(NSString *)mid Success:(void(^)(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *q))success fail:(void(^)(NSError *error))fail;
@@ -70,6 +71,8 @@
 // userState: 参会状态
 - (void)meetingUserWithMeetingID:(NSString *)mid userId:(NSString *)userId soundState:(NSString *)soundState videoState:(NSString *)videoState interactionState:(NSString *)interactionState compereState:(NSString *)compereState userState:(NSString *)userState userAdd:(NSString *)userAdd userDel:(NSString *)userDel success:(void(^)(YCMeetingState *state))success fail:(void(^)(NSError *error))fail ;
 
+// meetingMode: 0：会议室 1：视频会议
+- (void)meetingUser22222WithMeetingID:(NSString *)mid userId:(NSString *)userId soundState:(NSString *)soundState videoState:(NSString *)videoState interactionState:(NSString *)interactionState compereState:(NSString *)compereState userState:(NSString *)userState userAdd:(NSString *)userAdd userDel:(NSString *)userDel meetingMode:(NSString *)meetingMode success:(void(^)(YCMeetingState *state))success fail:(void(^)(NSError *error))fail;
 
 #pragma mark - 录制、直播
 
@@ -84,5 +87,9 @@
 #pragma mark - 支付
 
 - (void)getMeetingMinuteListWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed accessNumber:(NSInteger)count Success:(void(^)(NSArray<NSArray<YCMeetingRebate *> *> *twoLists))success fail:(void(^)(NSError *error))fail;
+
+// 代码复制的使用 URL_COMMON_PLACE_ORDER 作为参数的接口。
+// 使用会议共享金币不足时的微信支付
+- (void)authUserPlaceOrderWithToId:(NSString *)toId toType:(NSInteger)toType subType:(NSInteger)subType payType:(NSInteger)payType payMethod:(NSString *)payMethod toUserId:(NSString *)toUserId body:(NSString *)body detail:(NSString *)detail attach:(id)attach trade_type:(NSString *)trade_type device_info:(NSString *)device_info total_fee:(double)total_fee notify_url:(NSString *)notify_url order_type:(NSInteger)order_type iOSProductId:(NSString *)iOSProductId success:(void(^)(CGRewardEntity * entity))success fail:(void (^)(NSError *error))fail;
 
 @end

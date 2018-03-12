@@ -24,7 +24,7 @@
 @implementation CGMeeting
 
 + (NSDictionary *)mj_objectClassInArray {
-    return @{@"meetingUserList": [YCMeetingUser class]};
+    return @{@"meetingUserList": [YCMeetingUser class], @"remoteUserList": [YCMeetingUser class], @"sceneUserList": [YCMeetingUser class]};
 }
 
 - (BOOL)ycIsCompere {
@@ -47,3 +47,42 @@
 
 
 @end
+
+
+#pragma mark - 会议统计数据
+
+@implementation CGMeetingStatistics
+//meetingStatistics =     {
+//    nowMonthMeeting =         {
+//        otherCount = 3;
+//        toDay =             {
+//            toDayMeetCount = 2;
+//            toDayUnBeginMeetCount = 0;
+//        };
+//        tomorrowMeetCount = 1;
+//        weekMeetCount = 3;
+//    };
+//};
+
++ (instancetype)statisticsWithDictionary:(NSDictionary *)dic {
+    NSDictionary *nowMonthMeeting = dic[@"nowMonthMeeting"];
+    
+    NSNumber *otherCount = nowMonthMeeting[@"otherCount"];
+    NSDictionary *toDay = nowMonthMeeting[@"toDay"];
+    NSNumber *tomorrowMeetCount = nowMonthMeeting[@"tomorrowMeetCount"];
+    NSNumber *weekMeetCount = nowMonthMeeting[@"weekMeetCount"];
+
+    NSNumber *toDayMeetCount = toDay[@"toDayMeetCount"];
+    NSNumber *toDayUnBeginMeetCount = toDay[@"toDayUnBeginMeetCount"];
+
+    CGMeetingStatistics *s = [CGMeetingStatistics new];
+    s.otherCount = otherCount.intValue;
+    s.toDayMeetCount = toDayMeetCount.intValue;
+    s.toDayUnBeginMeetCount = toDayUnBeginMeetCount.intValue;
+    s.tomorrowMeetCount = tomorrowMeetCount.intValue;
+    s.weekMeetCount = weekMeetCount.intValue;
+    return s;
+}
+
+@end
+

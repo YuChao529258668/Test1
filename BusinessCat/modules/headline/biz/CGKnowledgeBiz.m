@@ -136,6 +136,60 @@
                     success(nil,entity);
                 }
             }else{
+                CGKnowledgePackageEntity *pe = [CGKnowledgePackageEntity mj_objectWithKeyValues:dic];
+                success(pe,nil);
+            }
+        }
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
+// 我的文档 接口
+- (void)getMyDocumentWithMainId:(NSString *)mainId packageId:(NSString *)packageId cataId:(NSString *)cataId page:(NSInteger)page type:(NSInteger)type success:(void(^)(CGKnowledgePackageEntity *result ,CGPermissionsEntity *entity))success fail:(void (^)(NSError *error))fail {
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:@(page) forKey:@"page"];
+    if([CTStringUtil stringNotBlank:cataId]){
+        [param setObject:cataId forKey:@"cataId"];
+    }
+    if ([CTStringUtil stringNotBlank:mainId]) {
+        [param setObject:mainId forKey:@"mainId"];
+    }
+    if ([CTStringUtil stringNotBlank:packageId]) {
+        [param setObject:packageId forKey:@"packageId"];
+    }
+    if (type != 0) {
+        [param setObject:[NSNumber numberWithInteger:type] forKey:@"type"];
+    }
+    [self.component sendPostRequestWithURL:URL_DISCOVER_My_Document param:param success:^(id data) {
+        NSDictionary *dic = data;
+        if ([dic[@"showType"]integerValue]) {
+            [CGKnowledgePackageEntity mj_setupObjectClassInArray:^NSDictionary *{
+                return @{
+                         @"list" : @"CGKnowLedgeListEntity",
+                         };
+            }];
+        }else{
+            [CGKnowledgePackageEntity mj_setupObjectClassInArray:^NSDictionary *{
+                return @{
+                         @"list" : @"CGInfoHeadEntity",
+                         };
+            }];
+        }
+        [CGKnowLedgeListEntity mj_setupObjectClassInArray:^NSDictionary *{
+            return @{
+                     @"list" : @"CGInfoHeadEntity",
+                     };
+        }];
+        if (dic) {
+            if ([[dic allKeys] containsObject:@"viewPermit"]) {
+                if ([dic[@"viewPermit"]integerValue] == 8) {
+                    success([CGKnowledgePackageEntity mj_objectWithKeyValues:dic],nil);
+                }else{
+                    CGPermissionsEntity *entity = [CGPermissionsEntity mj_objectWithKeyValues:dic];
+                    success(nil,entity);
+                }
+            }else{
                 success([CGKnowledgePackageEntity mj_objectWithKeyValues:dic],nil);
             }
         }

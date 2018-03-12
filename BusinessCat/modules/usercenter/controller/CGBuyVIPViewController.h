@@ -14,4 +14,7 @@
 @property (nonatomic, copy) NSString *gradeID;
 @property (nonatomic, copy) NSString *companyID;
 @property (nonatomic, assign) NSInteger companyType;
+
+@property (nonatomic, assign) BOOL onlyWXPay;
+
 @end

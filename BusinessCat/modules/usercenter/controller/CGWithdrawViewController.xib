@@ -178,7 +178,7 @@
                         <constraint firstAttribute="height" constant="0.5" id="aFP-2k-T39"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="第2步 微信关注“开会猫服务号”" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="im0-jh-6bf">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="第2步 微信关注“议事猫服务号”" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="im0-jh-6bf">
                     <rect key="frame" x="15" y="391" width="211" height="18"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="250" constant="211" id="XA6-oF-jIj"/>
@@ -209,7 +209,7 @@
                         <constraint firstAttribute="height" constant="0.5" id="Odo-y3-XRY"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="第3步 “开会猫服务号”接收提现红包" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fIZ-HF-csy">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="第3步 “议事猫服务号”接收提现红包" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fIZ-HF-csy">
                     <rect key="frame" x="15" y="429.5" width="345" height="18"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="250" constant="20" id="fGc-HF-mbS"/>

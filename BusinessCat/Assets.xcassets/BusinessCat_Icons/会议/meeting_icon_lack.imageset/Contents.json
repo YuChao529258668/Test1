@@ -2,15 +2,16 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "苹果-间距_登陆界面.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "meeting_icon_lack@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "meeting_icon_lack@3x.png",
       "scale" : "3x"
     }
   ],

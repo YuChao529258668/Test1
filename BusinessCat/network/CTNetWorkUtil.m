@@ -91,6 +91,8 @@ static CTNetWorkUtil *_sharedManager;
 }
 
 
+#pragma mark - 请求总出口
+
 /**
  *  请求总出口
  *

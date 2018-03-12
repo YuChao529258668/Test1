@@ -24,6 +24,7 @@
 
 @property (nonatomic, strong) YCMeetingRebate *rebate;
 @property (nonatomic, assign) int shareType; // 我的，或者共享
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end
 
@@ -32,6 +33,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    if (self.isVideo) {
+        self.titleLabel.text = [NSString stringWithFormat:@"%ld人视频会议支付", (long)self.count];
+    } else {
+        self.titleLabel.text = [NSString stringWithFormat:@"%ld人语音会议支付", (long)self.count];
+    }
     
     self.firstHeader = [self labelWithText:@"我的"];
     self.secondHeader = [self labelWithText:@"共享"];
@@ -96,6 +103,20 @@
 
 #pragma mark - UITableViewDelegate
 
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        YCMeetingRebate *rebate = self.myList[indexPath.row];
+        
+        if (rebate.state) {
+            return indexPath;
+        } else {
+            return nil;
+        }
+    } else {
+        return indexPath;
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     YCMeetingPayCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.markBtn.selected = YES;
@@ -147,9 +168,6 @@
     if (indexPath.section == 0) {
         // 我的
         cell.hintLabel1.text = rebate.msg;
-        if (!rebate.msg) {
-            cell.hintLabel1.text = @"后台没有返回msg";
-        }
         
         [YCTool HMSForSeconds:rebate.duration * 60 block:^(NSInteger h, NSInteger m, NSInteger s, NSMutableString *string) {
             [string appendString:@"剩余"];
@@ -177,6 +195,15 @@
 
     }
 
+    if (indexPath.section == 0) {
+        if (rebate.state) {
+            cell.markBtn.hidden = NO;
+        } else {
+            cell.markBtn.hidden = YES;
+        }
+    } else {
+        cell.markBtn.hidden = NO;
+    }
     return cell;
 }
 

@@ -38,6 +38,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.useWeiXinPay = self.onlyWXPay;
+    
   // 监听购买结果
   [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
   self.selectIndex = 0;
@@ -203,9 +206,15 @@
       return 1;
     }
   }
+    
   if (self.methodArray.count<=0) {
     return 1;
   }
+    
+    if (self.onlyWXPay) {
+        return 1;
+    }
+    
   return 2;
 }
 
@@ -304,7 +313,6 @@
   if (self.type == 4) {//0购买会员 1购买企业会员 4知识分套餐 5下载套餐
     //购买知识分；
     payType = 1002;
-//      body = @"充值金币";
       body = @"充值金币";
   }else if (self.type == 5){
     //购买下载；

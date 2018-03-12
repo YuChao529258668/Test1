@@ -20,6 +20,9 @@
 #import "CGCompanyDao.h"
 #import "AttentionBiz.h"
 
+#import "CGMainLoginViewController.h"
+
+#import "YCChatListMenu.h"
 
 // 消息、工作、学院、百宝箱(发现)、我的
 #define kTabCount 4
@@ -293,6 +296,11 @@
     return [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self forceLogin];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -317,6 +325,8 @@
     [self setRedHotState:entity];
     //检查本地是否有保存系统消息未读标识
     [self setSystemRedHotState:[[[NSUserDefaults standardUserDefaults] objectForKey:NotificationSystemMessageRedHot]intValue]];
+    
+//    [self forceLogin];
 }
 
 // 网络状态监听
@@ -533,8 +543,12 @@
 //    }
 //}
 
-//点击tabitem事件
-- (void)tabbarSelectedItemAction:(CGTabbarEntity *)selectedEntity{
+
+#pragma mark - 点击tabitem事件
+
+- (void)tabbarSelectedItemAction:(CGTabbarEntity *)selectedEntity {
+    [YCChatListMenu postHideNotification];
+    
     BOOL clickOnPage = self.currentShowTabIndex == selectedEntity.index;//是否点击当前页面的tab
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@(clickOnPage),@"clickOnPage", nil];
     self.currentShowTabIndex = selectedEntity.index;
@@ -634,6 +648,24 @@
     
 //    [vc.navigationController pushViewController:vc withBackTitle:@"返回" animated:YES]; // 会崩溃
 //    [self.navigationController pushViewController:vc withBackTitle:@"返回" animated:YES];
+}
+
+
+#pragma mark - 强制登录
+
+- (void)forceLogin {
+    [[[CGUserCenterBiz alloc]init] queryUserDetailInfoWithCode:nil success:^(CGUserEntity *user) {
+        if (user.isLogin) {
+            return ;
+        }
+        
+        CGMainLoginViewController *vc = [[CGMainLoginViewController alloc]init];
+        vc.shouldHideNavi = YES;
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 @end

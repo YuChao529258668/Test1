@@ -73,7 +73,7 @@
     _meeting.titleLabel.textAlignment = NSTextAlignmentCenter;
     _meeting.titleLabel.font = kAppMiddleTextFont;
     [_meeting setTitleColor:kGrayColor forState:UIControlStateNormal];
-    [_meeting setTitle:@"继续开会" forState:UIControlStateNormal];
+    [_meeting setTitle:@"再次开会" forState:UIControlStateNormal];
     [_meeting setImage:[UIImage imageNamed:@"chat_icon_toolbar_meet"] forState:UIControlStateNormal];
     [_meeting addTarget:self action:@selector(onClickMeeting:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_meeting];
