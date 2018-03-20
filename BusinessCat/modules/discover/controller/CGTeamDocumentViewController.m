@@ -7,6 +7,7 @@
 //
 
 #import "CGTeamDocumentViewController.h"
+#import "CGUserChangeOrganizationViewController.h"
 #import "CGHorrolView.h"
 #import "CGUserOrganizaJoinEntity.h"
 #import "CGTeamDocumentCollectionViewCell.h"
@@ -17,6 +18,7 @@
 #import "CGLineLayout.h"
 #import "commonViewModel.h"
 #import "QRCScannerViewController.h"
+#import "CGUserCenterBiz.h"
 
 @interface CGTeamDocumentViewController ()<QRCodeScannerViewControllerDelegate>
 @property (retain, nonatomic) CGHorrolView *bigTypeScrollView;
@@ -86,6 +88,8 @@
 }
 
 - (IBAction)joinOrganizationClick:(UIButton *)sender {
+    CGUserChangeOrganizationViewController *vc = [[CGUserChangeOrganizationViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)updateTopViewState{
@@ -105,6 +109,7 @@
 
 -(void)getCompanyList{
   [self updateTopViewState];
+    self.bgView.hidden = YES;
   //  __weak typeof(self) weakSelf = self;
   if ([ObjectShareTool sharedInstance].currentUser.companyList && [ObjectShareTool sharedInstance].currentUser.companyList.count > 0) {
     self.dataArray = [NSMutableArray array];
@@ -130,6 +135,8 @@
     [self.topView addSubview:self.bigTypeScrollView];
     [self updateTopViewState];
     [self.collectionView reloadData];
+  } else {
+      self.bgView.hidden = NO;
   }
 }
 
@@ -223,8 +230,22 @@
 }
 
 - (void)didFinshedScanning:(NSString *)result {
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"扫描成功" message:result preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+//    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"扫描成功" message:result preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+//    [ac addAction:cancel];
+//    [self presentViewController:ac animated:YES completion:nil];
+    
+    
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"是否登录?" message:@"登录并跳转到上传文件页面" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[CGUserCenterBiz new] loginAndUploadForCompanyWithQRCode:result success:^{
+            
+        } fail:^(NSError *error) {
+            
+        }];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [ac addAction:sure];
     [ac addAction:cancel];
     [self presentViewController:ac animated:YES completion:nil];
 }

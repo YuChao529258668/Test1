@@ -18,5 +18,6 @@
 #pragma mark - 子类重写
 - (void)clickAppMessage;
 - (void)callInNumberOfRowsInSection; // 子类重写，修改会话列表，插入系统消息
+- (void)setupTaskView;
 
 @end

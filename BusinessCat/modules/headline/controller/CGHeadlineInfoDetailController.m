@@ -172,7 +172,8 @@
         self.isHorizontal = YES;
         self.toolbar.hidden = YES;
     }else{
-        self.webView.frame = CGRectMake(0, height, SCREEN_WIDTH, SCREEN_HEIGHT-44-height);
+//        self.webView.frame = CGRectMake(0, height, SCREEN_WIDTH, SCREEN_HEIGHT-44-height);
+        self.webView.frame = CGRectMake(0, height, SCREEN_WIDTH, SCREEN_HEIGHT-height);
         self.countLabel.frame = CGRectMake((SCREEN_WIDTH-60)/2, SCREEN_HEIGHT-94, 60, 30);
         self.tableView.frame = self.webView.frame;
         self.isHorizontal = NO;
@@ -601,7 +602,8 @@
         self.config.userContentController = [[WKUserContentController alloc]init];
         [self.config.userContentController addScriptMessageHandler:self name:@"decideADBlock"];
         _webView = [[WKWebView alloc]initWithFrame:CGRectZero configuration:self.config];
-        _webView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-20-40);
+//        _webView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-20-40);
+        _webView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         _webView.UIDelegate = self;
         _webView.navigationDelegate = self;
         _webView.scrollView.delegate = self;
@@ -635,7 +637,7 @@
                 [weakSelf updateimageList];
             }
             [weakSelf.view addSubview:weakSelf.tableView];
-            [weakSelf.view addSubview:weakSelf.countLabel];
+//            [weakSelf.view addSubview:weakSelf.countLabel];
             weakSelf.countLabel.text = [NSString stringWithFormat:@"%ld",(long)detail.pageCount];
             [weakSelf.tableView reloadData];
         }else if(detail.pageCount>0&&[detail.infoPic hasSuffix:@".svg.png"]){
@@ -686,7 +688,7 @@
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
             [weakSelf.webView loadRequest:request];
             
-            [weakSelf.view addSubview:weakSelf.countLabel];
+//            [weakSelf.view addSubview:weakSelf.countLabel];
             weakSelf.countLabel.text = [NSString stringWithFormat:@"%ld",infoDetail.pageCount];
             //            [weakSelf.tableView reloadData];
         }
@@ -835,7 +837,7 @@
         htmlString = [htmlString stringByReplacingOccurrencesOfString:@"#html#" withString:self.svgStr];
         [self.webView loadHTMLString:htmlString baseURL:nil];
         [self getCopyrightView];
-        [self.view addSubview:self.countLabel];
+//        [self.view addSubview:self.countLabel];
         [self.view bringSubviewToFront:self.qrCodeView];
         self.countLabel.text = [NSString stringWithFormat:@"%ld",(long)self.detail.pageCount];
     }else if([CTStringUtil stringNotBlank:self.detail.html]){
@@ -858,8 +860,31 @@
         if (self.detail.pageCount>0) {
             self.webView.hidden = YES;
         }else{
-            NSString *url = [self.detail.qiniuUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",url]]]];
+//            url = @"http://ow365.cn/?i=13392&n=3&furl=kMKFHmno0EGUbX7N@MO0vq7ZiJOKXoNriBpX6pwBUQh7n1PclnbgYchRhYwlWlFEPPn9rNkxgstK49IdV4idPBkDJ1PtrmJhd3A8uoNhvvOc6Go_wGD4DA=="; // ppt
+            NSString *url = [self.detail.qiniuUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+
+            NSURL *URL = [NSURL URLWithString:url];
+            BOOL isLoading = self.webView.isLoading;
+            NSURL *loadingURL = self.webView.URL;
+            BOOL same = isLoading && [loadingURL isEqual:URL];
+            
+//            BOOL isMain =  [NSThread isMainThread];
+//            if (!isMain) {
+//                int i  = 0;
+//                i = 1;
+//            }
+            if (!same) {
+                NSLog(@"啦啦啦url load %@", URL);
+                [self.webView loadRequest:[NSURLRequest requestWithURL:URL]];
+                
+//                WKWebView *ww = [[WKWebView alloc]initWithFrame:self.webView.frame];
+//                [self.webView.superview addSubview:ww];
+//                [ww loadRequest:[NSURLRequest requestWithURL:URL]];
+            }
+
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                [self.webView loadRequest:[NSURLRequest requestWithURL:URL]];
+//            });
         }
     }else{
         [self updateView];
@@ -887,9 +912,13 @@
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     int i;
+    i = 0;
 }
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation{
+    NSURL *url = webView.URL;
+    NSLog(@"啦啦啦url start %@", url);
+
     if (self.qrCodeView.hidden == YES) {
         [self showHUD];
     }
@@ -964,9 +993,13 @@
     webView.hidden = NO;
     //    webView.accessibilityElementsHidden = YES;
     [YCTool hidePageNumberIndicatorOfWebView:webView];
+    [YCTool hideBottomBarOfWebView:webView];
     self.tableView.hidden = YES;
-    
-    [self setPictureClickEvent:webView];
+
+    NSURL *url = webView.URL;
+    NSLog(@"啦啦啦url finish %@", url);
+
+//    [self setPictureClickEvent:webView]; // 不注释
     if([self.webView.URL.absoluteString containsString:@"toutiao.com"]&&self.isUrlFrist == YES){
         self.isUrlFrist = NO;
         NSString *url = [self.detail.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -974,6 +1007,11 @@
     }
     [self executeJS];
     [self hiddenHUD];
+    
+    
+    
+    
+    
     //  if (!self.isQiniuUrl) {
     //    __weak typeof(self) weakSelf = self;
     //    [self.webView evaluateJavaScript:@"document.body.scrollHeight" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
@@ -1115,7 +1153,11 @@
         [browser show];
         decisionHandler(WKNavigationActionPolicyCancel);
     }else{
+        NSURL *url = webView.URL;
+        NSLog(@"啦啦啦url decide %@", url);
+
         decisionHandler(WKNavigationActionPolicyAllow);
+//        decisionHandler(WKNavigationActionPolicyCancel);
     }
 }
 
@@ -1528,11 +1570,11 @@
     __weak typeof(self) weakSelf = self;
     NSString *desc = @"";
     if (self.detailType == 4) {
-        desc = @"我在议事猫发现了这个非常优质的岗位工具，现在也推荐给你";
+        desc = @"我在易事猫发现了这个非常优质的岗位工具，现在也推荐给你";
     }else if (self.type == 1){
-        desc = @"我在议事猫发现了这份非常优质的知识，现在也推荐给你";
+        desc = @"我在易事猫发现了这份非常优质的知识，现在也推荐给你";
     }else{
-        desc = @"我在议事猫发现了这份非常优质的文档，现在也推荐给你";
+        desc = @"我在易事猫发现了这份非常优质的文档，现在也推荐给你";
     }
     [self.shareUtil showShareMenuWithTitle:self.detail.title desc:desc isqrcode:1 image:[UIImage imageNamed:@"login_image"] url:self.detail.shareUrl block:^(NSMutableArray *array) {
         UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:array applicationActivities:nil];
@@ -1611,6 +1653,8 @@
             copyrighRect.origin.y = 35;
             
             bgScrollViewRect.size.height = SCREEN_HEIGHT -horizontalHeight -20;
+            bgScrollViewRect.size.height = SCREEN_HEIGHT;
+
             bgScrollViewRect.origin.y = 20;
         }else{
             btnColor = [CTCommonUtil convert16BinaryColor:HeadlineTopCircelColor];
@@ -1661,6 +1705,8 @@
 }
 
 -(void)showHUD{
+    return;
+    
     [self.view addSubview:self.hudIV];
     [self.view bringSubviewToFront:self.hudIV];
 }
@@ -1701,7 +1747,7 @@
     if ([self.detail.fileName hasSuffix:@"rar"]||[self.detail.fileName hasSuffix:@"zip"]) {
         desc = @"此压缩文件无法在手机上浏览，请在电脑端下载后解压打开";
     }else{
-        desc = @"我在议事猫上面下载了这份文件，现在也发送给你";
+        desc = @"我在易事猫上面下载了这份文件，现在也发送给你";
     }
     self.shareUtil.isDownFire = YES;
     [self.shareUtil showShareMenuWithTitle:self.detail.fileName desc:desc isqrcode:1 image:[UIImage imageNamed:@"login_image"] url:self.detail.downloadUrl block:^(NSMutableArray *array) {

@@ -91,12 +91,24 @@ static BOOL kIsAlertingForceOffline = NO;
     
     if (!kIsAlertingForceOffline)
     {
-//        [[IMAAppDelegate sharedAppDelegate] popToRootViewController];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TengXunForceLogoutNotification" object:nil];
+        kIsAlertingForceOffline = NO;
+        // 退出
+        [self logout:^{
+            [[IMAAppDelegate sharedAppDelegate] enterLoginUI];
+        } fail:^(int code, NSString *msg) {
+            [[IMAAppDelegate sharedAppDelegate] enterLoginUI];
+        }];
+        return;
+        
+        
+        //        [[IMAAppDelegate sharedAppDelegate] popToRootViewController];
         
         kIsAlertingForceOffline = YES;
+
         DebugLog(@"踢下线通知");
         __weak typeof(self) ws = self;
-        UIAlertView *alert = [UIAlertView bk_showAlertViewWithTitle:@"聊天功能:下线通知" message:@"您的帐号于另一台手机上登录。" cancelButtonTitle:@"退出" otherButtonTitles:@[@"重新登录"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        UIAlertView *alert = [UIAlertView bk_showAlertViewWithTitle:@"下线通知" message:@"请重新登录。" cancelButtonTitle:@"退出" otherButtonTitles:@[@"重新登录"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 0)
             {
                 // 退出

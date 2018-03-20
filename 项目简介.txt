@@ -307,4 +307,16 @@ TIMElem+ShowDescription.m 文件
 QRCScannerViewController
 
 
+聊天气泡
+contentBack.image
+聊天文字颜色
+_chatText.textColor
+
+启动图尺寸
+iPhone X    1125px × 2436px  (X)
+iPhone 8 Plus    1242px × 2208px (5.5)
+iPhone 8    750px × 1334px (4.7)
+iPhone SE    640px × 1136px (Retina 4)
+https://developer.apple.com/ios/human-interface-guidelines/icons-and-images/launch-screen/
+
 

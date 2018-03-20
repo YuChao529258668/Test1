@@ -25,7 +25,11 @@
 }
 
 - (void)updateWithToday0:(int)t0 today1:(int)t1 tomorrow:(int)tm week:(int)w other:(int)other {
-    self.todayL.text = [NSString stringWithFormat:@"%d/%d 场", t0, t1];
+    if (t1 == 0) {
+        self.todayL.text = [NSString stringWithFormat:@"%d 场", t1];
+    } else {
+        self.todayL.text = [NSString stringWithFormat:@"%d/%d 场", t0, t1];
+    }
     self.tomorrowL.text = [NSString stringWithFormat:@"%d 场", tm];
     self.weekL.text = [NSString stringWithFormat:@"%d 场", w];
     self.otherL.text = [NSString stringWithFormat:@"%d 场", other];

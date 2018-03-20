@@ -212,6 +212,10 @@
             [self.tabViews addObject:tabView];
             
             self.myVC = [[CGMyMainViewController alloc]init];
+//            __weak typeof(self) weakself = self;
+//            self.myVC.onNeedLoginBlock = ^{
+//                [weakself forceLogin];
+//            };
             [self addChildViewController:self.myVC];
             [self.myVC.view setFrame:self.contentView.bounds];
             [self.contentView addSubview:self.myVC.view];
@@ -282,6 +286,11 @@
     [self tabbarSelectedItemAction:entity];
 }
 
+- (void)dealloc
+{
+    [self removeObserverForTengXunForceLogout];
+}
+
 - (instancetype)init{
     self = [super init];
     if (self) {
@@ -296,10 +305,10 @@
     return [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self forceLogin];
-}
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    [self forceLogin];
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -315,10 +324,14 @@
     [self hideCustomBackBtn];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateMyTabBarState) name:NOTIFICATION_LOGOUT object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(gotoLoginViewController) name:NOTIFICATION_LOGOUT object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateMyTabBarState) name:NOTIFICATION_LOGINSUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationToLoadNavType) name:NOTIFICATION_UPDATESKILLLEVEL object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationDiscoverHasLastData:) name:NotificationDiscoverHasLastData object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notificationSystemMessageRedHot:) name:NotificationSystemMessageRedHot object:nil];
+    
+    [self addObserverForTengXunForceLogout];
+    
     [self toCheckToken];
     
     TeamCircleLastStateEntity *entity = [TeamCircleLastStateEntity getFromLocal];
@@ -326,7 +339,8 @@
     //检查本地是否有保存系统消息未读标识
     [self setSystemRedHotState:[[[NSUserDefaults standardUserDefaults] objectForKey:NotificationSystemMessageRedHot]intValue]];
     
-//    [self forceLogin];
+    [self forceLogin];
+
 }
 
 // 网络状态监听
@@ -653,19 +667,35 @@
 
 #pragma mark - 强制登录
 
+- (void)addObserverForTengXunForceLogout {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTengXunForceLogout) name:@"TengXunForceLogoutNotification" object:nil];
+}
+
+- (void)removeObserverForTengXunForceLogout {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"TengXunForceLogoutNotification" object:nil];
+}
+
+- (void)handleTengXunForceLogout {
+    [self forceLogin];
+}
+
 - (void)forceLogin {
+    __weak typeof(self) weakself = self;
     [[[CGUserCenterBiz alloc]init] queryUserDetailInfoWithCode:nil success:^(CGUserEntity *user) {
         if (user.isLogin) {
             return ;
         }
-        
-        CGMainLoginViewController *vc = [[CGMainLoginViewController alloc]init];
-        vc.shouldHideNavi = YES;
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
-        [self presentViewController:nav animated:YES completion:nil];
+        [weakself gotoLoginViewController];
     } fail:^(NSError *error) {
         
     }];
+}
+
+- (void)gotoLoginViewController {
+    CGMainLoginViewController *vc = [[CGMainLoginViewController alloc]init];
+    vc.shouldHideNavi = YES;
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 @end

@@ -31,6 +31,7 @@
 #import "KnowledgeAlbumEntity.h"
 #import "TeamCircleLastStateEntity.h"
 
+
 @implementation CGUserCenterBiz
 
 
@@ -171,14 +172,7 @@
         if(user.isLogin == 0 && [CTStringUtil stringNotBlank:user.phone]){
             NSString *message2 = [NSString stringWithFormat:@"后台返回用户详情：isLogin = 0，即将清除数据。phone =  %@, token = %@,  secuCode = %@, uuid = %@, 请求参数 = %@", user.phone, user.token, user.secuCode, user.uuid, [YCTool stringOfDictionary:param]];
             NSLog(@"%@", message2);
-            
-            NSString *message = @"您的账号已在其他终端登录！";
-            UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-            [ac addAction:cancel];
-            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
-            
+                        
             [[[CGUserDao alloc]init]cleanLoginedUser];
             [self getToken:^(NSString *uuid, NSString *token) {
                 success([ObjectShareTool sharedInstance].currentUser);
@@ -1278,11 +1272,10 @@
 
 // 二维码登录
 - (void)loginWithQRCode:(NSString *)code success:(void(^)())success fail:(void (^)(NSError *error))fail {
-    // http://cloud.cgsays.com:8070/jeeweb/cjData/二维码&token=asdasdasd
-    NSString *preStr = @"http://cloud.cgsays.com:8070/jeeweb/cjData/";
+    NSString *preStr = [ObjectShareTool sharedInstance].currentUser.scanCode;
     NSString *token = [ObjectShareTool sharedInstance].currentUser.token;
     NSString *urlStr = [NSString stringWithFormat:@"%@%@&token=%@", preStr, code, token];
-    
+
     [self.component sendPostRequestWithURL:urlStr param:nil success:^(id data) {
         success();
     } fail:^(NSError *error) {
@@ -1291,8 +1284,7 @@
 }
 
 - (void)loginAndUploadWithQRCode:(NSString *)code success:(void(^)())success fail:(void (^)(NSError *error))fail {
-    // http://cloud.cgsays.com:8070/jeeweb/cjData/二维码&token=asdasdasd
-    NSString *preStr = @"http://cloud.cgsays.com:8070/jeeweb/cjData/";
+    NSString *preStr = [ObjectShareTool sharedInstance].currentUser.scanCode;
     NSString *token = [ObjectShareTool sharedInstance].currentUser.token;
     NSString *urlStr = [NSString stringWithFormat:@"%@%@&token=%@&goTo=1", preStr, code, token];
     
@@ -1303,5 +1295,40 @@
     }];
 }
 
+- (void)loginAndUploadForCompanyWithQRCode:(NSString *)code success:(void(^)())success fail:(void (^)(NSError *error))fail {
+    NSString *preStr = [ObjectShareTool sharedInstance].currentUser.scanCode;
+    NSString *token = [ObjectShareTool sharedInstance].currentUser.token;
+    NSString *urlStr = [NSString stringWithFormat:@"%@%@&token=%@&goTo=2", preStr, code, token];
+    
+    [self.component sendPostRequestWithURL:urlStr param:nil success:^(id data) {
+        success();
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
+
+#pragma mark - 任务
+
+- (void)getTaskListWithSuccess:(void(^)(NSArray<YCUserTask *> *tasks))success fail:(void (^)(NSError *error))fail {
+    [self.component sendPostRequestWithURL:URL_TaskList param:nil success:^(id data) {
+        NSString *hint = data[@"hint"];
+        NSArray<YCUserTask *> *tasks = [YCUserTask mj_objectArrayWithKeyValuesArray:data[@"userTaskList"]];
+        tasks.firstObject.yc_hint = hint;
+        success(tasks);
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
+- (void)updateUserTaskWithType:(NSString *)type success:(void(^)(id data))success fail:(void (^)(NSError *error))fail {
+    NSDictionary *dic = @{@"type": type};
+    [self.component sendPostRequestWithURL:URL_UpdateTask param:dic success:^(id data) {
+        success(data);
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+
+}
 
 @end

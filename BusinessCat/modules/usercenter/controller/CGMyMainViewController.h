@@ -16,4 +16,6 @@
 //获取token回调 state:YES-成功 NO-失败
 -(void)tokenCheckComplete:(BOOL)state;
 
+@property (nonatomic,copy) void (^onNeedLoginBlock)();
+
 @end

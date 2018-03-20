@@ -78,6 +78,15 @@
 		0D74310A1FB93FFF002867FA /* CGMeetingListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7431081FB93FFF002867FA /* CGMeetingListCell.m */; };
 		0D74310B1FB93FFF002867FA /* CGMeetingListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D7431091FB93FFF002867FA /* CGMeetingListCell.xib */; };
 		0D74310E1FB94093002867FA /* CGMeeting.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D74310D1FB94093002867FA /* CGMeeting.m */; };
+		0D7905CF2058C68E00694A66 /* YCSelectMeetingRoomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7905CD2058C68E00694A66 /* YCSelectMeetingRoomCell.m */; };
+		0D7905D42058FA9C00694A66 /* YCEditMeetingRoomController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7905D22058FA9C00694A66 /* YCEditMeetingRoomController.m */; };
+		0D7905D52058FA9C00694A66 /* YCEditMeetingRoomController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D7905D32058FA9C00694A66 /* YCEditMeetingRoomController.xib */; };
+		0D7905E4205BB8D000694A66 /* YCUserTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7905E3205BB8D000694A66 /* YCUserTask.m */; };
+		0D7905E7205F843900694A66 /* YCUserTaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7905E6205F843900694A66 /* YCUserTaskView.m */; };
+		0D7905E9205F844F00694A66 /* YCUserTaskView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D7905E8205F844F00694A66 /* YCUserTaskView.xib */; };
+		0D7905EF205F881000694A66 /* YCUserTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7905ED205F881000694A66 /* YCUserTaskCell.m */; };
+		0D7905F0205F881000694A66 /* YCUserTaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D7905EE205F881000694A66 /* YCUserTaskCell.xib */; };
+		0D7905F32060AE0900694A66 /* YCTestTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7905F22060AE0900694A66 /* YCTestTableView.m */; };
 		0D8904B02019FD40009C1308 /* YCSpaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D8904AE2019FD40009C1308 /* YCSpaceController.m */; };
 		0D8904B12019FD40009C1308 /* YCSpaceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D8904AF2019FD40009C1308 /* YCSpaceController.xib */; };
 		0D8904B42019FE1B009C1308 /* YCScrollBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D8904B32019FE1B009C1308 /* YCScrollBar.m */; };
@@ -684,7 +693,6 @@
 		0DBF481E1FB3087400707C12 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DBF47551FB3087300707C12 /* Toast.m */; };
 		0DBF4CB81FB3139C00707C12 /* libzmf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF4CB61FB3139800707C12 /* libzmf.a */; };
 		0DBF4CB91FB3139C00707C12 /* libmtc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBF4CB71FB3139C00707C12 /* libmtc.a */; };
-		0DC04F1B2050CD5400177F2C /* LaunchView1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DC04F1A2050CD5400177F2C /* LaunchView1.png */; };
 		0DCD73341FB3F3EB00972501 /* IMGroupExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73261FB3F3E800972501 /* IMGroupExt.framework */; };
 		0DCD73351FB3F3EB00972501 /* ImSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73271FB3F3E800972501 /* ImSDK.framework */; };
 		0DCD73361FB3F3EB00972501 /* TLSUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD73281FB3F3E800972501 /* TLSUI.framework */; };
@@ -706,7 +714,6 @@
 		0DD8322C2032E6FD00AFC8F5 /* YCMyDocumentController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DD8322A2032E6FD00AFC8F5 /* YCMyDocumentController.xib */; };
 		0DDE741D1FF4F22200063651 /* YCCompereCommandController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */; };
 		0DDE741E1FF4F22200063651 /* YCCompereCommandController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */; };
-		0DEBED4D1FCA8C6200354E4C /* LaunchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */; };
 		0DED884D1FC953FF00585C82 /* YCCollegeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */; };
 		1804A3321DCB229800CA2326 /* CGDiscoverLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 1804A3311DCB229800CA2326 /* CGDiscoverLink.m */; };
 		1806D2D31DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1806D2D11DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m */; };
@@ -1620,6 +1627,21 @@
 		0D7431091FB93FFF002867FA /* CGMeetingListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CGMeetingListCell.xib; sourceTree = "<group>"; };
 		0D74310C1FB94093002867FA /* CGMeeting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CGMeeting.h; sourceTree = "<group>"; };
 		0D74310D1FB94093002867FA /* CGMeeting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CGMeeting.m; sourceTree = "<group>"; };
+		0D7905CC2058C68E00694A66 /* YCSelectMeetingRoomCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCSelectMeetingRoomCell.h; sourceTree = "<group>"; };
+		0D7905CD2058C68E00694A66 /* YCSelectMeetingRoomCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCSelectMeetingRoomCell.m; sourceTree = "<group>"; };
+		0D7905D12058FA9C00694A66 /* YCEditMeetingRoomController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCEditMeetingRoomController.h; sourceTree = "<group>"; };
+		0D7905D22058FA9C00694A66 /* YCEditMeetingRoomController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCEditMeetingRoomController.m; sourceTree = "<group>"; };
+		0D7905D32058FA9C00694A66 /* YCEditMeetingRoomController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCEditMeetingRoomController.xib; sourceTree = "<group>"; };
+		0D7905E2205BB8D000694A66 /* YCUserTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCUserTask.h; sourceTree = "<group>"; };
+		0D7905E3205BB8D000694A66 /* YCUserTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCUserTask.m; sourceTree = "<group>"; };
+		0D7905E5205F843900694A66 /* YCUserTaskView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCUserTaskView.h; sourceTree = "<group>"; };
+		0D7905E6205F843900694A66 /* YCUserTaskView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCUserTaskView.m; sourceTree = "<group>"; };
+		0D7905E8205F844F00694A66 /* YCUserTaskView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCUserTaskView.xib; sourceTree = "<group>"; };
+		0D7905EC205F881000694A66 /* YCUserTaskCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCUserTaskCell.h; sourceTree = "<group>"; };
+		0D7905ED205F881000694A66 /* YCUserTaskCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCUserTaskCell.m; sourceTree = "<group>"; };
+		0D7905EE205F881000694A66 /* YCUserTaskCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCUserTaskCell.xib; sourceTree = "<group>"; };
+		0D7905F12060AE0900694A66 /* YCTestTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCTestTableView.h; sourceTree = "<group>"; };
+		0D7905F22060AE0900694A66 /* YCTestTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCTestTableView.m; sourceTree = "<group>"; };
 		0D8904AD2019FD40009C1308 /* YCSpaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCSpaceController.h; sourceTree = "<group>"; };
 		0D8904AE2019FD40009C1308 /* YCSpaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCSpaceController.m; sourceTree = "<group>"; };
 		0D8904AF2019FD40009C1308 /* YCSpaceController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCSpaceController.xib; sourceTree = "<group>"; };
@@ -2691,7 +2713,6 @@
 		0DBF47551FB3087300707C12 /* Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toast.m; sourceTree = "<group>"; };
 		0DBF4CB61FB3139800707C12 /* libzmf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libzmf.a; sourceTree = "<group>"; };
 		0DBF4CB71FB3139C00707C12 /* libmtc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmtc.a; sourceTree = "<group>"; };
-		0DC04F1A2050CD5400177F2C /* LaunchView1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchView1.png; sourceTree = "<group>"; };
 		0DCD73261FB3F3E800972501 /* IMGroupExt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IMGroupExt.framework; sourceTree = "<group>"; };
 		0DCD73271FB3F3E800972501 /* ImSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ImSDK.framework; sourceTree = "<group>"; };
 		0DCD73281FB3F3E800972501 /* TLSUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TLSUI.framework; sourceTree = "<group>"; };
@@ -2717,7 +2738,6 @@
 		0DDE741A1FF4F22200063651 /* YCCompereCommandController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCompereCommandController.h; sourceTree = "<group>"; };
 		0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCompereCommandController.m; sourceTree = "<group>"; };
 		0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCCompereCommandController.xib; sourceTree = "<group>"; };
-		0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LaunchView.xib; sourceTree = "<group>"; };
 		0DED884B1FC953FF00585C82 /* YCCollegeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCollegeViewController.h; sourceTree = "<group>"; };
 		0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCollegeViewController.m; sourceTree = "<group>"; };
 		0F96D292CC0F74E9725C4D2E /* libPods-BusinessCat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BusinessCat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4433,6 +4453,11 @@
 				0D316E1C201730D00097D79D /* YCSelectRoomFooterView.h */,
 				0D316E1D201730D00097D79D /* YCSelectRoomFooterView.m */,
 				0D316E1F201730EC0097D79D /* YCSelectRoomFooterView.xib */,
+				0D7905CC2058C68E00694A66 /* YCSelectMeetingRoomCell.h */,
+				0D7905CD2058C68E00694A66 /* YCSelectMeetingRoomCell.m */,
+				0D7905D12058FA9C00694A66 /* YCEditMeetingRoomController.h */,
+				0D7905D22058FA9C00694A66 /* YCEditMeetingRoomController.m */,
+				0D7905D32058FA9C00694A66 /* YCEditMeetingRoomController.xib */,
 			);
 			path = SelectMeetingRoom;
 			sourceTree = "<group>";
@@ -4522,6 +4547,23 @@
 				0D316E2F201879A50097D79D /* YCMeetingRebate.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		0D7905E1205BB8B700694A66 /* User Task */ = {
+			isa = PBXGroup;
+			children = (
+				0D7905E2205BB8D000694A66 /* YCUserTask.h */,
+				0D7905E3205BB8D000694A66 /* YCUserTask.m */,
+				0D7905E5205F843900694A66 /* YCUserTaskView.h */,
+				0D7905E6205F843900694A66 /* YCUserTaskView.m */,
+				0D7905E8205F844F00694A66 /* YCUserTaskView.xib */,
+				0D7905EC205F881000694A66 /* YCUserTaskCell.h */,
+				0D7905ED205F881000694A66 /* YCUserTaskCell.m */,
+				0D7905EE205F881000694A66 /* YCUserTaskCell.xib */,
+				0D7905F12060AE0900694A66 /* YCTestTableView.h */,
+				0D7905F22060AE0900694A66 /* YCTestTableView.m */,
+			);
+			path = "User Task";
 			sourceTree = "<group>";
 		};
 		0D8904AC2019FD13009C1308 /* Space */ = {
@@ -6676,6 +6718,7 @@
 		1835D9F91DB9F6E20006ED07 /* entity */ = {
 			isa = PBXGroup;
 			children = (
+				0D7905E1205BB8B700694A66 /* User Task */,
 				1835DA001DB9F7320006ED07 /* CGUserSearchCompanyEntity.h */,
 				1835DA011DB9F7320006ED07 /* CGUserSearchCompanyEntity.m */,
 				185F59201DD4904F001A48F3 /* CGUserDepaEntity.h */,
@@ -7271,6 +7314,7 @@
 		D71142771D59CC720037F633 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D7BF3EAF1D98F9D900FC94E6 /* resource */,
 				D71142831D59CC720037F633 /* Assets.xcassets */,
 				D71142881D59CC720037F633 /* Info.plist */,
 				D710B7B31D9903D300688D72 /* BusinessCat-Prefix.pch */,
@@ -7280,9 +7324,6 @@
 				18D1C7041E07CBC7007AC5CC /* CGWelcomeVC.m */,
 				18D1C7051E07CBC7007AC5CC /* CGWelcomeVC.xib */,
 				D71142781D59CC720037F633 /* main.m */,
-				D7BF3EAF1D98F9D900FC94E6 /* resource */,
-				0DEBED4C1FCA8C6200354E4C /* LaunchView.xib */,
-				0DC04F1A2050CD5400177F2C /* LaunchView1.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -8748,7 +8789,6 @@
 				0DB9E61D202C579E00ACA8D0 /* 33.gif in Resources */,
 				18B668151DB5B6F3003EA387 /* CGUserHeaderCollectionViewCell.xib in Resources */,
 				0DB9E621202C579F00ACA8D0 /* 18.gif in Resources */,
-				0DC04F1B2050CD5400177F2C /* LaunchView1.png in Resources */,
 				0DBF47861FB3087400707C12 /* JCMessageCell.xib in Resources */,
 				0DBF47AE1FB3087400707C12 /* camera_off@3x.png in Resources */,
 				181C54CC1EC044C60064354D /* CGEnterpriseMemberTableViewCell.xib in Resources */,
@@ -8792,6 +8832,7 @@
 				18ED533A1F4BE03900EB2D64 /* CGDetailBigImageViewController.xib in Resources */,
 				187124761E76450800C16E9C /* CGAttentionIndexController.xib in Resources */,
 				18C6C7FF1EEE725D009DFD89 /* CGTeamDocumentViewController.xib in Resources */,
+				0D7905E9205F844F00694A66 /* YCUserTaskView.xib in Resources */,
 				0DBF478D1FB3087400707C12 /* status_microphone@3x.png in Resources */,
 				18CEA6881E52EED700D9D17F /* CGParameterTableViewCell.xib in Resources */,
 				187124CC1E7B93A400C16E9C /* SectionalizationCell.xib in Resources */,
@@ -8839,6 +8880,7 @@
 				181C54FC1EC2E5020064354D /* CGMessageViewController.xib in Resources */,
 				0DB9E673202C579F00ACA8D0 /* 17.gif in Resources */,
 				0D35DBFB201F330D0087C20E /* YCSeeBoardController.xib in Resources */,
+				0D7905F0205F881000694A66 /* YCUserTaskCell.xib in Resources */,
 				0D90DFBE1FB43C3A00EDB7CF /* Assets.xcassets in Resources */,
 				184839361DFAAD3800531C5A /* CGIndustryViewController.xib in Resources */,
 				0D316E0520107F2D0097D79D /* YCCreateMeetingController.xib in Resources */,
@@ -9035,6 +9077,7 @@
 				0DB9E664202C579F00ACA8D0 /* 58.gif in Resources */,
 				0DBF47AC1FB3087400707C12 /* back_pressed@3x.png in Resources */,
 				1821E6D41E25109B0082F174 /* CGLibraryCollectionViewCell.xib in Resources */,
+				0D7905D52058FA9C00694A66 /* YCEditMeetingRoomController.xib in Resources */,
 				0D316D1C2008ABD40097D79D /* YCVideoController.xib in Resources */,
 				18D1C6F81E07BE05007AC5CC /* CGDiscoverLibraryViewController.xib in Resources */,
 				1821E6DF1E28A9C70082F174 /* CGTopicToolBar.xib in Resources */,
@@ -9047,7 +9090,6 @@
 				181C55011EC2E7B60064354D /* CGMassageTableViewCell.xib in Resources */,
 				D7D15CA11E8A3A90004D5118 /* HomePageAppsController.xib in Resources */,
 				0DBF47AF1FB3087400707C12 /* camera_off_highlighted@2x.png in Resources */,
-				0DEBED4D1FCA8C6200354E4C /* LaunchView.xib in Resources */,
 				0DBF47D11FB3087400707C12 /* paint_normal_highlighted@2x.png in Resources */,
 				0D1E96702022B2CD00B6187A /* YCJoinShareController.xib in Resources */,
 				18ED53431F4C36AA00EB2D64 /* htmlDetailTemplate.html in Resources */,
@@ -9365,6 +9407,7 @@
 				0D90DFB21FB43C3A00EDB7CF /* ChatAttachment.m in Sources */,
 				1891BF851E976BAE00D6F37B /* CGChoseOrganizationViewController.m in Sources */,
 				0D90E04D1FB43C3A00EDB7CF /* UserProfileHeaderView.m in Sources */,
+				0D7905EF205F881000694A66 /* YCUserTaskCell.m in Sources */,
 				181A9CF21E8E38190009104A /* MonitoringNoDataTableViewCell.m in Sources */,
 				18E481081F03922700A94FF8 /* QRCodeGenerator.m in Sources */,
 				0D90E00B1FB43C3A00EDB7CF /* MicroRecordViewController.m in Sources */,
@@ -9399,6 +9442,7 @@
 				18400BFC1ECC3AFF00E3009D /* CGUserHelpCateViewController.m in Sources */,
 				0D8904B42019FE1B009C1308 /* YCScrollBar.m in Sources */,
 				1816EABE1DC1F3790097F172 /* LikeButton.m in Sources */,
+				0D7905E7205F843900694A66 /* YCUserTaskView.m in Sources */,
 				D7F44BDF1DA8C420004393C2 /* HeadLineDelConfirmView.m in Sources */,
 				180F5A2F1EE6A35500BCB07F /* CGToolTableViewCell.m in Sources */,
 				0D90DF7F1FB43C3A00EDB7CF /* LibraryScrollView.m in Sources */,
@@ -9513,6 +9557,7 @@
 				0DBF47811FB3087400707C12 /* UITableView+FDIndexPathHeightCache.m in Sources */,
 				186853571EA70BFB00B79EFD /* LWImageBrowserModel.m in Sources */,
 				0D90DFFF1FB43C3A00EDB7CF /* MyPttRecordBtn.m in Sources */,
+				0D7905D42058FA9C00694A66 /* YCEditMeetingRoomController.m in Sources */,
 				18C6C80A1EF0DDA3009DFD89 /* CGPayMethodEntity.m in Sources */,
 				D73208441EA64EE3006BC285 /* UIAlertController+HCAdd.m in Sources */,
 				0D316E30201879A50097D79D /* YCMeetingRebate.m in Sources */,
@@ -9550,6 +9595,7 @@
 				18E480F21F038CBF00A94FF8 /* CGQrCodeView.m in Sources */,
 				0D90DFB31FB43C3A00EDB7CF /* IMAConnectConversation.m in Sources */,
 				0D90DF401FB43C3900EDB7CF /* FTAnimationManager.m in Sources */,
+				0D7905F32060AE0900694A66 /* YCTestTableView.m in Sources */,
 				186853491EA70BFA00B79EFD /* LWTransactionGroup.m in Sources */,
 				1835DA4E1DBEFA120006ED07 /* CGUserCompanyAttestationEntity.m in Sources */,
 				D732088A1EA64EE4006BC285 /* ZbarController.m in Sources */,
@@ -9574,6 +9620,7 @@
 				0DBF48121FB3087400707C12 /* ServerInfoViewController.m in Sources */,
 				1835DA551DBF66520006ED07 /* CGUserPhoneContactViewController.m in Sources */,
 				18B6680A1DB4BCEB003EA387 /* CGUserTableViewCell.m in Sources */,
+				0D7905CF2058C68E00694A66 /* YCSelectMeetingRoomCell.m in Sources */,
 				18CEA6871E52EED700D9D17F /* CGParameterTableViewCell.m in Sources */,
 				181C55081EC2F6A20064354D /* CGMessageDetailViewController.m in Sources */,
 				0D90DF4A1FB43C3900EDB7CF /* NSDate+Common.m in Sources */,
@@ -9729,6 +9776,7 @@
 				1868534E1EA70BFA00B79EFD /* UIImage+Gallop.m in Sources */,
 				1806D2D31DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m in Sources */,
 				0D90DFAA1FB43C3A00EDB7CF /* IMASubGroup.m in Sources */,
+				0D7905E4205BB8D000694A66 /* YCUserTask.m in Sources */,
 				D73208481EA64EE3006BC285 /* NSString+PinYin4Cocoa.m in Sources */,
 				0D90E0231FB43C3A00EDB7CF /* TCVideoPreviewViewController.m in Sources */,
 				0DBF481E1FB3087400707C12 /* Toast.m in Sources */,
@@ -10133,6 +10181,7 @@
 			baseConfigurationReference = 1F17897C5752EEF827F05A4B /* Pods-BusinessCat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = YCLaunchImage;
 				CODE_SIGN_ENTITLEMENTS = BusinessCat/BusinessCat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Guangzhou Chuangjiang Information Technology co., Ltd (V77FU256ES)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -10267,6 +10316,7 @@
 			baseConfigurationReference = BD014DD70448B0719C7497EA /* Pods-BusinessCat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = YCLaunchImage;
 				CODE_SIGN_ENTITLEMENTS = BusinessCat/BusinessCat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Guangzhou Chuangjiang Information Technology co., Ltd (V77FU256ES)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

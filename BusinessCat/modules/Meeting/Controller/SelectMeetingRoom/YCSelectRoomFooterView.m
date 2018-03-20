@@ -19,4 +19,14 @@
     return 30;
 }
 
+- (IBAction)click:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:[self.class notificationName] object:self];
+}
+
++ (NSString *)notificationName {
+    return @"YCSelectRoomFooterViewClickNotification";
+}
+
+
 @end
+

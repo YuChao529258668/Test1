@@ -59,12 +59,12 @@
 //    [data writeToFile:LoginUserInfoPath atomically:YES];
     
     NSLog(@"正在清除登录用户的信息");
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"正在清除登录用户的信息" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    [ac addAction:sure];
-    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+//    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"" message:@"正在清除登录用户的信息" preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//
+//    }];
+//    [ac addAction:sure];
+//    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
     
     [ObjectShareTool sharedInstance].currentUser = nil;
   NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];

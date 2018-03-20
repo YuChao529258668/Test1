@@ -47,6 +47,9 @@
 @property (nonatomic, assign) NSInteger updateName;
 @property (nonatomic, copy) NSString *unionid;
 
+@property (nonatomic, strong) NSString *scanCode; // 用于拼接字符串
+@property (nonatomic, strong) NSString *scanCodeUrl; // 显示在扫描界面的网址
+
 @property (nonatomic, assign) NSInteger housekeeper;//是否管家会员
 //用户相关的统计
 @property (nonatomic,retain) CGUserStatistics *statistics;

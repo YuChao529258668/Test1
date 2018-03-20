@@ -8,7 +8,33 @@
 
 #import "ChatTimeTipTableViewCell.h"
 
+@interface ChatTimeTipTableViewCell()
+@property (nonatomic, strong) UIView *bgView; // 灰色圆形
+
+@end
+
 @implementation ChatTimeTipTableViewCell
+
+- (void)setupBgView {
+    self.bgView = [UIView new];
+    [self.contentView addSubview:self.bgView];
+    [self.contentView sendSubviewToBack:self.bgView];
+    self.bgView.backgroundColor =  [YCTool colorOfHex:0xe0e3e5];
+}
+- (void)layoutBgView {
+    CGRect rect = self.textLabel.frame;
+    //    self.textLabel.text = [NSString stringWithFormat:@"  %@  ", self.textLabel.text]; // 写上这句会死循环
+    [self.textLabel sizeToFit];
+    CGSize size2 = self.textLabel.size;
+    self.textLabel.frame = rect;
+    
+    float height = size2.height  * 1.4;
+    float width = size2.width + 30;
+    CGRect frame = CGRectMake(0, 0, width, height);
+    self.bgView.frame = frame;
+    self.bgView.layer.cornerRadius = height/2;
+    self.bgView.center = self.textLabel.center;
+}
 
 - (BOOL)canShowMenu
 {
@@ -25,6 +51,7 @@
         self.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.textLabel.numberOfLines = 0;
         
+        [self setupBgView];
     }
     return self;
 }
@@ -37,6 +64,8 @@
         self.textLabel.textAlignment = NSTextAlignmentCenter;
         self.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.textLabel.numberOfLines = 0;
+        
+        [self setupBgView];
     }
     return self;
 }
@@ -48,7 +77,7 @@
 
 - (void)relayoutFrameOfSubViews
 {
-    // do nothing
+    [self layoutBgView];
 }
 
 
@@ -83,7 +112,8 @@
     TIMCustomElem *elem = (TIMCustomElem *)[msg.msg getElem:0];
     self.textLabel.textAlignment = NSTextAlignmentCenter;
     self.textLabel.font = [_msg tipFont];
-    self.textLabel.textColor = kLightGrayColor;
+//    self.textLabel.textColor = kLightGrayColor;
+    self.textLabel.textColor = [YCTool colorOfHex:0x555555];
     self.textLabel.text = [elem timeTip];
 }
 
@@ -126,14 +156,23 @@
 
 @implementation ChatGroupTipTableViewCell
 
+- (void)layoutBgView {
+    [super layoutBgView];
+    if (self.bgView.frame.size.height > 40) {
+        self.bgView.layer.cornerRadius = 6;
+    }
+}
+
 - (void)configWith:(IMAMsg *)msg
 {
     _msg = msg;
     TIMGroupTipsElem *elem = (TIMGroupTipsElem *)[msg.msg getElem:0];
     self.textLabel.textAlignment = NSTextAlignmentCenter;
     self.textLabel.font = [_msg tipFont];
-    self.textLabel.textColor = kLightGrayColor;
+//    self.textLabel.textColor = kLightGrayColor;
     self.textLabel.text = [elem tipText];
+    
+    self.textLabel.textColor = [YCTool colorOfHex:0x555555];
 }
 @end
 

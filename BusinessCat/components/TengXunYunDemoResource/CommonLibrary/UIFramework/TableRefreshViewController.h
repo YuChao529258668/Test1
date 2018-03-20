@@ -27,6 +27,7 @@
 }
 
 @property (nonatomic, strong) UITableView *tableView;
+
 // Defaults to YES
 @property (nonatomic)BOOL clearsSelectionOnViewWillAppear;
 

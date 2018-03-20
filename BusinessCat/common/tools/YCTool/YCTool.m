@@ -429,5 +429,25 @@
     }
 }
 
+// 隐藏底部栏(第1页 共3页， +100%-)，类型是 WKCompositingView，高度 30
++ (void)hideBottomBarOfWebView:(WKWebView *)webView {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self hide:webView];
+    });
+}
+
++ (void)hide:(UIView *)view {
+    NSArray *views = view.subviews;
+    for (UIView *sv in views) {
+        if ([sv isKindOfClass:NSClassFromString(@"WKCompositingView")] && sv.frame.size.height == 30) {
+            sv.hidden = YES;
+            return;
+        }
+        [self hide:sv];
+    }
+}
+
+
+
 
 @end

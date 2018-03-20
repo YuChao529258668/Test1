@@ -11,6 +11,8 @@
 #import "ConversationListTableViewCell.h"
 #import "SwipeDeleteTableView.h"
 
+#import "YCTestTableView.h"
+
 @interface ConversationListViewController ()<UISearchBarDelegate>
 {
     
@@ -45,7 +47,8 @@
 
 - (void)addRefreshScrollView
 {
-    _tableView = [[SwipeDeleteTableView alloc] init];
+//    _tableView = [[SwipeDeleteTableView alloc] init];
+    _tableView = [[YCTestTableView alloc] init];
     _tableView.frame = self.view.bounds;
     _tableView.dataSource = self;
     _tableView.delegate = self;
@@ -67,6 +70,7 @@
 //    [self pinHeaderView];
     
 //    [self setupSearchBar];
+    [self setupTaskView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -138,60 +142,60 @@
         {
             [self reloadData];
         }
+        break;
             
-            break;
-        case EIMAConversation_BecomeActiveTop:
-        {
-            [self.tableView beginUpdates];
-            [self.tableView moveRowAtIndexPath:[NSIndexPath indexPathForRow:item.index inSection:0] toIndexPath:[NSIndexPath indexPathForRow:item.toIndex inSection:0]];
-            [self.tableView endUpdates];
-        }
-            break;
-        case EIMAConversation_NewConversation:
-        {
-            
-            [self.tableView beginUpdates];
-            NSIndexPath *index = [NSIndexPath indexPathForRow:item.index inSection:0];
-            [self.tableView insertRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
-            
-            [self.tableView endUpdates];
-        }
-            break;
-        case EIMAConversation_DeleteConversation:
-        {
-            [self.tableView beginUpdates];
-            NSIndexPath *index = [NSIndexPath indexPathForRow:item.index inSection:0];
-            [self.tableView deleteRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView endUpdates];
-        }
-            break;
-        case EIMAConversation_Connected:
-        {
-            [self.tableView beginUpdates];
-            NSIndexPath *index = [NSIndexPath indexPathForRow:item.index inSection:0];
-            [self.tableView deleteRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView endUpdates];
-        }
-            break;
-        case EIMAConversation_DisConnected:
-        {
-            [self.tableView beginUpdates];
-            NSIndexPath *index = [NSIndexPath indexPathForRow:item.index inSection:0];
-            [self.tableView insertRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView endUpdates];
-        }
-            break;
-        case EIMAConversation_ConversationChanged:
-        {
-            [self.tableView beginUpdates];
-            NSIndexPath *index = [NSIndexPath indexPathForRow:item.index inSection:0];
-            [self.tableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
-            
-            [self.tableView endUpdates];
-        }
-            break;
+//        case EIMAConversation_BecomeActiveTop:
+//        {
+//            [self.tableView beginUpdates];
+//            [self.tableView moveRowAtIndexPath:[NSIndexPath indexPathForRow:item.index inSection:0] toIndexPath:[NSIndexPath indexPathForRow:item.toIndex inSection:0]];
+//            [self.tableView endUpdates];
+//        }
+//            break;
+//        case EIMAConversation_NewConversation:
+//        {
+//
+//            [self.tableView beginUpdates];
+//            NSIndexPath *index = [NSIndexPath indexPathForRow:item.index inSection:0];
+//            [self.tableView insertRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
+//
+//            [self.tableView endUpdates];
+//        }
+//            break;
+//        case EIMAConversation_DeleteConversation:
+//        {
+//            [self.tableView beginUpdates];
+//            NSIndexPath *index = [NSIndexPath indexPathForRow:item.index inSection:0];
+//            [self.tableView deleteRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
+//            [self.tableView endUpdates];
+//        }
+//            break;
+//        case EIMAConversation_Connected:
+//        {
+//            [self.tableView beginUpdates];
+//            NSIndexPath *index = [NSIndexPath indexPathForRow:item.index inSection:0];
+//            [self.tableView deleteRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
+//            [self.tableView endUpdates];
+//        }
+//            break;
+//        case EIMAConversation_DisConnected:
+//        {
+//            [self.tableView beginUpdates];
+//            NSIndexPath *index = [NSIndexPath indexPathForRow:item.index inSection:0];
+//            [self.tableView insertRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
+//            [self.tableView endUpdates];
+//        }
+//            break;
+//        case EIMAConversation_ConversationChanged:
+//        {
+//            [self.tableView beginUpdates];
+//            NSIndexPath *index = [NSIndexPath indexPathForRow:item.index inSection:0];
+//            [self.tableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
+//
+//            [self.tableView endUpdates];
+//        }
+//            break;
         default:
-            
+            [self.tableView reloadData];
             break;
     }
     
@@ -440,6 +444,10 @@
 
 - (void)callInNumberOfRowsInSection {
     
+}
+
+- (void)setupTaskView {
+
 }
 
 @end

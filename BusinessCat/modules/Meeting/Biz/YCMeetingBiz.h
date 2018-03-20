@@ -18,6 +18,17 @@
 // 获取会议列表
 - (void)getMeetingListWithPage:(int)page type:(int)type Success:(void(^)(NSArray<CGMeeting *> *meetings, CGMeetingStatistics *statistics))success fail:(void(^)(NSError *error))fail;
 
+// 添加会议室
+// roomId 会议室Id（为空时新增，有值是修改）
+// toId 公司Id（当toType为用户时不填）
+// type 1公司会议室 2视频会议室 3会议地点
+// roomName 会议室名称/会议地点名称
+// toType 0：公司 1：用户
+- (void)addMeetingRoomWithRoomID:(NSString *)roomId toId:(NSString *)toId roomName:(NSString *)roomName type:(int)type roomNum:(int)roomNum success:(void(^)(id data))success fail:(void(^)(NSError *error))fail;
+
+// 删除会议室
+- (void)deleteMeetingRoomWithRoomID:(NSString *)roomId success:(void(^)(id data))success fail:(void(^)(NSError *error))fail;
+
 // 能否进入会议 状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
 - (void)meetingEntranceWithMeetingID:(NSString *)mid Success:(void(^)(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *q))success fail:(void(^)(NSError *error))fail;
 

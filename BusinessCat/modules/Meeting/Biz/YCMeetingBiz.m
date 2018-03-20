@@ -52,33 +52,7 @@
     }];
 }
 
-- (void)getMeetingRoomListWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed Success:(void(^)(NSArray<YCMeetingCompanyRoom *> *companyRooms))success fail:(void(^)(NSError *error))fail {
-    
-    if (!bd) {
-        bd = [NSDate dateWithTimeIntervalSince1970:0];
-    }
-    if (!ed) {
-        ed = [NSDate dateWithTimeIntervalSinceNow:30 * 24 *60 * 60];
-    }
 
-    
-    NSNumber *beginDateN = [NSNumber numberWithLong:bd.timeIntervalSince1970 * 1000];
-    NSNumber *endDateN = [NSNumber numberWithLong:ed.timeIntervalSince1970 * 1000];
-//    NSDictionary *dic = @{@"companyId":companyId, @"startTime":beginDateN, @"endTime": endDateN};
-    NSDictionary *dic = @{@"startTime":beginDateN, @"endTime": endDateN};
-
-    
-    [self.component UIPostRequestWithURL:URL_Meeting_MeetingRoomList param:dic success:^(id data) {
-
-        NSArray<YCMeetingCompanyRoom *> *companyRooms = [YCMeetingCompanyRoom mj_objectArrayWithKeyValuesArray:data];
-        if (success) {
-            success(companyRooms);
-        }
-        
-    } fail:^(NSError *error) {
-        NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
-    }];
-}
 
 // 验证时间是否有效
 - (void)checkMeetingDateValidWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed roomID:(NSString *)rid OnSuccess:(void(^)(NSString *message, int state, NSString *recommendTime))success fail:(void(^)(NSError *error))fail {
@@ -139,6 +113,9 @@
 //http://doc.cgsays.com:50123/index.php?s=/1&page_id=391
 - (void)bookMeeting2WithMeetingID:(NSString *)mid oldMeetingID:(NSString *)oldMid MeetingType:(int)type MeetingName:(NSString *)name users:(NSString *)users roomID:(NSString *)rid beginDate:(NSDate *)bDate endDate:(NSDate *)eDate live:(int)live accessNumber:(NSInteger)an roomType:(int)roomType companyRoomId:(NSString *)crID shareType:(int)shareType toType:(int)toType toId:(NSString *)toID Success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
     NSString *companyId = [ObjectShareTool sharedInstance].currentUser.getCompanyID;
+    if (!companyId) {
+        companyId = @"";
+    }
     NSNumber *bn = [NSNumber numberWithLong:bDate.timeIntervalSince1970*1000];
     NSNumber *en = [NSNumber numberWithLong:eDate.timeIntervalSince1970*1000];
     if (!crID) {
@@ -227,6 +204,81 @@
 - (void)cancelMeetingWithMeetingID:(NSString *)mid cancelType:(int)type success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
     NSDictionary *dic = @{@"meetingId": mid, @"type": @(type)};
     [self.component UIPostRequestWithURL:URL_Meeting_Cancel param:dic success:^(id data) {
+        success(data);
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
+#pragma mark - 会议室
+
+- (void)getMeetingRoomListWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed Success:(void(^)(NSArray<YCMeetingCompanyRoom *> *companyRooms))success fail:(void(^)(NSError *error))fail {
+    
+    if (!bd) {
+        bd = [NSDate dateWithTimeIntervalSince1970:0];
+    }
+    if (!ed) {
+        ed = [NSDate dateWithTimeIntervalSinceNow:30 * 24 *60 * 60];
+    }
+    
+    
+    NSNumber *beginDateN = [NSNumber numberWithLong:bd.timeIntervalSince1970 * 1000];
+    NSNumber *endDateN = [NSNumber numberWithLong:ed.timeIntervalSince1970 * 1000];
+    //    NSDictionary *dic = @{@"companyId":companyId, @"startTime":beginDateN, @"endTime": endDateN};
+    NSDictionary *dic = @{@"startTime":beginDateN, @"endTime": endDateN};
+    
+    
+    [self.component UIPostRequestWithURL:URL_Meeting_MeetingRoomList param:dic success:^(id data) {
+        
+        NSArray<YCMeetingCompanyRoom *> *companyRooms = [YCMeetingCompanyRoom mj_objectArrayWithKeyValuesArray:data];
+        if (success) {
+            success(companyRooms);
+        }
+        
+    } fail:^(NSError *error) {
+        NSLog(@"%@, error  = %@", NSStringFromSelector(_cmd), error.description);
+    }];
+}
+
+// 添加会议室
+// roomId 会议室Id（为空时新增，有值是修改）
+// toId 公司Id
+// type 1公司会议室 2视频会议室 3会议地点
+// roomName 会议室名称/会议地点名称
+// toType 0：公司 1：用户
+- (void)addMeetingRoomWithRoomID:(NSString *)roomId toId:(NSString *)toId roomName:(NSString *)roomName type:(int)type roomNum:(int)roomNum success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    
+    if (type == 3) {
+        dic[@"toType"] = @1;
+    } else {
+        dic[@"toType"] = @0;
+    }
+
+    dic[@"roomName"] = roomName;
+    dic[@"type"] = @(type);
+    dic[@"roomNum"] = @(roomNum);
+
+    if (roomId) {
+        dic[@"roomId"] = roomId;
+    }
+    
+    if (toId) {
+        dic[@"toId"] = toId;
+    }
+    
+    [self.component UIPostRequestWithURL:URL_Meeting_AddMeetingRoom param:dic success:^(NSDictionary *data) {
+        success(data);
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
+// 删除会议室
+- (void)deleteMeetingRoomWithRoomID:(NSString *)roomId success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObject:roomId forKey:@"roomId"];
+    
+    [self.component UIPostRequestWithURL:URL_Meeting_DeleteMeetingRoom param:dic success:^(NSDictionary *data) {
         success(data);
     } fail:^(NSError *error) {
         fail(error);

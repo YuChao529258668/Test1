@@ -19,6 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupMeetingBtn];
+    self.tableView.backgroundColor = [YCTool colorOfHex:0xf6fafc];
 }
 
 // 好友信息、群信息

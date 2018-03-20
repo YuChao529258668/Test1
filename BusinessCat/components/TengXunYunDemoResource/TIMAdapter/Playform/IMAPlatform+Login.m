@@ -71,29 +71,29 @@
 //用户离线时，在其它终端登录过，再次在本设备登录时，会提示被踢下线，需要重新登录
 - (void)offlineKicked:(TIMLoginParam *)param succ:(TIMLoginSucc)succ fail:(TIMFail)fail
 {
-    __weak typeof(self) ws = self;
-    UIAlertView *alert = [UIAlertView bk_showAlertViewWithTitle:@"下线通知" message:@"聊天功能: 您的帐号于另一台手机上登录。" cancelButtonTitle:@"退出" otherButtonTitles:@[@"重新登录"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-        if (buttonIndex == 0)
-        {
-            // 退出
-            [self logout:^{
-                [[IMAAppDelegate sharedAppDelegate] enterLoginUI];
-            } fail:^(int code, NSString *msg) {
-                [[IMAAppDelegate sharedAppDelegate] enterLoginUI];
-            }];
-        }
-        else
-        {
-            [self offlineLogin];
-            // 重新登录
-            [self login:param succ:^{
-                [ws registNotification];
-                succ ? succ() : nil;
-                
-            } fail:fail];
-        }
-    }];
-    [alert show];
+//    __weak typeof(self) ws = self;
+//    UIAlertView *alert = [UIAlertView bk_showAlertViewWithTitle:@"下线通知" message:@"聊天功能: 您的帐号于另一台手机上登录。" cancelButtonTitle:@"退出" otherButtonTitles:@[@"重新登录"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+//        if (buttonIndex == 0)
+//        {
+//            // 退出
+//            [self logout:^{
+//                [[IMAAppDelegate sharedAppDelegate] enterLoginUI];
+//            } fail:^(int code, NSString *msg) {
+//                [[IMAAppDelegate sharedAppDelegate] enterLoginUI];
+//            }];
+//        }
+//        else
+//        {
+//            [self offlineLogin];
+//            // 重新登录
+//            [self login:param succ:^{
+//                [ws registNotification];
+//                succ ? succ() : nil;
+//
+//            } fail:fail];
+//        }
+//    }];
+//    [alert show];
 }
 
 - (void)configGroup

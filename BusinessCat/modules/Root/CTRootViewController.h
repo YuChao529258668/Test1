@@ -76,5 +76,8 @@
 // 设置会话列表下面的小红点
 - (void)setConversationListTabViewRedPoint:(NSInteger)count;
 
+// 登录
+- (void)forceLogin;
+
 @end
 

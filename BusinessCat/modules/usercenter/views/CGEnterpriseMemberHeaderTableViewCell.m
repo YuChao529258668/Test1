@@ -36,7 +36,9 @@
     if(item.isVip == 1){
         self.expireDate.text = [NSString stringWithFormat:@"有效期至%@",item.vipTime];
         self.vipDay.text = [NSString stringWithFormat:@"(还有%d天到期)",item.vipDays];
+        self.vip.hidden = NO;
     }else if(item.isVip == 0){
+        self.vip.hidden = YES;
       if (type) {
        self.expireDate.text = @"享受更多服务请购买VIP企业";
       }else{
@@ -44,6 +46,7 @@
       }
         self.vipDay.text = @"";
     }else if(item.isVip == 2){//过期
+        self.vip.hidden = YES;
         self.vip.alpha = 0.5;
         self.expireDate.text = @"已过期";
         self.expireDate.textColor = [UIColor redColor];

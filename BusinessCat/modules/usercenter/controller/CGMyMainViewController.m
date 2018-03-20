@@ -203,6 +203,19 @@
     [self.tableview reloadData];
   __weak typeof(self) weakSelf = self;
   [[[CGUserCenterBiz alloc]init] queryUserDetailInfoWithCode:nil success:^(CGUserEntity *user) {
+//      if(user.isLogin == 0 && [CTStringUtil stringNotBlank:user.phone]){
+//      if(user.isLogin == 0){
+//          NSString *message = @"请重新登录！";
+//          UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"下线通知" message:message preferredStyle:UIAlertControllerStyleAlert];
+//          UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//              if (self.onNeedLoginBlock) {
+//                  self.onNeedLoginBlock();
+//              }
+//          }];
+//          [ac addAction:sure];
+//          [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ac animated:YES completion:nil];
+//      }
+
     [weakSelf.tableview reloadData];
     [weakSelf updateLeftButtonState];
   } fail:^(NSError *error) {
@@ -445,7 +458,6 @@
             [cell.contentView addSubview:self.toSeeVIPDetailBtn];
             
             if([ObjectShareTool sharedInstance].currentUser.isLogin == 0){//未登录
-//                [self gotoLoginViewController];
                 
                 self.userIcon.image = [UIImage imageNamed:@"Default_login"];
                 [cell.contentView addSubview:self.clickToLoginBtn];
@@ -911,6 +923,9 @@
   [self.navigationController pushViewController:controller animated:YES];
 }
 
+
+#pragma mark - Data
+
 //查询服务器的用户详细信息
 -(void)queryRemoteUserDetailInfo{
     __weak typeof(self) weakSelf = self;
@@ -970,7 +985,7 @@
   self.shareUtil = [[ShareUtil alloc]init];
   __weak typeof(self) weakSelf = self;
   UIImage *image = [UIImage imageNamed:@"login_image"];
-  [self.shareUtil showShareMenuWithTitle:@"好友邀请你使用议事猫" desc:@"我正在使用议事猫，它是非常棒的智能知识管家，现在也推荐给你" isqrcode:1 image:image url:url block:^(NSMutableArray *array) {
+  [self.shareUtil showShareMenuWithTitle:@"好友邀请你使用易事猫" desc:@"我正在使用易事猫，它是非常棒的智能知识管家，现在也推荐给你" isqrcode:1 image:image url:url block:^(NSMutableArray *array) {
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:array applicationActivities:nil];
     [weakSelf presentViewController:activityVC animated:YES completion:nil];
   }];
@@ -1005,7 +1020,7 @@
 //    [ac addAction:cancel];
 //    [self presentViewController:ac animated:YES completion:nil];
     
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"是否登录?" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"扫描结果" message:@"是否登录?" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [[CGUserCenterBiz new] loginWithQRCode:result success:^{
             
@@ -1040,12 +1055,6 @@
     
     [self.navigationController pushViewController:vc animated:YES];
 
-    
-}
-
-#pragma mark - 强制登录
-
-- (void)gotoLoginViewController {
     
 }
 

@@ -43,7 +43,7 @@
                             <constraint firstAttribute="height" constant="20" id="fD4-8j-eh7"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="《议事猫认证协议》">
+                        <state key="normal" title="《易事猫认证协议》">
                             <color key="titleColor" red="0.12690496444702148" green="0.25556865334510803" blue="0.40917733311653137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                     </button>

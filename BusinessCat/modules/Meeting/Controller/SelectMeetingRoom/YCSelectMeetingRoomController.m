@@ -7,11 +7,13 @@
 //
 
 #import "YCSelectMeetingRoomController.h"
+#import "YCEditMeetingRoomController.h"
 
 #import "YCSelectRoomHeaderView.h"
 #import "YCSelectRoomFooterView.h"
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoom.h"
+#import "YCSelectMeetingRoomCell.h"
 
 @interface YCSelectMeetingRoomController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -50,23 +52,18 @@
     self.tableView.sectionFooterHeight = [YCSelectRoomFooterView height];
     [self.tableView registerNib:[UINib nibWithNibName:@"YCSelectRoomHeaderView" bundle:nil] forHeaderFooterViewReuseIdentifier:@"YCSelectRoomHeaderView"];
     [self.tableView registerNib:[UINib nibWithNibName:@"YCSelectRoomFooterView" bundle:nil] forHeaderFooterViewReuseIdentifier:@"YCSelectRoomFooterView"];
+//    [self.tableView registerClass:NSClassFromString(@"YCSelectMeetingRoomCell") forCellReuseIdentifier:@"YCSelectMeetingRoomCell"];
 //    self.tableView.editing = YES;
 //    self.tableView.allowsSelectionDuringEditing = YES;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clickHeaderView:) name:[YCSelectRoomHeaderView notificationName] object:nil];
     
-//    [self recoverSelection];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clickHeaderView:) name:[YCSelectRoomHeaderView notificationName] object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clickFooterView:) name:[YCSelectRoomFooterView notificationName] object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doubleClickCell:) name:[YCSelectMeetingRoomCell notificationNameOfDoubleClick] object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleClickCell:) name:[YCSelectMeetingRoomCell notificationNameOfSingleClick] object:nil];
+
     [self getRoomList];
     
-//    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-//    NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
-//    NSString *str;
-//    if ([app_Name containsString:@"会议"]) {
-//        str = @"会议";
-//    } else {
-//        str = @"会面";
-//    }
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -122,8 +119,9 @@
             [companyRoom.roomData enumerateObjectsUsingBlock:^(YCMeetingRoom * _Nonnull room, NSUInteger row, BOOL * _Nonnull stop2) {
                 if ([room.roomId isEqualToString:self.selectedRoom.roomId]) {
                     NSIndexPath *ip = [NSIndexPath indexPathForRow:row inSection:section];
-                    [self.tableView selectRowAtIndexPath:ip animated:NO scrollPosition:UITableViewScrollPositionNone];
-                    [self tableView:self.tableView didSelectRowAtIndexPath:ip];
+//                    [self.tableView selectRowAtIndexPath:ip animated:NO scrollPosition:UITableViewScrollPositionNone];
+//                    [self tableView:self.tableView didSelectRowAtIndexPath:ip];
+                    [self mySelectRowAtIndexPath:ip];
                     *stop = YES;
                     *stop2 = YES;
                 }
@@ -134,19 +132,38 @@
     }
 }
 
+- (void)myDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndexPath = nil;
+    self.selectedRoom = nil;
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    UIButton *markBtn = [cell viewWithTag:3];
+    markBtn.selected = NO;
+}
+
+- (void)mySelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == self.selectedIndexPath.section && indexPath.row == self.selectedIndexPath.row && self.selectedIndexPath) {
+        [self myDeselectRowAtIndexPath:indexPath];
+    } else {
+        [self myDeselectRowAtIndexPath:self.selectedIndexPath];
+
+        self.selectedIndexPath = indexPath;
+        self.selectedRoom = self.companyRooms[indexPath.section].roomData[indexPath.row];
+        
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        UIButton *markBtn = [cell viewWithTag:3];
+        markBtn.selected = YES;
+    }
+}
+
+
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return;
+    return;
     
     if (indexPath.section == self.selectedIndexPath.section && indexPath.row == self.selectedIndexPath.row && self.selectedIndexPath) {
-        self.selectedIndexPath = nil;
-        self.selectedRoom = nil;
-        
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        UIButton *markBtn = [cell viewWithTag:3];
-        markBtn.selected = NO;
-
+        [self myDeselectRowAtIndexPath:indexPath];
     } else {
         self.selectedIndexPath = indexPath;
         self.selectedRoom = self.companyRooms[indexPath.section].roomData[indexPath.row];
@@ -158,13 +175,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedIndexPath = nil;
-    self.selectedRoom = nil;
+    return;
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    UIButton *markBtn = [cell viewWithTag:3];
-    markBtn.selected = NO;
-//    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [self myDeselectRowAtIndexPath:indexPath];
 }
 
 
@@ -186,7 +199,8 @@
     YCMeetingRoom *room;
     room = self.companyRooms[indexPath.section].roomData[indexPath.row];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    YCSelectMeetingRoomCell *cell = [tableView dequeueReusableCellWithIdentifier:@"YCSelectMeetingRoomCell" forIndexPath:indexPath];
     UILabel *nameL = [cell viewWithTag:1];
     UILabel *contentL = [cell viewWithTag:2];
     UIButton *markBtn = [cell viewWithTag:3];
@@ -220,6 +234,7 @@
     BOOL isDisplay = self.isSectionDisplays[section].intValue == 1? YES: NO;
     if (isDisplay) {
         YCSelectRoomFooterView *view = (YCSelectRoomFooterView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"YCSelectRoomFooterView"];
+        view.section = section;
         return view;
     } else {
         return nil;
@@ -241,11 +256,13 @@
     __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] getMeetingRoomListWithBeginDate:self.beginDate endDate:self.endDate Success:^(NSArray<YCMeetingCompanyRoom *> *companyRooms) {
         
-        NSUInteger count = companyRooms.count;
-        weakself.isSectionDisplays = [NSMutableArray arrayWithCapacity:count];
-        [weakself.isSectionDisplays addObject:@1];
-        for (int i = 1; i < count; i++) {
-            [weakself.isSectionDisplays addObject:@0];
+        if (!weakself.isSectionDisplays) {
+            NSUInteger count = companyRooms.count;
+            weakself.isSectionDisplays = [NSMutableArray arrayWithCapacity:count];
+            [weakself.isSectionDisplays addObject:@1];
+            for (int i = 1; i < count; i++) {
+                [weakself.isSectionDisplays addObject:@0];
+            }
         }
 
         weakself.companyRooms = companyRooms;
@@ -270,6 +287,22 @@
     self.isSectionDisplays[view.section] = @(isDisplay);
 //    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:view.section] withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView reloadData];
+}
+
+- (void)clickFooterView:(NSNotification *)noti {
+    YCSelectRoomFooterView *view = noti.object;
+    NSInteger section = view.section;
+    
+    YCMeetingCompanyRoom *companyRoom = self.companyRooms[section];
+    
+    YCEditMeetingRoomController *vc = [YCEditMeetingRoomController new];
+    vc.isAddMode = YES;
+    vc.isAddressMode = companyRoom.isAddress == 1;
+    vc.companyRoom = companyRoom;
+    vc.saveSuccessBlock = ^{
+        [self getRoomList];
+    };
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)clickVideoBtn:(UIButton *)sender {
@@ -331,5 +364,33 @@
     }
     [self dismiss:nil];
 }
+
+- (void)doubleClickCell:(NSNotification *)noti {
+    YCSelectMeetingRoomCell *cell = noti.object;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    YCMeetingCompanyRoom *companyRoom = self.companyRooms[indexPath.section];
+    YCMeetingRoom *room = companyRoom.roomData[indexPath.row];
+    
+    YCEditMeetingRoomController *vc = [YCEditMeetingRoomController new];
+    vc.isAddMode = NO;
+    vc.isAddressMode = companyRoom.isAddress == 1;
+    vc.room = room;
+    vc.companyRoom = companyRoom;
+    vc.saveSuccessBlock = ^{
+        [self getRoomList];
+    };
+    vc.deleteSuccessBlock = ^{
+        [self getRoomList];
+    };
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (void)singleClickCell:(NSNotification *)noti {
+    YCSelectMeetingRoomCell *cell = noti.object;
+    NSIndexPath *ip = [self.tableView indexPathForCell:cell];
+    [self mySelectRowAtIndexPath:ip];
+}
+
 
 @end

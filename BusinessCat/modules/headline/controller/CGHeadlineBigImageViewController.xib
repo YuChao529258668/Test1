@@ -192,7 +192,7 @@
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ze9-dj-TjF">
                                     <rect key="frame" x="15" y="50" width="345" height="125.5"/>
-                                    <string key="text">内容系作者个人观点，不代表议事猫对观点赞同或支持。此内容来源于公开渠道，内容主要用于学习目的。我们非常尊重和保护知识产品，如果发现存在版权问题，请单击右上角的我要反馈，请留下版权疑问说明和联系方式，我们将在沟通确认后于24小时内清除处理
+                                    <string key="text">内容系作者个人观点，不代表易事猫对观点赞同或支持。此内容来源于公开渠道，内容主要用于学习目的。我们非常尊重和保护知识产品，如果发现存在版权问题，请单击右上角的我要反馈，请留下版权疑问说明和联系方式，我们将在沟通确认后于24小时内清除处理
 </string>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>

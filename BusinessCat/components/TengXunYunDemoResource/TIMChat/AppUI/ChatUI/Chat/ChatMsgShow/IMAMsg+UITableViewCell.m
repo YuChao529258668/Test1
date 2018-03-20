@@ -224,6 +224,8 @@ static NSString *const kIMAMsgShowChatAttributedText = @"kIMAMsgShowChatAttribut
 }
 - (UIColor *)textColor
 {
+    return [YCTool colorOfHex:0x555555];
+    
     if ([self isMineMsg])
     {
         return kWhiteColor;
@@ -240,6 +242,8 @@ static NSString *const kIMAMsgShowChatAttributedText = @"kIMAMsgShowChatAttribut
 }
 - (UIColor *)tipTextColor
 {
+//    return [UIColor redColor]; // 消息列表的颜色
+    
     if ([self isMsgDraft])
     {
         return kLightGrayColor;
@@ -262,7 +266,8 @@ static NSString *const kIMAMsgShowChatAttributedText = @"kIMAMsgShowChatAttribut
     if (self.type == EIMAMSG_TimeTip || self.type == EIMAMSG_SaftyTip)
     {
         // 时间标签显示20
-        self.showHeightInChat = 20;
+//        self.showHeightInChat = 20;
+        self.showHeightInChat = 40;
         return self.showHeightInChat;
     }
     
@@ -270,6 +275,9 @@ static NSString *const kIMAMsgShowChatAttributedText = @"kIMAMsgShowChatAttribut
     
     if (self.type == EIMAMSG_GroupTips)
     {
+        if (size.height < 40) {
+            size.height = 40;
+        }
         self.showHeightInChat = size.height;
         return size.height;
     }

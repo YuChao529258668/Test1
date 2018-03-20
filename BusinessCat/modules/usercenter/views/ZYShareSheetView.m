@@ -54,6 +54,14 @@
     
     // TableView
     self.tableView.frame = CGRectMake(0, self.titleHeight, ZY_ScreenWidth, self.dataArray.count * ZY_ItemCellHeight);
+    
+    // 适配 ios 11
+    NSArray *array = self.subviews;
+    for (UIView *view in array) {
+        if ([view isKindOfClass:NSClassFromString(@"_UIToolbarContentView")]) {
+            view.userInteractionEnabled = NO;
+        }
+    }
 }
 
 #pragma mark - Action

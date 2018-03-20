@@ -47,11 +47,13 @@
     UIEdgeInsets inset = [_msg contentBackInset];
     if ([_msg isMineMsg])
     {
-        _contentBack.image = [[UIImage imageNamed:@"bubble_blue"] resizableImageWithCapInsets:inset];
+//        _contentBack.image = [[UIImage imageNamed:@"bubble_blue"] resizableImageWithCapInsets:inset];
+        _contentBack.image = [[UIImage imageNamed:@"bubble_yellow"] resizableImageWithCapInsets:inset];
     }
     else
     {
-        _contentBack.image = [[UIImage imageNamed:@"bubble_gray"] resizableImageWithCapInsets:inset];
+//        _contentBack.image = [[UIImage imageNamed:@"bubble_gray"] resizableImageWithCapInsets:inset];
+        _contentBack.image = [[UIImage imageNamed:@"bubble_white"] resizableImageWithCapInsets:inset];
     }
 }
 

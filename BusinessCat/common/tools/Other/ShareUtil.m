@@ -55,24 +55,26 @@
   self.url = url;
   __weak typeof(self) weakSelf = self;
   NSMutableArray *array = [NSMutableArray array];
-  BOOL hasSinaWeibo = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"sinaweibosso://wb4266495195"]];
   
   if ([WXApi isWXAppInstalled]) {
     //微信
     ZYShareItem *item1 = [ZYShareItem itemWithTitle:@"微信"
                                                icon:@"weixinhaoyou"
-                                            handler:^{ [weakSelf shareDataWithPlatform:UMSocialPlatformType_WechatSession];
+                                            handler:^{
+                                                [weakSelf shareDataWithPlatform:UMSocialPlatformType_WechatSession];
                                             }];
     [array addObject:item1];
     if (!self.isDownFire) {
       ZYShareItem *item2 = [ZYShareItem itemWithTitle:@"微信朋友圈"
                                                  icon:@"wixinpengyouquan"
-                                              handler:^{ [weakSelf shareDataWithPlatform:UMSocialPlatformType_WechatTimeLine];
+                                              handler:^{
+                                                  [weakSelf shareDataWithPlatform:UMSocialPlatformType_WechatTimeLine];
                                               }];
       [array addObject:item2];
       ZYShareItem *item3 = [ZYShareItem itemWithTitle:@"微信收藏"
                                                  icon:@"weixinshouc"
-                                              handler:^{ [weakSelf shareDataWithPlatform:UMSocialPlatformType_WechatFavorite];
+                                              handler:^{
+                                                  [weakSelf shareDataWithPlatform:UMSocialPlatformType_WechatFavorite];
                                               }];
       [array addObject:item3];
     }
@@ -95,6 +97,7 @@
     }
   }
   
+    BOOL hasSinaWeibo = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"sinaweibosso://wb4266495195"]];
   if (hasSinaWeibo) {
     // 创建代表每个按钮的模型
     if (!self.isDownFire) {
@@ -136,7 +139,7 @@
                                           }];
   [systemArray addObject:item8];
   if (isqrcode&&!self.isDownFire) {
-    ZYShareItem *item9 = [ZYShareItem itemWithTitle:[self.title isEqualToString:@"好友邀请你使用议事猫"]?@"H5二维码":@"二维码"
+    ZYShareItem *item9 = [ZYShareItem itemWithTitle:[self.title isEqualToString:@"好友邀请你使用易事猫"]?@"H5二维码":@"二维码"
                                                icon:@"QRcode_shareit"
                                             handler:^{
                                               CGQrCodeView *view = [[CGQrCodeView alloc]initWithUrl:self.url];
@@ -145,7 +148,7 @@
                                             }];
     [systemArray addObject:item9];
   }
-  if ([self.title isEqualToString:@"好友邀请你使用议事猫"]) {
+  if ([self.title isEqualToString:@"好友邀请你使用易事猫"]) {
     ZYShareItem *item10 = [ZYShareItem itemWithTitle:@"微信公众号"
                                                 icon:@"QRcode_shareit"
                                              handler:^{

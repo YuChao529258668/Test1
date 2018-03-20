@@ -221,7 +221,7 @@
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
         NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
         NSString *str;
-        if ([app_Name isEqualToString:@"议事猫"]) {
+        if ([app_Name isEqualToString:@"易事猫"]) {
             str = @"会议";
         } else {
             str = @"会面";
@@ -327,7 +327,7 @@
     
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
-    if ([app_Name isEqualToString:@"议事猫"]) {
+    if ([app_Name isEqualToString:@"易事猫"]) {
         self.navigationLabel.text = @"预约会议";
         self.titleLabel.text = @"会议主题";
         self.dateLabel.text = @"会议日期";
@@ -478,12 +478,16 @@
     if (![msg isEqualToString:@"金币不够支付"]) {
         return;
     }
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"是否微信充值?" message:msg preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"是否充值?" message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"我要充值" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         // 共享，只用微信支付
         if (self.rebate.shareType) {
-//            [CTToast showWithText:@"共享的微信支付未完成"];
-            [self gotoWeiXinPay];
+            if ([WXApi isWXAppInstalled]) {
+                [self gotoWeiXinPay];
+            } else {
+                [self showHintForInstallWeiXin];
+            }
         } else {
             CGBuyVIPViewController *vc = [[CGBuyVIPViewController alloc]init];
             vc.type = 4;
@@ -492,6 +496,13 @@
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     [ac addAction:sure];
+    [ac addAction:cancel];
+    [self presentViewController:ac animated:YES completion:nil];
+}
+
+- (void)showHintForInstallWeiXin {
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您未安装微信，无法发起支付" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
     [ac addAction:cancel];
     [self presentViewController:ac animated:YES completion:nil];
 }

@@ -20,6 +20,7 @@
     _chatText.numberOfLines = 0;
     _chatText.lineBreakMode = NSLineBreakByWordWrapping;
     _chatText.userInteractionEnabled = YES;
+//    _contentBack.backgroundColor = [UIColor redColor];
     return _chatText;
 }
 

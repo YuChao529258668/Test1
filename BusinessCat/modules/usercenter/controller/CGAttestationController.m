@@ -559,7 +559,7 @@
 //        return;
 //    }
     if(!self.protocolBtn.selected){
-        [[CTToast makeText:@"如果你拒绝接受《议事猫认领协议》，将无法认领"]show:self.view];
+        [[CTToast makeText:@"如果你拒绝接受《易事猫认领协议》，将无法认领"]show:self.view];
         return;
     }
     button.enabled = NO;

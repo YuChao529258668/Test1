@@ -21,6 +21,8 @@
 #import "CGOrganizationEntity.h"
 #import "FeedbackInfoEntity.h"
 #import "CGMessageDetailEntity.h"
+#import "YCUserTask.h"
+
 @interface CGUserCenterBiz : CGBaseBiz
 
 //获取token
@@ -213,5 +215,10 @@
 //http://cloud.cgsays.com:8070/jeeweb/cjData/二维码&token=592b77c4a96d6587b913670e6056236b&goTo=2
 - (void)loginWithQRCode:(NSString *)code success:(void(^)())success fail:(void (^)(NSError *error))fail;
 - (void)loginAndUploadWithQRCode:(NSString *)code success:(void(^)())success fail:(void (^)(NSError *error))fail;
+- (void)loginAndUploadForCompanyWithQRCode:(NSString *)code success:(void(^)())success fail:(void (^)(NSError *error))fail;
+
+// 任务清单
+- (void)getTaskListWithSuccess:(void(^)(NSArray<YCUserTask *> *tasks))success fail:(void (^)(NSError *error))fail;
+- (void)updateUserTaskWithType:(NSString *)type success:(void(^)(id data))success fail:(void (^)(NSError *error))fail;
 
 @end

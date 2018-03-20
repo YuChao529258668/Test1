@@ -21,11 +21,19 @@
 #import "CGMainLoginViewController.h"
 #import "CGUserContactsViewController.h"
 
+#import "CGEnterpriseMemberViewController.h"
+#import "CGUserFireViewController.h"
+#import "YCPersonalProfitController.h"
+#import "CGUserChangeOrganizationViewController.h"
+#import "CGUserHelpViewController.h"
+
+
 // 生意猫
 #define kTLSAppid       @"1400047877"
 #define kSdkAppId       @"1400047877"
 #define kSdkAccountType @"18686"
 
+#import "YCUserTaskView.h"
 
 #import <ImSDK/ImSDK.h>
 
@@ -37,7 +45,7 @@
 //    IMALoginParam               *_loginParam;
 //}
 
-@interface CGChatListViewController ()
+@interface CGChatListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 @property(nonatomic,strong)UIView *navi;
 @property(nonatomic,strong)UILabel *titleView;
 @property (nonatomic,strong) IMALoginParam *loginParam;
@@ -46,6 +54,9 @@
 @property(nonatomic,strong)NSTimer *timer;
 @property (nonatomic, strong) YCChatListMenu *menu;
 @property (nonatomic, strong) IMAConversation *appMessage;
+
+@property (nonatomic, strong) YCUserTaskView *taskView;
+@property (nonatomic, strong) NSMutableArray<YCUserTask *> *tasks;
 
 @end
 
@@ -58,6 +69,7 @@
 }
 
 - (void)viewDidLoad {
+
     [super viewDidLoad];
     
     [self addObserverForLoginLogout];
@@ -75,6 +87,11 @@
     [self setupMenuBtn];
     [self setupAddressBookBtn];
 //    [self addAppMessage];
+    
+
+    
+    [self getUserTask];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -108,6 +125,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
+    [self layoutTableView]; // 不能删
+    
     // 设置为 nil，释放资源
 //    [self editMultiCallViewController];
     
@@ -216,8 +235,19 @@
 #pragma mark - 适配旧代码
 
 - (void)layoutTableView {
-    float y = TOPBARHEIGHT;
+    CGRect taskFrame = self.taskView.frame;
+    taskFrame.origin.y = TOPBARHEIGHT;
+    taskFrame.size.width = self.view.frame.size.width;
+    taskFrame.size.height = [YCUserTaskView height];
+    self.taskView.frame = taskFrame;
+    
+//    float y = TOPBARHEIGHT;
 //    y += 56;// 搜索栏高度
+    float y = TOPBARHEIGHT + [YCUserTaskView height];
+    if (self.tasks.count == 0) {
+        y = TOPBARHEIGHT;
+    }
+//    y = 300;
     
     //    float bottomBarH = [((AppDelegate *)[UIApplication sharedApplication].delegate) bottomBarHeight];
     //    float height = self.tableView.frame.size.height - y;
@@ -229,10 +259,15 @@
     self.tableView.frame = rect;
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
     [self layoutTableView];
+
 }
+//- (void)viewDidLayoutSubviews {
+//    [super viewDidLayoutSubviews];
+//    [self layoutTableView];
+//}
 
 
 -(void)createCustomNavi{
@@ -930,6 +965,100 @@
         [self addAppMessage];
     } else {
         [self deleteAppMessage];
+    }
+}
+
+
+#pragma mark - 任务列表
+
+- (void)getUserTask {
+    __weak typeof(self) weakself = self;
+    [[CGUserCenterBiz new] getTaskListWithSuccess:^(NSArray<YCUserTask *> *tasks) {
+        weakself.tasks = tasks.mutableCopy;
+
+        if (tasks.count) {
+            weakself.taskView.hidden = NO;
+            weakself.taskView.titleL.text = tasks.firstObject.yc_hint;
+            [weakself.taskView.collectionView reloadData];
+        } else {
+            weakself.taskView.hidden = YES;
+        }
+        
+    } fail:^(NSError *error) {
+        [CTToast showWithText:@"获取任务列表失败"];
+    }];
+}
+
+- (void)setupTaskView {
+    _taskView = [YCUserTaskView view];
+    _taskView.collectionView.dataSource = self;
+    _taskView.collectionView.delegate = self;
+    [self.view addSubview:_taskView];
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.tasks.count;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    YCUserTask *task = self.tasks[indexPath.item];
+    YCUserTaskCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"YCUserTaskCell" forIndexPath:indexPath];
+//    NSString *urlstr = [task.icon stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+//    [cell.myIV sd_setImageWithURL:[NSURL URLWithString:urlstr]];
+    [cell.myIV sd_setImageWithURL:[NSURL URLWithString:task.icon]];
+    cell.myLabel.text = task.title;
+    return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    YCUserTask *task = self.tasks[indexPath.item];
+    __weak typeof(self) weakself = self;
+    
+    [[CGUserCenterBiz new] updateUserTaskWithType:task.type success:^(id data) {
+        [weakself handleCMDWithTask:task];
+    } fail:^(NSError *error) {
+        [CTToast showWithText:@"任务更新失败，请稍后尝试"];
+    }];
+}
+
+- (void)handleCMDWithTask:(YCUserTask *)task {
+    //    VIPHuiYuanTeQuanGongNeng 特权
+    //    DangAnGongNeng 档案
+    //     "gongxiangshouyi_benren" 共享收益
+    //    SuoShuZuZhi 所属组织
+    //    kuaijiebangzhu 快捷帮助
+    
+    NSString *cmd = task.command;
+    if ([cmd containsString:@"VIPHuiYuanTeQuanGongNeng"]) {
+        CGEnterpriseMemberViewController *vc = [[CGEnterpriseMemberViewController alloc]init];
+        vc.type = 0;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else if ([cmd containsString:@"DangAnGongNeng"]) {
+        CGUserFireViewController *controller = [[CGUserFireViewController alloc]init];
+        [self.navigationController pushViewController:controller animated:YES];
+    } else if ([cmd containsString:@"gongxiangshouyi_benren"]) {
+        YCPersonalProfitController *vc = [YCPersonalProfitController new];
+        vc.type = 1;// 个人
+        vc.companyID = @"";
+        vc.title = @"收益";
+        [self.navigationController pushViewController:vc animated:YES];
+    } else if ([cmd containsString:@"SuoShuZuZhi"]) {
+        CGUserChangeOrganizationViewController *controller =[[CGUserChangeOrganizationViewController alloc]init];
+        [self.navigationController pushViewController:controller animated:YES];
+    } else if ([cmd containsString:@"kuaijiebangzhu"]) {
+        CGUserHelpViewController *controller = [[CGUserHelpViewController alloc]init];
+        [self.navigationController pushViewController:controller animated:YES];
+    } else {
+        [CTToast showWithText:@"未知命令类型"];
+    }
+    
+    [self.tasks removeObject:task];
+    [self.taskView.collectionView reloadData];
+    
+    if (self.tasks.count == 0) {
+        self.taskView.hidden = YES;
+        [self.view setNeedsLayout];
+        [self.view layoutIfNeeded];
     }
 }
 

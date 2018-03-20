@@ -19,6 +19,7 @@
 @property (nonatomic, strong) CGHorrolEntity *entity;
 @property (nonatomic, copy) CGTeamDocumentCollectionViewBlock block;
 @property (nonatomic, assign) NSInteger showType;
+@property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (nonatomic, assign) NSInteger type;
 @end
 
@@ -26,6 +27,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.bgView.hidden = YES;
+    
   self.tableView.delegate = self;
   self.tableView.dataSource = self;
   self.tableView.separatorStyle = NO;
@@ -51,6 +54,8 @@
 }
 
 -(void)queryListWithMode:(int)mode page:(NSInteger)page{
+    self.bgView.hidden = YES;
+
   __weak typeof(self) weakSelf = self;
     CGKnowledgeBiz *biz = [[CGKnowledgeBiz alloc]init];
   if (self.type == 2) {
@@ -69,6 +74,12 @@
           }
         }
       [weakSelf.tableView reloadData];
+        
+        if (result.list.count == 0) {
+            self.bgView.hidden = NO;
+        } else {
+            self.bgView.hidden = YES;
+        }
     } fail:^(NSError *error) {
       [weakSelf.tableView.mj_header endRefreshing];
       [weakSelf.tableView.mj_footer endRefreshing];
@@ -90,6 +101,13 @@
               }
           }
           [weakSelf.tableView reloadData];
+          
+          if (result.list.count == 0) {
+              self.bgView.hidden = NO;
+          } else {
+              self.bgView.hidden = YES;
+          }
+
       } fail:^(NSError *error) {
           [weakSelf.tableView.mj_header endRefreshing];
           [weakSelf.tableView.mj_footer endRefreshing];
@@ -112,6 +130,13 @@
           }
         }
       [weakSelf.tableView reloadData];
+        
+        if (result.list.count == 0) {
+            self.bgView.hidden = NO;
+        } else {
+            self.bgView.hidden = YES;
+        }
+
     } fail:^(NSError *error) {
       [weakSelf.tableView.mj_header endRefreshing];
       [weakSelf.tableView.mj_footer endRefreshing];

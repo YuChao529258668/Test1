@@ -154,6 +154,8 @@
 }
 
 - (void)setupHeaderView {
+    return;
+    
     CGRect frame = self.view.bounds;
     frame.size.height = kHeaderViewHeight;
     UIView *view = [[UIView alloc]initWithFrame:frame];
@@ -542,5 +544,31 @@
     [self getMeetingModels];
 }
 
+
+#pragma mark - 定时刷新
+
+- (void)checkForUpdate {
+    //
+    
+    self.currentPage = 1;
+    __weak typeof(self) weakself = self;
+    [[YCMeetingBiz new] getMeetingListWithPage:self.currentPage type:self.dateType Success:^(NSArray<CGMeeting *> *meetings, CGMeetingStatistics *statistics) {
+        weakself.meetings = meetings;
+        [weakself updateHeaderView];
+        [weakself.tableView reloadData];
+        [weakself.tableView.mj_header endRefreshing];
+        if (meetings.count) {
+            weakself.backImageView.hidden = YES;
+            weakself.tableView.hidden = NO;
+        } else {
+            weakself.backImageView.hidden = NO;
+            weakself.tableView.hidden = YES;
+        }
+        [weakself.topBar updateWithToday0:statistics.toDayUnBeginMeetCount today1:statistics.toDayMeetCount tomorrow:statistics.tomorrowMeetCount week:statistics.weekMeetCount other:statistics.otherCount];
+    } fail:^(NSError *error) {
+        [weakself.tableView.mj_header endRefreshing];
+        [CTToast showWithText:[NSString stringWithFormat:@"获取会议列表失败 : %@", error]];
+    }];
+}
 
 @end

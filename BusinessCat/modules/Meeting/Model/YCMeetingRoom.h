@@ -17,7 +17,10 @@
 
 @property (nonatomic, assign) int type;//类型 1为公司 2为用户
 @property (nonatomic, strong) NSString *name;
-//@property (nonatomic, assign) NSString *id;
+
+@property (nonatomic, assign) int isAddress; // 是否会议地址
+
+@property (nonatomic, strong) NSString *id; // 公司或个人 id
 
 //        {
 //            id = "8f82d6d5-e8ed-4c14-b3a9-f808370da47a";
@@ -54,6 +57,7 @@
 @property (nonatomic,strong) NSString *roomId;
 @property (nonatomic,strong) NSString *roomName;
 @property (nonatomic,assign) int state; // 可用状态 0不可用 1可用
+@property (nonatomic, assign) int roomNum;
 
 // 非后台直接返回的。
 @property (nonatomic, assign) int type;//类型 1为公司 2为用户

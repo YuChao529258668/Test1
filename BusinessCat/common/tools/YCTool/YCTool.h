@@ -59,6 +59,8 @@
 // 隐藏 PDF 左上角的页数
 + (void)hidePageNumberIndicatorOfWebView:(WKWebView *)webView;
 
+// 隐藏底部栏(第1页 共3页， +100%-)，类型是 WKCompositingView，高度 30
++ (void)hideBottomBarOfWebView:(WKWebView *)webView;
 
 #pragma mark - URL
 

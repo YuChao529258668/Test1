@@ -13,4 +13,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *label;
 
 + (float)height;
+
+@property (nonatomic, assign) NSInteger section;
+
++ (NSString *)notificationName;
+
 @end
