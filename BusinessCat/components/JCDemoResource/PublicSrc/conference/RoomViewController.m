@@ -293,7 +293,6 @@ typedef enum {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self test];
     
     self.videoBtn.hidden = YES; // 拿到播放地址再显示
     if (self.isReview) {
@@ -361,17 +360,33 @@ typedef enum {
     [_confManager setLiveEnable:YES]; // 直播
     [_confManager setCdnUrl:@"rtmp://17390.livepush.myqcloud.com/live/17390_b01d76b4f1fc11e792905cb9018cf0d4?bizid=17390"];
     
+    
+    
+    
     [self configForCustom]; // 自定义
+    
+    
+    
+    
+    
     self.hintLabel.textColor = [UIColor whiteColor];
 
+    
+//    [self joinRoom];
+    
+//    [self configForCustom];
+    
+}
+
+- (void)joinRoom {
     // 0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
     if (self.meetingState == 3) {
         self.cancelBtn.hidden = YES;
         self.hintLabel.text = @"会议已结束";
         return;
     }
-    
-    BOOL ret = [_meetingReformer joinWithRommId:_roomId displayName:_displayName];
+
+    BOOL ret = [_meetingReformer joinWithRommId:self.meeting.conferenceNumber displayName:_displayName];
     
     if (!ret) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -387,9 +402,6 @@ typedef enum {
             [self presentViewController:alert animated:YES completion:nil];
         });
     }
-    
-//    [self configForCustom];
-    
 }
 
 - (void)viewWillLayoutSubviews {
@@ -1319,6 +1331,9 @@ typedef enum {
     __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] getMeetingDetailWithMeetingID:weakself.meetingID success:^(CGMeeting *meeting) {
         weakself.meeting = meeting;
+        
+        [weakself joinRoom];
+        
         // 获取群聊
         [weakself getGroupWithGroupID:weakself.meeting.groupId];
         // 成员
@@ -2148,46 +2163,6 @@ __weak typeof(self) weakself = self;
 
 #pragma mark -
 
-
-- (void)test {
-//    dispatch_sync(dispatch_queue_t  _Nonnull queue, ^{
-    
-//    })
-    
-//    https://www.jianshu.com/p/38f5f53dfbad
-    
-    NSURL *url = [NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515490928533&di=c9a7be7862be9084cf6b7133c5a36cf3&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D00ea96073c7adab429dd1300e3bdd969%2F4bed2e738bd4b31c7ff2b1948dd6277f9f2ff8d7.jpg"];
-    
-    NSLog(@"scheme:%@", [url scheme]); //协议 https
-    
-    NSLog(@"host:%@", [url host]);     //域名 timgsa.baidu.com
-    
-    NSLog(@"absoluteString:%@", [url absoluteString]); //完整的url字符串
-    
-    NSLog(@"relativePath: %@", [url relativePath]); //相对路径 /timg
-    
-    NSLog(@"port :%@", [url port]);  // 端口 8080 null
-    
-    NSLog(@"path: %@", [url path]);  // 路径 /timg
-    
-    NSLog(@"pathComponents:%@", [url pathComponents]); // search
-    NSArray<NSString *> *pathComponents = url.pathComponents;
-    
-    NSLog(@"Query:%@", [url query]);  //参数 id=1
-    
-//    2018-01-09 14:56:25.130148+0800 BusinessCat[598:317266] scheme:https
-//    2018-01-09 14:56:25.130366+0800 BusinessCat[598:317266] host:timgsa.baidu.com
-//    2018-01-09 14:56:25.130467+0800 BusinessCat[598:317266] absoluteString:https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515490928533&di=c9a7be7862be9084cf6b7133c5a36cf3&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D00ea96073c7adab429dd1300e3bdd969%2F4bed2e738bd4b31c7ff2b1948dd6277f9f2ff8d7.jpg
-//    2018-01-09 14:56:25.130652+0800 BusinessCat[598:317266] relativePath: /timg
-//    2018-01-09 14:56:25.130730+0800 BusinessCat[598:317266] port :(null)
-//    2018-01-09 14:56:25.130863+0800 BusinessCat[598:317266] path: /timg
-//    2018-01-09 14:56:25.131133+0800 BusinessCat[598:317266] pathComponents:<2,2,0x170652840>,[0xa0000000000002f1--912] [0xa000000676d69744---472221691]
-//    2018-01-09 14:57:53.976894+0800 BusinessCat[598:317266] Query:image&quality=80&size=b9999_10000&sec=1515490928533&di=c9a7be7862be9084cf6b7133c5a36cf3&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D00ea96073c7adab429dd1300e3bdd969%2F4bed2e738bd4b31c7ff2b1948dd6277f9f2ff8d7.jpg
-    
-//    NSArray *as = [YCTool getAllProperties:url];
-//    NSLog(@"%@", [YCTool stringOfArray:as]);
-//    NSDictionary *urlDic = [YCTool print:url];
-}
 
 
 

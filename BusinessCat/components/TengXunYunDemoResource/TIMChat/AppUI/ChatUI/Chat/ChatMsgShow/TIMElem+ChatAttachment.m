@@ -98,16 +98,22 @@
 
 @implementation TIMFaceElem (ChatAttachment)
 
+// 表情大小
+
 - (NSArray *)singleAttachmentOf:(IMAMsg *)msg
 {
 //    UIFont *tipFont = [msg tipFont];
     NSInteger height = 12;
+    height = 15;
     
     ChatImageAttachment *image = [[ChatImageAttachment alloc] initWith:self];
     ChatSystemFaceItem *item = [[ChatSystemFaceHelper sharedHelper] emojiItemOf:self.index];
     // TODO：待取到表情表之后再作处理
     image.tag = item.emojiTag;
     image.image = [item inputGif];
+    
+//    height = image.image.size.height;
+    
     
     image.bounds = CGRectMake(0, 0, height, height);
     NSAttributedString *imagAtt = [NSAttributedString attributedStringWithAttachment:image];
@@ -117,13 +123,16 @@
 {
     //    UIFont *inputFont = [msg inputTextFont];
     NSInteger height = 14;
-    
+    height = 32;
+
     // TODO：待取到表情表之后再作处理
     ChatImageAttachment *image = [[ChatImageAttachment alloc] initWith:self];
     ChatSystemFaceItem *item = [[ChatSystemFaceHelper sharedHelper] emojiItemOf:self.index];
     image.tag = item.emojiTag;
     image.image = [item inputGif];
     
+//    height = image.image.size.height;
+
     image.bounds = CGRectMake(0, 0, height, height);
     
     NSAttributedString *imagAtt = [NSAttributedString attributedStringWithAttachment:image];

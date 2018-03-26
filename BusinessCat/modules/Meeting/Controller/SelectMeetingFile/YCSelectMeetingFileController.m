@@ -186,20 +186,18 @@
             CGHorrolEntity *typeEntity = weakSelf.typeArray[1];// 3
             CGInfoHeadEntity *info = typeEntity.data[index];
             
-            // cell 点击事件处理
-            if (weakSelf.didSelectBlock) {
-                weakSelf.didSelectBlock(info, 1);// 1 是素材
+            if (weakSelf.useForChatControllerSeeFile) {
+                CGHeadlineBigImageViewController *vc = [[CGHeadlineBigImageViewController alloc]init];
+                vc.array = typeEntity.data;
+                vc.currentPage = index;
+                [weakSelf.navigationController pushViewController:vc animated:NO];
+            } else {
+                // cell 点击事件处理
+                if (weakSelf.didSelectBlock) {
+                    weakSelf.didSelectBlock(info, 1);// 1 是素材
+                }
             }
 
-//            //      for (int i = 0; i<typeEntity.data.count; i++) {
-//            //        CGProductInterfaceEntity *entity = typeEntity.data[i];
-//            //        NSString *cover = entity.cover;
-//            //        [array addObject:cover];
-//            //      }
-//            CGHeadlineBigImageViewController *vc = [[CGHeadlineBigImageViewController alloc]init];
-//            vc.array = typeEntity.data;
-//            vc.currentPage = index;
-//            [weakSelf.navigationController pushViewController:vc animated:NO];
         }];
         return cell;
     }else{
@@ -208,18 +206,48 @@
         [collectionView registerNib:[UINib nibWithNibName:@"CGUserCollectCollectionViewCell"
                                                    bundle: [NSBundle mainBundle]] forCellWithReuseIdentifier:identifier];
         CGUserCollectCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-        cell.isUseForMeeting = YES;
-        cell.meetingID = self.meetingID;
         __weak typeof(self) weakSelf = self;
         CGHorrolEntity *info = self.typeArray[indexPath.section];
         
-        // cell 点击事件处理
-        [cell updateUIWithEntity:info block:^(id entity) {
-            // entity  是 CGInfoHeadEntity
-            if (weakSelf.didSelectBlock) {
-                weakSelf.didSelectBlock(entity, 0);// 0 是文件
-            }
-        }];
+        if (weakSelf.useForChatControllerSeeFile) {
+            [cell updateUIWithEntity:info block:^(id entity) {
+                if ([entity isKindOfClass:[KnowledgeHeaderEntity class]]) {
+                    KnowledgeHeaderEntity *item = entity;
+                    CGKnowledgeCatalogController *controller = [[CGKnowledgeCatalogController alloc]initWithmainId:nil packageId:item.packageId companyId:nil cataId:nil];
+                    controller.titleStr = item.packageTitle;
+                    [self.navigationController pushViewController:controller animated:YES];
+                    return;
+                }
+                CGInfoHeadEntity *infoEntity = entity;
+                if (infoEntity.type == 15){
+                    return;
+                }
+                CGHeadlineInfoDetailController *detail = [[CGHeadlineInfoDetailController alloc]initWithInfoId:infoEntity.infoId type:infoEntity.type block:^{
+                    for (CGInfoHeadEntity *headentity in info.data) {
+                        if ([headentity.infoId isEqualToString:infoEntity.infoId]) {
+                            [info.data removeObject:headentity];
+                            [ObjectShareTool sharedInstance].currentUser.followNum -=1;
+                            break;
+                        }
+                    }
+                    [cell.tableView reloadData];
+                }];
+                detail.isCollect = YES;
+                detail.info = entity;
+                [weakSelf.navigationController pushViewController:detail animated:YES];
+            }];
+        } else {
+            cell.isUseForMeeting = YES;
+            cell.meetingID = self.meetingID;
+
+            // cell 点击事件处理
+            [cell updateUIWithEntity:info block:^(id entity) {
+                // entity  是 CGInfoHeadEntity
+                if (weakSelf.didSelectBlock) {
+                    weakSelf.didSelectBlock(entity, 0);// 0 是文件
+                }
+            }];
+        }
         return cell;
     }
 }

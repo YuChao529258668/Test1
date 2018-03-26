@@ -320,3 +320,8 @@ iPhone SE    640px × 1136px (Retina 4)
 https://developer.apple.com/ios/human-interface-guidelines/icons-and-images/launch-screen/
 
 
+ 表情大小
+@implementation TIMFaceElem (ChatAttachment)
+@implementation ChatImageAttachment
+
+

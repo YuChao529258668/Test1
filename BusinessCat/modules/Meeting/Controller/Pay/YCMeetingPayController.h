@@ -24,5 +24,6 @@
 
 @property (nonatomic,copy) void (^onClickPayBtnBlock)(YCMeetingRebate *rebate);
 
+- (void)enablePayButton;
 
 @end

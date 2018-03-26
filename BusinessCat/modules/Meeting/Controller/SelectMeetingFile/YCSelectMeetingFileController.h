@@ -15,4 +15,6 @@
 @property (nonatomic,copy) void (^didSelectBlock)(CGInfoHeadEntity *entity, int fileType);
 @property (nonatomic,strong) NSString *meetingID;
 
+@property (nonatomic, assign) BOOL useForChatControllerSeeFile;
+
 @end

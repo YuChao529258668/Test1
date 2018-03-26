@@ -31,7 +31,6 @@
 		0D29EAD61FF3437F005F1AD1 /* YCTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29EAD51FF3437F005F1AD1 /* YCTool.m */; };
 		0D3057182046A84D00337CE7 /* CGMeetingListTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D3057172046A84D00337CE7 /* CGMeetingListTopBar.m */; };
 		0D30571A2046A86500337CE7 /* CGMeetingListTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D3057192046A86500337CE7 /* CGMeetingListTopBar.xib */; };
-		0D30571C2046A97200337CE7 /* 会议列表.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D30571B2046A97200337CE7 /* 会议列表.png */; };
 		0D316D1B2008ABD40097D79D /* YCVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D316D192008ABD40097D79D /* YCVideoController.m */; };
 		0D316D1C2008ABD40097D79D /* YCVideoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D316D1A2008ABD40097D79D /* YCVideoController.xib */; };
 		0D316DEB200C93F30097D79D /* TXLiteAVSDK_UGC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D316DEA200C93F10097D79D /* TXLiteAVSDK_UGC.framework */; };
@@ -714,6 +713,9 @@
 		0DD8322C2032E6FD00AFC8F5 /* YCMyDocumentController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DD8322A2032E6FD00AFC8F5 /* YCMyDocumentController.xib */; };
 		0DDE741D1FF4F22200063651 /* YCCompereCommandController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */; };
 		0DDE741E1FF4F22200063651 /* YCCompereCommandController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */; };
+		0DE38C272064CD8C00E3A6EC /* YCMeetingListCreateBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DE38C262064CD8C00E3A6EC /* YCMeetingListCreateBar.m */; };
+		0DE38C292064CDA400E3A6EC /* YCMeetingListCreateBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C282064CDA400E3A6EC /* YCMeetingListCreateBar.xib */; };
+		0DE38C2B2068E58E00E3A6EC /* 0.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C2A2068E58E00E3A6EC /* 0.gif */; };
 		0DED884D1FC953FF00585C82 /* YCCollegeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */; };
 		1804A3321DCB229800CA2326 /* CGDiscoverLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 1804A3311DCB229800CA2326 /* CGDiscoverLink.m */; };
 		1806D2D31DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1806D2D11DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m */; };
@@ -1554,7 +1556,6 @@
 		0D3057162046A84D00337CE7 /* CGMeetingListTopBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CGMeetingListTopBar.h; sourceTree = "<group>"; };
 		0D3057172046A84D00337CE7 /* CGMeetingListTopBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CGMeetingListTopBar.m; sourceTree = "<group>"; };
 		0D3057192046A86500337CE7 /* CGMeetingListTopBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CGMeetingListTopBar.xib; sourceTree = "<group>"; };
-		0D30571B2046A97200337CE7 /* 会议列表.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "会议列表.png"; sourceTree = "<group>"; };
 		0D316D182008ABD40097D79D /* YCVideoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCVideoController.h; sourceTree = "<group>"; };
 		0D316D192008ABD40097D79D /* YCVideoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCVideoController.m; sourceTree = "<group>"; };
 		0D316D1A2008ABD40097D79D /* YCVideoController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCVideoController.xib; sourceTree = "<group>"; };
@@ -2738,6 +2739,10 @@
 		0DDE741A1FF4F22200063651 /* YCCompereCommandController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCompereCommandController.h; sourceTree = "<group>"; };
 		0DDE741B1FF4F22200063651 /* YCCompereCommandController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCompereCommandController.m; sourceTree = "<group>"; };
 		0DDE741C1FF4F22200063651 /* YCCompereCommandController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCCompereCommandController.xib; sourceTree = "<group>"; };
+		0DE38C252064CD8C00E3A6EC /* YCMeetingListCreateBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingListCreateBar.h; sourceTree = "<group>"; };
+		0DE38C262064CD8C00E3A6EC /* YCMeetingListCreateBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingListCreateBar.m; sourceTree = "<group>"; };
+		0DE38C282064CDA400E3A6EC /* YCMeetingListCreateBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCMeetingListCreateBar.xib; sourceTree = "<group>"; };
+		0DE38C2A2068E58E00E3A6EC /* 0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 0.gif; sourceTree = "<group>"; };
 		0DED884B1FC953FF00585C82 /* YCCollegeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCollegeViewController.h; sourceTree = "<group>"; };
 		0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCollegeViewController.m; sourceTree = "<group>"; };
 		0F96D292CC0F74E9725C4D2E /* libPods-BusinessCat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BusinessCat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4404,12 +4409,14 @@
 		0D3EB2B51FBA9C8900DAE678 /* MeetingList */ = {
 			isa = PBXGroup;
 			children = (
-				0D30571B2046A97200337CE7 /* 会议列表.png */,
 				0D7431041FB93D91002867FA /* CGMeetingListViewController.h */,
 				0D7431051FB93D91002867FA /* CGMeetingListViewController.m */,
 				0D3057162046A84D00337CE7 /* CGMeetingListTopBar.h */,
 				0D3057172046A84D00337CE7 /* CGMeetingListTopBar.m */,
 				0D3057192046A86500337CE7 /* CGMeetingListTopBar.xib */,
+				0DE38C252064CD8C00E3A6EC /* YCMeetingListCreateBar.h */,
+				0DE38C262064CD8C00E3A6EC /* YCMeetingListCreateBar.m */,
+				0DE38C282064CDA400E3A6EC /* YCMeetingListCreateBar.xib */,
 			);
 			path = MeetingList;
 			sourceTree = "<group>";
@@ -5905,6 +5912,7 @@
 				0DB9E5B0202C579E00ACA8D0 /* 36.gif */,
 				0DB9E5B1202C579E00ACA8D0 /* 22.gif */,
 				0DB9E5B2202C579E00ACA8D0 /* 23.gif */,
+				0DE38C2A2068E58E00E3A6EC /* 0.gif */,
 				0DB9E5B3202C579E00ACA8D0 /* 37.gif */,
 				0DB9E5B4202C579E00ACA8D0 /* 33.gif */,
 				0DB9E5B5202C579E00ACA8D0 /* 27.gif */,
@@ -8686,7 +8694,6 @@
 				181C552A1EC453E10064354D /* CGProductReviewCollectionViewCell.xib in Resources */,
 				1817C3001DDE288E00711EF0 /* CGHeadlineGlobalSearchCommonDetailViewController.xib in Resources */,
 				0D90E0161FB43C3A00EDB7CF /* youtubeauty.bundle in Resources */,
-				0D30571C2046A97200337CE7 /* 会议列表.png in Resources */,
 				1806D2D41DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.xib in Resources */,
 				181A9CE91E8DF3850009104A /* CGSearchTitleTableViewCell.xib in Resources */,
 				182CC0731ECDA05B008B19B9 /* CGInterfaceViewController.xib in Resources */,
@@ -8986,6 +8993,7 @@
 				0DB9E65D202C579F00ACA8D0 /* 61.gif in Resources */,
 				0DBF47B01FB3087400707C12 /* camera_off_highlighted@3x.png in Resources */,
 				0DBF47EE1FB3087400707C12 /* video_window_off_pressed@3x.png in Resources */,
+				0DE38C2B2068E58E00E3A6EC /* 0.gif in Resources */,
 				0DB9E640202C579F00ACA8D0 /* 44.gif in Resources */,
 				0D46268C1FC1E0620004A993 /* Test.storyboard in Resources */,
 				0D90E0131FB43C3A00EDB7CF /* PE.dat in Resources */,
@@ -9089,6 +9097,7 @@
 				D7799E391ED81C29009107E4 /* CGKnowledgeCatalogController.xib in Resources */,
 				181C55011EC2E7B60064354D /* CGMassageTableViewCell.xib in Resources */,
 				D7D15CA11E8A3A90004D5118 /* HomePageAppsController.xib in Resources */,
+				0DE38C292064CDA400E3A6EC /* YCMeetingListCreateBar.xib in Resources */,
 				0DBF47AF1FB3087400707C12 /* camera_off_highlighted@2x.png in Resources */,
 				0DBF47D11FB3087400707C12 /* paint_normal_highlighted@2x.png in Resources */,
 				0D1E96702022B2CD00B6187A /* YCJoinShareController.xib in Resources */,
@@ -9729,6 +9738,7 @@
 				0D90E0191FB43C3A00EDB7CF /* MaterialManager.m in Sources */,
 				187724861DEEB23100D38E8A /* SubCollectionViewCell.m in Sources */,
 				183CDE711F277DF20099520F /* CGInterfaceAppIconCollectionViewCell.m in Sources */,
+				0DE38C272064CD8C00E3A6EC /* YCMeetingListCreateBar.m in Sources */,
 				183CDE641F2733230099520F /* CGCorrectionTableViewCell.m in Sources */,
 				1835D9921DB8C0BA0006ED07 /* CGUserAuditViewController.m in Sources */,
 				18E4810B1F03922700A94FF8 /* qrspec.c in Sources */,

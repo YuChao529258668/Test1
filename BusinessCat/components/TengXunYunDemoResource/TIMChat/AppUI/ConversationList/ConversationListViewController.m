@@ -223,7 +223,7 @@
     }
     
     [self callInNumberOfRowsInSection];
-    NSArray *a = _conversationList.safeArray;
+//    NSArray *a = _conversationList.safeArray;
     return [_conversationList count];
 }
 

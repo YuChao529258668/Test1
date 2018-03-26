@@ -8,7 +8,7 @@
 
 #import "UILabel+TextColor.h"
 
-// 解决故事板、xib 设置 textColor 无效的问题。
+// 解决故事板、xib 设置 textColor、背景颜色 无效的问题。
 // 看板界面，cell 按钮的文字颜色会自动设置成黑色。。。。
 
 
@@ -23,6 +23,10 @@
     Method originalMethod2 = class_getInstanceMethod([self class], @selector(setTextColor:));
     Method swizzledMethod2 = class_getInstanceMethod([self class], @selector(yc_setTextColor:));
     method_exchangeImplementations(originalMethod2, swizzledMethod2);
+    
+//    Method originalMethod3 = class_getInstanceMethod([self class], @selector(setBackgroundColor:));
+//    Method swizzledMethod3 = class_getInstanceMethod([self class], @selector(yc_setBackgroundColor:));
+//    method_exchangeImplementations(originalMethod3, swizzledMethod3);
 }
 
 - (void)yc_awakeFromNib {
@@ -31,6 +35,9 @@
     }
     if ([self isKindOfClass:[UILabel class]]) {
         self.textColor = self.textColor;
+    }
+    if ([self isKindOfClass:[UIView class]]) {
+        self.backgroundColor = self.backgroundColor;
     }
 }
 
@@ -43,5 +50,8 @@
     [self yc_setTextColor:textColor];
 }
 
+//- (void)yc_setBackgroundColor:(UIColor *)color {
+//
+//}
 
 @end

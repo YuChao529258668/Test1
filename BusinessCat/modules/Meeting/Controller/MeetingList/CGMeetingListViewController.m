@@ -20,6 +20,8 @@
 
 #import "YCCreateMeetingController.h"
 
+#import "YCMeetingListCreateBar.h"
+
 #define kHeaderViewHeight 46
 #define kHeaderViewBtnHeight 36
 #define kCreateMeetingBtnHeight 56
@@ -42,6 +44,8 @@
 @property (nonatomic,assign) int currentPage; // 页数，用于获取后台分页数据
 @property (nonatomic, assign) int dateType; //0：所有 1：今天 2：明天 3：本周 4：其他
 
+@property (nonatomic, strong) YCMeetingListCreateBar *createBar;
+
 @end
 
 
@@ -63,12 +67,15 @@
 //    self.title = @"会议";
     
 //    [self createCustomNavi];
+    [self addObserverForLogin];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self getMeetingModels];
+    if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
+        [self getMeetingModels];
+    }
 }
 
 - (void)viewWillLayoutSubviews {
@@ -102,6 +109,11 @@
     }
     
     self.backImageView.frame = self.view.bounds;
+    
+//    self.createBar.barYConstraint.constant = self.createMeetingBtn.frame.origin.y;
+    [self.createBar barAlignToView:self.createMeetingBtn];
+    self.createBar.frame = self.view.bounds;
+    
 }
 
 - (void)dealloc {
@@ -223,6 +235,24 @@
     return _backImageView;
 }
 
+- (YCMeetingListCreateBar *)createBar {
+    if (!_createBar) {
+        _createBar = [YCMeetingListCreateBar bar];
+        _createBar.hidden = YES;
+        [self.view addSubview:_createBar];
+//        [self.view insertSubview:_createBar belowSubview:self.createMeetingBtn];
+        
+        __weak typeof(self) weakself = self;
+        _createBar.clickButtonIndexBlock = ^(int index) {
+            if (index == 0) {
+                YCCreateMeetingController *vc = [YCCreateMeetingController new];
+                [weakself.navigationController pushViewController:vc animated:YES];
+            }
+        };
+    }
+    return _createBar;
+}
+
 #pragma mark - Action
 
 - (void)headerViewClick {
@@ -271,6 +301,9 @@
 }
 
 - (void)createMeetingBtnClick {
+    self.createBar.hidden = !self.createBar.isHidden;
+    return;
+    
     if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
 //        YCBookMeetingController *vc = [YCBookMeetingController new];
         YCCreateMeetingController *vc = [YCCreateMeetingController new];
@@ -570,5 +603,16 @@
         [CTToast showWithText:[NSString stringWithFormat:@"获取会议列表失败 : %@", error]];
     }];
 }
+
+#pragma mark -
+
+- (void)addObserverForLogin {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleLoginSuccessNotification) name:NOTIFICATION_LOGINSUCCESS object:nil];
+}
+
+- (void)handleLoginSuccessNotification {
+    [self getMeetingModels];
+}
+
 
 @end

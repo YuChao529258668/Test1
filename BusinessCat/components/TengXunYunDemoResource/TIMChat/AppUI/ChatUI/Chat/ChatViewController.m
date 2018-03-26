@@ -12,6 +12,7 @@
 #import "MyChatToolBarView.h"
 #import "MyUIDefine.h"
 #import "MyMoreView.h"
+#import "YCSelectMeetingFileController.h"
 
 @interface ChatViewController ()
 
@@ -568,6 +569,7 @@
     // 隐藏键盘
     [self hiddenKeyBoard];
     [CTToast showWithText:@"再次开会"];
+    
 }
 // 聊天界面 投票
 - (void)moreViewVoteAction
@@ -609,6 +611,9 @@
 
 - (void)moreViewFileAction
 {
+    [self seeMeetingFile];
+    return;
+    
     // 隐藏键盘，只能选择图片或视频文件
     [self hiddenKeyBoard];
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -803,5 +808,18 @@
 //    // do nothing
 //}
 //
+
+
+#pragma mark - 会议文件
+
+- (void)seeMeetingFile {
+    YCSelectMeetingFileController *vc = [YCSelectMeetingFileController new];
+    vc.meetingID = [_conversation receiver];
+    vc.useForChatControllerSeeFile = YES;
+    
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
 
 @end

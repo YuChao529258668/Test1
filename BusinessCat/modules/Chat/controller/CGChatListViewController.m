@@ -88,10 +88,9 @@
     [self setupAddressBookBtn];
 //    [self addAppMessage];
     
-
-    
-    [self getUserTask];
-
+    if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
+        [self getUserTask];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -200,11 +199,12 @@
 
 // 创建公开群
 - (void)createGroupChatWithContacts:(NSMutableArray<CGUserCompanyContactsEntity *> *)contacts {
+    NSString *groupID = [NSString stringWithFormat:@"@%ld", (long)([NSDate date].timeIntervalSince1970*1000)];
     NSString *groupName = [self createGroupNameWithContacts:contacts];
     NSArray *members = [self createIMAUsersWithContacts:contacts];
     __weak typeof(self) ws = self;
     
-    [[IMAPlatform sharedInstance].contactMgr asyncCreatePublicGroupWith:groupName members:members succ:^(IMAGroup *group){
+    [[IMAPlatform sharedInstance].contactMgr asyncCreatePublicGroupWith:groupName members:members groupId:groupID succ:^(IMAGroup *group){
         [[HUDHelper sharedInstance] tipMessage:@"创建公开群成功"];
         [ws onCreateGroupSucc:group];
     } fail:nil];
@@ -331,7 +331,8 @@
 - (void)handleLoginSuccessNotification {
 //    [self onViewDidLoad]; // 腾讯云登录
     [self loginTengXunYun]; // 腾讯云登录
-    
+    [self getUserTask];
+
 //    [self addAppMessage];
 }
 
@@ -859,8 +860,12 @@
 
 - (void)clickAddressBookBtn {
     if ([ObjectShareTool sharedInstance].currentUser.isLogin) {
-        CGUserContactsViewController *vc = [[CGUserContactsViewController alloc]init];
-        [self.navigationController pushViewController:vc animated:YES];
+        if ([ObjectShareTool sharedInstance].currentUser.companyList.count > 0) {
+            CGUserContactsViewController *vc = [[CGUserContactsViewController alloc]init];
+            [self.navigationController pushViewController:vc animated:YES];
+        } else {
+            [CTToast showWithText:@"请先加入所属组织"];
+        }
     } else {
         CGMainLoginViewController *controller = [[CGMainLoginViewController alloc]init];
         [self.navigationController pushViewController:controller animated:YES];
@@ -876,7 +881,7 @@
         _appMessage.customTimeStr = @"";
         _appMessage.customLastMsg = @"暂无未读消息";
         _appMessage.customBadge = 0;
-        _appMessage.customTime = [[NSDate date]timeIntervalSince1970];
+        _appMessage.customTime = [[NSDate date]timeIntervalSince1970] / 1000.0;
         
         [[CGUserCenterBiz new] authUserMessageSystemListWithID:@"" page:1 type:1000 success:^(NSMutableArray *reslut) {
             if (reslut.count == 0) {
@@ -884,8 +889,9 @@
             } else {
                 CGMessageDetailEntity *message = reslut.firstObject;
                 _appMessage.customLastMsg = message.infoTitle;
-                _appMessage.customTime = message.createTime;
+                _appMessage.customTime = message.createTime / 1000.0;
             }
+            [self.tableView reloadData];
         } fail:^(NSError *error) {
             
         }];
@@ -897,51 +903,39 @@
 // 登录成功后调用
 - (void)addAppMessage {
     if (_conversationList) {
-        if ([_conversationList.safeArray containsObject:self.appMessage]) {
-            return;
-        }
-        
-        // 如果没有插入成功，就添加到最后
-        if (![_conversationList.safeArray containsObject:self.appMessage]) {
-            [_conversationList insertObject:self.appMessage atIndex:0];
-        }
-        
-//
-//        TIMManager *m = [TIMManager sharedInstance];
-//        TIMLoginStatus status = [m getLoginStatus];
-//
-//        if (status == TIM_STATUS_LOGINED) {
-//            NSArray * conversations = [[TIMManager sharedInstance] getConversationList];
-//
-//            [conversations enumerateObjectsUsingBlock:^(TIMConversation *con, NSUInteger idx, BOOL * _Nonnull stop) {
-//                NSArray *msgs = [con getLastMsgs:1];
-//                TIMMessage *timmsg = msgs.firstObject;
-//
-//                NSDate *date = [timmsg timestamp];
-//                NSTimeInterval t = date.timeIntervalSince1970;
-//
-//                if (self.appMessage.customTime > t) {
-//                    [_conversationList insertObject:self.appMessage atIndex:idx];
-//                    *stop = YES;
-//                }
-//            }];
-//
-//            // 如果没有插入成功，就添加到最后
-//            if (![_conversationList.safeArray containsObject:self.appMessage]) {
-//                [_conversationList addObject:self.appMessage];
-//            }
-//
+//        if ([_conversationList.safeArray containsObject:self.appMessage]) {
+//            return;
 //        }
+        [_conversationList.safeArray removeObject:self.appMessage];
+
+        TIMManager *m = [TIMManager sharedInstance];
+        TIMLoginStatus status = [m getLoginStatus];
+
+        if (status == TIM_STATUS_LOGINED) {
+            NSArray * conversations = [[TIMManager sharedInstance] getConversationList];
+
+            [conversations enumerateObjectsUsingBlock:^(TIMConversation *con, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSArray *msgs = [con getLastMsgs:1];
+                TIMMessage *timmsg = msgs.firstObject;
+
+                NSDate *date = [timmsg timestamp];
+                NSTimeInterval t = date.timeIntervalSince1970;
+
+                if (self.appMessage.customTime > t) {
+                    [_conversationList insertObject:self.appMessage atIndex:idx];
+                    *stop = YES;
+                }
+            }];
+
+            // 如果没有插入成功，就添加到最后
+            if (![_conversationList.safeArray containsObject:self.appMessage]) {
+                [_conversationList addObject:self.appMessage];
+            }
+
+        }
     }
 }
 
-// 移到首位，收到新消息后调用。notificationSystemMessageRedHot
-//- (void)moveAppMessage {
-//    return;
-//
-//    [self deleteAppMessage];
-//    [self addAppMessage];
-//}
 
 // 注销后调用
 - (void)deleteAppMessage {
@@ -980,6 +974,8 @@
             weakself.taskView.hidden = NO;
             weakself.taskView.titleL.text = tasks.firstObject.yc_hint;
             [weakself.taskView.collectionView reloadData];
+            [weakself.view setNeedsLayout];
+            [weakself.view layoutIfNeeded];
         } else {
             weakself.taskView.hidden = YES;
         }
@@ -989,8 +985,10 @@
     }];
 }
 
+// 重写父类方法
 - (void)setupTaskView {
     _taskView = [YCUserTaskView view];
+    _taskView.hidden = YES;
     _taskView.collectionView.dataSource = self;
     _taskView.collectionView.delegate = self;
     [self.view addSubview:_taskView];

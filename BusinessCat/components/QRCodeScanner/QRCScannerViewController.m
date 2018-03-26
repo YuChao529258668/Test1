@@ -50,6 +50,9 @@
 
 #pragma mark - 扫描二维码成功后结果的代理方法
 - (void)didFinshedScanningQRCode:(NSString *)result{
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);  // 震动
+//    AudioServicesPlaySystemSound(1007);
+    
     [self.navigationController popViewControllerAnimated:YES];
 
     if ([self.delegate respondsToSelector:@selector(didFinshedScanning:)]) {
@@ -60,6 +63,7 @@
     }
 //    [self.navigationController popViewControllerAnimated:YES];
 }
+
 #pragma mark - 从相册获取二维码图片
 - (void)readerImage{
     UIImagePickerController *photoPicker = [[UIImagePickerController alloc] init];

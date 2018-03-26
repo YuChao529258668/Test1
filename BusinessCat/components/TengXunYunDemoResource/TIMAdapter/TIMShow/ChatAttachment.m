@@ -19,4 +19,9 @@
     return self;
 }
 
+- (void)setBounds:(CGRect)bounds {
+    
+    [super setBounds:bounds];
+}
+
 @end

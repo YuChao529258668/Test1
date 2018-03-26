@@ -26,6 +26,7 @@
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (weak, nonatomic) IBOutlet UIView *topView;
 //@property (nonatomic, strong) ShareUtil *shareUtil;
+@property (weak, nonatomic) IBOutlet UIView *whiteView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *choseIV;
 @property (weak, nonatomic) IBOutlet UILabel *shareL;
@@ -186,7 +187,8 @@
 
 - (void)selectItemWithIndex:(NSInteger)index data:(CGHorrolEntity *)entity {
     __weak typeof(self) weakself = self;
-    
+    weakself.whiteView.hidden = NO;
+
     [self getProfitWithCompanyID:entity.rolId success:^(YCMeetingProfit *profit, NSString *companyID) {
         
         CGHorrolEntity *currentEntity = weakself.headViewEntitys[weakself.currentIndex];
@@ -196,7 +198,8 @@
         }
 
         weakself.profitContainerView.hidden = YES;
-
+        weakself.whiteView.hidden = YES;
+        
         //    如果当前组织未认领，就显示为“认领组织并加入”，然后打开认领组织功能，增加传加入共享参数（需接口增加）
         //    如果当前组织已认领，并且我是管理员，就显示为“我要加入”，需提供加入组织共享接口
         //    如果当前组织已认领，并且我不是管理员，两种判断：
@@ -211,7 +214,7 @@
         // ??
         CGUserOrganizaJoinEntity *local = [ObjectShareTool sharedInstance].currentUser.companyList[index];
 //        isClaim = (local.companyState == 1);
-        isManager = (local.companyManage == 1);
+        isManager = (local.companyManage == 1 || local.companyAdmin == 1);
         isShare = (profit.isShare == 1);
         
         // 0-未认证，1-已认证 2-认证中 3-认证不通过

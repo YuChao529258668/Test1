@@ -48,6 +48,7 @@
     self.tableView.tableFooterView = [UIView new];
     [self.tableView registerNib:[UINib nibWithNibName:@"YCMeetingPayCell" bundle:nil] forCellReuseIdentifier:@"YCMeetingPayCell"];
     self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getList)];
 
     self.timeLabel.text = self.durationString;
     self.timeLabel.textColor = [YCTool colorOfHex:0xff3e3e];
@@ -100,6 +101,9 @@
     return f;
 }
 
+- (void)enablePayButton {
+    self.payBtn.userInteractionEnabled = YES;
+}
 
 #pragma mark - UITableViewDelegate
 
@@ -233,6 +237,10 @@
 }
 
 - (IBAction)clickPayBtn:(UIButton *)sender {
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        self.payBtn.userInteractionEnabled = YES;
+//    });
+    
     if (!self.rebate) {
         [CTToast showWithText:@"请选择支付选项"];
         return;
@@ -247,6 +255,7 @@
 
     self.rebate.shareType = self.shareType;
     if (self.onClickPayBtnBlock) {
+        self.payBtn.userInteractionEnabled = NO;
         self.onClickPayBtnBlock(self.rebate);
     }
 }
@@ -261,12 +270,14 @@
     
     __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] getMeetingMinuteListWithBeginDate:self.beginDate endDate:self.endDate accessNumber:self.count Success:^(NSArray<NSArray<YCMeetingRebate *> *> *twoLists) {
+        [weakself.tableView.mj_header endRefreshing];
         weakself.pays = twoLists;
         weakself.myList = twoLists.firstObject;
         weakself.shareList = twoLists.lastObject;
         [weakself.tableView reloadData];
     } fail:^(NSError *error) {
-        
+        [weakself.tableView.mj_header endRefreshing];
+        [CTToast showWithText:@"获取折扣列表失败"];
     }];
 }
 

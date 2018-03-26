@@ -22,7 +22,7 @@
 
 - (NSInteger)showHeight
 {
-    return 65;
+    return 63;
 }
 - (NSString *)showReuseIndentifier
 {

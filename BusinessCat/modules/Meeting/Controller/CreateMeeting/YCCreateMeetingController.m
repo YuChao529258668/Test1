@@ -51,6 +51,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *roomNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *roomImageView;
 
+
+@property (nonatomic, strong) YCMeetingPayController *payController;
+
 @end
 
 
@@ -69,6 +72,7 @@
 - (void)dealloc {
     [self removeObserverForWeiXinPay];
 }
+
 
 #pragma mark - Actions
 
@@ -177,11 +181,12 @@
     self.btn4.backgroundColor = color;
     self.count = 16;
 }
-- (IBAction)clickCreateMeetingBtn:(id)sender {
+- (IBAction)clickCreateMeetingBtn:(UIButton *)sender {
 //    if ([YCTool isBlankString:self.titleTF.text] ) {
 //        [CTToast showWithText:@"会议主题不能为空"];
 //        return;
 //    }
+    
     
     if (self.count == 0 && !self.room) {
         [CTToast showWithText:@"请选择会议模式"];
@@ -196,7 +201,7 @@
     if (self.count > 0) {
         [self goToPayViewController];
     } else {
-        [self createMeeting];
+        [self createMeetingWithJuHua:YES];
     }
 
 }
@@ -389,6 +394,7 @@
 
 - (void)goToPayViewController {
     YCMeetingPayController *vc = [YCMeetingPayController new];
+    self.payController = vc;
     vc.count = self.count;
     vc.durationString = [self.durationBtn titleForState:UIControlStateNormal];
     vc.beginDate = self.beginDate;
@@ -399,12 +405,12 @@
     __weak typeof(self) weakself = self;
     vc.onClickPayBtnBlock = ^(YCMeetingRebate *rebate) {
         weakself.rebate = rebate;
-        [weakself createMeeting];
+        [weakself createMeetingWithJuHua:YES];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)createMeeting {
+- (void)createMeetingWithJuHua:(BOOL)juhua {
     NSDateFormatter *f = [NSDateFormatter new];
     f.dateFormat = @"yyyy年MM月dd日";
     NSString *whichString = [f stringFromDate:self.whichDate];
@@ -453,7 +459,10 @@
         toID = @"";
     }
     
-    [[YCMeetingBiz new] bookMeeting2WithMeetingID:@"" oldMeetingID:@"" MeetingType:meetingType MeetingName:meetingName users:@"" roomID:@"" beginDate:beginDate endDate:endDate live:live accessNumber:self.count roomType:roomType companyRoomId:crID shareType:self.rebate.shareType toType:toType toId:toID Success:^(id data) {
+    [self.createMeetingBtn setTitle:@"正在预约" forState: UIControlStateNormal];
+    self.createMeetingBtn.userInteractionEnabled = NO;
+
+    [[YCMeetingBiz new] bookMeeting2WithMeetingID:@"" oldMeetingID:@"" MeetingType:meetingType MeetingName:meetingName users:@"" roomID:@"" beginDate:beginDate endDate:endDate live:live accessNumber:self.count roomType:roomType companyRoomId:crID shareType:self.rebate.shareType toType:toType toId:toID juhua:juhua Success:^(id data) {
         NSDictionary *detail = data[@"detail"];
         if (detail) {
             [CTToast showWithText:@"创建成功"];
@@ -464,12 +473,16 @@
             //        [weakself.navigationController popViewControllerAnimated:YES];
             [weakself.navigationController popToRootViewControllerAnimated:YES];
         } else {
-            // 显示充值对话框
             [CTToast showWithText:data[@"msg"]];
 //            [weakself showChargeAlertWithMessage:data[@"msg"]];
         }
         
     } fail:^(NSError *error) {
+        weakself.createMeetingBtn.userInteractionEnabled = YES;
+        [weakself.createMeetingBtn setTitle:@"发起预约" forState: UIControlStateNormal];
+
+        [weakself.payController enablePayButton];
+        
         [weakself showChargeAlertWithMessage:error.userInfo[@"message"]];
     }];
 }
@@ -539,11 +552,10 @@
 }
 
 - (void)paySuccess:(NSNotification *)noti {
-    [self createMeeting];
+    [self createMeetingWithJuHua:NO];
 }
 
 - (void)gotoWeiXinPay {
-//    data = {"body":"充值金币","order_type":0,"toType":24,"toId":"47cd5da6-49db-4390-abfe-f67e15f567a2","payMethod":"WECHATPAY","attach":"{\"identity\":\"CGKnowledgeIOS26BAFADF-3233-4D6F-B63F-5C8A89BF7250\",\"packageid\":\"2f60a945-cfa2-eec0-d6de-90f2164debc2\"}","total_fee":600,"payType":1002,"token":"496dbcb0-3363-4de0-b50d-c3995dc5442c","toUserId":"123","trade_type":"APP","iOSProductId":"com.jp.knowledgeIntegrals6"},
 
     NSString *toId = [ObjectShareTool currentUserID];
     NSString *identifier = [CTDeviceTool getUniqueDeviceIdentifierAsString];

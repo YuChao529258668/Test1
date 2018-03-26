@@ -25,7 +25,7 @@
 }
 
 + (float)height {
-    return 113;
+    return 109;
 }
 
 + (instancetype)view {

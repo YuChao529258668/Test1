@@ -176,8 +176,10 @@ static CTNetWorkUtil *_sharedManager;
                 }
                 NSString *message = [res objectForKey:@"message"];
                 if(message && message.length > 0){
-                    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-                    [[CTToast makeText:message]show:window];
+                    if (![message containsString:@"金币不够支付"]) {
+                        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+                        [[CTToast makeText:message]show:window];
+                    }
                 }
             }
         }else{

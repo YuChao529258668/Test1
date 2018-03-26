@@ -26,7 +26,8 @@
         [self configOwnViews];
         
         self.KVOController = [FBKVOController controllerWithObserver:self];
-        self.backgroundColor = kClearColor;
+//        self.backgroundColor = kClearColor;
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -42,19 +43,24 @@
     [self.contentView addSubview:_conversationIcon];
     
     _conversationName = [[UILabel alloc] init];
-    _conversationName.font = kAppMiddleTextFont;
+//    _conversationName.font = kAppMiddleTextFont;
+    _conversationName.font = [UIFont systemFontOfSize:16];
     [self.contentView addSubview:_conversationName];
     
     _lastMsgTime = [[UILabel alloc] init];
-    _lastMsgTime.font = kAppSmallTextFont;
+//    _lastMsgTime.font = kAppSmallTextFont;
     _lastMsgTime.textAlignment = NSTextAlignmentRight;
-    _lastMsgTime.textColor = kLightGrayColor;
+//    _lastMsgTime.textColor = kLightGrayColor;
+    _lastMsgTime.textColor = [YCTool colorOfHex:0x999999];
+    _lastMsgTime.font = [UIFont systemFontOfSize:13];
     _lastMsgTime.adjustsFontSizeToFitWidth = YES;
     [self.contentView addSubview:_lastMsgTime];
     
     _lastMsg = [[UILabel alloc] init];
-    _lastMsg.font = kAppSmallTextFont;
-    _lastMsg.textColor = kGrayColor;
+//    _lastMsg.font = kAppSmallTextFont;
+//    _lastMsg.textColor = kGrayColor;
+    _lastMsg.textColor = [YCTool colorOfHex:0x999999];
+    _lastMsg.font = [UIFont systemFontOfSize:13];
     [self.contentView addSubview:_lastMsg];
     
     ImageTitleButton *btn = [[ImageTitleButton alloc] init];
@@ -65,7 +71,8 @@
     _unReadBadge.backgroundColor = kRedColor;
     _unReadBadge.layer.cornerRadius = 10;
     _unReadBadge.layer.masksToBounds = YES;
-    _unReadBadge.titleLabel.font = kAppSmallTextFont;
+//    _unReadBadge.titleLabel.font = kAppSmallTextFont;
+    _unReadBadge.titleLabel.font = [UIFont systemFontOfSize:13];
     _unReadBadge.titleLabel.textAlignment = NSTextAlignmentCenter;
     _unReadBadge.titleLabel.adjustsFontSizeToFitWidth = YES;
     [_unReadBadge setTitleColor:kWhiteColor forState:UIControlStateNormal];
@@ -164,33 +171,58 @@ static void extracted(ConversationListTableViewCell *object) {
 
 - (void)relayoutFrameOfSubViews
 {
-    [_conversationIcon sizeWith:CGSizeMake(44, 44)];
+    [_conversationIcon sizeWith:CGSizeMake(39, 39)];
     [_conversationIcon layoutParentVerticalCenter];
-    [_conversationIcon alignParentLeftWithMargin:kDefaultMargin];
+    [_conversationIcon alignParentLeftWithMargin:15];
     
-    [_lastMsgTime sizeWith:CGSizeMake(60, 28)];
-    [_lastMsgTime alignParentRightWithMargin:kDefaultMargin];
-    [_lastMsgTime alignTop:_conversationIcon];
+    [_lastMsgTime sizeWith:CGSizeMake(60, 10)];
+    [_lastMsgTime alignParentRightWithMargin:15];
+    [_lastMsgTime alignParentTopWithMargin:15];
+
+    [_conversationName sizeWith:CGSizeMake(60, 16)];
+    [_conversationName alignParentTopWithMargin:14];
+    [_conversationName layoutToRightOf:_conversationIcon margin:12];
+    [_conversationName scaleToLeftOf:_lastMsgTime margin:12];
     
-    [_conversationName sameWith:_lastMsgTime];
-    [_conversationName layoutToRightOf:_conversationIcon margin:kDefaultMargin];
-    [_conversationName scaleToLeftOf:_lastMsgTime margin:kDefaultMargin];
-    
-    [_lastMsg sameWith:_conversationName];
-    [_lastMsg layoutBelow:_conversationName];
-    [_lastMsg scaleToBelowOf:_conversationIcon];
-    
-//    CGSize size = [_unReadBadge.titleLabel textSizeIn:_lastMsgTime.bounds.size];
-//    if (size.width <= 16)
-//    {
-//        size.width = 16;
-//    }
+    [_lastMsg sizeWith:CGSizeMake(60, 13)];
+    [_lastMsg layoutToRightOf:_conversationIcon margin:12];
+    [_lastMsg layoutBelow:_conversationName margin:7];
+    [_lastMsg scaleToLeftOf:_lastMsgTime margin:12];
 
     [_unReadBadge sizeWith:CGSizeMake(20, 20)];
-    
     [_unReadBadge alignRight:_lastMsgTime];
-    [_unReadBadge alignVerticalCenterOf:_lastMsg];
+    [_unReadBadge layoutBelow:_lastMsgTime margin:11];
 }
+
+//- (void)relayoutFrameOfSubViews
+//{
+//    [_conversationIcon sizeWith:CGSizeMake(44, 44)];
+//    [_conversationIcon layoutParentVerticalCenter];
+//    [_conversationIcon alignParentLeftWithMargin:kDefaultMargin];
+//
+//    [_lastMsgTime sizeWith:CGSizeMake(60, 28)];
+//    [_lastMsgTime alignParentRightWithMargin:kDefaultMargin];
+//    [_lastMsgTime alignTop:_conversationIcon];
+//
+//    [_conversationName sameWith:_lastMsgTime];
+//    [_conversationName layoutToRightOf:_conversationIcon margin:kDefaultMargin];
+//    [_conversationName scaleToLeftOf:_lastMsgTime margin:kDefaultMargin];
+//
+//    [_lastMsg sameWith:_conversationName];
+//    [_lastMsg layoutBelow:_conversationName];
+//    [_lastMsg scaleToBelowOf:_conversationIcon];
+//
+//    //    CGSize size = [_unReadBadge.titleLabel textSizeIn:_lastMsgTime.bounds.size];
+//    //    if (size.width <= 16)
+//    //    {
+//    //        size.width = 16;
+//    //    }
+//
+//    [_unReadBadge sizeWith:CGSizeMake(20, 20)];
+//
+//    [_unReadBadge alignRight:_lastMsgTime];
+//    [_unReadBadge alignVerticalCenterOf:_lastMsg];
+//}
 
 #pragma mark -
 

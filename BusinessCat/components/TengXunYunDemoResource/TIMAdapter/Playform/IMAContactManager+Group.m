@@ -352,6 +352,43 @@ typedef void (^CreateGroupOperation)(NSString *groupName, NSArray *memids, IMACr
     } succ:succ fail:fail];
 }
 
+- (void)asyncCreatePublicGroupWith:(NSString *)name members:(NSArray *)array groupId:(NSString *)groupId succ:(void (^)(IMAGroup *group))succ fail:(TIMFail)fail
+{
+    //    __weak IMAContactManager *ws = self;
+    [self onWillCreateGroupWith:name members:array operation:^(NSString *groupName, NSArray *memids, IMACreateCompletion succ, TIMFail fail) {
+        
+        TIMCreateGroupInfo *cgi = [[TIMCreateGroupInfo alloc] init];
+        cgi.group = groupId;
+        cgi.groupName = name;
+        cgi.groupType = @"Public";
+        cgi.addOpt = TIM_GROUP_ADD_ANY;
+        cgi.maxMemberNum = 0;
+        cgi.membersInfo = memids;
+        
+        [[TIMGroupManager sharedInstance] createGroup:cgi succ:^(NSString *groupId) {
+            //注:这里成功回调时，不能调用getGroupInfo，因为群信息还没有同步下来，必须是在onGroupAdd回调之后才能回去到详细的群信息
+            
+            TIMGroupInfo *tgi = [TIMGroupInfo instanceFrom:cgi];
+            tgi.group = groupId;
+            tgi.owner = [[IMAPlatform sharedInstance].host userId];
+            
+            IMAGroup *g = [[IMAGroup alloc] initWithInfo:tgi];
+            
+            if (succ)
+            {
+                succ(g);
+            }
+        } fail:^(int code, NSString *err) {
+            DebugLog(@"Fail:-->code=%d,msg=%@,fun=%s", code, err,__func__);
+            [[HUDHelper sharedInstance] tipMessage:IMALocalizedError(code, err)];
+            if (fail)
+            {
+                fail(code, err);
+            }
+        }];
+    } succ:succ fail:fail];
+}
+
 
 - (void)asyncCreateChatRoomWith:(NSString *)name members:(NSArray *)array succ:(void (^)(IMAGroup *group))succ fail:(TIMFail)fail
 {

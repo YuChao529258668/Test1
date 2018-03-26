@@ -111,7 +111,7 @@
 //roomType 视频的会议室类型 0:公司 1:用户
 //companyRoomId 公司会议房间Id（空为非公司会议）
 //http://doc.cgsays.com:50123/index.php?s=/1&page_id=391
-- (void)bookMeeting2WithMeetingID:(NSString *)mid oldMeetingID:(NSString *)oldMid MeetingType:(int)type MeetingName:(NSString *)name users:(NSString *)users roomID:(NSString *)rid beginDate:(NSDate *)bDate endDate:(NSDate *)eDate live:(int)live accessNumber:(NSInteger)an roomType:(int)roomType companyRoomId:(NSString *)crID shareType:(int)shareType toType:(int)toType toId:(NSString *)toID Success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+- (void)bookMeeting2WithMeetingID:(NSString *)mid oldMeetingID:(NSString *)oldMid MeetingType:(int)type MeetingName:(NSString *)name users:(NSString *)users roomID:(NSString *)rid beginDate:(NSDate *)bDate endDate:(NSDate *)eDate live:(int)live accessNumber:(NSInteger)an roomType:(int)roomType companyRoomId:(NSString *)crID shareType:(int)shareType toType:(int)toType toId:(NSString *)toID juhua:(BOOL)juhua Success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
     NSString *companyId = [ObjectShareTool sharedInstance].currentUser.getCompanyID;
     if (!companyId) {
         companyId = @"";
@@ -147,11 +147,19 @@
                           @"toId": toID
                           };
     
-    [self.component UIPostRequestWithURL:URL_Meeting_BespeakMeeting param:dic success:^(id data) {
-        success(data);
-    } fail:^(NSError *error) {
-        fail(error);
-    }];
+    if (juhua) {
+        [self.component UIPostRequestWithURL:URL_Meeting_BespeakMeeting param:dic success:^(id data) {
+            success(data);
+        } fail:^(NSError *error) {
+            fail(error);
+        }];
+    } else {
+        [self.component sendPostRequestWithURL:URL_Meeting_BespeakMeeting param:dic success:^(id data) {
+            success(data);
+        } fail:^(NSError *error) {
+            fail(error);
+        }];
+    }
 }
 
 - (void)getMeetingDetailWithMeetingID:(NSString *)mid  success:(void(^)(CGMeeting *meeting))success fail:(void(^)(NSError *error))fail {
@@ -511,6 +519,12 @@
     [self.component UIPostRequestWithURL:URL_Meeting_Minute_List param:dic success:^(id data) {
         NSArray *myList = [YCMeetingRebate mj_objectArrayWithKeyValuesArray:data[@"myList"]];
         NSArray *shareList = [YCMeetingRebate mj_objectArrayWithKeyValuesArray:data[@"shareList"]];
+        if (!data[@"myList"] && !data[@"shareList"]) {
+            [CTToast showWithText:@"后台没有返回myList和shareList"];
+        }
+        if (myList.count + shareList.count == 0) {
+            [CTToast showWithText:@"后台返回的myList和shareList为空"];
+        }
         if (!shareList) {
             shareList = @[];
         }

@@ -8,6 +8,9 @@
 
 #import "CustomChatUIViewController.h"
 
+#import "YCMeetingBiz.h"
+#import "RoomViewController.h"
+
 @interface CustomChatUIViewController ()
 
 @end
@@ -60,7 +63,23 @@
 }
 
 - (void)clickMeetingBtn {
-    [CTToast showWithText:@"点击会议室按钮"];
+//    [CTToast showWithText:@"点击会议室按钮"];
+    NSLog(@"点击会议室按钮");
+    
+    NSString *meetingId = _conversation.receiver;
+    __weak typeof(self) weakself = self;
+    
+    [[YCMeetingBiz new] meetingEntranceWithMeetingID:meetingId Success:^(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *q) {
+        
+        // 状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
+        if (state == 1 || state == 3) {
+            [weakself goToVideoMeetingWithRoomID:nil meetingID:meetingId state:state AccessKey:AccessKey SecretKey:SecretKey BucketName:BucketName q:q];
+        } else {
+            [CTToast showWithText:message];
+        }
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 #pragma mark -
@@ -140,4 +159,28 @@
         }
     }
 }
+
+
+#pragma mark - 会议
+
+//        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
+- (void)goToVideoMeetingWithRoomID:(NSString *)rid meetingID:(NSString *)mid state:(long)state AccessKey:(NSString *)AccessKey SecretKey:(NSString *)SecretKey BucketName:(NSString *)BucketName q:(NSString *)q {
+    if ([YCJCSDKHelper isLoginForVideoCall]) {
+        RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
+        roomVc.roomId = rid;
+        roomVc.displayName = [ObjectShareTool sharedInstance].currentUser.username;
+        roomVc.meetingID = mid;
+        roomVc.meetingState = state;
+        roomVc.isReview = state == 3? YES: NO;
+        roomVc.AccessKey = AccessKey;
+        roomVc.SecretKey = SecretKey;
+        roomVc.BucketName = BucketName;
+        roomVc.q = q;
+        [self.navigationController pushViewController:roomVc animated:YES];
+    } else {
+        [CTToast showWithText:@"会议功能尚未登录，请稍后再试"];
+        [YCJCSDKHelper loginMultiCallWithUserID:[ObjectShareTool sharedInstance].currentUser.uuid];
+    }
+}
+
 @end

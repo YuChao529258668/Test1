@@ -42,6 +42,7 @@
 
 - (void)asyncCreateChatGroupWith:(NSString *)name members:(NSArray *)array succ:(void (^)(IMAGroup *group))succ fail:(TIMFail)fail;
 - (void)asyncCreatePublicGroupWith:(NSString *)name members:(NSArray *)array succ:(void (^)(IMAGroup *group))succ fail:(TIMFail)fail;
+- (void)asyncCreatePublicGroupWith:(NSString *)name members:(NSArray *)array groupId:(NSString *)groupId succ:(void (^)(IMAGroup *group))succ fail:(TIMFail)fail;
 - (void)asyncCreateChatRoomWith:(NSString *)name members:(NSArray *)array succ:(void (^)(IMAGroup *group))succ fail:(TIMFail)fail;
 
 @end

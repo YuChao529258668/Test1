@@ -12,20 +12,20 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="YCUserTaskView">
-            <rect key="frame" x="0.0" y="0.0" width="366" height="113"/>
+            <rect key="frame" x="0.0" y="0.0" width="366" height="109"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="欢迎您" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ujD-25-egr">
-                    <rect key="frame" x="15" y="6" width="46" height="18"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <rect key="frame" x="15" y="11" width="40" height="16"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="CiO-gg-nCT">
-                    <rect key="frame" x="0.0" y="33" width="366" height="80"/>
+                    <rect key="frame" x="0.0" y="36" width="366" height="68"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="80" id="gCi-hW-5Bo"/>
+                        <constraint firstAttribute="height" constant="68" id="gCi-hW-5Bo"/>
                     </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="WLl-bX-NlV">
                         <size key="itemSize" width="80" height="80"/>
@@ -34,14 +34,22 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4tv-qV-CJr">
+                    <rect key="frame" x="0.0" y="104" width="366" height="5"/>
+                    <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="CiO-gg-nCT" secondAttribute="trailing" id="6Ik-dm-6my"/>
                 <constraint firstItem="ujD-25-egr" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="9Er-br-eMS"/>
-                <constraint firstAttribute="bottom" secondItem="CiO-gg-nCT" secondAttribute="bottom" id="IGy-dl-XX4"/>
-                <constraint firstItem="ujD-25-egr" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="6" id="OxY-uK-aE8"/>
+                <constraint firstAttribute="bottom" secondItem="CiO-gg-nCT" secondAttribute="bottom" constant="5" id="IGy-dl-XX4"/>
+                <constraint firstItem="ujD-25-egr" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="OxY-uK-aE8"/>
+                <constraint firstAttribute="bottom" secondItem="4tv-qV-CJr" secondAttribute="bottom" id="Vx2-sT-e9t"/>
+                <constraint firstItem="4tv-qV-CJr" firstAttribute="top" secondItem="CiO-gg-nCT" secondAttribute="bottom" id="dYe-Tn-VNA"/>
+                <constraint firstItem="4tv-qV-CJr" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="keF-n4-UKf"/>
                 <constraint firstItem="CiO-gg-nCT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="l01-J3-cmu"/>
+                <constraint firstAttribute="trailing" secondItem="4tv-qV-CJr" secondAttribute="trailing" id="oei-sT-2Qo"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

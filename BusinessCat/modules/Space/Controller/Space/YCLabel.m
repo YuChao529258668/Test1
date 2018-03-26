@@ -36,7 +36,8 @@
 //    NSLog(@"%@", [UIColor blackColor]);
 //    self.textColor = [UIColor blueColor];
     self.textColor = self.textColor;
-
+    self.backgroundColor = self.backgroundColor;
+    
     [super awakeFromNib];
 //    NSLog(@"%@", self.textColor);
 //    NSLog(@"%@", [UIColor blackColor]);

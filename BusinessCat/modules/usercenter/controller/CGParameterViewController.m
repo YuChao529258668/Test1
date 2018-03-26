@@ -45,12 +45,17 @@
 
 - (void)clickChoseBtn {
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"只显示 token" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"创建会议" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSMutableArray *datas = [NSMutableArray array];
         for (NSDictionary *dic in self.data) {
-            if ([dic[@"url"] containsString:@"user/token"]) {
+//            if ([dic[@"url"] containsString:@"user/token"]) {
+//                [datas addObject:dic];
+//            }
+            if ([dic[@"url"] containsString:@"bespeakMeeting"]) {
                 [datas addObject:dic];
             }
+
+            
         }
         self.data = datas;
         [self.tableView reloadData];
@@ -96,6 +101,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 //  return 320;
     return 420;
+//    return 800;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

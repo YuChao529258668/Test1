@@ -6,9 +6,10 @@
 //  Copyright © 2018年 cgsyas. All rights reserved.
 //
 
-#define kMenuW 114
-#define kRowW 84
-#define kRowH 30
+#define kMenuW 120
+#define kMenuH 130
+#define kRowW (kMenuW - 26)
+#define kRowH 40
 
 #import "YCChatListMenu.h"
 @interface YCChatListMenu()
@@ -47,7 +48,7 @@
         _iv = iv;
         
         
-        UIView *containView = [[UIView alloc]initWithFrame:CGRectMake(0, 10, kMenuW, 100)];
+        UIView *containView = [[UIView alloc]initWithFrame:CGRectMake(0, 10, kMenuW, kMenuH - 10)];
         containView.backgroundColor = [UIColor blackColor];
         containView.layer.cornerRadius = 6;
         [menu addSubview:containView];
@@ -68,6 +69,7 @@
     float x = 15;
     float y = 0;
     float edgeH = 5;
+    edgeH = 0;
     
     NSUInteger count = titles.count;
     self.btns = [NSMutableArray arrayWithCapacity:count];
@@ -81,7 +83,7 @@
         [btn setImage:[UIImage imageNamed:imageNames[i]] forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 //        btn.titleLabel.font = [UIFont systemFontOfSize:13];
-        btn.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+        btn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
 
         [btn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
 
@@ -119,7 +121,7 @@
     menuF.origin.x = self.frame.size.width - kMenuW - 5;
     menuF.origin.y = self.menuY;
     menuF.size.width = kMenuW;
-    menuF.size.height = 115;
+    menuF.size.height = kMenuH;
     self.menu.frame = menuF;
     
     
