@@ -716,6 +716,8 @@
 		0DE38C272064CD8C00E3A6EC /* YCMeetingListCreateBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DE38C262064CD8C00E3A6EC /* YCMeetingListCreateBar.m */; };
 		0DE38C292064CDA400E3A6EC /* YCMeetingListCreateBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C282064CDA400E3A6EC /* YCMeetingListCreateBar.xib */; };
 		0DE38C2B2068E58E00E3A6EC /* 0.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C2A2068E58E00E3A6EC /* 0.gif */; };
+		0DE38C30206C868200E3A6EC /* YCMeetingRoomListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DE38C2E206C868100E3A6EC /* YCMeetingRoomListController.m */; };
+		0DE38C31206C868200E3A6EC /* YCMeetingRoomListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C2F206C868100E3A6EC /* YCMeetingRoomListController.xib */; };
 		0DED884D1FC953FF00585C82 /* YCCollegeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */; };
 		1804A3321DCB229800CA2326 /* CGDiscoverLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 1804A3311DCB229800CA2326 /* CGDiscoverLink.m */; };
 		1806D2D31DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1806D2D11DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m */; };
@@ -2743,6 +2745,9 @@
 		0DE38C262064CD8C00E3A6EC /* YCMeetingListCreateBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingListCreateBar.m; sourceTree = "<group>"; };
 		0DE38C282064CDA400E3A6EC /* YCMeetingListCreateBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCMeetingListCreateBar.xib; sourceTree = "<group>"; };
 		0DE38C2A2068E58E00E3A6EC /* 0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 0.gif; sourceTree = "<group>"; };
+		0DE38C2D206C868100E3A6EC /* YCMeetingRoomListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingRoomListController.h; sourceTree = "<group>"; };
+		0DE38C2E206C868100E3A6EC /* YCMeetingRoomListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingRoomListController.m; sourceTree = "<group>"; };
+		0DE38C2F206C868100E3A6EC /* YCMeetingRoomListController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCMeetingRoomListController.xib; sourceTree = "<group>"; };
 		0DED884B1FC953FF00585C82 /* YCCollegeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCollegeViewController.h; sourceTree = "<group>"; };
 		0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCollegeViewController.m; sourceTree = "<group>"; };
 		0F96D292CC0F74E9725C4D2E /* libPods-BusinessCat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BusinessCat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -6682,6 +6687,16 @@
 			path = CompereCommand;
 			sourceTree = "<group>";
 		};
+		0DE38C2C206C83C100E3A6EC /* 会议室列表 */ = {
+			isa = PBXGroup;
+			children = (
+				0DE38C2D206C868100E3A6EC /* YCMeetingRoomListController.h */,
+				0DE38C2E206C868100E3A6EC /* YCMeetingRoomListController.m */,
+				0DE38C2F206C868100E3A6EC /* YCMeetingRoomListController.xib */,
+			);
+			path = "会议室列表";
+			sourceTree = "<group>";
+		};
 		0DED88461FC9539000585C82 /* College */ = {
 			isa = PBXGroup;
 			children = (
@@ -7687,6 +7702,7 @@
 		D7B6DE6D1DBBB2F300FE62BA /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				0DE38C2C206C83C100E3A6EC /* 会议室列表 */,
 				0DD832272032E6DA00AFC8F5 /* 我的文档 */,
 				D7B6DE6E1DBBB2F300FE62BA /* CGDiscoverMainController.h */,
 				D7B6DE6F1DBBB2F300FE62BA /* CGDiscoverMainController.m */,
@@ -8688,6 +8704,7 @@
 				0DD83226202EDEA300AFC8F5 /* YCAllShareProfitController.xib in Resources */,
 				0D5F94871FD6A65A00E69143 /* JusDoodle.bundle in Resources */,
 				18ED53351F4AB34200EB2D64 /* CGDetailTableViewCell.xib in Resources */,
+				0DE38C31206C868200E3A6EC /* YCMeetingRoomListController.xib in Resources */,
 				0DBF47F11FB3087400707C12 /* video_window_on_pressed@2x.png in Resources */,
 				1841E1891E1BA7F40030376A /* HeadlineTopicMyReplyCell.xib in Resources */,
 				0DBF47BC1FB3087400707C12 /* information@3x.png in Resources */,
@@ -9896,6 +9913,7 @@
 				0D90E0081FB43C3A00EDB7CF /* UIImage+Additions.m in Sources */,
 				0D90DFFB1FB43C3A00EDB7CF /* MyChatToolBarView.m in Sources */,
 				1868534D1EA70BFA00B79EFD /* SDWebImageManager+Gallop.m in Sources */,
+				0DE38C30206C868200E3A6EC /* YCMeetingRoomListController.m in Sources */,
 				D710B7E81D99043100688D72 /* CTBase64.m in Sources */,
 				1835D9F21DB9E8F00006ED07 /* CGUserChoseOrganizeViewController.m in Sources */,
 				0DBF48031FB3087400707C12 /* JCBaseViewController.m in Sources */,

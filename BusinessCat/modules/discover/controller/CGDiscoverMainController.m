@@ -464,6 +464,8 @@
                     vc.title = entity.name;
                     vc.type = 999;
                     [weakSelf.navigationController pushViewController:vc animated:YES];
+                } else if ([entity.code isEqualToString:@"discover/roomList"]) {// 会议室列表
+                    
                 }
             }];
             return cell;

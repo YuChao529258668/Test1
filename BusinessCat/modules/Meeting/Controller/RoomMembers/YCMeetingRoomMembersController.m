@@ -698,7 +698,11 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         if (weakself.onMembersChangeBlock) {
             weakself.onMembersChangeBlock(state.meetingUserList);
         }
-        [[YCJusTalkIMTool new] sendMeetingInviteTo:userAdd withMeetingID:weakself.meetingID  avatarUrl:state.ycCompere.userIcon userName:state.ycCompere.userName groupID:state.groupId meetingState:state.meetingState roomID:state.conferenceNumber q:weakself.q];
+        
+        // 0:未开始 1：进行中 2：已结束 3：已取消
+        if (state.meetingState == 1) {
+            [[YCJusTalkIMTool new] sendMeetingInviteTo:userAdd withMeetingID:weakself.meetingID  avatarUrl:state.ycCompere.userIcon userName:state.ycCompere.userName groupID:state.groupId meetingState:state.meetingState roomID:state.conferenceNumber q:weakself.q];
+        }
     } fail:^(NSError *error) {
         [CTToast showWithText:[NSString stringWithFormat:@"修改成员失败 : %@", error]];
     }];

@@ -36,7 +36,7 @@
     if ([self isKindOfClass:[UILabel class]]) {
         self.textColor = self.textColor;
     }
-    if ([self isKindOfClass:[UIView class]]) {
+    if ([self isKindOfClass:[UILabel class]]) {
         self.backgroundColor = self.backgroundColor;
     }
 }

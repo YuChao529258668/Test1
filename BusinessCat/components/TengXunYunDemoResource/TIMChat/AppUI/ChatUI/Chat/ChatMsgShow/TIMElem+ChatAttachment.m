@@ -123,7 +123,7 @@
 {
     //    UIFont *inputFont = [msg inputTextFont];
     NSInteger height = 14;
-    height = 32;
+    height = 20;
 
     // TODO：待取到表情表之后再作处理
     ChatImageAttachment *image = [[ChatImageAttachment alloc] initWith:self];

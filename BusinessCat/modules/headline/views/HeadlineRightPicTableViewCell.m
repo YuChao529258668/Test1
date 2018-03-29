@@ -24,6 +24,10 @@
 
 - (void)awakeFromNib {
   [super awakeFromNib];
+    
+    self.contextTypeWidth.constant = 0;
+    self.contentType.hidden = YES;
+
   self.contentView.clipsToBounds = YES;
   self.contentType.layer.borderWidth = 0.5;
   self.contentType.layer.borderColor = CTThemeMainColor.CGColor;
@@ -172,6 +176,10 @@
     self.title.textColor = TEXT_MAIN_CLR;
   }
   
+    // 老板让隐藏的
+    self.contextTypeWidth.constant = 0;
+    self.contentType.hidden = YES;
+
   [self autolayout];
 }
 

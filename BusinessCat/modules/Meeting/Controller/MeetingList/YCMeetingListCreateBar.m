@@ -10,13 +10,22 @@
 
 @implementation YCMeetingListCreateBar
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.barContainer.hidden = YES;
+}
+
 - (IBAction)clickHideBtn:(id)sender {
-    self.hidden = YES;
+//    self.hidden = YES;
+    [self dismiss];
+
 }
 
 
 - (IBAction)hide:(id)sender {
-    self.hidden = YES;
+//    self.hidden = YES;
+    [self dismiss];
+
 }
 
 + (instancetype)bar {
@@ -37,10 +46,26 @@
 #pragma mark - Actions
 
 - (IBAction)clickMeeting:(id)sender {
-    self.hidden = YES;
+    [self dismiss];
+    
     if (self.clickButtonIndexBlock) {
         self.clickButtonIndexBlock(0);
     }
 }
+
+#pragma mark -
+
+- (void)dismiss {
+    [self removeFromSuperview];
+}
+
+- (void)showOrHide {
+    if (self.superview) {
+        [self removeFromSuperview];
+    } else {
+        [[UIApplication sharedApplication].keyWindow addSubview:self];
+    }
+}
+
 
 @end

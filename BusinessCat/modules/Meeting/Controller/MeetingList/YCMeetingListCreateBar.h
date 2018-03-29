@@ -14,9 +14,17 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *barRightConstraint;
 
 @property (weak, nonatomic) IBOutlet UIView *barContainer;
+
+
+
+
 @property (nonatomic,copy) void (^clickButtonIndexBlock)(int index);
+
+
 
 + (instancetype)bar;
 - (void)barAlignToView:(UIView *)view;
+
+- (void)showOrHide;
 
 @end

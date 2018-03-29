@@ -59,6 +59,7 @@
     
     [YCJCSDKHelper loginMultiCallWithUserID:[ObjectShareTool sharedInstance].currentUser.uuid];
     
+    [self setupCreateBar];
     [self setupTopBar];
     [self setupTableView];
     [self setupHeaderView];
@@ -110,10 +111,9 @@
     
     self.backImageView.frame = self.view.bounds;
     
-//    self.createBar.barYConstraint.constant = self.createMeetingBtn.frame.origin.y;
-    [self.createBar barAlignToView:self.createMeetingBtn];
-    self.createBar.frame = self.view.bounds;
-    
+//    [self.createBar barAlignToView:self.createMeetingBtn];
+//    self.createBar.frame = self.view.bounds;
+    self.createBar.frame = [UIScreen mainScreen].bounds;
 }
 
 - (void)dealloc {
@@ -235,22 +235,19 @@
     return _backImageView;
 }
 
-- (YCMeetingListCreateBar *)createBar {
-    if (!_createBar) {
-        _createBar = [YCMeetingListCreateBar bar];
-        _createBar.hidden = YES;
-        [self.view addSubview:_createBar];
-//        [self.view insertSubview:_createBar belowSubview:self.createMeetingBtn];
-        
-        __weak typeof(self) weakself = self;
-        _createBar.clickButtonIndexBlock = ^(int index) {
-            if (index == 0) {
-                YCCreateMeetingController *vc = [YCCreateMeetingController new];
-                [weakself.navigationController pushViewController:vc animated:YES];
-            }
-        };
-    }
-    return _createBar;
+- (void)setupCreateBar {
+    _createBar = [YCMeetingListCreateBar bar];
+    //        _createBar.hidden = YES;
+    //        [self.view addSubview:_createBar];
+    //        [self.view insertSubview:_createBar belowSubview:self.createMeetingBtn];
+    
+    __weak typeof(self) weakself = self;
+    _createBar.clickButtonIndexBlock = ^(int index) {
+        if (index == 0) {
+            YCCreateMeetingController *vc = [YCCreateMeetingController new];
+            [weakself.navigationController pushViewController:vc animated:YES];
+        }
+    };
 }
 
 #pragma mark - Action
@@ -301,7 +298,8 @@
 }
 
 - (void)createMeetingBtnClick {
-    self.createBar.hidden = !self.createBar.isHidden;
+//    self.createBar.hidden = !self.createBar.isHidden;
+    [self.createBar showOrHide];
     return;
     
     if ([ObjectShareTool sharedInstance].currentUser.isLogin) {

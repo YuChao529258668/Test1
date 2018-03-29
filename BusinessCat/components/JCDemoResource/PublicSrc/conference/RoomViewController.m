@@ -385,6 +385,14 @@ typedef enum {
         self.hintLabel.text = @"会议已结束";
         return;
     }
+    
+    if (self.meetingState == 0) {
+        self.cancelBtn.hidden = YES;
+        self.hintLabel.text = @"会议未开始";
+        [self.memberTabBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+        return;
+    }
+
 
     BOOL ret = [_meetingReformer joinWithRommId:self.meeting.conferenceNumber displayName:_displayName];
     

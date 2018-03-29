@@ -467,11 +467,11 @@
         if (detail) {
             [CTToast showWithText:@"创建成功"];
             
-//            NSString *meetingId = detail[@"meetingId"];
-//            [weakself goToMeetingRoomWithMeetingID:meetingId];
+//            [weakself.navigationController popToRootViewControllerAnimated:YES];
             
-            //        [weakself.navigationController popViewControllerAnimated:YES];
-            [weakself.navigationController popToRootViewControllerAnimated:YES];
+            NSString *meetingId = detail[@"meetingId"];
+            [weakself goToMeetingRoomWithMeetingID:meetingId];
+
         } else {
             [CTToast showWithText:data[@"msg"]];
 //            [weakself showChargeAlertWithMessage:data[@"msg"]];
@@ -521,24 +521,27 @@
 }
 
 - (void)goToMeetingRoomWithMeetingID:(NSString *)mid {
-    // 获取会议详情
-//    [[YCMeetingBiz new] getMeetingDetailWithMeetingID:meetingID success:^(CGMeeting *meeting) {
-//        RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
-//        roomVc.roomId = self.meeting.conferenceNumber;
-//        roomVc.displayName = [ObjectShareTool sharedInstance].currentUser.username;
-//        roomVc.meetingID = self.meeting.meetingId;
-//        roomVc.meetingState = self.meeting.meetingState;
-//        roomVc.isReview = (self.meeting.meetingState == 3)? YES: NO;
-//        roomVc.AccessKey = self.AccessKey;
-//        roomVc.SecretKey = self.SecretKey;
-//        roomVc.BucketName = self.BucketName;
-//
-//        [self.navigationController pushViewController:roomVc animated:YES];
-//
-//    } fail:^(NSError *error) {
-//
-//    }];
+    __weak typeof(self) weakself = self;
+    
+    [[YCMeetingBiz new] meetingEntranceWithMeetingID:mid Success:^(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *q) {
 
+        // 状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
+        RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
+        roomVc.displayName = [ObjectShareTool sharedInstance].currentUser.username;
+        roomVc.meetingID = mid;
+        roomVc.meetingState = state;
+        roomVc.isReview = NO;
+        roomVc.AccessKey = AccessKey;
+        roomVc.SecretKey = SecretKey;
+        roomVc.BucketName = BucketName;
+        
+        UINavigationController *nvc = weakself.navigationController;
+        [nvc popToRootViewControllerAnimated:YES];
+        [nvc pushViewController:roomVc animated:YES];
+        
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 #pragma mark - 微信支付

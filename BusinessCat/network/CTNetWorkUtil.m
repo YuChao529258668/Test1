@@ -99,8 +99,13 @@ static CTNetWorkUtil *_sharedManager;
  */
 - (void)sendRequestWithURL:(NSString *)urlString param:(NSDictionary *)param{
     if (![urlString containsString:@"interact/data"]) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            NSLog(@"\n请求总出口 请求地址：%@, 参数：%@\n",urlString, [YCTool stringOfDictionary:param]);
+//            //        NSLog(@"\n请求总出口 请求地址：%@, 参数：%@\n",urlString, param);
+//            NSLog(@"-------------------------------------");
+//        });
         NSLog(@"\n请求总出口 请求地址：%@, 参数：%@\n",urlString, [YCTool stringOfDictionary:param]);
-//        NSLog(@"\n请求总出口 请求地址：%@, 参数：%@\n",urlString, param);
+        //        NSLog(@"\n请求总出口 请求地址：%@, 参数：%@\n",urlString, param);
         NSLog(@"-------------------------------------");
     }
     
@@ -116,6 +121,10 @@ static CTNetWorkUtil *_sharedManager;
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (![urlString containsString:@"interact/data"]) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                NSLog(@"\n请求总出口 %@, 请求接口：%@，返回数据：%@\n", NSStringFromSelector(_cmd),urlString,[YCTool stringOfDictionary:responseObject]);
+//                NSLog(@"-------------------------------------");
+//            });
             NSLog(@"\n请求总出口 %@, 请求接口：%@，返回数据：%@\n", NSStringFromSelector(_cmd),urlString,[YCTool stringOfDictionary:responseObject]);
             NSLog(@"-------------------------------------");
         }
