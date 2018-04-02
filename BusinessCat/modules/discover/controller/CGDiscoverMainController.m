@@ -32,7 +32,7 @@
 #import "CGUserOrganizaJoinEntity.h"
 #import "YCMyDocumentController.h"
 #import "CGUrlView.h"
-
+#import "YCMeetingRoomListController.h"
 @interface CGDiscoverMainController ()<SDCycleScrollViewDelegate, UITableViewDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *topView;
@@ -465,7 +465,8 @@
                     vc.type = 999;
                     [weakSelf.navigationController pushViewController:vc animated:YES];
                 } else if ([entity.code isEqualToString:@"discover/roomList"]) {// 会议室列表
-                    
+                    YCMeetingRoomListController *vc = [YCMeetingRoomListController new];
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
                 }
             }];
             return cell;

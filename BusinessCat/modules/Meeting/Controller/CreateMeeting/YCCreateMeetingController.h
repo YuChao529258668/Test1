@@ -31,5 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *blockIV;
 @property (weak, nonatomic) IBOutlet UIImageView *blockIV2;
 
+@property (nonatomic, assign) BOOL useCollectionView;// 使用方格 view 选择开会时间
+
 
 @end

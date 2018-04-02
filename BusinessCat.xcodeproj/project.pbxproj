@@ -718,6 +718,16 @@
 		0DE38C2B2068E58E00E3A6EC /* 0.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C2A2068E58E00E3A6EC /* 0.gif */; };
 		0DE38C30206C868200E3A6EC /* YCMeetingRoomListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DE38C2E206C868100E3A6EC /* YCMeetingRoomListController.m */; };
 		0DE38C31206C868200E3A6EC /* YCMeetingRoomListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C2F206C868100E3A6EC /* YCMeetingRoomListController.xib */; };
+		0DE38C35206C8A4400E3A6EC /* YCMeetingRoomListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DE38C33206C8A4400E3A6EC /* YCMeetingRoomListCell.m */; };
+		0DE38C36206C8A4400E3A6EC /* YCMeetingRoomListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C34206C8A4400E3A6EC /* YCMeetingRoomListCell.xib */; };
+		0DE38C38206C8ADE00E3A6EC /* WechatIMG4173.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C37206C8ADD00E3A6EC /* WechatIMG4173.png */; };
+		0DE38C3C206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DE38C3A206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.m */; };
+		0DE38C3D206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C3B206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.xib */; };
+		0DE38C41206E2B6C00E3A6EC /* YCCreateMeetingController222.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DE38C3F206E2B6C00E3A6EC /* YCCreateMeetingController222.m */; };
+		0DE38C42206E2B6C00E3A6EC /* YCCreateMeetingController222.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C40206E2B6C00E3A6EC /* YCCreateMeetingController222.xib */; };
+		0DE38C44206E2C7D00E3A6EC /* WechatIMG4174.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C43206E2C7D00E3A6EC /* WechatIMG4174.png */; };
+		0DE38C48206E370700E3A6EC /* YCCreateMeetingTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DE38C46206E370700E3A6EC /* YCCreateMeetingTimeCell.m */; };
+		0DE38C49206E370700E3A6EC /* YCCreateMeetingTimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DE38C47206E370700E3A6EC /* YCCreateMeetingTimeCell.xib */; };
 		0DED884D1FC953FF00585C82 /* YCCollegeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */; };
 		1804A3321DCB229800CA2326 /* CGDiscoverLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 1804A3311DCB229800CA2326 /* CGDiscoverLink.m */; };
 		1806D2D31DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1806D2D11DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m */; };
@@ -2748,6 +2758,20 @@
 		0DE38C2D206C868100E3A6EC /* YCMeetingRoomListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingRoomListController.h; sourceTree = "<group>"; };
 		0DE38C2E206C868100E3A6EC /* YCMeetingRoomListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingRoomListController.m; sourceTree = "<group>"; };
 		0DE38C2F206C868100E3A6EC /* YCMeetingRoomListController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCMeetingRoomListController.xib; sourceTree = "<group>"; };
+		0DE38C32206C8A4400E3A6EC /* YCMeetingRoomListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingRoomListCell.h; sourceTree = "<group>"; };
+		0DE38C33206C8A4400E3A6EC /* YCMeetingRoomListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingRoomListCell.m; sourceTree = "<group>"; };
+		0DE38C34206C8A4400E3A6EC /* YCMeetingRoomListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCMeetingRoomListCell.xib; sourceTree = "<group>"; };
+		0DE38C37206C8ADD00E3A6EC /* WechatIMG4173.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WechatIMG4173.png; sourceTree = "<group>"; };
+		0DE38C39206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMeetingRoomListTimeCell.h; sourceTree = "<group>"; };
+		0DE38C3A206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMeetingRoomListTimeCell.m; sourceTree = "<group>"; };
+		0DE38C3B206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCMeetingRoomListTimeCell.xib; sourceTree = "<group>"; };
+		0DE38C3E206E2B6C00E3A6EC /* YCCreateMeetingController222.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCreateMeetingController222.h; sourceTree = "<group>"; };
+		0DE38C3F206E2B6C00E3A6EC /* YCCreateMeetingController222.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCreateMeetingController222.m; sourceTree = "<group>"; };
+		0DE38C40206E2B6C00E3A6EC /* YCCreateMeetingController222.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCCreateMeetingController222.xib; sourceTree = "<group>"; };
+		0DE38C43206E2C7D00E3A6EC /* WechatIMG4174.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WechatIMG4174.png; sourceTree = "<group>"; };
+		0DE38C45206E370700E3A6EC /* YCCreateMeetingTimeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCreateMeetingTimeCell.h; sourceTree = "<group>"; };
+		0DE38C46206E370700E3A6EC /* YCCreateMeetingTimeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCreateMeetingTimeCell.m; sourceTree = "<group>"; };
+		0DE38C47206E370700E3A6EC /* YCCreateMeetingTimeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCCreateMeetingTimeCell.xib; sourceTree = "<group>"; };
 		0DED884B1FC953FF00585C82 /* YCCollegeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCCollegeViewController.h; sourceTree = "<group>"; };
 		0DED884C1FC953FF00585C82 /* YCCollegeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCCollegeViewController.m; sourceTree = "<group>"; };
 		0F96D292CC0F74E9725C4D2E /* libPods-BusinessCat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BusinessCat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4345,6 +4369,13 @@
 				0D316E0120107F2D0097D79D /* YCCreateMeetingController.h */,
 				0D316E0220107F2D0097D79D /* YCCreateMeetingController.m */,
 				0D316E0320107F2D0097D79D /* YCCreateMeetingController.xib */,
+				0DE38C43206E2C7D00E3A6EC /* WechatIMG4174.png */,
+				0DE38C3E206E2B6C00E3A6EC /* YCCreateMeetingController222.h */,
+				0DE38C3F206E2B6C00E3A6EC /* YCCreateMeetingController222.m */,
+				0DE38C40206E2B6C00E3A6EC /* YCCreateMeetingController222.xib */,
+				0DE38C45206E370700E3A6EC /* YCCreateMeetingTimeCell.h */,
+				0DE38C46206E370700E3A6EC /* YCCreateMeetingTimeCell.m */,
+				0DE38C47206E370700E3A6EC /* YCCreateMeetingTimeCell.xib */,
 			);
 			path = CreateMeeting;
 			sourceTree = "<group>";
@@ -6693,6 +6724,13 @@
 				0DE38C2D206C868100E3A6EC /* YCMeetingRoomListController.h */,
 				0DE38C2E206C868100E3A6EC /* YCMeetingRoomListController.m */,
 				0DE38C2F206C868100E3A6EC /* YCMeetingRoomListController.xib */,
+				0DE38C37206C8ADD00E3A6EC /* WechatIMG4173.png */,
+				0DE38C32206C8A4400E3A6EC /* YCMeetingRoomListCell.h */,
+				0DE38C33206C8A4400E3A6EC /* YCMeetingRoomListCell.m */,
+				0DE38C34206C8A4400E3A6EC /* YCMeetingRoomListCell.xib */,
+				0DE38C39206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.h */,
+				0DE38C3A206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.m */,
+				0DE38C3B206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.xib */,
 			);
 			path = "会议室列表";
 			sourceTree = "<group>";
@@ -8575,6 +8613,7 @@
 				0DBF47881FB3087400707C12 /* status_host_off@2x.png in Resources */,
 				0DBF47D31FB3087400707C12 /* paint_selected@2x.png in Resources */,
 				18A6D2EF1E67F3660076D02E /* CGExceptionalViewController.xib in Resources */,
+				0DE38C44206E2C7D00E3A6EC /* WechatIMG4174.png in Resources */,
 				0D90E0531FB43C3A00EDB7CF /* 00.caf in Resources */,
 				0DCD73371FB3F3EB00972501 /* TLSUI.bundle in Resources */,
 				181C551B1EC307270064354D /* CGMessageDetailMoreGraphicTableViewCell.xib in Resources */,
@@ -8728,6 +8767,7 @@
 				0DB9E660202C579F00ACA8D0 /* 71.gif in Resources */,
 				183EBAB61F17733400D6157D /* CGChooseFocusKnowledgeTableViewCell.xib in Resources */,
 				0DBF47CC1FB3087400707C12 /* microphone_on@3x.png in Resources */,
+				0DE38C38206C8ADE00E3A6EC /* WechatIMG4173.png in Resources */,
 				1817C30D1DE42E5300711EF0 /* PushViewTableViewCell.xib in Resources */,
 				0DB9E61E202C579E00ACA8D0 /* 27.gif in Resources */,
 				D7F44BD41DA8A346004393C2 /* HeadlineTopicCell.xib in Resources */,
@@ -8876,6 +8916,7 @@
 				D7F44D381DB1FD67004393C2 /* 项目简介.txt in Resources */,
 				D7E4175E1D9A1F0200048E57 /* HeadlineRightPicTableViewCell.xib in Resources */,
 				D732084C1EA64EE3006BC285 /* unicode_to_hanyu_pinyin.txt in Resources */,
+				0DE38C49206E370700E3A6EC /* YCCreateMeetingTimeCell.xib in Resources */,
 				183CDE6D1F2746C40099520F /* CGChooseClassificationViewController.xib in Resources */,
 				0DBF47F31FB3087400707C12 /* volume_off@2x.png in Resources */,
 				0DBF47CF1FB3087400707C12 /* paint_normal@2x.png in Resources */,
@@ -8900,6 +8941,7 @@
 				0DBF47B31FB3087400707C12 /* camera_on_highlighted@2x.png in Resources */,
 				0D90E0151FB43C3A00EDB7CF /* ufa.bundle in Resources */,
 				1877240E1DEBD58C00D38E8A /* CGSkillTagsViewController.xib in Resources */,
+				0DE38C42206E2B6C00E3A6EC /* YCCreateMeetingController222.xib in Resources */,
 				18CEA6A11E5D6B8E00D9D17F /* CommentaryTableViewCell.xib in Resources */,
 				181C54FC1EC2E5020064354D /* CGMessageViewController.xib in Resources */,
 				0DB9E673202C579F00ACA8D0 /* 17.gif in Resources */,
@@ -8914,6 +8956,7 @@
 				181C552F1EC46C540064354D /* CGProductInterfaceViewController.xib in Resources */,
 				0DB9E64E202C579F00ACA8D0 /* 91.gif in Resources */,
 				1827C4EC1E3383DE0019FE6B /* CGLoginOutTableViewCell.xib in Resources */,
+				0DE38C3D206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.xib in Resources */,
 				0D1E96672021A3F900B6187A /* YCPersonalProfitCell.xib in Resources */,
 				1842BE3F1E2F504400697332 /* HeadlineLeftPicAddTableViewCell.xib in Resources */,
 				18C6C8041EEE7FEC009DFD89 /* CGTeamDocumentCollectionViewCell.xib in Resources */,
@@ -9070,6 +9113,7 @@
 				0DBF476B1FB3087300707C12 /* undo@3x.png in Resources */,
 				1838CF721EA89905005480B3 /* CGKnowledgeBaseDetailViewController.xib in Resources */,
 				0DBF47E51FB3087400707C12 /* splitscreen_selected@2x.png in Resources */,
+				0DE38C36206C8A4400E3A6EC /* YCMeetingRoomListCell.xib in Resources */,
 				187724871DEEB23100D38E8A /* SubCollectionViewCell.xib in Resources */,
 				181C55111EC2FECE0064354D /* CGMessageDetailTextTableViewCell.xib in Resources */,
 				18322E421EF93A9D00B238CC /* CGNoIdentityTableViewCell.xib in Resources */,
@@ -9430,6 +9474,7 @@
 				D7F44C541DAB231E004393C2 /* ShareUtil.m in Sources */,
 				181C54F41EC1CA8A0064354D /* CGBuyMethodPaymentTableViewCell.m in Sources */,
 				D73208471EA64EE3006BC285 /* HanyuPinyinOutputFormat.m in Sources */,
+				0DE38C41206E2B6C00E3A6EC /* YCCreateMeetingController222.m in Sources */,
 				0D90DFB21FB43C3A00EDB7CF /* ChatAttachment.m in Sources */,
 				1891BF851E976BAE00D6F37B /* CGChoseOrganizationViewController.m in Sources */,
 				0D90E04D1FB43C3A00EDB7CF /* UserProfileHeaderView.m in Sources */,
@@ -9764,6 +9809,7 @@
 				0D90E0661FB43C3A00EDB7CF /* UIPlaceHolderTextView.m in Sources */,
 				18400BF01ECC36A000E3009D /* CGUserHelpCateListEntity.m in Sources */,
 				0DBF48051FB3087400707C12 /* UIImage+Tint.m in Sources */,
+				0DE38C3C206CB57B00E3A6EC /* YCMeetingRoomListTimeCell.m in Sources */,
 				0D90DF891FB43C3A00EDB7CF /* ScrollRefreshViewController.m in Sources */,
 				D710B7EC1D99043100688D72 /* UAProgressView.m in Sources */,
 				0D35DBFA201F330D0087C20E /* YCSeeBoardController.m in Sources */,
@@ -9898,6 +9944,7 @@
 				182DC83D1E71527F00E9E982 /* CGBigdataEntity.m in Sources */,
 				18D135E41DC1DD37001EEE0A /* CGSourceCircleEntity.m in Sources */,
 				D7B6DD411DB77B3300FE62BA /* WKWebViewController.m in Sources */,
+				0DE38C48206E370700E3A6EC /* YCCreateMeetingTimeCell.m in Sources */,
 				18427D5A1DC7281D00E19BC0 /* CGPartSeeAddressEntity.m in Sources */,
 				D7799E2B1ED6F8B3009107E4 /* KnowledgeHeaderEntity.m in Sources */,
 				D722B9541F035E2400B7C9F0 /* TeamCircleHeadView.m in Sources */,
@@ -9986,6 +10033,7 @@
 				1890F3ED1E61971100A0F1BF /* UserAuditNoDataTableViewCell.m in Sources */,
 				0D90DFAF1FB43C3A00EDB7CF /* IMAHost+HostAPIs.m in Sources */,
 				1834BB311DB639AA008F4685 /* CGUserCorporationTableViewCell.m in Sources */,
+				0DE38C35206C8A4400E3A6EC /* YCMeetingRoomListCell.m in Sources */,
 				186E8D461E237D010042B451 /* CGFristOpenView.m in Sources */,
 				0D90DF511FB43C3900EDB7CF /* UIImage+ImageEffect.m in Sources */,
 				0D90DF641FB43C3900EDB7CF /* FBKVOController.m in Sources */,

@@ -293,6 +293,20 @@
     }];
 }
 
+- (void)getMeetingRoomTimeListWithSelectDate:(NSDate *)selectDate success:(void(^)(NSArray<YCMeetingCompanyRoom *> *companyRooms))success fail:(void(^)(NSError *error))fail {
+    NSNumber *n = [NSNumber numberWithLong:selectDate.timeIntervalSince1970 * 1000];
+    NSDictionary *dic = @{@"selectDate": n};
+    
+    [self.component UIPostRequestWithURL:URL_Meeting_MeetingRoomTimeList param:dic success:^(NSDictionary *data) {
+        NSArray<YCMeetingCompanyRoom *> *companyRooms = [YCMeetingCompanyRoom mj_objectArrayWithKeyValuesArray:data];
+        if (success) {
+            success(companyRooms);
+        }
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+
+}
 
 #pragma mark - 文件
 

@@ -11,6 +11,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YCMeetingRoomListController">
             <connections>
+                <outlet property="dateL" destination="JW1-hP-qn1" id="gdt-Zh-VjU"/>
+                <outlet property="tableView" destination="q32-Bg-kH5" id="fYI-md-iav"/>
+                <outlet property="topView" destination="9TT-Qq-3L2" id="sFa-WO-w3B"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -26,19 +29,65 @@
                         <constraint firstAttribute="height" constant="40" id="Yr9-wk-R2S"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ogK-kG-Pcy">
-                    <rect key="frame" x="0.0" y="104" width="375" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="2018年2月2日 星期三"/>
-                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BIk-5V-dfa" userLabel="BtnView">
+                    <rect key="frame" x="0.0" y="64" width="375" height="40"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ogK-kG-Pcy">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                            <connections>
+                                <action selector="clickDateBtn:" destination="-1" eventType="touchUpInside" id="RXN-lI-F0d"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2018年2月2日 星期三" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JW1-hP-qn1">
+                            <rect key="frame" x="118" y="11.5" width="138.5" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="remove_black" translatesAutoresizingMaskIntoConstraints="NO" id="6wg-2K-70T">
+                            <rect key="frame" x="260" y="10" width="20" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="3Uq-qM-c37"/>
+                                <constraint firstAttribute="width" constant="20" id="UOF-9r-TWu"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="6wg-2K-70T" firstAttribute="leading" secondItem="JW1-hP-qn1" secondAttribute="trailing" constant="4" id="7eZ-UL-0l6"/>
+                        <constraint firstAttribute="height" constant="40" id="B4o-mS-dpw"/>
+                        <constraint firstItem="JW1-hP-qn1" firstAttribute="centerY" secondItem="BIk-5V-dfa" secondAttribute="centerY" id="QGh-Ex-AwJ"/>
+                        <constraint firstItem="ogK-kG-Pcy" firstAttribute="leading" secondItem="BIk-5V-dfa" secondAttribute="leading" id="aTA-9n-PE0"/>
+                        <constraint firstAttribute="trailing" secondItem="ogK-kG-Pcy" secondAttribute="trailing" id="dS0-N7-6fn"/>
+                        <constraint firstItem="6wg-2K-70T" firstAttribute="centerY" secondItem="BIk-5V-dfa" secondAttribute="centerY" id="gzs-tD-F0X"/>
+                        <constraint firstItem="JW1-hP-qn1" firstAttribute="centerX" secondItem="BIk-5V-dfa" secondAttribute="centerX" id="iwE-84-cR0"/>
+                        <constraint firstItem="ogK-kG-Pcy" firstAttribute="top" secondItem="BIk-5V-dfa" secondAttribute="top" id="liu-xR-Yrh"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6wg-2K-70T" secondAttribute="trailing" constant="6" id="mTu-YG-r3u"/>
+                        <constraint firstAttribute="bottom" secondItem="ogK-kG-Pcy" secondAttribute="bottom" id="xRk-2s-Pvx"/>
+                    </constraints>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q32-Bg-kH5">
+                    <rect key="frame" x="0.0" y="104" width="375" height="563"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="q32-Bg-kH5" firstAttribute="top" secondItem="BIk-5V-dfa" secondAttribute="bottom" id="0wG-fz-WOx"/>
                 <constraint firstItem="9TT-Qq-3L2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="3Fs-9i-UUw"/>
+                <constraint firstAttribute="bottom" secondItem="q32-Bg-kH5" secondAttribute="bottom" id="8Op-8I-aGm"/>
                 <constraint firstItem="9TT-Qq-3L2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="HTa-SB-dri"/>
+                <constraint firstAttribute="trailing" secondItem="q32-Bg-kH5" secondAttribute="trailing" id="KHO-oV-sy6"/>
                 <constraint firstAttribute="trailing" secondItem="9TT-Qq-3L2" secondAttribute="trailing" id="Nat-nb-GRK"/>
+                <constraint firstAttribute="trailing" secondItem="BIk-5V-dfa" secondAttribute="trailing" id="ZTg-Jw-AMq"/>
+                <constraint firstItem="q32-Bg-kH5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ola-DJ-ZSv"/>
+                <constraint firstItem="BIk-5V-dfa" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="t3N-bG-KLg"/>
+                <constraint firstItem="BIk-5V-dfa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="zxm-9E-Tth"/>
             </constraints>
             <point key="canvasLocation" x="34.5" y="86.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="remove_black" width="9" height="4"/>
+    </resources>
 </document>

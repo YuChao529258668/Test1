@@ -8,6 +8,37 @@
 
 #import "YCMeetingRoom.h"
 
+
+
+@implementation YCMeetingOccupyTime
+
+- (void)setStartTime:(long)startTime {
+    _startTime = startTime/1000.0;
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_startTime];
+    NSDateFormatter *f = [NSDateFormatter new];
+    f.dateFormat = @"HH";
+    self.startHour = [f stringFromDate:date].integerValue;
+    f.dateFormat = @"mm";
+    self.startM = [f stringFromDate:date].integerValue;
+}
+
+- (void)setEndTime:(long)endTime {
+    _endTime = endTime/1000.0;
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_endTime];
+    NSDateFormatter *f = [NSDateFormatter new];
+    f.dateFormat = @"HH";
+    self.endHour = [f stringFromDate:date].integerValue;
+    f.dateFormat = @"mm";
+    self.endM = [f stringFromDate:date].integerValue;
+}
+
+@end
+
+
+#pragma mark -
+
 @implementation YCMeetingCompanyRoom
 + (NSDictionary *)mj_objectClassInArray {
     return @{@"roomData": [YCMeetingRoom class]};
@@ -34,25 +65,36 @@
 @end
 
 
+#pragma mark -
+
 @implementation YCMeetingRoom
 
++ (NSDictionary *)mj_objectClassInArray {
+    return @{@"meetingTimeList": [YCMeetingOccupyTime class]};
+}
+
 //
-////收费会议室：按会议类型+参会人数+时长进行计算费用
-//// 免费/包月会议室时：直接显示为免费
-//- (float)videoRoomPrice {
-//    if (self.roomcharge == 0 || self.roomcharge == 2) {
-//        return 0;
-//    }
-//    return self.costvideo * self.roomnum;
-//}
+//- (void)setMeetingTimeList:(NSArray<YCMeetingOccupyTime *> *)meetingTimeList {
+//    _meetingTimeList = meetingTimeList;
 //
-//// 免费/包月会议室时：直接显示为免费
-//- (float)voiceRoomPrice {
-//    if (self.roomcharge == 0 || self.roomcharge == 2) {
-//        return 0;
+//    BOOL full = YES;
+//
+//    long total = 0;
+//
+//    for (YCMeetingOccupyTime *time in meetingTimeList) {
+//        total += time.endTime - time.startTime;
 //    }
-//    return self.costvoice * self.roomnum;
+//
+//    long secondsOneDay = 24 * 60 *60;
+//
+//    if (total >= secondsOneDay - 1) {
+//        full = YES;
+//    }
+//    
+//    self.isFullTime = full;
+//
 //}
+
 
 @end
 
@@ -102,5 +144,8 @@
 //              );
 
 @end
+
+
+
 
 

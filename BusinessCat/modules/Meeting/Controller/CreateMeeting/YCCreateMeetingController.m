@@ -16,7 +16,9 @@
 #import "RoomViewController.h"
 #import "CGBuyVIPViewController.h"
 
-@interface YCCreateMeetingController ()<UITextFieldDelegate>
+#import "YCCreateMeetingTimeCell.h"
+
+@interface YCCreateMeetingController ()<UITextFieldDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *navigationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
@@ -54,6 +56,14 @@
 
 @property (nonatomic, strong) YCMeetingPayController *payController;
 
+
+// 新版日期
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIView *selectTimeView;
+@property (nonatomic, strong) NSIndexPath *beginIndex;// section = hour, item = min
+@property (nonatomic, strong) NSIndexPath *endIndex;// section = hour, item = min
+
+
 @end
 
 
@@ -67,10 +77,16 @@
     
     [self addObserverForWeiXinPay];
     [self configViews];
+    
+    
+    self.selectTimeView.hidden = !self.useCollectionView;
+    if (self.useCollectionView) {
+        [self configCollectionView];
+    }
 }
 
 - (void)dealloc {
-    [self removeObserverForWeiXinPay];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -550,10 +566,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccess:) name:NOTIFICATION_WEIXINPAYSUCCESS object:nil];
 }
 
-- (void)removeObserverForWeiXinPay {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)paySuccess:(NSNotification *)noti {
     [self createMeetingWithJuHua:NO];
 }
@@ -573,5 +585,65 @@
         
     }];
 }
+
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 24;
+}
+
+// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    YCCreateMeetingTimeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"YCCreateMeetingTimeCell" forIndexPath:indexPath];
+    cell.hourL.text = [NSString stringWithFormat:@"%ld:00", (long)indexPath.item];
+    cell.cellItem = indexPath.item;
+    return cell;
+}
+
+
+#pragma mark - 新版选择日期
+
+- (void)configCollectionView {
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    layout.itemSize = [YCCreateMeetingTimeCell itemSize];
+    layout.minimumInteritemSpacing = 4;
+    
+    [self.collectionView registerNib:[UINib nibWithNibName:@"YCCreateMeetingTimeCell" bundle:nil] forCellWithReuseIdentifier:@"YCCreateMeetingTimeCell"];
+    self.collectionView.dataSource = self;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTimeCellClickNotification:) name:[YCCreateMeetingTimeCell notificationName] object:nil];
+    
+}
+
+- (void)handleTimeCellClickNotification:(NSNotification *)noti {
+    YCCreateMeetingTimeCell *cell = (YCCreateMeetingTimeCell *)noti.object;
+    NSInteger hour = cell.cellItem;
+    NSInteger min = cell.clickIndex;//0,1,2,3
+    
+    if (!self.beginIndex) {
+        self.beginIndex = [NSIndexPath indexPathForItem:min inSection:hour];
+    } else {
+        NSInteger h = self.beginIndex.section;
+        NSInteger m = self.beginIndex.item;
+        
+        if (<#condition#>) {
+            <#statements#>
+        }
+    }
+    
+    if (!self.endIndex) {
+        self.endIndex = [NSIndexPath indexPathForItem:min inSection:hour];
+    } else {
+        
+    }
+
+
+    
+    
+    NSLog(@"%ld, %ld", hour, min);
+}
+
+
 
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YCMeetingRoomListController : UIViewController
+@interface YCMeetingRoomListController : CTBaseViewController
 
 @end
