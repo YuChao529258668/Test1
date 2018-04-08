@@ -27,6 +27,11 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gQS-Zt-DVm">
                         <rect key="frame" x="0.0" y="23" width="22" height="51"/>
                         <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tRM-M8-gVI">
+                                <rect key="frame" x="0.0" y="3" width="22" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YCy-sO-g2h">
                                 <rect key="frame" x="0.0" y="31" width="22" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -52,6 +57,7 @@
             </constraints>
             <size key="customSize" width="77" height="74"/>
             <connections>
+                <outlet property="darkTimeL" destination="tRM-M8-gVI" id="wJL-mP-vqa"/>
                 <outlet property="hourL" destination="hoX-z6-bpP" id="C5n-3Q-zaS"/>
                 <outlet property="timeL" destination="YCy-sO-g2h" id="Q9c-9q-MNo"/>
             </connections>

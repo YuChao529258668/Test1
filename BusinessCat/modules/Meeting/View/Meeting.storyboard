@@ -740,6 +740,7 @@
                         <outlet property="btn16" destination="ZdD-3L-emG" id="i5k-MM-dE0"/>
                         <outlet property="btn4" destination="3Me-BX-o83" id="wSz-Vj-ldl"/>
                         <outlet property="btn8" destination="Rbo-pH-y51" id="tYe-a2-xMw"/>
+                        <outlet property="secondHeaderView" destination="UH6-5W-nZc" id="atE-uo-gfr"/>
                         <outlet property="tableView" destination="pSn-jr-Jux" id="4nA-UJ-W16"/>
                         <outlet property="videoBtn" destination="3Jy-f1-6bS" id="Flz-fy-NAW"/>
                         <outlet property="voiceBtn" destination="RVM-K7-UBQ" id="OjU-6x-LaF"/>

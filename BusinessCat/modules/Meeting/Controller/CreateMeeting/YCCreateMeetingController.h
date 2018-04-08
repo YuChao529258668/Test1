@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YCMeetingRoom.h"
 
 @interface YCCreateMeetingController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *titleTF;
@@ -32,6 +33,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *blockIV2;
 
 @property (nonatomic, assign) BOOL useCollectionView;// 使用方格 view 选择开会时间
+@property (nonatomic, strong) YCMeetingRoom *room;
+@property (nonatomic, strong) NSDate *pointDate;// 指定日期
 
 
 @end

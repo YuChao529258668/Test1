@@ -56,6 +56,18 @@
     self.timeL.frame = frame;
 }
 
+- (void)setDarkTimeViewFrame:(NSValue *)darkTimeViewFrame {
+    _darkTimeViewFrame = darkTimeViewFrame;
+    
+    CGRect frame = darkTimeViewFrame.CGRectValue;
+    self.darkTimeL.frame = frame;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    self.darkTimeL.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"time_cell_bg"]];
+}
 
 
 @end

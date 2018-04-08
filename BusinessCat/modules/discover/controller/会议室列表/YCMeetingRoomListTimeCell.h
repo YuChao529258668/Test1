@@ -16,8 +16,10 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *hourL;
 @property (weak, nonatomic) IBOutlet UIView *timeL;
+@property (weak, nonatomic) IBOutlet UIView *darkTimeL;
 
 @property (nonatomic, strong) NSValue *timeViewFrame;
+@property (nonatomic, strong) NSValue *darkTimeViewFrame;
 
 @property (nonatomic, assign) NSInteger cellItem;
 

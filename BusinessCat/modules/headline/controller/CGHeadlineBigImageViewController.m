@@ -425,7 +425,7 @@
   NSString* key = [manager cacheKeyForURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?imageMogr2/format/jpg/quality/100",url]]];
   SDImageCache* cache = [SDImageCache sharedImageCache];
   UIImage *cachedImage = [cache imageFromDiskCacheForKey:key];
-  [self.shareUtil showShareMenuWithTitle:title desc:@"我在易事猫发现了这份非常优质的素材，现在也推荐给你" isqrcode:1 image:cachedImage url:url block:^(NSMutableArray *array) {
+  [self.shareUtil showShareMenuWithTitle:title desc:@"我在沟通猫发现了这份非常优质的素材，现在也推荐给你" isqrcode:1 image:cachedImage url:url block:^(NSMutableArray *array) {
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:array applicationActivities:nil];
     [weakSelf presentViewController:activityVC animated:YES completion:nil];
   }];

@@ -18,6 +18,9 @@
 + (float)hight;
 + (NSString *)notificationName;
 
+@property (nonatomic, assign) BOOL isToday;
+
+
 @end
 
 

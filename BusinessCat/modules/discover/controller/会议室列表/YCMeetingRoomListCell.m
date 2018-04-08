@@ -11,6 +11,7 @@
 
 @interface YCMeetingRoomListCell()<UICollectionViewDataSource>
 @property (nonatomic, strong) NSMutableArray<NSValue *> *yellowFrames;
+@property (nonatomic, strong) NSMutableArray<NSValue *> *darkFrames;
 
 @end
 
@@ -22,6 +23,7 @@
     // Initialization code
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    [self caculateDarkFrame];
     [self caculateYellowFrame];
     [self configCollectionView];
 }
@@ -33,6 +35,7 @@
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"YCMeetingRoomListTimeCell" bundle:nil] forCellWithReuseIdentifier:@"YCMeetingRoomListTimeCell"];
     self.collectionView.dataSource = self;
+    self.collectionView.userInteractionEnabled = NO;
 }
 
 + (float)hight {
@@ -44,6 +47,7 @@
 
     self.roomNameL.text = room.roomName;
     [self updateBookBtn];
+    [self caculateDarkFrame];
     [self caculateYellowFrame];
     [self.collectionView reloadData];
 }
@@ -59,6 +63,61 @@
     [self.bookBtn setTitle:@"预订" forState:UIControlStateNormal];
     [self.bookBtn setBackgroundColor:CTThemeMainColor];
     self.bookBtn.userInteractionEnabled = YES;
+}
+
+- (void)caculateDarkFrame {
+    float width = [YCMeetingRoomListTimeCell itemSize].width;
+    float yellowMaxHeight = [YCMeetingRoomListTimeCell yellowMaxHeight];
+    
+    self.darkFrames = [NSMutableArray arrayWithCapacity:24];
+    
+    for (int i = 0; i < 24; i++) {
+        CGRect frame = CGRectMake(0, 0, width, 0);
+        NSValue *v = [NSValue valueWithCGRect:frame];
+        [self.darkFrames addObject:v];
+    }
+    
+    if (!self.isToday) {
+        return;
+    }
+    
+    NSDate *date = [NSDate date];
+    NSDateFormatter *f = [NSDateFormatter new];
+    
+    f.dateFormat = @"HH";
+    NSInteger endHour = [f stringFromDate:date].integerValue;
+    
+    f.dateFormat = @"mm";
+    NSInteger endM = [f stringFromDate:date].integerValue;
+    
+    NSInteger startHour = 0;// 开始小时
+    NSInteger startM = 0;// 开始分钟
+    
+    if (startHour == endHour) {// 如果同一个小时
+        CGRect frame = self.darkFrames[startHour].CGRectValue;// 获取数组对应的元素
+        frame.origin.y = startM/60.0 * yellowMaxHeight;// 修改 y，开始分钟/60分钟*最大高度
+        frame.size.height = (endM - startM)/60.0 * yellowMaxHeight+2;//  修改高度，分钟数/60分钟*最大高度
+        self.darkFrames[startHour] = [NSValue valueWithCGRect:frame];// 放回数组里面
+    } else {
+        // 如果跨小时
+        // 修改第一个小时
+        CGRect frame = self.darkFrames[startHour].CGRectValue;
+        frame.origin.y = startM/60.0 * yellowMaxHeight;
+        frame.size.height = yellowMaxHeight - frame.origin.y +2;
+        self.darkFrames[startHour] = [NSValue valueWithCGRect:frame];
+        
+        // 如果是中间的小时，高度就是最大高度
+        while ((++startHour) < endHour) {
+            CGRect frame = self.darkFrames[startHour].CGRectValue;
+            frame.size.height = yellowMaxHeight+2;// 修改高度
+            self.darkFrames[startHour] = [NSValue valueWithCGRect:frame];
+        }
+        
+        // 修改最后一个小时
+        frame = self.darkFrames[endHour].CGRectValue;
+        frame.size.height = endM/60.0 * yellowMaxHeight+2;// 修改高度
+        self.darkFrames[startHour] = [NSValue valueWithCGRect:frame];
+    }
 }
 
 - (void)caculateYellowFrame {
@@ -81,18 +140,21 @@
         NSInteger startM = time.startM;// 开始分钟
         NSInteger endHour = time.endHour;
         NSInteger endM = time.endM;
-        
+//        NSInteger endM = time.endM+1;
+
         if (startHour == endHour) {// 如果同一个小时
             CGRect frame = self.yellowFrames[startHour].CGRectValue;// 获取数组对应的元素
             frame.origin.y = startM/60.0 * yellowMaxHeight;// 修改 y，开始分钟/60分钟*最大高度
-            frame.size.height = (endM - startM)/60.0 * yellowMaxHeight;//  修改高度，分钟数/60分钟*最大高度
+//            frame.size.height = (endM - startM)/60.0 * yellowMaxHeight;//  修改高度，分钟数/60分钟*最大高度
+            frame.size.height = (endM - startM)/60.0 * yellowMaxHeight + 2;//  修改高度，分钟数/60分钟*最大高度
             self.yellowFrames[startHour] = [NSValue valueWithCGRect:frame];// 放回数组里面
         } else {
             // 如果跨小时
             // 修改第一个小时
             CGRect frame = self.yellowFrames[startHour].CGRectValue;
             frame.origin.y = startM/60.0 * yellowMaxHeight;
-            frame.size.height = yellowMaxHeight - frame.origin.y;
+//            frame.size.height = yellowMaxHeight - frame.origin.y;
+            frame.size.height = yellowMaxHeight - frame.origin.y + 2;
             self.yellowFrames[startHour] = [NSValue valueWithCGRect:frame];
             
             // 如果是中间的小时，高度就是最大高度
@@ -104,7 +166,8 @@
             
             // 修改最后一个小时
             frame = self.yellowFrames[endHour].CGRectValue;
-            frame.size.height = endM/60.0 * yellowMaxHeight;// 修改高度
+//            frame.size.height = endM/60.0 * yellowMaxHeight;// 修改高度
+            frame.size.height = endM/60.0 * yellowMaxHeight + 2;// 修改高度
             self.yellowFrames[startHour] = [NSValue valueWithCGRect:frame];
         }
     }
@@ -121,10 +184,13 @@
     YCMeetingRoomListTimeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"YCMeetingRoomListTimeCell" forIndexPath:indexPath];
     cell.cellItem = indexPath.item;
     cell.hourL.text = [NSString stringWithFormat:@"%ld", indexPath.item];
-//    cell.room = self.room;
     cell.timeViewFrame = self.yellowFrames[indexPath.item];
+    cell.darkTimeViewFrame = self.darkFrames[indexPath.item];
     return cell;
 }
+
+
+#pragma mark - Action
 
 - (IBAction)clickBookBtn:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:[self.class notificationName] object:self];
@@ -142,17 +208,24 @@
 @implementation YCMeetingRoomListCellLabel
 
 - (void)setText:(NSString *)text {
-    text = [NSString stringWithFormat:@"  %@  ", text];
+    text = [NSString stringWithFormat:@" %@  ", text];
     [super setText:text];
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.layer.cornerRadius = 4;
+    
+    self.layer.cornerRadius = 3;
+    self.layer.masksToBounds = YES;
+//    self.backgroundColor = CTThemeMainColor;
+    self.layer.borderColor = self.textColor.CGColor;
+    self.layer.borderWidth = 1;
+
+    self.text = @"投影仪";
 }
 
 //- (void)drawRect:(CGRect)rect {
-//
+//    [super drawRect:rect];
 //}
 
 @end

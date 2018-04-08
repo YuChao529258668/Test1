@@ -13,13 +13,16 @@
 #import "YCPickerViewForDateController.h"
 #import "YCCreateMeetingController.h"
 
-@interface YCMeetingRoomListController ()<UITableViewDataSource>
+#import "YCRoomMeetingListController.h"
+
+@interface YCMeetingRoomListController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UILabel *dateL;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) NSArray<YCMeetingCompanyRoom *> *companyRooms;
 @property (nonatomic, strong) NSDate *date;
+@property (nonatomic, assign) BOOL isToday;
 
 @end
 
@@ -32,6 +35,7 @@
     self.titleView.text = @"会议室";
     
     self.date = [NSDate date];
+    self.isToday = YES;
     [self updateDateLabel];
     
     [self setupTableView];
@@ -47,6 +51,7 @@
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getData)];
     self.tableView.rowHeight = [YCMeetingRoomListCell hight];
     self.tableView.dataSource = self;
+    self.tableView.delegate = self;
     self.tableView.tableFooterView = [UIView new];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -83,6 +88,7 @@
     vc.minimumDate = [NSDate date];
     vc.onSelectItemBlock = ^(NSDate *date) {
         self.date = date;
+        self.isToday = [date isToday];
         [self updateDateLabel];
         [self getData];
     };
@@ -90,8 +96,14 @@
 }
 
 - (void)clickBookBtn:(NSNotification *)noti {
+    YCMeetingRoomListCell *cell = (YCMeetingRoomListCell *)noti.object;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    YCMeetingRoom *room = self.companyRooms[indexPath.section].roomData[indexPath.row];
+    
     YCCreateMeetingController *vc = [YCCreateMeetingController new];
     vc.useCollectionView = YES;
+    vc.room = room;
+    vc.pointDate = self.date;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -111,10 +123,22 @@
     YCMeetingRoom *room = company.roomData[indexPath.row];
     
     YCMeetingRoomListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"YCMeetingRoomListCell" forIndexPath:indexPath];
+    cell.isToday = self.isToday;
     cell.room = room;
     return cell;
 }
 
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    YCMeetingCompanyRoom *company = self.companyRooms[indexPath.section];
+    YCMeetingRoom *room = company.roomData[indexPath.row];
+
+    YCRoomMeetingListController *vc = [YCRoomMeetingListController new];
+    vc.room = room;
+    vc.date = self.date;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 
 @end

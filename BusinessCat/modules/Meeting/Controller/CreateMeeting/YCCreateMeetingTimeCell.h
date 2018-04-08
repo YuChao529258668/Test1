@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class YCTimeCellSelection;
+
 @interface YCCreateMeetingTimeCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *hourL;
@@ -22,6 +24,18 @@
 + (CGSize)itemSize;
 + (float)height;
 + (NSString *)notificationName;
-- (void)shouldHighlight:(BOOL)b;
+
+@property (nonatomic, strong) YCTimeCellSelection *timeCellSelection;
+
+- (void)shouldHighlight:(BOOL)b btnIndex:(NSInteger)index;
 
 @end
+
+
+#pragma mark -
+
+@interface YCTimeCellSelection : NSObject
+@property (nonatomic, strong) NSMutableArray<NSNumber *> *selections;// 0, 1, -1, -2
+
+@end
+

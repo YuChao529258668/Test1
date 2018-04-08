@@ -24,8 +24,9 @@
 }
 
 - (void)setEndTime:(long)endTime {
-    _endTime = endTime/1000.0;
-    
+//    _endTime = endTime/1000.0;
+    _endTime = endTime/1000.0 - 1;
+
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:_endTime];
     NSDateFormatter *f = [NSDateFormatter new];
     f.dateFormat = @"HH";

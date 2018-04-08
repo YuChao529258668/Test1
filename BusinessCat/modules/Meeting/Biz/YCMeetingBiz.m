@@ -32,6 +32,17 @@
     }];
 }
 
+// 获取会议列表
+- (void)getRoomMeetingListWithPage:(int)page companyRoomId:(NSString *)rid date:(NSDate *)selectDate Success:(void(^)(NSArray<CGMeeting *> *meetings, CGMeetingStatistics *statistics))success fail:(void(^)(NSError *error))fail {
+    NSDictionary *dic = @{@"page":@(page), @"selectDate": [NSNumber numberWithLong:selectDate.timeIntervalSince1970 * 1000], @"companyRoomId": rid};
+    [self.component sendPostRequestWithURL:URL_Meeting_RoomMeetingList param:dic success:^(id data) {
+        NSArray *meetingModels = [CGMeeting mj_objectArrayWithKeyValuesArray:data];
+        success(meetingModels, nil);
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+}
+
 //状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
 - (void)meetingEntranceWithMeetingID:(NSString *)mid Success:(void(^)(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *q))success fail:(void(^)(NSError *error))fail {
     NSDictionary *dic = @{@"meetingId":mid};
@@ -207,6 +218,26 @@
         fail(error);
     }];
 }
+
+// 获取单个会议室占用时间表
+- (void)getRoomTimeListWithSelectDate:(NSDate *)selectDate roomId:(NSString *)rid success:(void(^)(YCMeetingRoom *room))success fail:(void(^)(NSError *error))fail {
+    if (!rid) {
+        [CTToast showWithText:@"参数为空，请稍后再试"];
+        return;
+    }
+    
+    NSNumber *date = [NSNumber numberWithLong:selectDate.timeIntervalSince1970 * 1000];
+    NSDictionary *dic = @{@"companyRoomId": rid, @"selectDate": date};
+    
+    [self.component sendPostRequestWithURL:URL_Meeting_MeetingTimeList param:dic success:^(NSArray *data) {
+        YCMeetingRoom *room = [YCMeetingRoom mj_objectWithKeyValues:data.firstObject];
+        success(room);
+    } fail:^(NSError *error) {
+        fail(error);
+    }];
+
+}
+
 
 // 取消会议. type 0取消/1结束
 - (void)cancelMeetingWithMeetingID:(NSString *)mid cancelType:(int)type success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {

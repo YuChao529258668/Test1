@@ -26,4 +26,6 @@
 @property (nonatomic,copy) void (^didSelectRoom)(YCMeetingRoom *room);// 废弃
 @property (nonatomic,copy) void (^didSelectBlock)(YCMeetingRoom *room, BOOL isVideo, NSInteger count);
 
+@property (nonatomic, assign) BOOL onlyVideoRoom;// 只有视频会议屎
+
 @end

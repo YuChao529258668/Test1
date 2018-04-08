@@ -64,10 +64,6 @@
     [self setupTableView];
     [self setupHeaderView];
     [self setupCreateMeetingBtn];
-//    [self getMeetingModels];
-//    self.title = @"会议";
-    
-//    [self createCustomNavi];
     [self addObserverForLogin];
 }
 
@@ -156,7 +152,7 @@
     [tableView registerNib:[UINib nibWithNibName:@"CGMeetingListCell" bundle:nil] forCellReuseIdentifier:@"CGMeetingListCell"];
     
     tableView.rowHeight = [CGMeetingListCell cellHeight];
-    tableView.separatorInset = UIEdgeInsetsMake(0, 800, 0, 0);
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellAtionBtnClick:) name:kCGMeetingListCellBtnClickNotification object:nil];
@@ -323,7 +319,8 @@
     self.backImageView.hidden = YES;
     self.tableView.hidden = NO;
     
-    self.currentPage = 1;
+//    self.currentPage = 1;
+    self.currentPage = 0;
     __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] getMeetingListWithPage:self.currentPage type:self.dateType Success:^(NSArray<CGMeeting *> *meetings, CGMeetingStatistics *statistics) {
         weakself.meetings = meetings;

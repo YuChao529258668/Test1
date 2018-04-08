@@ -20,8 +20,8 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="会议室1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0pR-1B-Yx8">
-                        <rect key="frame" x="24" y="14" width="49.5" height="17"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <rect key="frame" x="24" y="13" width="53" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -45,33 +45,36 @@
                             <action selector="clickBookBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="I3d-gx-st8"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10人" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9tF-mH-OYy" customClass="YCMeetingRoomListCellLabel">
-                        <rect key="frame" x="25" y="40" width="25.5" height="14.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="1人" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9tF-mH-OYy" customClass="YCMeetingRoomListCellLabel">
+                        <rect key="frame" x="25" y="40" width="25.5" height="20"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Hpq-NN-CcV"/>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="90" id="ttM-5k-tWO"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.83912390469999998" green="0.83926850559999999" blue="0.83911478520000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10人" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZcR-JV-A9g" customClass="YCMeetingRoomListCellLabel">
-                        <rect key="frame" x="58.5" y="40" width="25.5" height="14.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="1人" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZcR-JV-A9g" customClass="YCMeetingRoomListCellLabel">
+                        <rect key="frame" x="58.5" y="40" width="25.5" height="20"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="height" constant="20" id="GvN-VR-m31"/>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="90" id="SeR-Pu-kT9"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.83912390469999998" green="0.83926850559999999" blue="0.83911478520000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10人" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgZ-iX-sf1" customClass="YCMeetingRoomListCellLabel">
-                        <rect key="frame" x="92" y="40" width="25.5" height="14.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="1人" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgZ-iX-sf1" customClass="YCMeetingRoomListCellLabel">
+                        <rect key="frame" x="92" y="40" width="25.5" height="20"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="90" id="N1z-yz-C7a"/>
+                            <constraint firstAttribute="height" constant="20" id="mAQ-FR-lde"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.83912390469999998" green="0.83926850559999999" blue="0.83911478520000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -99,7 +102,7 @@
                     <constraint firstItem="iTM-Qt-Aqp" firstAttribute="top" secondItem="cmy-OZ-rPi" secondAttribute="bottom" id="EzY-gk-8cs"/>
                     <constraint firstAttribute="trailingMargin" secondItem="cmy-OZ-rPi" secondAttribute="trailing" constant="8" id="KcS-66-xeu"/>
                     <constraint firstItem="cmy-OZ-rPi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="LB9-Na-Sao"/>
-                    <constraint firstItem="0pR-1B-Yx8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="RGn-kb-cbk"/>
+                    <constraint firstItem="0pR-1B-Yx8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="RGn-kb-cbk"/>
                     <constraint firstItem="cmy-OZ-rPi" firstAttribute="top" secondItem="Knv-xb-y5U" secondAttribute="bottom" constant="6" id="Rgq-OI-66g"/>
                     <constraint firstItem="vgZ-iX-sf1" firstAttribute="top" secondItem="ZcR-JV-A9g" secondAttribute="top" id="Zf2-IS-6oc"/>
                     <constraint firstItem="9tF-mH-OYy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="aj9-3Z-cQB"/>

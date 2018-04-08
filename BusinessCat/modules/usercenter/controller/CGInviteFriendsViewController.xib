@@ -274,7 +274,7 @@
                                                 <constraint firstAttribute="height" priority="250" constant="100" id="Slm-Fw-Ltm"/>
                                             </constraints>
                                             <string key="text">· 邀请新用户注册可获取500金币奖励、10天VIP会员、2张付费报告通用抵用券
-· 被邀请人在易事猫的消费行为将对邀请人产生更多积分奖励
+· 被邀请人在沟通猫的消费行为将对邀请人产生更多积分奖励
 · 邀请10位新用户即可获赠1年VIP奖励</string>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>

@@ -30,6 +30,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btn8;
 @property (weak, nonatomic) IBOutlet UIButton *btn16;
 
+@property (weak, nonatomic) IBOutlet UILabel *secondHeaderView; // 会议室开会
+
 @end
 
 @implementation YCSelectMeetingRoomController
@@ -62,7 +64,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doubleClickCell:) name:[YCSelectMeetingRoomCell notificationNameOfDoubleClick] object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleClickCell:) name:[YCSelectMeetingRoomCell notificationNameOfSingleClick] object:nil];
 
-    [self getRoomList];
+    
+    if (!self.onlyVideoRoom) {
+        [self getRoomList];
+    }
+    self.secondHeaderView.hidden = self.onlyVideoRoom;
     
 }
 

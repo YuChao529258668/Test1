@@ -8,6 +8,8 @@
 
 #import "CGBaseBiz.h"
 #import "CGMeeting.h"
+#import "YCMeetingRoom.h"
+
 //@class CGMeeting;
 @class YCMeetingState;
 @class YCMeetingCompanyRoom;
@@ -17,6 +19,9 @@
 
 // 获取会议列表
 - (void)getMeetingListWithPage:(int)page type:(int)type Success:(void(^)(NSArray<CGMeeting *> *meetings, CGMeetingStatistics *statistics))success fail:(void(^)(NSError *error))fail;
+
+// 获取会议列表
+- (void)getRoomMeetingListWithPage:(int)page companyRoomId:(NSString *)rid date:(NSDate *)selectDate Success:(void(^)(NSArray<CGMeeting *> *meetings, CGMeetingStatistics *statistics))success fail:(void(^)(NSError *error))fail;
 
 // 添加会议室
 // roomId 会议室Id（为空时新增，有值是修改）
@@ -34,7 +39,10 @@
 
 // 获取会议室列表
 - (void)getMeetingRoomListWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed Success:(void(^)(NSArray<YCMeetingCompanyRoom *> *companyRooms))success fail:(void(^)(NSError *error))fail;
+// 获取所有会议室占用时间表
 - (void)getMeetingRoomTimeListWithSelectDate:(NSDate *)selectDate success:(void(^)(NSArray<YCMeetingCompanyRoom *> *companyRooms))success fail:(void(^)(NSError *error))fail;
+// 获取单个会议室占用时间表
+- (void)getRoomTimeListWithSelectDate:(NSDate *)selectDate roomId:(NSString *)rid success:(void(^)(YCMeetingRoom *room))success fail:(void(^)(NSError *error))fail;
 
 // 会议日期是否有效
 - (void)checkMeetingDateValidWithBeginDate:(NSDate *)bd endDate:(NSDate *)ed roomID:(NSString *)rid OnSuccess:(void(^)(NSString *message, int state, NSString *recommendTime))success fail:(void(^)(NSError *error))fail;

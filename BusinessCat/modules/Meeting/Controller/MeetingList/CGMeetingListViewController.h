@@ -18,4 +18,6 @@
 //点击tabitem事件
 - (void)tabbarSelectedItemAction:(NSDictionary *)dict;
 
+@property (nonatomic, assign) BOOL isKind2; 
+
 @end

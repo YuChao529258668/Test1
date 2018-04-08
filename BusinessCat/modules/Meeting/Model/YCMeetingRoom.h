@@ -98,7 +98,7 @@
 @property (nonatomic, assign) NSInteger startHour;
 @property (nonatomic, assign) NSInteger startM;
 @property (nonatomic, assign) NSInteger endHour;
-@property (nonatomic, assign) NSInteger endM;
+@property (nonatomic, assign) NSInteger endM; // 注意，会 -1秒
 @end
 
 

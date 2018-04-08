@@ -89,6 +89,7 @@
 @property (nonatomic,strong) NSString *ycCompereID; // 主持人 id
 @property (nonatomic,assign) BOOL ycIsCompere; // 当前用户是否主持人
 
+@property (nonatomic, assign) int isHaveMe;
 
 
 #pragma mark - 函数
