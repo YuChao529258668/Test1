@@ -75,9 +75,9 @@
 
 -(void)getCompany{
   self.companyArray = [NSMutableArray array];
-    if([ObjectShareTool sharedInstance].currentUser.companyList && [ObjectShareTool sharedInstance].currentUser.companyList.count > 0){
-        for (int i = 0; i<[ObjectShareTool sharedInstance].currentUser.companyList.count; i++) {
-            CGUserOrganizaJoinEntity *companyEntity = [ObjectShareTool sharedInstance].currentUser.companyList[i];
+    if([ObjectShareTool sharedInstance].currentUser.auditCompanyList && [ObjectShareTool sharedInstance].currentUser.auditCompanyList.count > 0){
+        for (int i = 0; i<[ObjectShareTool sharedInstance].currentUser.auditCompanyList.count; i++) {
+            CGUserOrganizaJoinEntity *companyEntity = [ObjectShareTool sharedInstance].currentUser.auditCompanyList[i];
             CGHorrolEntity *entity;
             if (companyEntity.auditStete == 1&&companyEntity.companyType!=4) {
                 entity = [[CGHorrolEntity alloc]initWithRolId:companyEntity.companyId rolName:companyEntity.companyName sort:0];

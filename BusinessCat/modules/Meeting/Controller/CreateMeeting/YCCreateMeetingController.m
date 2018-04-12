@@ -304,21 +304,21 @@
     
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
-    if ([app_Name isEqualToString:@"沟通猫"]) {
-        self.navigationLabel.text = @"预约会议";
-        self.titleLabel.text = @"会议主题";
-        self.dateLabel.text = @"会议日期";
-        self.durautionLabel.text = @"会议时长";
-        self.countLabel.text = @"会议模式";
-        self.selectModeLabel.text = @"请选择会议模式";
-    } else {
-        self.navigationLabel.text = @"预约会面";
-        self.titleLabel.text = @"会面主题";
-        self.dateLabel.text = @"会面日期";
-        self.durautionLabel.text = @"会面时长";
-        self.countLabel.text = @"会面模式";
-        self.selectModeLabel.text = @"请选择会面模式";
-    }
+//    if ([app_Name isEqualToString:@"沟通猫"]) {
+//        self.navigationLabel.text = @"预约会议";
+//        self.titleLabel.text = @"会议主题";
+//        self.dateLabel.text = @"会议日期";
+//        self.durautionLabel.text = @"会议时长";
+//        self.countLabel.text = @"会议模式";
+//        self.selectModeLabel.text = @"请选择会议模式";
+//    } else {
+//        self.navigationLabel.text = @"预约会面";
+//        self.titleLabel.text = @"会面主题";
+//        self.dateLabel.text = @"会面日期";
+//        self.durautionLabel.text = @"会面时长";
+//        self.countLabel.text = @"会面模式";
+//        self.selectModeLabel.text = @"请选择会面模式";
+//    }
 }
 
 - (void)updateDateViews {
@@ -421,6 +421,9 @@
     int roomType = self.rebate.type; //roomType 视频的会议室类型 0:公司 1:用户
     NSString *crID = self.room.roomId; //companyRoomId 公司会议房间Id（空为非公司会议）
     int meetingType = self.isVideo? 1: 0; //会议形式（0：音频，1：视频）
+    if (self.count == 0) {
+        meetingType = -1;
+    }
     int live = self.isLive? 1: 0;
     
     NSString *meetingName = self.titleTF.text;

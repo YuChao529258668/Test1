@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIView *addressView;
 @property (weak, nonatomic) IBOutlet UITextView *addressTV;
 @property (weak, nonatomic) IBOutlet UITextField *addressCountTF;
+@property (weak, nonatomic) IBOutlet UITextField *addressOrderTF;
 @property (weak, nonatomic) IBOutlet UIButton *addressDeleteBtn;
 @property (weak, nonatomic) IBOutlet UIButton *addressSaveBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *addressSaveBtnCenterConstraint;
@@ -21,9 +22,12 @@
 @property (weak, nonatomic) IBOutlet UIView *roomView;
 @property (weak, nonatomic) IBOutlet UITextField *roomNameTF;
 @property (weak, nonatomic) IBOutlet UITextField *roomCountTF;
+@property (weak, nonatomic) IBOutlet UITextField *roomOrderTF;
 @property (weak, nonatomic) IBOutlet UIButton *roomDeleteBtn;
 @property (weak, nonatomic) IBOutlet UIButton *roomSaveBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *roomSaveBtnCenterConstraint; // 居中约束
+
+@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 
 @property (nonatomic,copy) void (^saveSuccessBlock)();
 @property (nonatomic,copy) void (^deleteSuccessBlock)();

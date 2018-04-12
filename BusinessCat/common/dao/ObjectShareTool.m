@@ -157,7 +157,10 @@ static ObjectShareTool *_sharedManager;
 
 
 -(void)startLoginTimer{
-  if(self.loginTimerCount == TimerCount){
+    NSLog(@"loginTimerCount = %d", self.loginTimerCount);
+
+ if(self.loginTimerCount){
+//  if(self.loginTimerCount == TimerCount){ // 会出现 loginTimerCount = 59 的沙比情况
     NSLog(@"启动定时器");
     self.loginVerifyTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(loginVerifyTimerAction) userInfo:nil repeats:YES];
   }

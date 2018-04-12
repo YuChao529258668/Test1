@@ -108,7 +108,7 @@
             for(int i=0;i<self.organzias.count;i++){
                 CGUserOrganizaJoinEntity *local = self.organzias[i];
                 if(local.isAudit == 1 && local.companyAdmin){
-                    CGHorrolEntity *organiza = [[CGHorrolEntity alloc]initWithRolId:local.companyId rolName:local.companyFullName sort:i];
+                    CGHorrolEntity *organiza = [[CGHorrolEntity alloc]initWithRolId:local.companyId rolName:local.companyName sort:i];
                     [_headViewEntitys addObject:organiza];
                 }
             }

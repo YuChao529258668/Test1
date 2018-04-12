@@ -312,6 +312,8 @@
     }
 }
 
+#pragma mark - 发送验证码
+
 //0:获取验证码(灰色) 1:获取验证码(主题色) 2:重新获取(灰色) 3:重新获取(主题色) 4:登录中
 -(void)operatorBtnAction{
     __weak typeof(self) weakSelf = self;

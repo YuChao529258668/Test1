@@ -54,9 +54,10 @@
 -(NSMutableArray *)headViewEntitys{
   if(!_headViewEntitys){
     _headViewEntitys = [NSMutableArray array];
-    if([ObjectShareTool sharedInstance].currentUser.companyList && [ObjectShareTool sharedInstance].currentUser.companyList.count > 0){
-      for(int i=0;i<[ObjectShareTool sharedInstance].currentUser.companyList.count;i++){
-        CGUserOrganizaJoinEntity *local = [ObjectShareTool sharedInstance].currentUser.companyList[i];
+      
+    if([ObjectShareTool sharedInstance].currentUser.auditCompanyList && [ObjectShareTool sharedInstance].currentUser.auditCompanyList.count > 0){
+      for(int i=0;i<[ObjectShareTool sharedInstance].currentUser.auditCompanyList.count;i++){
+        CGUserOrganizaJoinEntity *local = [ObjectShareTool sharedInstance].currentUser.auditCompanyList[i];
         if (local.companyType !=4) {
           CGHorrolEntity *organiza = [[CGHorrolEntity alloc]initWithRolId:local.companyId rolName:local.companyName sort:i];
           if (i == 0) {

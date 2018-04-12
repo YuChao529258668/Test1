@@ -21,6 +21,7 @@
 #import "YCCreateMeetingController.h"
 
 #import "YCMeetingListCreateBar.h"
+#import "YCMeetingRoomListController.h"
 
 #define kHeaderViewHeight 46
 #define kHeaderViewBtnHeight 36
@@ -45,6 +46,8 @@
 @property (nonatomic, assign) int dateType; //0：所有 1：今天 2：明天 3：本周 4：其他
 
 @property (nonatomic, strong) YCMeetingListCreateBar *createBar;
+
+@property (nonatomic, assign) BOOL isOnScreen;//是否显示在屏幕上。不在屏幕上就不处理 cell 的点击事件通知。因为本控制器会在多个模块出现，比如发现和空间。
 
 @end
 
@@ -110,6 +113,16 @@
 //    [self.createBar barAlignToView:self.createMeetingBtn];
 //    self.createBar.frame = self.view.bounds;
     self.createBar.frame = [UIScreen mainScreen].bounds;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.isOnScreen = YES;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.isOnScreen = NO;
 }
 
 - (void)dealloc {
@@ -233,14 +246,14 @@
 
 - (void)setupCreateBar {
     _createBar = [YCMeetingListCreateBar bar];
-    //        _createBar.hidden = YES;
-    //        [self.view addSubview:_createBar];
-    //        [self.view insertSubview:_createBar belowSubview:self.createMeetingBtn];
     
     __weak typeof(self) weakself = self;
     _createBar.clickButtonIndexBlock = ^(int index) {
         if (index == 0) {
             YCCreateMeetingController *vc = [YCCreateMeetingController new];
+            [weakself.navigationController pushViewController:vc animated:YES];
+        } else if (index == 1) {
+            YCMeetingRoomListController *vc = [YCMeetingRoomListController new];
             [weakself.navigationController pushViewController:vc animated:YES];
         }
     };
@@ -258,6 +271,10 @@
 //3）修改预约：创建者，并未开始显示为修改预约。
 
 - (void)cellAtionBtnClick:(NSNotification *)noti {
+    if (!self.isOnScreen) {
+        return;
+    }
+    
     CGMeetingListCell *cell = (CGMeetingListCell *)noti.object;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     CGMeeting *meeting = self.meetings[indexPath.row];

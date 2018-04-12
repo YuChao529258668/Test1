@@ -12,6 +12,24 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+//    iPhone X    1125px × 2436px  (X)
+//    iPhone 8 Plus    1242px × 2208px (5.5)
+//    iPhone 8    750px × 1334px (4.7)
+//    iPhone SE    640px × 1136px (Retina 4)
+    
+    float width = [UIScreen mainScreen].bounds.size.width;
+    float factor = 1;
+    if (width == 320) {
+        factor = 0.82;
+    } else if (width == 375) {
+        factor = 0.9;
+    } else if (width == 562.5) {
+        factor = 0.94;
+    }
+    CGPoint center = self.whiteView.center;
+    self.whiteView.transform = CGAffineTransformMakeScale(factor, factor);
+    self.whiteView.center = center;
     self.barContainer.hidden = YES;
 }
 
@@ -45,11 +63,11 @@
 
 #pragma mark - Actions
 
-- (IBAction)clickMeeting:(id)sender {
+- (IBAction)clickMeeting:(UIButton *)sender {
     [self dismiss];
     
     if (self.clickButtonIndexBlock) {
-        self.clickButtonIndexBlock(0);
+        self.clickButtonIndexBlock(sender.tag);
     }
 }
 

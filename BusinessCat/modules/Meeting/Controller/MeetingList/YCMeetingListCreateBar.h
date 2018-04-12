@@ -15,6 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *barContainer;
 
+@property (weak, nonatomic) IBOutlet UIView *whiteView;
 
 
 

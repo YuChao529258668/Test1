@@ -15,11 +15,15 @@
 #import "YCMeetingRoom.h"
 #import "YCSelectMeetingRoomCell.h"
 
+#import "CGUserOrganizaJoinEntity.h"
+
 @interface YCSelectMeetingRoomController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) NSArray<YCMeetingCompanyRoom *> *companyRooms;
 @property (nonatomic, strong) NSMutableArray<NSNumber *> *isSectionDisplays;// 某个 section 是否展开显示
+@property (nonatomic, strong) NSMutableArray *companyIDs;
+@property (nonatomic, strong) NSMutableArray<NSNumber *> *canEditArray;// 布尔
 
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
@@ -67,6 +71,8 @@
     
     if (!self.onlyVideoRoom) {
         [self getRoomList];
+    } else {
+        [self recoverSelection];
     }
     self.secondHeaderView.hidden = self.onlyVideoRoom;
     
@@ -162,6 +168,59 @@
     }
 }
 
+- (void)makeCompanyIDs {
+    self.companyIDs = [NSMutableArray arrayWithCapacity:self.companyRooms.count];
+    for (YCMeetingCompanyRoom *cr in self.companyRooms) {
+        [self.companyIDs addObject:cr.id];
+    }
+    
+    self.canEditArray = [NSMutableArray arrayWithCapacity:self.companyRooms.count];
+    [self.canEditArray addObject:@YES];
+    for (int i = 1; i < self.companyRooms.count; i++) {
+        [self.canEditArray addObject:@([self canEditForSingleSection:i])];
+    }
+}
+
+- (CGUserOrganizaJoinEntity *)companyOfID:(NSString *)cid {
+    CGUserOrganizaJoinEntity *entity;
+    for (CGUserOrganizaJoinEntity *je in [ObjectShareTool sharedInstance].currentUser.companyList) {
+        if ([je.companyId isEqualToString:cid]) {
+            return je;
+        }
+    }
+    return entity;
+}
+
+- (BOOL)canEditForSection:(NSInteger)section {
+    return self.canEditArray[section].boolValue;
+}
+
+- (BOOL)canEditForSingleSection:(NSInteger)section {
+    
+    if (section == 0) {
+        return YES;
+    }
+    
+    CGUserOrganizaJoinEntity *entity = [self companyOfID:self.companyIDs[section]];
+    
+    //    添加会议室权限的规则如下：
+    //    1）未认领组织，已加入的成员谁都可以添加会议室及显示+号
+    //    2）已认领组织，只有管理员及超级管理的人才可以添加会议室及显示+号
+    
+    //    @property(nonatomic,assign)int companyAdmin;//是否为超级管理员
+    //    @property (nonatomic, assign) int companyManage;//当前用户是否是公司管理
+    //    @property(nonatomic,assign)int companyState;//0-未认证，1-已认证 2-认证中 3-认证不通过
+    
+    if (entity.companyState == 1) {
+        if (entity.companyAdmin || entity.companyManage) {
+            return YES;
+        } else {
+            return NO;
+        }
+    } else {
+        return YES;
+    }
+}
 
 #pragma mark - UITableViewDelegate
 
@@ -239,6 +298,10 @@
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     BOOL isDisplay = self.isSectionDisplays[section].intValue == 1? YES: NO;
     if (isDisplay) {
+        if (![self canEditForSection:section]) {
+            return nil;
+        }
+        
         YCSelectRoomFooterView *view = (YCSelectRoomFooterView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"YCSelectRoomFooterView"];
         view.section = section;
         return view;
@@ -250,11 +313,16 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     BOOL isDisplay = self.isSectionDisplays[section].intValue == 1? YES: NO;
     if (isDisplay) {
+        if (![self canEditForSection:section]) {
+            return 0;
+        }
+
         return [YCSelectRoomFooterView height];
     } else {
         return 0;
     }
 }
+
 
 #pragma mark - Data
 
@@ -272,6 +340,7 @@
         }
 
         weakself.companyRooms = companyRooms;
+        [weakself makeCompanyIDs];
         [weakself.tableView reloadData];
         [weakself recoverSelection];
     } fail:^(NSError *error) {
@@ -374,6 +443,10 @@
 - (void)doubleClickCell:(NSNotification *)noti {
     YCSelectMeetingRoomCell *cell = noti.object;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    if (![self canEditForSection:indexPath.section]) {
+        return;
+    }
     
     YCMeetingCompanyRoom *companyRoom = self.companyRooms[indexPath.section];
     YCMeetingRoom *room = companyRoom.roomData[indexPath.row];

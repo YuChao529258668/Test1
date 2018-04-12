@@ -14,14 +14,24 @@
 #import "YCBookMeetingController.h"
 #import "RoomViewController.h"
 
+#import "YCEditMeetingRoomController.h"
+
+
+#define kCreateMeetingBtnHeight 56
+#define kCreateMeetingBtnRightSpace 10
+#define kCreateMeetingBtnBottomSpace 30
+
 @interface YCRoomMeetingListController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *dateL;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) UIImageView *backImageView;
-
+//@property (nonatomic, strong) UIImageView *backImageView;// 会议室无会议
+@property (nonatomic,strong) UIButton *createMeetingBtn;
 
 @property (nonatomic,strong) NSMutableArray<CGMeeting *> *meetings;
 @property (nonatomic,assign) int currentPage; // 页数，用于获取后台分页数据
+
+@property (weak, nonatomic) IBOutlet UIView *bgView;// 未加入组织
+@property (nonatomic, strong) UIButton *editBtn;
 
 @end
 
@@ -35,10 +45,29 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    [self setupRightBtn];
+    [self setupCreateMeetingBtn];
     [self setupTableView];
     [self updateDateLabel];
     self.titleView.text = self.room.roomName;
 }
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    {
+        float x = self.view.frame.size.width - kCreateMeetingBtnHeight - kCreateMeetingBtnRightSpace;
+        float y = self.view.frame.size.height - kCreateMeetingBtnHeight - kCreateMeetingBtnBottomSpace;
+        CGRect frame = CGRectMake(x, y, kCreateMeetingBtnHeight, kCreateMeetingBtnHeight);
+        self.createMeetingBtn.frame = frame;
+    }
+    
+//    self.backImageView.frame = self.view.bounds;
+    
+}
+
+
+#pragma mark -
 
 - (void)updateDateLabel {
     NSDateFormatter *f = [NSDateFormatter new];
@@ -69,16 +98,46 @@
     [tableView.mj_header beginRefreshing];
 }
 
-- (UIImageView *)backImageView {
-    if (!_backImageView) {
-        _backImageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
-        _backImageView.contentMode = UIViewContentModeCenter;
-        _backImageView.hidden = YES;
-        _backImageView.image = [UIImage imageNamed:@"word_picture"];
-        [self.view addSubview:_backImageView];
-    }
-    return _backImageView;
+- (void)setupCreateMeetingBtn {
+    // 创建按钮
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    btn.layer.cornerRadius = kCreateMeetingBtnHeight / 2;
+    btn.clipsToBounds = YES;
+    //    btn.backgroundColor = CTThemeMainColor;
+    
+    UIImage *image = [UIImage imageNamed:@"work_add"];
+    //    image = [image imageWithTintColor:[UIColor blackColor]];
+    [btn setImage:image forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(clickBookBtn:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.createMeetingBtn = btn;
+    [self.view addSubview:btn];
 }
+
+- (void)setupRightBtn {
+    // 判断？
+//    添加会议室权限的规则如下：
+//    1）未认领组织，已加入的成员谁都可以添加会议室及显示+号
+//    2）已认领组织，只有管理员及超级管理的人才可以添加会议室及显示+号
+
+    self.editBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-55, 22, 40, 40)];
+    [self.editBtn addTarget:self action:@selector(clickRightBtn) forControlEvents:UIControlEventTouchUpInside];
+    [self.editBtn setImage:[UIImage imageNamed:@"icon_panbook"] forState:UIControlStateNormal];
+    self.editBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [self.navi addSubview:self.editBtn];
+}
+
+//- (UIImageView *)backImageView {
+//    if (!_backImageView) {
+//        _backImageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
+//        _backImageView.contentMode = UIViewContentModeCenter;
+//        _backImageView.hidden = YES;
+//        _backImageView.image = [UIImage imageNamed:@"word_picture"];
+//        [self.view addSubview:_backImageView];
+//    }
+//    return _backImageView;
+//}
 
 #pragma mark - UITableViewDelegate
 
@@ -150,6 +209,27 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)clickRightBtn {
+    YCEditMeetingRoomController *vc = [YCEditMeetingRoomController new];
+    vc.isAddMode = NO;
+    vc.isAddressMode = self.room.isAddress == 1;
+    vc.room = self.room;
+    vc.companyRoom = self.room.companyRoom;
+    vc.saveSuccessBlock = ^{
+        self.titleView.text = self.room.roomName;
+        if (self.roomDidUpdateBlock) {
+            self.roomDidUpdateBlock(self.room);
+        }
+    };
+    vc.deleteSuccessBlock = ^{
+        [self.navigationController popViewControllerAnimated:YES];
+        if (self.roomDidUpdateBlock) {
+            self.roomDidUpdateBlock(nil);
+        }
+    };
+    [self presentViewController:vc animated:YES completion:nil];
+
+}
 
 //显示规则：
 //1）会议详情：未开始或进行中的会议，同时非创建者为会议详情。
@@ -192,6 +272,7 @@
     }
 }
 
+
 #pragma mark - Data
 
 - (void)getMeetingModels {
@@ -199,7 +280,7 @@
         return;
     }
     
-    self.backImageView.hidden = YES;
+    self.bgView.hidden = YES;
     self.tableView.hidden = NO;
     
     self.currentPage = 0;
@@ -209,10 +290,10 @@
         [weakself.tableView reloadData];
         [weakself.tableView.mj_header endRefreshing];
         if (meetings.count) {
-            weakself.backImageView.hidden = YES;
+            weakself.bgView.hidden = YES;
             weakself.tableView.hidden = NO;
         } else {
-            weakself.backImageView.hidden = NO;
+            weakself.bgView.hidden = NO;
             weakself.tableView.hidden = YES;
         }
     } fail:^(NSError *error) {

@@ -245,6 +245,7 @@
 //授权后回调 WXApiDelegate
 -(void)onResp:(BaseReq *)resp
 {
+    
     /*
      ErrCode ERR_OK = 0(用户同意)
      ERR_AUTH_DENIED = -4（用户拒绝授权）
@@ -294,13 +295,64 @@
                 break;
         }
     }else if ([resp isKindOfClass:[SendAuthResp class]]){
+
         SendAuthResp *aresp = (SendAuthResp *)resp;
         if (aresp.errCode== 0) {
             NSString *code = aresp.code;
             [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_GETWEIXINCODE object:code];
             //    NSDictionary *dic = @{@"code":code};
+            
+//            [self testWxWithCode:code];
         }
     }
+}
+
+- (void)testWxWithCode:(NSString *)code {
+    NSString *url =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code",kWXAPP_ID,kWXAPP_SECRET,code];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURL *zoneUrl = [NSURL URLWithString:url];
+        NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
+        NSData *data = [zoneStr dataUsingEncoding:NSUTF8StringEncoding];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (data) {
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                [self getWeiXinUserInfoWithAccess_token:[dic objectForKey:@"access_token"] openid:[dic objectForKey:@"openid"]];
+            }
+        });
+    });
+}
+
+-(void)getWeiXinUserInfoWithAccess_token:(NSString *)access_token openid:(NSString *)openid
+{
+//    __weak typeof(self) weakSelf = self;
+    NSString *url =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",access_token,openid];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURL *zoneUrl = [NSURL URLWithString:url];
+        NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
+        NSData *data = [zoneStr dataUsingEncoding:NSUTF8StringEncoding];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (data) {
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                
+                [[CGUserCenterBiz new] wechatInfoUpdateWithNickname:dic[@"nickname"] gender:[dic[@"sex"] intValue] openid:dic[@"openid"] portrait:dic[@"headimgurl"] unionid:dic[@"unionid"] op:NO success:^{
+                    
+                    [ObjectShareTool sharedInstance].currentUser.nickname = dic[@"nickname"];
+                    if ([CTStringUtil stringNotBlank:dic[@"headimgurl"]]) {
+                        [ObjectShareTool sharedInstance].currentUser.portrait = dic[@"headimgurl"];
+                    }
+                    [ObjectShareTool sharedInstance].currentUser.openid = dic[@"openid"];
+                    [ObjectShareTool sharedInstance].currentUser.gender = [dic[@"sex"] intValue]==1?@"男":@"女";
+//                    [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
+                    
+                } fail:^(NSError *error) {
+                    
+                }];
+            }
+        });
+        
+    });
 }
 
 

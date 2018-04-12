@@ -96,10 +96,12 @@
     if(!_headViewEntitys){
         _headViewEntitys = [NSMutableArray array];
         
-        if([ObjectShareTool sharedInstance].currentUser.companyList && [ObjectShareTool sharedInstance].currentUser.companyList.count > 0){
+        // 共享收益：已加入的公司+公司必须为已认领
+
+        if([ObjectShareTool sharedInstance].currentUser.renZhengAndAuditCompanyList && [ObjectShareTool sharedInstance].currentUser.renZhengAndAuditCompanyList.count > 0){
             
-            for(int i=0;i<[ObjectShareTool sharedInstance].currentUser.companyList.count;i++) {
-                CGUserOrganizaJoinEntity *local = [ObjectShareTool sharedInstance].currentUser.companyList[i];
+            for(int i=0;i<[ObjectShareTool sharedInstance].currentUser.renZhengAndAuditCompanyList.count;i++) {
+                CGUserOrganizaJoinEntity *local = [ObjectShareTool sharedInstance].currentUser.renZhengAndAuditCompanyList[i];
                 
                 if (local.companyType !=4) {
                     CGHorrolEntity *organiza = [[CGHorrolEntity alloc]initWithRolId:local.companyId rolName:local.companyName sort:i];

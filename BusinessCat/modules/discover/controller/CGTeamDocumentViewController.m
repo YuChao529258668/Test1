@@ -81,6 +81,12 @@
 -(void)viewDidDisappear:(BOOL)animated{
   [self.biz.component stopBlockAnimation];
 }
+//
+//- (void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//    self.bgView.hidden = NO;
+//    [self.view bringSubviewToFront:self.bgView];
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

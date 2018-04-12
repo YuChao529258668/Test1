@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YCRoomMeetingListController">
             <connections>
+                <outlet property="bgView" destination="nWf-2T-1aZ" id="zne-Ru-oMY"/>
                 <outlet property="dateL" destination="wmZ-gb-pzO" id="A9O-iq-hvh"/>
                 <outlet property="tableView" destination="Hti-rt-Q35" id="bGQ-Eg-jp3"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -59,40 +60,58 @@
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Hti-rt-Q35">
-                    <rect key="frame" x="0.0" y="104" width="375" height="521"/>
+                    <rect key="frame" x="0.0" y="104" width="375" height="563"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2S5-Ut-0NY">
-                    <rect key="frame" x="0.0" y="625" width="375" height="42"/>
-                    <color key="backgroundColor" red="0.99215686270000003" green="0.90980392160000001" blue="0.23137254900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nWf-2T-1aZ">
+                    <rect key="frame" x="0.0" y="104" width="375" height="563"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no_data" translatesAutoresizingMaskIntoConstraints="NO" id="Ile-9k-bPE">
+                            <rect key="frame" x="92" y="139" width="190" height="147"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="190" id="tE5-fm-JKU"/>
+                                <constraint firstAttribute="height" constant="147" id="uVd-EU-3oQ"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无会议安排" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hqx-At-Xmk">
+                            <rect key="frame" x="15" y="296" width="345" height="18"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="250" constant="18" id="hA9-fj-06G"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="42" id="8n0-Zr-6Ia"/>
+                        <constraint firstItem="Hqx-At-Xmk" firstAttribute="leading" secondItem="nWf-2T-1aZ" secondAttribute="leading" constant="15" id="4cs-rv-Gnt"/>
+                        <constraint firstAttribute="trailing" secondItem="Hqx-At-Xmk" secondAttribute="trailing" constant="15" id="Gw0-wQ-v3b"/>
+                        <constraint firstItem="Hqx-At-Xmk" firstAttribute="top" secondItem="Ile-9k-bPE" secondAttribute="bottom" constant="10" id="ik1-gt-I6i"/>
+                        <constraint firstItem="Ile-9k-bPE" firstAttribute="centerX" secondItem="nWf-2T-1aZ" secondAttribute="centerX" id="mTL-HU-coH"/>
+                        <constraint firstItem="Ile-9k-bPE" firstAttribute="centerY" secondItem="nWf-2T-1aZ" secondAttribute="centerY" constant="-69" id="piW-wQ-yAh"/>
                     </constraints>
-                    <state key="normal" title="我要预约">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </state>
-                    <connections>
-                        <action selector="clickBookBtn:" destination="-1" eventType="touchUpInside" id="7Un-vT-RV0"/>
-                    </connections>
-                </button>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="nWf-2T-1aZ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="0rh-4z-w3O"/>
                 <constraint firstItem="90T-0J-tXI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="OuY-WB-iDz"/>
                 <constraint firstItem="Hti-rt-Q35" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="OxY-6b-vNK"/>
+                <constraint firstAttribute="trailing" secondItem="nWf-2T-1aZ" secondAttribute="trailing" id="QVd-CV-J1z"/>
                 <constraint firstAttribute="trailing" secondItem="Hti-rt-Q35" secondAttribute="trailing" id="RjW-MA-qdd"/>
-                <constraint firstItem="2S5-Ut-0NY" firstAttribute="top" secondItem="Hti-rt-Q35" secondAttribute="bottom" id="Z75-xw-RZp"/>
-                <constraint firstAttribute="bottom" secondItem="2S5-Ut-0NY" secondAttribute="bottom" id="fy8-Ua-4W1"/>
                 <constraint firstAttribute="trailing" secondItem="90T-0J-tXI" secondAttribute="trailing" id="gXV-W0-HKe"/>
-                <constraint firstItem="2S5-Ut-0NY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ndr-Pf-Ajf"/>
-                <constraint firstItem="90T-0J-tXI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="rPG-uf-bgl"/>
+                <constraint firstAttribute="bottom" secondItem="nWf-2T-1aZ" secondAttribute="bottom" id="kMy-sf-8sD"/>
+                <constraint firstItem="90T-0J-tXI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="oSZ-X7-PJe"/>
+                <constraint firstAttribute="bottom" secondItem="Hti-rt-Q35" secondAttribute="bottom" id="qak-Ka-ush"/>
                 <constraint firstItem="Hti-rt-Q35" firstAttribute="top" secondItem="90T-0J-tXI" secondAttribute="bottom" id="ucy-Wf-Wwh"/>
-                <constraint firstAttribute="trailing" secondItem="2S5-Ut-0NY" secondAttribute="trailing" id="zA2-QK-1AT"/>
+                <constraint firstItem="nWf-2T-1aZ" firstAttribute="top" secondItem="90T-0J-tXI" secondAttribute="bottom" id="yjp-Gn-hZ6"/>
             </constraints>
             <point key="canvasLocation" x="33.5" y="53.5"/>
         </view>
     </objects>
     <resources>
+        <image name="no_data" width="190" height="147"/>
         <image name="remove_black" width="9" height="4"/>
     </resources>
 </document>

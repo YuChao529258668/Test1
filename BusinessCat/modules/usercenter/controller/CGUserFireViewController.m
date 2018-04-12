@@ -676,6 +676,7 @@
   [self.tableview reloadData];
 }
 
+// 点击微信绑定
 -(void)bindingClick{
   if ([WXApi isWXAppInstalled]) {
     SendAuthReq* req =[[SendAuthReq alloc ] init];
@@ -698,6 +699,7 @@
 
 -(void)getAccess_token:(NSNotification*)info
 {
+    
   NSString *code = [info object];
 //  __weak typeof(self) weakSelf = self;
   [self.biz queryUserDetailInfoWithCode:code success:^(CGUserEntity *user) {
@@ -705,8 +707,11 @@
   } fail:^(NSError *error) {
     
   }];
+    
+    
+//
 //  NSString *url =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code",kWXAPP_ID,kWXAPP_SECRET,code];
-//  
+//
 //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //    NSURL *zoneUrl = [NSURL URLWithString:url];
 //    NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
@@ -724,7 +729,7 @@
 //{
 //  __weak typeof(self) weakSelf = self;
 //  NSString *url =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",access_token,openid];
-//  
+//
 //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //    NSURL *zoneUrl = [NSURL URLWithString:url];
 //    NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
@@ -742,11 +747,11 @@
 //          [weakSelf.tableview reloadData];
 //            [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_TOQUERYUSERINFO object:nil];
 //        } fail:^(NSError *error) {
-//          
+//
 //        }];
 //      }
 //    });
-//    
+//
 //  });
 //}
 @end

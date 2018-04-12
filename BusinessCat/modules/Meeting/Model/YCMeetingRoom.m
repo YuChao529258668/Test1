@@ -50,6 +50,8 @@
     if (self.type ==1) {
         for (YCMeetingRoom *room in roomData) {
             room.type = self.type;
+            room.isAddress = self.isAddress;
+            room.companyRoom = self;
         }
     }
 }
@@ -59,6 +61,9 @@
     if (self.roomData && type == 1) {
         for (YCMeetingRoom *room in self.roomData) {
             room.type = self.type;
+            room.isAddress = self.isAddress;
+            room.companyRoom = self;
+
         }
 
     }

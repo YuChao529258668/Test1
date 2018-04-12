@@ -285,7 +285,7 @@
 // type 1公司会议室 2视频会议室 3会议地点
 // roomName 会议室名称/会议地点名称
 // toType 0：公司 1：用户
-- (void)addMeetingRoomWithRoomID:(NSString *)roomId toId:(NSString *)toId roomName:(NSString *)roomName type:(int)type roomNum:(int)roomNum success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
+- (void)addMeetingRoomWithRoomID:(NSString *)roomId toId:(NSString *)toId roomName:(NSString *)roomName type:(int)type roomNum:(int)roomNum sort:(int)sort success:(void(^)(id data))success fail:(void(^)(NSError *error))fail {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     
     if (type == 3) {
@@ -297,6 +297,7 @@
     dic[@"roomName"] = roomName;
     dic[@"type"] = @(type);
     dic[@"roomNum"] = @(roomNum);
+    dic[@"sort"] = @(sort);
 
     if (roomId) {
         dic[@"roomId"] = roomId;

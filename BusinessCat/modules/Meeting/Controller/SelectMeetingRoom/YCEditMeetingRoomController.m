@@ -48,10 +48,16 @@
         if (self.room.roomNum) {
             self.addressCountTF.text = [NSString stringWithFormat:@"%d", self.room.roomNum];
         }
+        if (self.room.sort) {
+            self.addressOrderTF.text = [NSString stringWithFormat:@"%d", self.room.sort];
+        }
     } else {
         self.roomNameTF.text = self.room.roomName;
         if (self.room.roomNum) {
             self.roomCountTF.text = [NSString stringWithFormat:@"%d", self.room.roomNum];
+        }
+        if (self.room.sort) {
+            self.roomOrderTF.text = [NSString stringWithFormat:@"%d", self.room.sort];
         }
     }
 }
@@ -74,10 +80,20 @@
         return;
     }
     
+    if (self.addressOrderTF.text.intValue == 0 && ![self.addressOrderTF.text isEqualToString:@"0"]) {
+        [CTToast showWithText:@"请填写顺序"];
+        return;
+    }
+
     __weak typeof(self) weakself = self;
     int count = self.addressCountTF.text.intValue;
-    [[YCMeetingBiz new]addMeetingRoomWithRoomID:self.room.roomId toId:nil roomName:self.addressTV.text type:3 roomNum:count success:^(id data) {
+    int sort = self.addressOrderTF.text.intValue;
+
+    [[YCMeetingBiz new]addMeetingRoomWithRoomID:self.room.roomId toId:nil roomName:self.addressTV.text type:3 roomNum:count sort:sort success:^(id data) {
         [CTToast showWithText:@"保存成功"];
+        weakself.room.roomName = weakself.addressTV.text;
+        weakself.room.roomNum = weakself.addressCountTF.text.intValue;
+
         [weakself dismissViewControllerAnimated:YES completion:nil];
         if (weakself.saveSuccessBlock) {
             weakself.saveSuccessBlock();
@@ -102,10 +118,18 @@
         return;
     }
     
+    if (self.roomOrderTF.text.intValue == 0 && ![self.roomOrderTF.text isEqualToString:@"0"]) {
+        [CTToast showWithText:@"请填写顺序"];
+        return;
+    }
+
     __weak typeof(self) weakself = self;
     int count = self.roomCountTF.text.intValue;
-    [[YCMeetingBiz new]addMeetingRoomWithRoomID:self.room.roomId toId:self.companyRoom.id roomName:self.roomNameTF.text type:1 roomNum:count success:^(id data) {
+    int sort = self.roomOrderTF.text.intValue;
+    [[YCMeetingBiz new]addMeetingRoomWithRoomID:self.room.roomId toId:self.companyRoom.id roomName:self.roomNameTF.text type:1 roomNum:count sort:sort success:^(id data) {
         [CTToast showWithText:@"保存成功"];
+        weakself.room.roomName = weakself.roomNameTF.text;
+        weakself.room.roomNum = weakself.roomCountTF.text.intValue;
         [weakself dismissViewControllerAnimated:YES completion:nil];
         if (weakself.saveSuccessBlock) {
             weakself.saveSuccessBlock();
@@ -133,6 +157,19 @@
             self.addressCountTF.text = [NSString stringWithFormat:@"%d", self.room.roomNum];
         }
     }
+    
+    if ([self.addressOrderTF.text isEqualToString:@""]) {
+        if (self.room.sort) {
+            self.addressOrderTF.text = [NSString stringWithFormat:@"%d", self.room.sort];
+        }
+    }
+    
+    if ([self.roomOrderTF.text isEqualToString:@""]) {
+        if (self.room.sort) {
+            self.roomOrderTF.text = [NSString stringWithFormat:@"%d", self.room.sort];
+        }
+    }
+
 }
 
 

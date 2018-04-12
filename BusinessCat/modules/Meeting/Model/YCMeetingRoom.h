@@ -40,9 +40,13 @@
 @property (nonatomic,strong) NSString *roomName;
 @property (nonatomic,assign) int state; // 可用状态 0不可用 1可用
 @property (nonatomic, assign) int roomNum;
+@property (nonatomic, assign) int sort;
 
 // 非后台直接返回的。
 @property (nonatomic, assign) int type;//类型 1为公司 2为用户
+@property (nonatomic, assign) int isAddress; // 是否会议地址
+//@property (nonatomic,strong) NSString *companyID;
+@property (nonatomic, weak) YCMeetingCompanyRoom *companyRoom;
 
 //@property (nonatomic,assign) int commonality; // 是否公共 1是0否
 //@property (nonatomic,strong) NSString *companyid;

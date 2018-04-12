@@ -14,6 +14,9 @@
 		0D1B9EE01FE7EEED00C41C3C /* YCMeetingState.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1B9EDF1FE7EEED00C41C3C /* YCMeetingState.m */; };
 		0D1E0BD42079FC8F00478FA0 /* YCRoomMeetingListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E0BD22079FC8F00478FA0 /* YCRoomMeetingListController.m */; };
 		0D1E0BD52079FC8F00478FA0 /* YCRoomMeetingListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E0BD32079FC8F00478FA0 /* YCRoomMeetingListController.xib */; };
+		0D1E0BD9207E030C00478FA0 /* i5.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E0BD6207E030500478FA0 /* i5.PNG */; };
+		0D1E0BDA207E030C00478FA0 /* 6.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E0BD7207E030600478FA0 /* 6.png */; };
+		0D1E0BDB207E030C00478FA0 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E0BD8207E030B00478FA0 /* plus.png */; };
 		0D1E964B2020213600B6187A /* YCSpaceBiz.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E964A2020213600B6187A /* YCSpaceBiz.m */; };
 		0D1E964F202043B800B6187A /* YCSeeBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E964E202043B800B6187A /* YCSeeBoard.m */; };
 		0D1E9652202057A000B6187A /* YCLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E9651202057A000B6187A /* YCLabel.m */; };
@@ -1537,6 +1540,9 @@
 		0D1E0BD12079FC8F00478FA0 /* YCRoomMeetingListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCRoomMeetingListController.h; sourceTree = "<group>"; };
 		0D1E0BD22079FC8F00478FA0 /* YCRoomMeetingListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCRoomMeetingListController.m; sourceTree = "<group>"; };
 		0D1E0BD32079FC8F00478FA0 /* YCRoomMeetingListController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCRoomMeetingListController.xib; sourceTree = "<group>"; };
+		0D1E0BD6207E030500478FA0 /* i5.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = i5.PNG; sourceTree = "<group>"; };
+		0D1E0BD7207E030600478FA0 /* 6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6.png; sourceTree = "<group>"; };
+		0D1E0BD8207E030B00478FA0 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		0D1E96492020213600B6187A /* YCSpaceBiz.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCSpaceBiz.h; sourceTree = "<group>"; };
 		0D1E964A2020213600B6187A /* YCSpaceBiz.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCSpaceBiz.m; sourceTree = "<group>"; };
 		0D1E964D202043B800B6187A /* YCSeeBoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCSeeBoard.h; sourceTree = "<group>"; };
@@ -4439,6 +4445,9 @@
 		0D3EB2B51FBA9C8900DAE678 /* MeetingList */ = {
 			isa = PBXGroup;
 			children = (
+				0D1E0BD7207E030600478FA0 /* 6.png */,
+				0D1E0BD6207E030500478FA0 /* i5.PNG */,
+				0D1E0BD8207E030B00478FA0 /* plus.png */,
 				0D7431041FB93D91002867FA /* CGMeetingListViewController.h */,
 				0D7431051FB93D91002867FA /* CGMeetingListViewController.m */,
 				0D3057162046A84D00337CE7 /* CGMeetingListTopBar.h */,
@@ -8932,6 +8941,7 @@
 				0DBF47FA1FB3087400707C12 /* volume_on_highlighted@3x.png in Resources */,
 				0DBF47C61FB3087400707C12 /* message_normal@3x.png in Resources */,
 				0DB9E67A202C579F00ACA8D0 /* 11.gif in Resources */,
+				0D1E0BD9207E030C00478FA0 /* i5.PNG in Resources */,
 				0DBF48111FB3087400707C12 /* ResolutionViewController.xib in Resources */,
 				180C02051E84FAE200EDCD8E /* CGUserAttestationCollectionViewCell.xib in Resources */,
 				0DB9E643202C579F00ACA8D0 /* 86.gif in Resources */,
@@ -9063,6 +9073,7 @@
 				0DBF47651FB3087300707C12 /* clean@3x.png in Resources */,
 				1836B8381ED53CBB001A1F19 /* CTKnowledgeMealViewController.xib in Resources */,
 				0DB9E645202C579F00ACA8D0 /* 45.gif in Resources */,
+				0D1E0BDB207E030C00478FA0 /* plus.png in Resources */,
 				0DBF47E71FB3087400707C12 /* splitscreen_selected_highlighted@2x.png in Resources */,
 				0DB9E64B202C579F00ACA8D0 /* 53.gif in Resources */,
 				0DBF476A1FB3087300707C12 /* undo@2x.png in Resources */,
@@ -9088,6 +9099,7 @@
 				18D773EE1F317041000654E8 /* CGTutorialViewController.xib in Resources */,
 				187124851E768ADD00C16E9C /* CGAttentionSearchViewController.xib in Resources */,
 				0DBF475C1FB3087300707C12 /* status_camera_off_50@2x.png in Resources */,
+				0D1E0BDA207E030C00478FA0 /* 6.png in Resources */,
 				0D1E96602021680300B6187A /* YCPersonalProfitController.xib in Resources */,
 				0DB9E676202C579F00ACA8D0 /* 16.gif in Resources */,
 				0D90E0671FB43C3A00EDB7CF /* DailyBuild-Info.plist in Resources */,

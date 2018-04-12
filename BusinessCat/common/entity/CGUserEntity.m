@@ -117,4 +117,23 @@
     return self.companyList.firstObject.department;
 }
 
+- (void)setCompanyList:(NSMutableArray<CGUserOrganizaJoinEntity *> *)companyList {
+    _companyList = companyList;
+    
+    _auditCompanyList = [NSMutableArray array];
+    for (CGUserOrganizaJoinEntity *je in _companyList) {
+        if (je.auditStete == 1) {
+            [_auditCompanyList addObject:je];
+        }
+    }
+    
+    _renZhengAndAuditCompanyList = [NSMutableArray array];
+    for (CGUserOrganizaJoinEntity *je in _companyList) {
+        if (je.auditStete == 1 && je.companyState == 1) {
+            [_renZhengAndAuditCompanyList addObject:je];
+        }
+    }
+
+}
+
 @end

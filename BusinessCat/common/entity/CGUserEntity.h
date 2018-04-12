@@ -59,6 +59,10 @@
 @property (nonatomic,retain) NSMutableArray *industry;
 //用户加入的组织列表
 @property(nonatomic,retain) NSMutableArray<CGUserOrganizaJoinEntity *> *companyList;
+//用户加入的组织列表
+@property(nonatomic,retain) NSMutableArray<CGUserOrganizaJoinEntity *> *auditCompanyList;
+//用户加入的组织列表
+@property(nonatomic,retain) NSMutableArray<CGUserOrganizaJoinEntity *> *renZhengAndAuditCompanyList;
 
 // 默认返回 companyList 的第一个公司的 companyId
 - (NSString *)getCompanyID;

@@ -13,5 +13,6 @@
 @interface YCRoomMeetingListController : CTBaseViewController
 @property (nonatomic, strong) YCMeetingRoom *room;
 @property (nonatomic, strong) NSDate *date;
+@property (nonatomic,copy) void (^roomDidUpdateBlock)(YCMeetingRoom *room);
 
 @end
