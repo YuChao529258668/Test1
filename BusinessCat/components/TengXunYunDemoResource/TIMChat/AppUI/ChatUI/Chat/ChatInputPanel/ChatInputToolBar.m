@@ -15,6 +15,10 @@
 #define kTextViewMaxHeight 72
 #define kVerMargin 7
 
+- (void)beginInput {
+    [_textView becomeFirstResponder];
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -94,18 +98,74 @@
     
     
     _emoj = [[UIButton alloc] init];
-    [_emoj setImage:[UIImage imageNamed:@"chat_toolbar_smile_nor"] forState:UIControlStateNormal];
-    [_emoj setImage:[UIImage imageNamed:@"chat_toolbar_smile_press"] forState:UIControlStateHighlighted];
+     if (self.useForMeeting) {
+         [_emoj setImage:[UIImage imageNamed:@"video_chat_facebtn"] forState:UIControlStateNormal];
+         [_emoj setImage:[UIImage imageNamed:@"video_chat_facebtn"] forState:UIControlStateHighlighted];
+     } else {
+         [_emoj setImage:[UIImage imageNamed:@"chat_toolbar_smile_nor"] forState:UIControlStateNormal];
+         [_emoj setImage:[UIImage imageNamed:@"chat_toolbar_smile_press"] forState:UIControlStateHighlighted];
+     }
     [_emoj addTarget:self action:@selector(onClikEmoj:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_emoj];
     
     
     _more = [[UIButton alloc] init];
-    [_more setImage:[UIImage imageNamed:@"chat_toolbar_more_nor"] forState:UIControlStateNormal];
-    [_more setImage:[UIImage imageNamed:@"chat_toolbar_more_press"] forState:UIControlStateHighlighted];
+    if (self.useForMeeting) {
+        [_more setImage:[UIImage imageNamed:@"video_chat_addbtn"] forState:UIControlStateNormal];
+        [_more setImage:[UIImage imageNamed:@"video_chat_addbtn"] forState:UIControlStateHighlighted];
+    } else {
+        [_more setImage:[UIImage imageNamed:@"chat_toolbar_more_nor"] forState:UIControlStateNormal];
+        [_more setImage:[UIImage imageNamed:@"chat_toolbar_more_press"] forState:UIControlStateHighlighted];
+    }
     [_more addTarget:self action:@selector(onClickMore:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_more];
+    
+    if (self.useForMeeting) {
+        _closeBtn = [[UIButton alloc] init];
+        [_closeBtn setImage:[UIImage imageNamed:@"video_chat_closebtn"] forState:UIControlStateNormal];
+        [_closeBtn setImage:[UIImage imageNamed:@"video_chat_closebtn"] forState:UIControlStateHighlighted];
+        [_closeBtn addTarget:self action:@selector(clickCloseBtn) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_closeBtn];
+        
+        _audio.hidden = YES;
+    }
+
 }
+
+- (void)clickCloseBtn {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChatInputToolBarClickCloseBtnNotification" object:nil];
+}
+
+- (void)setUseForMeeting:(BOOL)useForMeeting {
+    _useForMeeting = useForMeeting;
+
+    if (self.useForMeeting) {
+        [_emoj setImage:[UIImage imageNamed:@"video_chat_facebtn"] forState:UIControlStateNormal];
+        [_emoj setImage:[UIImage imageNamed:@"video_chat_facebtn"] forState:UIControlStateHighlighted];
+    } else {
+        [_emoj setImage:[UIImage imageNamed:@"chat_toolbar_smile_nor"] forState:UIControlStateNormal];
+        [_emoj setImage:[UIImage imageNamed:@"chat_toolbar_smile_press"] forState:UIControlStateHighlighted];
+    }
+    
+    if (self.useForMeeting) {
+        [_more setImage:[UIImage imageNamed:@"video_chat_addbtn"] forState:UIControlStateNormal];
+        [_more setImage:[UIImage imageNamed:@"video_chat_addbtn"] forState:UIControlStateHighlighted];
+    } else {
+        [_more setImage:[UIImage imageNamed:@"chat_toolbar_more_nor"] forState:UIControlStateNormal];
+        [_more setImage:[UIImage imageNamed:@"chat_toolbar_more_press"] forState:UIControlStateHighlighted];
+    }
+    
+    if (self.useForMeeting) {
+        _closeBtn = [[UIButton alloc] init];
+        [_closeBtn setImage:[UIImage imageNamed:@"video_chat_closebtn"] forState:UIControlStateNormal];
+        [_closeBtn setImage:[UIImage imageNamed:@"video_chat_closebtn"] forState:UIControlStateHighlighted];
+        [_closeBtn addTarget:self action:@selector(clickCloseBtn) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_closeBtn];
+        
+        _audio.hidden = YES;
+    }
+}
+
 
 - (void)setChatDelegate:(id<ChatInputAbleViewDelegate>)delegate
 {
@@ -169,7 +229,14 @@
     [_audio sizeWith:CGSizeMake(kButtonSize, kButtonSize)];
     [_audio alignParentBottomWithMargin:kVerMargin];
     [_audio alignParentLeftWithMargin:kDefaultMargin];
+//    [_audio removeFromSuperview];
     
+    if (self.useForMeeting) {
+        [_closeBtn sizeWith:CGSizeMake(kButtonSize, kButtonSize)];
+        [_closeBtn alignParentBottomWithMargin:kVerMargin];
+        [_closeBtn alignParentLeftWithMargin:kDefaultMargin];
+    }
+
     
     [_more sameWith:_audio];
     [_more alignParentRightWithMargin:kDefaultMargin];

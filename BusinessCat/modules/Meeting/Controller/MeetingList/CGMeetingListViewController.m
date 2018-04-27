@@ -389,8 +389,8 @@
     __weak typeof(self) weakself = self;
     [[YCMeetingBiz new] meetingEntranceWithMeetingID:meeting.meetingId Success:^(int state, NSString *password, NSString *message, NSString *AccessKey, NSString *SecretKey, NSString *BucketName, NSString *q) {
         // 状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
-        if (state == 1 || state == 3) {
-            [weakself goToVideoMeetingWithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId state:state AccessKey:AccessKey SecretKey:SecretKey BucketName:BucketName q:q];
+        if (state == 1 || state == 3 || state == 0) {
+            [weakself goToVideoMeeting:meeting WithRoomID:meeting.conferenceNumber meetingID:meeting.meetingId state:state AccessKey:AccessKey SecretKey:SecretKey BucketName:BucketName q:q];
         } else {
             [CTToast showWithText:message];
         }
@@ -558,7 +558,7 @@
 #pragma mark - 视频会议
 
 //        状态:0未到开会时间,1可进入（可提前5分钟），2非参会人员，3会议已结束
-- (void)goToVideoMeetingWithRoomID:(NSString *)rid meetingID:(NSString *)mid state:(long)state AccessKey:(NSString *)AccessKey SecretKey:(NSString *)SecretKey BucketName:(NSString *)BucketName q:(NSString *)q {
+- (void)goToVideoMeeting:(CGMeeting *)meeting WithRoomID:(NSString *)rid meetingID:(NSString *)mid state:(long)state AccessKey:(NSString *)AccessKey SecretKey:(NSString *)SecretKey BucketName:(NSString *)BucketName q:(NSString *)q {
     if ([YCJCSDKHelper isLoginForVideoCall]) {
         RoomViewController *roomVc = [[RoomViewController alloc] initWithNibName:@"RoomViewController" bundle:[NSBundle mainBundle]];
         roomVc.roomId = rid;
@@ -570,6 +570,7 @@
         roomVc.SecretKey = SecretKey;
         roomVc.BucketName = BucketName;
         roomVc.q = q;
+//        roomVc.meeting = meeting;
         [self.navigationController pushViewController:roomVc animated:YES];
     } else {
         [CTToast showWithText:@"会议功能尚未登录，请稍后再试"];

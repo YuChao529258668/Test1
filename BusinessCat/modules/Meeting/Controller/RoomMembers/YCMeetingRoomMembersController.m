@@ -19,7 +19,7 @@
 
 #define kMembersToolbarHeight 44
 #define kMembersToolbarWidth  [UIScreen mainScreen].bounds.size.width
-#define kMembersBtnWidth 78
+#define kMembersBtnWidth 86
 #define kMembersBtnHeight 29
 
 #pragma mark - 命令
@@ -76,6 +76,9 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 @property (nonatomic, strong) UIView *firstHeaderView;
 @property (nonatomic, strong) UIView *secondHeaderView;
 
+@property (nonatomic, strong) UIButton *hideBtn;
+@property (nonatomic, strong) UILabel *countLabel;
+
 @end
 
 @implementation YCMeetingRoomMembersController
@@ -93,6 +96,9 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 //    }
     self.view.backgroundColor = [UIColor whiteColor];
     [self configBtns:self.isReview];
+    
+    [self setupHideBtn];
+    [self setupRightView];
 }
 
 - (void)dealloc {
@@ -199,26 +205,39 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.titleLabel.font = font;
 //        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setBackgroundColor:color];
+//        [btn setBackgroundColor:color];
+        [btn setBackgroundColor:[UIColor whiteColor]];
+        btn.layer.borderColor = CTThemeMainColor.CGColor;
+        btn.contentMode = UIViewContentModeLeft;
+        btn.imageEdgeInsets = UIEdgeInsetsMake(0, 58, 0, 0);
+        btn.titleEdgeInsets = UIEdgeInsetsMake(0, -40, 0, 0);
+        btn.layer.borderWidth = 1;
         [bar addSubview:btn];
         [btn addTarget:self action:@selector(clickEnableVideoBtn) forControlEvents:UIControlEventTouchUpInside];
         [btn setTitle:@"全员禁频" forState:UIControlStateNormal];
-//        [btn setImage:[UIImage imageNamed:@"video_vi_normal"] forState:UIControlStateSelected];
-//        [btn setImage:[UIImage imageNamed:@"video_vi_highlight"] forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"new_video_member_videobtn_no"] forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"new_video_member_videobtn_normal"] forState:UIControlStateSelected];
         [btn setTitle:@"全员视频" forState:UIControlStateSelected];
         btn.layer.cornerRadius = 4;
         btn.clipsToBounds = YES;
         self.enableVideoBtn = btn;
         
+        
         btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.titleLabel.font = font;
 //        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setBackgroundColor:color];
+//        [btn setBackgroundColor:color];
+        [btn setBackgroundColor:[UIColor whiteColor]];
+        btn.contentMode = UIViewContentModeLeft;
+        btn.imageEdgeInsets = UIEdgeInsetsMake(0, 60, 0, 0);
+        btn.titleEdgeInsets = UIEdgeInsetsMake(0, -36, 0, 0);
+        btn.layer.borderColor = CTThemeMainColor.CGColor;
+        btn.layer.borderWidth = 1;
         [bar addSubview:btn];
         [btn addTarget:self action:@selector(clickEnableVoiceBtn) forControlEvents:UIControlEventTouchUpInside];
         [btn setTitle:@"全员禁音" forState:UIControlStateNormal];
-//        [btn setImage:[UIImage imageNamed:@"video_sound_normal"] forState:UIControlStateSelected];
-//        [btn setImage:[UIImage imageNamed:@"video_sound_highlight"] forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"new_video_member_speech_no"] forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"new_video_member_speech_highlight"] forState:UIControlStateSelected];
         [btn setTitle:@"全员音频" forState:UIControlStateSelected];
         btn.layer.cornerRadius = 4;
         btn.clipsToBounds = YES;
@@ -276,9 +295,11 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     [super viewWillLayoutSubviews];
     
     {
+        float y = 80;
         CGRect frame = self.view.frame;
         frame.origin = CGPointZero;
-        frame.size.height = frame.size.height - kMembersToolbarHeight;
+        frame.origin.y = y;
+        frame.size.height = frame.size.height - kMembersToolbarHeight - y;
         self.tableView.frame = frame;
     }
     
@@ -292,6 +313,8 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         
         self.enableVoiceBtn.frame = CGRectMake(0, 0, kMembersBtnWidth, kMembersBtnHeight);
         self.enableVideoBtn.frame = CGRectMake(0, 0, kMembersBtnWidth, kMembersBtnHeight);
+        
+        
 //        self.changeCompereBtn.frame = CGRectMake(0, 0, kMembersBtnWidth, kMembersBtnHeight);
         self.addUserBtn.frame = CGRectMake(0, 0, 50, kMembersBtnHeight);
         
@@ -302,13 +325,16 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 //        float x = kMembersBtnWidth / 2 + 15;
         float centerY = kMembersToolbarHeight / 2;
 //        float i = 1;
-        self.enableVoiceBtn.center = CGPointMake(kMembersBtnWidth * 0.5 + 1 * 15, centerY);
-        self.enableVideoBtn.center = CGPointMake(kMembersBtnWidth * 1.5 + 2 * 15, centerY);
+        float centerX = self.view.frame.size.width - (kMembersBtnWidth/2 + 20);
+        self.enableVoiceBtn.center = CGPointMake(centerX, centerY);
+        centerX = self.view.frame.size.width - (kMembersBtnWidth/2 + 20) * 2 - kMembersBtnWidth/2;
+        self.enableVideoBtn.center = CGPointMake(centerX, centerY);
 //        self.changeCompereBtn.center = CGPointMake(x * i ++, centerY);
         self.addUserBtn.center = CGPointMake(kMembersToolbarWidth-50/2-15, centerY);
         
         self.requestInteractBtn.center = CGPointMake(78 * 0.5 + 20, centerY);
 //        self.endInteractBtn.center = CGPointMake(x * 1.5, centerY);
+        
     }
 }
 
@@ -566,7 +592,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:@"all" soundState:soundState videoState:nil interactionState:nil compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
             [weakself sendUpdateStatesCommandWithUserID:[ObjectShareTool currentUserID]];
             weakself.enableVoiceBtn.selected = selected;
-            weakself.enableVoiceBtn.backgroundColor = color;
+//            weakself.enableVoiceBtn.backgroundColor = color;
         } fail:^(NSError *error) {
             [CTToast showWithText: failStr];
         }];
@@ -597,7 +623,7 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
         [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:@"all" soundState:nil videoState:videoState interactionState:nil compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
             [weakself sendUpdateStatesCommandWithUserID:[ObjectShareTool currentUserID]];
             weakself.enableVideoBtn.selected = selected;
-            weakself.enableVideoBtn.backgroundColor = color;
+//            weakself.enableVideoBtn.backgroundColor = color;
         } fail:^(NSError *error) {
             [CTToast showWithText:failStr];
         }];
@@ -918,6 +944,9 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
     [[YCMeetingBiz new] meetingUserWithMeetingID:self.meetingID userId:nil soundState:nil videoState:nil interactionState:nil compereState:nil userState:nil userAdd:nil userDel:nil success:^(YCMeetingState *state) {
         weakself.meetingState = state;
         weakself.users = weakself.meetingState.meetingUserList;
+        
+        [weakself updateCountLabelWithOnline:state.onlinePeopleNumber total:state.totalPeopleNumber];
+        
         [weakself.tableView.mj_header endRefreshing];
         
         if (weakself.onGetMeetingDateSuccessBlock) {
@@ -1058,10 +1087,10 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 
         UIColor *color = [YCTool colorOfHex:0xdddddd];
         self.enableVoiceBtn.selected = allVoiceDisable;// normal 是 “禁止”，灰色，处于 非禁止状态
-        self.enableVoiceBtn.backgroundColor = allVoiceDisable? CTThemeMainColor: color;
+//        self.enableVoiceBtn.backgroundColor = allVoiceDisable? CTThemeMainColor: color;
         
         self.enableVideoBtn.selected = allVideoDisable;
-        self.enableVideoBtn.backgroundColor = allVideoDisable? CTThemeMainColor: color;
+//        self.enableVideoBtn.backgroundColor = allVideoDisable? CTThemeMainColor: color;
 
     }
 }
@@ -1206,13 +1235,17 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 
 - (UIView *)createHeaderViewWithText:(NSString *)str {
     float height = 30;
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 100, height)];
-    label.text = str;
+    float width = self.view.frame.size.width - 2 * 20;
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, width, height)];
+    label.text = [NSString stringWithFormat:@"      %@", str];
     label.font = [UIFont systemFontOfSize:14];
+    label.backgroundColor = [YCTool colorWithRed:200 green:200 blue:200 alpha:1];
+    label.layer.cornerRadius = height/2;
+    label.clipsToBounds = YES;
     
     UIView *view = [UIView new];
     view.frame = CGRectMake(0, 0, 100, height);
-    view.backgroundColor = [YCTool colorWithRed:200 green:200 blue:200 alpha:1];
+//    view.backgroundColor = [YCTool colorWithRed:200 green:200 blue:200 alpha:1];
     
     [view addSubview:label];
     return view;
@@ -1238,10 +1271,49 @@ NSString * const kYCDisagreeDoodle = @"YC_DISAGREE_DOODLE";
 - (UIButton *)createAddUserBtnOnHeaderView {
     float height = 30;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    float x = [UIScreen mainScreen].bounds.size.width - 60;
+    float x = [UIScreen mainScreen].bounds.size.width - 80;
     btn.frame = CGRectMake(x, 0, 60, height);
-    [btn setImage:[UIImage imageNamed:@"icon_add"] forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:@"new_video_member_increase_normal"] forState:UIControlStateNormal];
     return btn;
 }
+
+
+#pragma mark -
+
+- (void)setupHideBtn {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.view addSubview:btn];
+    [btn addTarget:self action:@selector(clickHideBtn) forControlEvents:UIControlEventTouchUpInside];
+    btn.frame = CGRectMake(12, 20, 50, 50);
+    self.hideBtn = btn;
+    [btn setImage:[UIImage imageNamed:@"new_video_member_left"] forState:UIControlStateNormal];
+    [self.view bringSubviewToFront:btn];
+}
+
+- (void)clickHideBtn {
+    self.view.hidden = YES;
+}
+
+- (void)setupRightView {
+    UIView *view = [UIView new];
+    [self.view addSubview:view];
+    
+    UIImageView *iv = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"new_video_member_person"]];
+    [view addSubview:iv];
+    iv.frame = CGRectMake(0, 0, 21, 20);
+    
+    UILabel *lb = [[UILabel alloc]initWithFrame:CGRectMake(22, 0, 60, 20)];
+    [view addSubview:lb];
+    lb.font = [UIFont systemFontOfSize:13];
+    self.countLabel = lb;
+    [self updateCountLabelWithOnline:0 total:1];
+    
+    view.frame = CGRectMake(self.view.frame.size.width - 100, 35, 100, 20);
+}
+
+- (void)updateCountLabelWithOnline:(NSInteger)online total:(NSInteger)total {
+    self.countLabel.text = [NSString stringWithFormat:@"(%ld/%ld)人", online, total];
+}
+
 
 @end

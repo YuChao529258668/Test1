@@ -30,9 +30,11 @@
 #define kMainScreenHeight [UIScreen mainScreen].bounds.size.height
 
 
-#import "CGMeeting.h"
 #import "YCMeetingBiz.h"
 #import "YCMeetingRoomMembersController.h"
+
+#import "RoomBarView.h"
+#import "RoomStateView.h"
 
 //#define kVideoViewHeight (kMainScreenWidth/16.0*9) // splitScreenViewController的高度
 #define kVideoViewHeight (kMainScreenHeight/2) // splitScreenViewController的高度
@@ -82,7 +84,7 @@ typedef enum {
     ShowDoodle                  // 涂鸦界面
 } ShowMode;
 
-@interface RoomViewController ()<BaseMeetingDelegate, JCScreenShareDelegate, JCDoodleDelegate, ConferenceToolBarDelegate, MenuDelegate, JCEngineDelegate>
+@interface RoomViewController ()<BaseMeetingDelegate, JCScreenShareDelegate, JCDoodleDelegate, ConferenceToolBarDelegate, MenuDelegate, JCEngineDelegate, UICollectionViewDataSource, UICollectionViewDelegate, RoomBarViewDelegate, RoomStateViewDelegate>
 //{
 //    JCBaseMeetingReformer *_meetingReformer;
     
@@ -100,6 +102,9 @@ typedef enum {
 //    int _count;
 //    long _confNumber;
 //}
+
+@property (nonatomic, strong) UICollectionView *collectionView;
+
 
 @property (nonatomic,strong) JCBaseMeetingReformer *meetingReformer;
 @property (nonatomic,strong) JCEngineManager *confManager;
@@ -160,7 +165,6 @@ typedef enum {
 @property (nonatomic,strong) YCMeetingDesktopController *desktopVC;
 
 //@property (nonatomic,strong) NSString *charRoomID; // 聊天室 id
-@property (nonatomic,strong) CGMeeting *meeting; // 会议详情
 //@property (nonatomic,assign) BOOL isAutorotate; // 是否支持自动旋转。白板全屏时支持旋转
 @property (nonatomic,assign) BOOL isFullScreen; // 白板是否全屏显示
 
@@ -186,6 +190,17 @@ typedef enum {
 @property (nonatomic,strong) NSMutableArray<NSString *> *fileUrls; // 录屏文件
 
 @property (weak, nonatomic) IBOutlet UIButton *videoBtn;// 查看回放
+
+
+
+@property (nonatomic, strong) RoomBarView *roomBarView;
+
+@property (weak, nonatomic) IBOutlet UIView *bigView;
+@property (nonatomic, strong) NSString *currentBigUserID;
+@property (nonatomic, strong) RoomStateView *stateView;
+
+@property (nonatomic,strong) CGMeeting *meeting; // 会议详情
+@property (nonatomic, assign) BOOL isInputting;
 
 @end
 
@@ -224,6 +239,7 @@ typedef enum {
         _whiteBoardViewController = [[JCWhiteBoardViewController alloc] init];
         _whiteBoardViewController.meetingID = self.meetingID;
         _whiteBoardViewController.isReview = self.isReview;
+        _whiteBoardViewController.view.hidden = YES;
         [self setupGesture];
     }
     return _whiteBoardViewController;
@@ -289,10 +305,24 @@ typedef enum {
     
     [self removeKeyboardObserver];
     [self removeObserverForHowlingDetectedNotification];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JCSplitScreenViewCellClickNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleChatInputToolBarClickCloseBtnNotification:) name:@"ChatInputToolBarClickCloseBtnNotification" object:nil];
+
+    self.stateView = [RoomStateView view];
+    [self.view addSubview:self.stateView];
+    self.stateView.delegate = self;
+    self.stateView.state = (int)self.meetingState;
+    NSURL *url = [NSURL URLWithString:[ObjectShareTool sharedInstance].currentUser.portrait];
+    [self.stateView.avatarIV sd_setImageWithURL:url];
+
+
     
     self.videoBtn.hidden = YES; // 拿到播放地址再显示
     if (self.isReview) {
@@ -365,17 +395,36 @@ typedef enum {
     
     [self configForCustom]; // 自定义
     
+    [self setupRoomBarView];
+    [self.myBackBtn removeFromSuperview];
+    self.myBackBtn = nil;
+    [self.titleBtn removeFromSuperview];
+    self.titleBtn = nil;
     
     
     
     
     self.hintLabel.textColor = [UIColor whiteColor];
 
+//    [self setupCollectionView];
+    
     
 //    [self joinRoom];
     
 //    [self configForCustom];
     
+    __weak typeof(self) weakself = self;
+    self.whiteBoardViewController.didClickBackBtnBlock = ^{
+        [UIView animateWithDuration:0.2 animations:^{
+            weakself.isFullScreen = NO;
+            weakself.whiteBoardViewController.view.transform = CGAffineTransformMakeRotation(0);
+            weakself.whiteBoardViewController.view.frame = weakself.view.bounds;
+            weakself.bigView.transform = CGAffineTransformMakeRotation(0);
+//            weakself.bigView.frame = weakself.view.bounds;
+            [weakself layoutBigView];
+            [weakself.bigView.superview sendSubviewToBack:weakself.bigView];
+        }];
+    };
 }
 
 - (void)joinRoom {
@@ -386,6 +435,8 @@ typedef enum {
         return;
     }
     
+    [self.whiteBoardTabBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+
     if (self.meetingState == 0) {
         self.cancelBtn.hidden = YES;
         self.hintLabel.text = @"会议未开始";
@@ -415,14 +466,27 @@ typedef enum {
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
+//    self.bigView.frame = self.view.bounds;
+    [self layoutBigView];
+
+    self.stateView.frame = self.view.bounds;
+    
+    self.splitScreenViewController.view.frame = CGRectMake(0, 80, kMainScreenWidth, 90);
+
     [self layoutViewControllers];
-    [self layoutTabBar];
+//    [self layoutTabBar];
     self.hideKeyboardBtn.frame = self.view.bounds;
     
     float y = kVideoViewHeight - kWelcomeLabelHeight;
     self.welcomeLabel.frame = CGRectMake(0, y, kMainScreenWidth, kWelcomeLabelHeight);
-    
+    self.welcomeLabel.hidden = YES;
+    self.welcomeLabel = nil;
+
     self.conferenceToolBar.frame = self.view.bounds;
+    
+    [self layoutCollectionView];
+    
+    self.roomBarView.frame = self.view.bounds;
 }
 
 
@@ -462,6 +526,12 @@ typedef enum {
     self.welcomeLabel.text = [NSString stringWithFormat:@"   欢迎 %@ 加入会议", name];
     self.welcomeLabel.hidden = NO;
     self.welcomeLabelSeconds = 5;
+    
+    [self.collectionView reloadData];
+    
+//    NSString *title = [NSString stringWithFormat:@"成员(%d/%d人) ", self.meeting.onlinePeopleNumber, self.meeting.totalPeopleNumber];
+    [self.roomBarView updateOnlineCount:[_confManager getRoomInfo].participants.count];
+    [self.roomBarView showWelcomeViewWithName:name show:YES];
 }
 
 - (void)onParticipantLeft:(ErrorReason)errorReason userId:(NSString *)userId {
@@ -472,6 +542,15 @@ typedef enum {
 //     更新服务器并且群发命令
 //    [self.membersVC onUserLeft:userId];
     [self.membersVC getMeetingUser];
+    
+    [self.collectionView reloadData];
+    [self.roomBarView updateOnlineCount:[_confManager getRoomInfo].participants.count];
+
+    if ([userId isEqualToString:self.currentBigUserID]) {
+        [[JCEngineManager sharedManager] stopRender:self.bigView];
+        [_confManager startRender:self.bigView userId:[ObjectShareTool currentUserID] mode:RenderFullScreen completed:nil];
+        self.currentBigUserID = [ObjectShareTool currentUserID];
+    }
 }
 
 #pragma mark - BaseMeetingDelegate
@@ -480,6 +559,7 @@ typedef enum {
 {
     _waitInfoView.hidden = YES; //隐藏会议等待view
     _mainView.hidden = NO; //显示加入会议后的主view
+    self.stateView.hidden = YES;
     
     _confNumber = [_confManager getConfNumber];
     
@@ -497,20 +577,61 @@ typedef enum {
     
     // 麦克风
 //    UIButton *soundBtn = self.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
+//    UIButton *soundBtn = self.conferenceToolBar.microphoneBtn;
+//    soundBtn = self.roomBarView.soundBtn;
+//
+//    __weak typeof(self) weakself = self;
+//    int success = [_meetingReformer setAudioEnabled:YES completion:^(BOOL isAudioEnabled) {
+//        [weakself.membersVC reloadTableView];
+//    }];
+//    if (success == JCOK) {
+//        soundBtn.selected = YES;
+//        [weakself.conferenceToolBar updateLabels];
+//    }
+    
+    
+    JCParticipantModel *model = [[JCEngineManager sharedManager] getParticipantWithUserId:[ObjectShareTool currentUserID]];
+    //能收到该成员的视频数据
+    BOOL canReceiveVideo = model.isVideoUpload && model.isVideoForward;
+    UIButton *videoBtn = self.conferenceToolBar.videoBtn;
+    videoBtn = self.roomBarView.videoBtn;
+    videoBtn.selected = canReceiveVideo;
+    //能收到该成员的语音数据
+    BOOL canReceiveAudio = model.isAudioUpload && model.isAudioForward;
     UIButton *soundBtn = self.conferenceToolBar.microphoneBtn;
-    __weak typeof(self) weakself = self;
-    int success = [_meetingReformer setAudioEnabled:YES completion:^(BOOL isAudioEnabled) {
-        [weakself.membersVC reloadTableView];
-    }];
-    if (success == JCOK) {
-        soundBtn.selected = YES;
-        [weakself.conferenceToolBar updateLabels];
-    }
+    soundBtn = self.roomBarView.soundBtn;
+    soundBtn.selected = canReceiveAudio;
+    
 
     [self.whiteBoardViewController checkCurrentMeetingFile];
 //    [self.membersVC reloadTableView];
     
 //    [self test2];
+    
+    [self.collectionView reloadData];
+    [self.roomBarView updateOnlineCount:[_confManager getRoomInfo].participants.count];
+    [self.roomBarView updateTotalCount:self.meeting.totalPeopleNumber];
+    NSURL *url = [NSURL URLWithString:[ObjectShareTool sharedInstance].currentUser.portrait];
+    [self.roomBarView.avatarIV sd_setImageWithURL:url];
+    
+    self.whiteBoardViewController.view.hidden = YES;
+//    self.chatVC.view.hidden = YES;
+    self.membersVC.view.hidden = YES;
+    
+    self.myToolBarBtn.hidden = YES;
+    [self.myToolBarBtn removeFromSuperview];
+    self.myToolBarBtn = nil;
+    
+    self.bigView.backgroundColor = [UIColor blackColor];
+//    [_confManager requestVideoWithUserId:userId pictureSize:VideoPictureSizeLarge];
+
+    [_confManager startRender:self.bigView userId:[ObjectShareTool currentUserID] mode:RenderFullScreen completed:^{
+        
+    }];
+    self.currentBigUserID = [ObjectShareTool currentUserID];
+
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clickJCSplitScreenViewCell:) name:@"JCSplitScreenViewCellClickNotification" object:nil];
 }
 
 - (void)joinFailedWithReason:(ErrorReason)reason
@@ -901,7 +1022,8 @@ typedef enum {
 //            }
 
             [self cancel:nil];
-            
+            [[JCEngineManager sharedManager] stopRender:self.bigView];
+
             // 更新服务器的状态
             [[YCMeetingBiz new]meetingUserWithMeetingID:self.meetingID userId:[ObjectShareTool currentUserID] soundState:nil videoState:nil interactionState:nil compereState:nil userState:@"0" userAdd:nil userDel:nil success:^(YCMeetingState *state) {
                 
@@ -941,7 +1063,8 @@ typedef enum {
 
 
             [self cancel:nil];
-            
+            [[JCEngineManager sharedManager] stopRender:self.bigView];
+
             // 更新服务器的状态
             // 内存泄露，要 weak
             __weak typeof(self) weakself = self;
@@ -1058,20 +1181,28 @@ typedef enum {
 #pragma mark - yc_Layout
 
 - (void)layoutViewControllers {
+    float height = self.view.frame.size.height - kTabBarHeight;
+    
 //    float kVideoViewHeight = kMainScreenWidth/2.0/16*9;
-    CGRect frame = CGRectMake(0, 0, kMainScreenWidth, kVideoViewHeight);
-    self.splitScreenViewController.view.frame = frame;
+    CGRect frame = CGRectMake(0, 0, kMainScreenWidth, height);
+    frame = self.view.bounds;
+//    self.splitScreenViewController.view.frame = frame;
     
-    float y = kVideoViewHeight + kTabBarHeight;
-    self.chatVC.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
-    self.desktopVC.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
-    self.membersVC.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
-    
+//    float y = kVideoViewHeight + kTabBarHeight;
+//    self.chatVC.view.frame = frame;
+    self.desktopVC.view.frame = frame;
+    self.membersVC.view.frame = frame;
+    if (self.isInputting) {
+        self.chatVC.view.frame = CGRectMake(0, 240, kMainScreenWidth, kMainScreenHeight - 240);
+    } else {
+        self.chatVC.view.frame = CGRectMake(0, 240, kMainScreenWidth, kMainScreenHeight - 240 -40);
+    }
+
     // 白板全屏的时候，允许自动旋转
     if (self.isFullScreen) {
         self.whiteBoardViewController.view.frame = CGRectMake(0, 0, kMainScreenWidth, kMainScreenHeight);
     } else {
-        self.whiteBoardViewController.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
+        self.whiteBoardViewController.view.frame = frame;
     }
     
 //    [UIView animateWithDuration:0.26 animations:^{
@@ -1085,8 +1216,26 @@ typedef enum {
 
 }
 
+- (void)layoutBigView {
+    if (self.whiteBoardViewController.view.isHidden) {
+        self.bigView.frame = self.view.bounds;
+    } else {
+        if (self.isFullScreen) {
+            float x = 60;
+            float y = self.view.frame.size.height - 100 - 20;
+            self.bigView.frame = CGRectMake(x, y, 100, 100);
+        } else {
+            float x = self.view.frame.size.width - 100 - 20;
+            float y = self.view.frame.size.height - 100 - 60;
+            self.bigView.frame = CGRectMake(x, y, 100, 100);
+        }
+    }
+}
+
 - (void)layoutTabBar {
-    self.tabBar.frame = CGRectMake(0, kVideoViewHeight, kMainScreenWidth, kTabBarHeight);
+    float y = self.view.frame.size.height - kTabBarHeight;
+
+    self.tabBar.frame = CGRectMake(0, y, kMainScreenWidth, kTabBarHeight);
     
 //    float btnWidth = kMainScreenWidth / 4;
     float btnWidth = kMainScreenWidth / 3;
@@ -1112,6 +1261,12 @@ typedef enum {
 }
 
 #pragma mark - yc_Setup
+
+- (void)setupRoomBarView {
+    self.roomBarView = [RoomBarView view];
+    self.roomBarView.delegate = self;
+    [self.preview addSubview:self.roomBarView];
+}
 
 - (void)setupTarBar {
     self.btnLine = [UIView new];
@@ -1228,12 +1383,12 @@ typedef enum {
 #pragma mark - yc_Action
 
 - (void)whiteBoardTabBtnClick {
-    self.whiteBoardViewController.view.hidden = NO;
+    self.whiteBoardViewController.view.hidden = !self.whiteBoardViewController.view.isHidden;
     self.desktopVC.view.hidden = YES;
-    self.chatVC.view.hidden = YES;
+//    self.chatVC.view.hidden = YES;
     self.membersVC.view.hidden = YES;
 
-    self.whiteBoardTabBtn.selected = YES;
+    self.whiteBoardTabBtn.selected = !self.whiteBoardTabBtn.isSelected;
     self.desktopBtn.selected = NO;
     self.chatTabBtn.selected = NO;
     self.memberTabBtn.selected = NO;
@@ -1242,13 +1397,14 @@ typedef enum {
     
     [self.view endEditing:YES];
     
+    [self.preview bringSubviewToFront:self.whiteBoardViewController.view];
 //    [self.tabBar sendSubviewToBack:self.whiteBoardTabBtn];
 }
 
 - (void)desktopBtnClick {
     self.whiteBoardViewController.view.hidden = YES;
     self.desktopVC.view.hidden = NO;
-    self.chatVC.view.hidden = YES;
+//    self.chatVC.view.hidden = YES;
     self.membersVC.view.hidden = YES;
     
     self.whiteBoardTabBtn.selected = NO;
@@ -1264,12 +1420,12 @@ typedef enum {
 - (void)chatTabBtnClick {
     self.whiteBoardViewController.view.hidden = YES;
     self.desktopVC.view.hidden = YES;
-    self.chatVC.view.hidden = NO;
+    self.chatVC.view.hidden = !self.chatVC.view.isHidden;
     self.membersVC.view.hidden = YES;
 
     self.whiteBoardTabBtn.selected = NO;
     self.desktopBtn.selected = NO;
-    self.chatTabBtn.selected = YES;
+    self.chatTabBtn.selected = !self.chatTabBtn.isSelected;
     self.memberTabBtn.selected = NO;
     
     [self layoutBtnLine:self.chatTabBtn];
@@ -1282,19 +1438,21 @@ typedef enum {
 - (void)memberTabBtnClick {
     self.whiteBoardViewController.view.hidden = YES;
     self.desktopVC.view.hidden = YES;
-    self.chatVC.view.hidden = YES;
-    self.membersVC.view.hidden = NO;
+//    self.chatVC.view.hidden = YES;
+    self.membersVC.view.hidden = !self.membersVC.view.isHidden;
 
     self.whiteBoardTabBtn.selected = NO;
     self.desktopBtn.selected = NO;
     self.chatTabBtn.selected = NO;
-    self.memberTabBtn.selected = YES;
+    self.memberTabBtn.selected = !self.memberTabBtn.isSelected;
     
     [self layoutBtnLine:self.memberTabBtn];
     [self.view endEditing:YES];
     
 //    [self.tabBar sendSubviewToBack:self.menuButton];
     [self.membersVC reloadTableView];
+    
+    [self.preview bringSubviewToFront:self.membersVC.view];
 }
 
 - (IBAction)myToolBarBtnClick:(UIButton *)sender {
@@ -1340,6 +1498,10 @@ typedef enum {
     [[YCMeetingBiz new] getMeetingDetailWithMeetingID:weakself.meetingID success:^(CGMeeting *meeting) {
         weakself.meeting = meeting;
         
+        if (weakself.meetingState == 0) {// 未开始
+            weakself.stateView.beginDate = [NSDate dateWithTimeIntervalSince1970:meeting.startTime.doubleValue/1000];
+        }
+
         [weakself joinRoom];
         
         // 获取群聊
@@ -1348,7 +1510,7 @@ typedef enum {
         [weakself addMembersControllerWithUsers:meeting.meetingUserList];
         [weakself updateTitleBtn];
         [weakself updateMemberBtn];
-        [weakself setupTimer];
+//        [weakself setupTimer];
         weakself.desktopVC.meeting = meeting;
     } fail:^(NSError *error) {
         [CTToast showWithText:[NSString stringWithFormat:@"获取会议详情失败 : %@", error]];
@@ -1457,10 +1619,8 @@ typedef enum {
         enable = soundState?YES:NO;
 //        UIButton *soundBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
         UIButton *soundBtn = weakself.conferenceToolBar.microphoneBtn;
-//        if (enable == NO && soundBtn.isSelected == YES) {
-//        if (enable != soundBtn.isSelected) {
-//            [soundBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
-//        }
+        soundBtn = weakself.roomBarView.soundBtn;
+        
         if (enable == NO && soundBtn.isSelected == YES) {
             [weakself.meetingReformer setAudioEnabled:enable completion:^(BOOL isAudioEnabled) {
                 soundBtn.selected = isAudioEnabled;
@@ -1472,10 +1632,8 @@ typedef enum {
         enable = videoState?YES:NO;
 //        UIButton *videoBtn = weakself.conferenceToolBar.buttons[ConferenceToolBarButtonVideo];
         UIButton *videoBtn = weakself.conferenceToolBar.videoBtn;
-////        if (enable == NO && videoBtn.isSelected == YES) {
-//        if (enable != videoBtn.isSelected) {
-//            [videoBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
-//        }
+        videoBtn = weakself.roomBarView.videoBtn;
+        
         if (enable == NO && videoBtn.isSelected == YES) {
             [weakself.meetingReformer setVideoEnabled:enable completion:^(BOOL isVideoEnabled) {
                 videoBtn.selected = isVideoEnabled;
@@ -1486,8 +1644,8 @@ typedef enum {
     };
     
     self.membersVC.view.hidden = !self.memberTabBtn.isSelected;
-//    [self.preview addSubview:self.membersVC.view];
-    [self.preview insertSubview:self.membersVC.view aboveSubview:self.tabBar];
+    [self.preview addSubview:self.membersVC.view];
+//    [self.preview insertSubview:self.membersVC.view aboveSubview:self.tabBar];
     // 布局
     [self layoutViewControllers];
 }
@@ -1545,7 +1703,8 @@ typedef enum {
 - (void)addChatViewControllerWith:(TIMGroupInfo *)info {
 __weak typeof(self) weakself = self;
     self.chatVC = [self createChatViewControllerWith:info];
-    self.chatVC.view.hidden = !self.chatTabBtn.isSelected;
+//    self.chatVC.view.hidden = !self.chatTabBtn.isSelected;
+    self.chatVC.view.hidden = NO;
     self.chatVC.onReceiveNewMessage = ^(NSArray *messages) {
         [weakself onReceiveNewMessage:messages];
     };
@@ -1582,6 +1741,11 @@ __weak typeof(self) weakself = self;
     } else {
         vc.titleStr = user.nickName;
     }
+    vc.view.backgroundColor = [UIColor clearColor];
+    vc.tableView.backgroundColor = [UIColor clearColor];
+    
+    vc.useForMeeting = YES;
+    [vc showInputView:NO];
     return vc;
 }
 
@@ -1609,11 +1773,11 @@ __weak typeof(self) weakself = self;
     self.videoBtn.layer.cornerRadius = 4;
     self.videoBtn.clipsToBounds = YES;
     
-    self.whiteBoardViewController.view.hidden = NO;
+//    self.whiteBoardViewController.view.hidden = NO;
     _waitInfoView.hidden = NO; //隐藏会议等待view
     _mainView.hidden = NO; //显示加入会议后的主view
 
-    [self setupTarBar];
+//    [self setupTarBar];
 //    [self setupDesktopController];
 
     [self.stopButton removeFromSuperview]; // 结束白板共享按钮
@@ -1638,16 +1802,6 @@ __weak typeof(self) weakself = self;
     self.view.backgroundColor = [UIColor whiteColor];
     self.preview.backgroundColor = [UIColor whiteColor];
     
-//    // 麦克风
-//    UIButton *soundBtn = self.conferenceToolBar.buttons[ConferenceToolBarButtonMicrophone];
-//    __weak typeof(self) weakself = self;
-//    int success = [_meetingReformer setAudioEnabled:YES completion:^(BOOL isAudioEnabled) {
-////        [YCMeetingRoomMembersController sendUpdateStatesCommandWithMeetingID:weakself.meetingID];
-//        [weakself.membersVC reloadTableView];
-//    }];
-//    if (success == JCOK) {
-//        soundBtn.selected = YES;
-//    }
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.waitInfoView addGestureRecognizer:tap];
@@ -1686,12 +1840,20 @@ __weak typeof(self) weakself = self;
 
 - (void)addKeyboardObserver {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
+
 }
 
 - (void)handleKeyboardWillShowNotification:(NSNotification *)noti {
     [self.preview insertSubview:self.hideKeyboardBtn belowSubview:self.tabBar];
 //    [self.chatVC.view.superview insertSubview:self.hideKeyboardBtn belowSubview:self.chatVC.view];
 //    [self.view addSubview:self.hideKeyboardBtn];
+}
+
+- (void)handleKeyboardWillHideNotification:(NSNotification *)noti {
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self clickChatBtn];
+//    });
 }
 
 - (void)hideKeyboard {
@@ -1768,7 +1930,7 @@ __weak typeof(self) weakself = self;
 
 - (void)handleDoubleTapForWhiteBoardVC {
     self.isFullScreen = !self.isFullScreen;
-    [self.whiteBoardViewController.view.superview bringSubviewToFront:self.whiteBoardViewController.view];
+//    [self.whiteBoardViewController.view.superview bringSubviewToFront:self.whiteBoardViewController.view];
     
     // 旋转
     double rotation = self.isFullScreen? M_PI_2: 0;
@@ -1776,12 +1938,16 @@ __weak typeof(self) weakself = self;
 //        [self layoutViewControllers];
         self.whiteBoardViewController.view.transform = CGAffineTransformMakeRotation(rotation);
         
+        self.bigView.transform = CGAffineTransformMakeRotation(rotation);
+        [self layoutBigView];
+        
         // 白板全屏的时候，允许自动旋转
         if (self.isFullScreen) {
             self.whiteBoardViewController.view.frame = CGRectMake(0, 0, kMainScreenWidth, kMainScreenHeight);
         } else {
-            float y = kVideoViewHeight + kTabBarHeight;
-            self.whiteBoardViewController.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
+//            float y = kVideoViewHeight + kTabBarHeight;
+//            self.whiteBoardViewController.view.frame = CGRectMake(0, y, kMainScreenWidth, kMainScreenHeight - y);
+            self.whiteBoardViewController.view.frame = self.view.bounds;
         }
     }];
     
@@ -2169,10 +2335,233 @@ __weak typeof(self) weakself = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+
+#pragma mark - 人员栏
+
+- (void)setupCollectionView {
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
+    layout.itemSize = CGSizeMake(31, 31);
+    layout.minimumInteritemSpacing = 12;
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    layout.sectionInset = UIEdgeInsetsMake(0, 15, 0, 0);
+    
+    UICollectionView *cv = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
+    self.collectionView = cv;
+    [cv registerClass:NSClassFromString(@"UICollectionViewCell") forCellWithReuseIdentifier:@"Cell"];
+    cv.dataSource = self;
+    cv.delegate = self;
+    cv.alwaysBounceHorizontal = YES;
+    cv.backgroundColor = [UIColor yellowColor];
+    
+    [self.preview addSubview:cv];
+    [self.preview bringSubviewToFront:cv];
+}
+
+- (void)layoutCollectionView {
+    self.collectionView.frame = CGRectMake(0, 70, self.view.frame.size.width, 50);
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return [_confManager getRoomInfo].participants.count;
+}
+
+// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor redColor];
+    return cell;
+}
+
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"%@", indexPath);
+}
+
+
+#pragma mark - RoomBarViewDelegate
+
+- (void)clickBackBtn {
+    [self leave:nil];
+}
+
+
+- (void)clickBarBtn:(UIButton *)button atIndex:(NSInteger)index {
+    switch (index) {
+        case 0:
+//            [self chatTabBtnClick];
+            [self clickChatBtn];
+            break;
+        case 1:
+            {
+                BOOL selected = !button.isSelected;
+                if (selected == YES && self.soundState == 0) {
+                    [CTToast showWithText:@"全员禁音中"];
+                    return;
+                }
+                __weak typeof(self) weakself = self;
+                // completion 可能不执行
+                int success = [_meetingReformer setAudioEnabled:selected completion:^(BOOL isAudioEnabled) {
+                    [YCMeetingRoomMembersController sendUpdateStatesCommandWithMeetingID:weakself.meetingID];
+                    [weakself.membersVC reloadTableView];
+                }];
+                if (success == JCOK) {
+                    button.selected = selected;
+                } else {
+                    [CTToast showWithText:@"更改麦克风状态失败"];
+                }
+            }
+            break;
+
+        case 2:
+            {
+                BOOL selected = !button.isSelected;
+                if (selected == YES && self.videoState == 0) {
+                    [CTToast showWithText:@"全员禁频中"];
+                    return;
+                }
+                int success = [_meetingReformer setVideoEnabled:selected completion:^(BOOL isVideoEnabled) {
+                    button.selected = isVideoEnabled;
+                }];
+                if (success == JCOK) {
+                    button.selected = selected;
+                } else {
+                    [CTToast showWithText:@"更改视频状态失败"];
+                }
+            }
+            break;
+        case 3:
+        {
+            [self whiteBoardTabBtnClick];
+            [self.bigView.superview bringSubviewToFront:self.bigView];
+//            float x = self.view.frame.size.width - 100 - 20;
+//            float y = self.view.frame.size.height - 100 - 60;
+            [UIView animateWithDuration:0.2 animations:^{
+//                self.bigView.frame = CGRectMake(x, y, 100, 100);
+                [self layoutBigView];
+            }];
+        }
+            break;
+        case 4:
+            [self memberTabBtnClick];
+            break;
+        case 5:
+//            [self chatTabBtnClick];
+            break;
+
+        
+        default:
+            break;
+    }
+}
+
+- (void)clickJCSplitScreenViewCell:(NSNotification *)noti {
+    NSString *clickId = noti.object;
+    
+    if ([self.currentBigUserID isEqualToString:clickId]) {
+        return;
+    }
+    
+    self.currentBigUserID = clickId;
+    [[JCEngineManager sharedManager] stopRender:self.bigView];
+    [_confManager startRender:self.bigView userId:clickId mode:RenderFullScreen completed:nil];
+
+}
+
+#pragma mark - RoomStateViewDelegate
+
+- (void)clickBackBtnOfStateView:(RoomStateView *)view {
+    [view stopTimer];
+    [self cancel:nil];
+}
+
+- (void)stateView:(RoomStateView *)view clickBarBtn:(UIButton *)btn atIndex:(NSInteger)index {
+    switch (index) {
+        case 0:
+        {
+//            [self chatTabBtnClick];
+//            [self.view addSubview:self.chatVC.view];
+            IMAUser *group = [[IMAPlatform sharedInstance].contactMgr getUserByGroupId:self.meeting.groupId];
+            [self pushToChatViewControllerWith:group];
+        }
+            break;
+        case 1:
+            [self whiteBoardTabBtnClick];
+            [self.view addSubview:self.whiteBoardViewController.view];
+
+            break;
+        case 2:
+            [self memberTabBtnClick];
+            [self.view addSubview:self.membersVC.view];
+
+            break;
+        case 3:
+            //            [self chatTabBtnClick];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)clickPlayBtn {
+    
+}
+
+
+#pragma mark - 跳转到聊天界面
+
+- (void)pushToChatViewControllerWith:(IMAUser *)user
+{
+#if kTestChatAttachment
+    // 无则重新创建
+    IMAChatViewController *vc = [[CustomChatUIViewController alloc] initWith:user];
+#else
+    IMAChatViewController *vc = [[IMAChatViewController alloc] initWith:user];
+#endif
+    
+    //    IMAChatViewController *vc = [[IMAChatViewController alloc] initWith:user];
+    
+    if ([user isC2CType])
+    {
+        TIMConversation *imconv = [[TIMManager sharedInstance] getConversation:TIM_C2C receiver:user.userId];
+        if ([imconv getUnReadMessageNum] > 0)
+        {
+            [vc modifySendInputStatus:SendInputStatus_Send];
+        }
+    }
+    
+    if ([user.nickName isEqualToString:@""] || !user.nickName) {
+        vc.titleStr = user.userId;
+    } else {
+        vc.titleStr = user.nickName;
+    }
+    
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    //    [vc.navigationController pushViewController:vc withBackTitle:@"返回" animated:YES]; // 会崩溃
+    //    [self.navigationController pushViewController:vc withBackTitle:@"返回" animated:YES];
+}
+
 #pragma mark -
 
+- (void)clickChatBtn {
+    if (self.isInputting) {
+        [self.chatVC showInputView:NO];
+    } else {
+        [self.chatVC showInputView:YES];
+    }
+    self.isInputting = !self.isInputting;
+    [self layoutViewControllers];
+}
 
-
+- (void)handleChatInputToolBarClickCloseBtnNotification:(NSNotification *)noti {
+//    [self.chatVC.view endEditing:YES];
+    [self clickChatBtn];
+}
 
 @end
 

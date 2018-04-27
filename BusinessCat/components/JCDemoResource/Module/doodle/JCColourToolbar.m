@@ -68,7 +68,7 @@
     _buttonSize = CGSizeMake(28, 28);
     _buttonSpacing = 28;
     
-    NSArray *images = @[@"icon_pan_red", @"icon_pan_orange", @"icon_pan_yellow", @"icon_pan_green", @"icon_pan_blue", @"icon_pan_purple"];
+    NSArray *images = @[@"icon_pen_red", @"icon_pen_orange", @"icon_pen_yellow", @"icon_pen_green", @"icon_pen_blue", @"icon_pen_purple"];
     self.imageNames = images;
     
     // 颜色图片
@@ -140,6 +140,7 @@
 {
     [super layoutSubviews];
     
+    // 水平布局
 //    CGFloat viewWidth = self.frame.size.width;
 //    CGFloat viewHeight = self.frame.size.height;
 //    CGFloat totalWidth = _buttonSize.width * _brushColorsArray.count + _buttonSpacing * (_brushColorsArray.count - 1);
@@ -152,6 +153,7 @@
 //                                  _buttonSize.height);
 //    }
     
+    // 竖直
     float y;
     for (int i = 0 ; i < _brushColorsArray.count; i++) {
         y = i * (kBtnSpace + kBtnWidth);

@@ -42,10 +42,14 @@
 
 @property (nonatomic, weak) id<ChatInputToolBarDelegate> toolBarDelegate;
 
+@property (nonatomic, strong) UIButton *closeBtn;
+@property (nonatomic, assign) BOOL useForMeeting;
+
 - (BOOL)isEditing;
 
 - (void)setInputText:(NSString *)text;
 
+- (void)beginInput;
 @end
 
 

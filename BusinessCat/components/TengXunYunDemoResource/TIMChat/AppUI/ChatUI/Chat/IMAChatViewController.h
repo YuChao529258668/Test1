@@ -18,4 +18,9 @@
 @property(nonatomic,strong)UIView *navi;
 @property(nonatomic,strong)UILabel *titleView;
 
+//@property (nonatomic, assign) BOOL useForMeeting;
+- (void)showInputView:(BOOL)show;
+
+- (void)beginInput;
+
 @end

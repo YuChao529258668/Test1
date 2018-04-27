@@ -451,4 +451,20 @@
 }
 
 
+- (void)setUseForMeeting:(BOOL)useForMeeting {
+//    _useForMeeting = useForMeeting;
+    [super setUseForMeeting:useForMeeting];
+    _inputView.useForMeeting = useForMeeting;
+}
+
+- (void)showInputView:(BOOL)show {
+    _inputView.hidden = !show;
+    if (show) {
+        [_inputView beginInput];
+    } else {
+//        [_inputView endEditing:YES];
+        [_inputView resignFirstResponder];
+    }
+}
+
 @end

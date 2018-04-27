@@ -29,6 +29,7 @@
 
 @property (nonatomic,weak) id<ChatInputPanelDelegate> myDelegate ;
 
+@property (nonatomic, assign) BOOL useForMeeting;
 
 - (instancetype)initRichChatInputPanel;
 
@@ -37,6 +38,8 @@
 - (IMAMsg *)getMsgDraft;
 
 - (void)setMsgDraft:(IMAMsg *)draft;
+
+- (void)beginInput;
 
 @end
 

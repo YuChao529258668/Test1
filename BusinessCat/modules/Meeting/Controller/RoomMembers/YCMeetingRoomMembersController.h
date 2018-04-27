@@ -53,4 +53,6 @@
 // 外部取消或者结束会议时，调用此方法
 + (void)sendUpdateStatesCommandWithMeetingID:(NSString *)mid;
 
+- (void)updateCountLabelWithOnline:(NSInteger)online total:(NSInteger)total;
+
 @end

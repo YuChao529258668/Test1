@@ -749,7 +749,8 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     IMAMsg *msg = [_messageList objectAtIndex:indexPath.row];
-    return [msg heightInWidth:tableView.bounds.size.width inStyle:_conversation.type == TIM_GROUP];
+//    return [msg heightInWidth:tableView.bounds.size.width inStyle:_conversation.type == TIM_GROUP];
+    return [msg heightInWidth:tableView.bounds.size.width inStyle:_conversation.type == TIM_GROUP useForMeeting:self.useForMeeting];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -775,7 +776,13 @@
     DebugLog(@"%@", rail);
     
     UITableViewCell<TIMElemAbleCell> *cell = [msg tableView:tableView style:[_receiver isC2CType] ? TIMElemCell_C2C : TIMElemCell_Group];
+    if ([cell isKindOfClass:NSClassFromString(@"ChatTextTableViewCell")]) {
+        ChatTextTableViewCell *cl = (ChatTextTableViewCell *)cell;
+        cl.useForMeeting = self.useForMeeting;
+    }
     [cell configWith:msg];
+    cell.clipsToBounds = YES;
+    
     return cell;
 }
 

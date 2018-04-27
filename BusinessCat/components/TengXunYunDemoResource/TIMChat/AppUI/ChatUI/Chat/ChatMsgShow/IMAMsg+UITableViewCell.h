@@ -38,6 +38,7 @@
 
 // IMAMsg 显示的高度
 - (NSInteger)heightInWidth:(CGFloat)width inStyle:(BOOL)isGroup;
+- (NSInteger)heightInWidth:(CGFloat)width inStyle:(BOOL)isGroup useForMeeting:(BOOL)meeting;
 
 // 各控件间的水平间距
 - (NSInteger)horMargin;

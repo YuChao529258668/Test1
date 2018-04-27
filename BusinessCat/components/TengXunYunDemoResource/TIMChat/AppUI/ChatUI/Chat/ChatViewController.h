@@ -61,5 +61,7 @@ typedef NS_ENUM(NSInteger, SendInputStatus)
 // call on main thread
 @property (nonatomic,copy) void (^onReceiveNewMessage)(NSArray *messages);
 
+// yc
+@property (nonatomic, assign) BOOL useForMeeting;
 
 @end

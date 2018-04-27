@@ -413,7 +413,7 @@
         beginDate = [f dateFromString:beginString];
         endDate = [f dateFromString:endString];
     }
-    
+    self.beginDate = beginDate;
     
     
     __weak typeof(self) weakself = self;
@@ -523,6 +523,7 @@
         roomVc.AccessKey = AccessKey;
         roomVc.SecretKey = SecretKey;
         roomVc.BucketName = BucketName;
+//        roomVc.beginDate = self.beginDate;
         
         UINavigationController *nvc = weakself.navigationController;
         [nvc popToRootViewControllerAnimated:YES];
@@ -730,7 +731,7 @@
         [self.collectionView reloadData];
 
     }
-    NSLog(@"%ld, %ld", clickHour, clickMin);
+    NSLog(@"%ld, %ld", (long)clickHour, clickMin);
 }
 
 - (BOOL)updateWithClickHour:(NSInteger)clickHour clickMin:(NSInteger)clickMin {

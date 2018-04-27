@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="PingFang.ttc">
-            <string>PingFangSC-Regular</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RoomViewController">
             <connections>
+                <outlet property="bigView" destination="AeM-32-ksp" id="KTB-b9-jsA"/>
                 <outlet property="cancelBtn" destination="lby-3Q-aM4" id="mQm-lH-yrv"/>
                 <outlet property="hintLabel" destination="jZ4-wE-4PJ" id="hcT-T3-GMi"/>
                 <outlet property="livingLabel" destination="O27-Lb-IBO" id="enr-dt-yxs"/>
@@ -43,6 +38,11 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="291-gr-U7Q" userLabel="Preview">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             <subviews>
+                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AeM-32-ksp">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oOy-UW-4SB" userLabel="Sidebar">
                                     <rect key="frame" x="-267" y="101" width="65" height="464"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
@@ -150,7 +150,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TQc-XJ-ugl" userLabel="Wait View">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="333.5"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="evu-Rr-8hv">
                             <rect key="frame" x="67" y="85.5" width="240" height="163"/>
@@ -237,20 +237,20 @@
                         <constraint firstItem="odT-iL-qQ2" firstAttribute="top" secondItem="TQc-XJ-ugl" secondAttribute="top" constant="19" id="2aq-Vb-Rvq"/>
                         <constraint firstItem="odT-iL-qQ2" firstAttribute="leading" secondItem="TQc-XJ-ugl" secondAttribute="leading" constant="4" id="HlK-uD-ffk"/>
                         <constraint firstItem="evu-Rr-8hv" firstAttribute="centerX" secondItem="TQc-XJ-ugl" secondAttribute="centerX" id="rUw-0G-CZ2"/>
-                        <constraint firstItem="evu-Rr-8hv" firstAttribute="centerY" secondItem="TQc-XJ-ugl" secondAttribute="centerY" id="yYh-MG-T05"/>
+                        <constraint firstItem="evu-Rr-8hv" firstAttribute="centerY" secondItem="TQc-XJ-ugl" secondAttribute="centerY" constant="-166.5" id="yYh-MG-T05"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="TQc-XJ-ugl" firstAttribute="top" secondItem="9Z1-6u-LJD" secondAttribute="top" id="DhQ-lo-nuV"/>
+                <constraint firstAttribute="bottom" secondItem="TQc-XJ-ugl" secondAttribute="bottom" id="Fld-pH-Vzz"/>
                 <constraint firstItem="DPW-CP-NW3" firstAttribute="leading" secondItem="9Z1-6u-LJD" secondAttribute="leading" id="RFO-z5-0nB"/>
                 <constraint firstItem="DPW-CP-NW3" firstAttribute="top" secondItem="9Z1-6u-LJD" secondAttribute="top" id="TCN-Q5-iiK"/>
                 <constraint firstAttribute="trailing" secondItem="DPW-CP-NW3" secondAttribute="trailing" id="Zbt-6l-437"/>
                 <constraint firstItem="TQc-XJ-ugl" firstAttribute="leading" secondItem="9Z1-6u-LJD" secondAttribute="leading" id="f7I-4h-LNr"/>
                 <constraint firstAttribute="bottom" secondItem="DPW-CP-NW3" secondAttribute="bottom" id="jUq-lR-hBx"/>
                 <constraint firstAttribute="trailing" secondItem="TQc-XJ-ugl" secondAttribute="trailing" id="pZS-Ey-0AE"/>
-                <constraint firstItem="TQc-XJ-ugl" firstAttribute="height" secondItem="9Z1-6u-LJD" secondAttribute="height" multiplier="0.5" id="ukT-Iw-Qju"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="177.5" y="412.5"/>

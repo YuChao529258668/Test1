@@ -64,4 +64,6 @@
 // 获取服务器保存的课件。收到更改课件的命令时调用
 - (void)checkCurrentMeetingFile;
 
+@property (nonatomic,copy) void (^didClickBackBtnBlock)();
+
 @end

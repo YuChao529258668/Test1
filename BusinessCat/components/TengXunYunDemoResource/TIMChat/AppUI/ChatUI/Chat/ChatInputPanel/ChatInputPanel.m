@@ -98,17 +98,35 @@
         
         if (contentHeight != _contentHeight)
         {
-            CGRect rect = self.frame;
-//            rect.origin.y = endFrame.origin.y - [_toolBar contentHeight] - 64;
-//            rect.origin.y = endFrame.origin.y - [_toolBar contentHeight];
-            rect.origin.y = self.superview.frame.size.height - endFrame.size.height - [_toolBar contentHeight];
-            rect.size.height = contentHeight;
-            
+            CGRect newRect = self.frame;
+
+            newRect.size.height = contentHeight;
+
+            CGRect converRect = [self.superview convertRect:newRect toView:nil];
+
+
+            newRect.origin.y = newRect.origin.y - CGRectGetMaxY(converRect) + endFrame.origin.y + endFrame.size.height;
+
+
             [UIView animateWithDuration:duration animations:^{
-                self.frame = rect;
+                self.frame = newRect;
                 self.contentHeight = contentHeight;
             }];
         }
+        
+//        if (contentHeight != _contentHeight)
+//        {
+//            CGRect rect = self.frame;
+//            rect.origin.y = self.superview.frame.size.height - endFrame.size.height - [_toolBar contentHeight];
+//            rect.size.height = contentHeight;
+//
+//
+//            [UIView animateWithDuration:duration animations:^{
+//                self.frame = rect;
+//                self.contentHeight = contentHeight;
+//            }];
+//        }
+        
     }
     
 }
@@ -288,6 +306,15 @@
 - (void)setMsgDraft:(IMAMsg *)draft
 {
     [(RichChatInputToolBar *)_toolBar setMsgDraft:draft];
+}
+
+- (void)setUseForMeeting:(BOOL)useForMeeting {
+    _useForMeeting = useForMeeting;
+    _toolBar.useForMeeting = useForMeeting;
+}
+
+- (void)beginInput {
+    [_toolBar beginInput];
 }
 
 @end

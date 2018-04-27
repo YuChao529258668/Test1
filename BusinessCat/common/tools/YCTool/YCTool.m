@@ -53,6 +53,35 @@
     return title;
 }
 
+// x 天 x 小时 x 分钟，有天不显示秒。倒计时
++ (NSString *)countDonwStringDHMWithTargetDate:(NSTimeInterval)interval {
+    NSInteger t = interval - [NSDate date].timeIntervalSince1970;
+    
+    if (t < 60) {
+        return [NSString stringWithFormat:@"%ld秒", t];
+    }
+    
+    NSInteger day = t /(24 * 60 * 60);
+    NSInteger h = t %(24 * 60 * 60) /(60 * 60);
+    NSInteger m = t %(60 * 60)/60;
+    NSInteger s = t %(60);
+    NSMutableString *title = [NSMutableString string];
+    
+    if (day) {
+        [title appendFormat:@"%ld天", (long)day];
+    }
+    if (h) {
+        [title appendFormat:@"%ld小时", (long)h];
+    }
+    if (m) {
+        [title appendFormat:@"%ld分钟", (long)m];
+    }
+    if (s && day == 0) {
+        [title appendFormat:@"%ld秒", (long)s];
+    }
+    return title;
+}
+
 // x 小时 x 分钟 x 秒，倒计时
 //+ (void)HMSForSeconds:(NSInteger)seconds block:(void(^)(NSInteger h, NSInteger m, NSInteger s))block {
 //    NSInteger t = seconds;

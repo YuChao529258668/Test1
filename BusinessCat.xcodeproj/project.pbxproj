@@ -17,6 +17,8 @@
 		0D1E0BD9207E030C00478FA0 /* i5.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E0BD6207E030500478FA0 /* i5.PNG */; };
 		0D1E0BDA207E030C00478FA0 /* 6.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E0BD7207E030600478FA0 /* 6.png */; };
 		0D1E0BDB207E030C00478FA0 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E0BD8207E030B00478FA0 /* plus.png */; };
+		0D1E0BDE2085D0BF00478FA0 /* RoomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E0BDD2085D0BF00478FA0 /* RoomBarView.m */; };
+		0D1E0BE02085D0CB00478FA0 /* RoomBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D1E0BDF2085D0CB00478FA0 /* RoomBarView.xib */; };
 		0D1E964B2020213600B6187A /* YCSpaceBiz.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E964A2020213600B6187A /* YCSpaceBiz.m */; };
 		0D1E964F202043B800B6187A /* YCSeeBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E964E202043B800B6187A /* YCSeeBoard.m */; };
 		0D1E9652202057A000B6187A /* YCLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E9651202057A000B6187A /* YCLabel.m */; };
@@ -94,6 +96,8 @@
 		0D8904B02019FD40009C1308 /* YCSpaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D8904AE2019FD40009C1308 /* YCSpaceController.m */; };
 		0D8904B12019FD40009C1308 /* YCSpaceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D8904AF2019FD40009C1308 /* YCSpaceController.xib */; };
 		0D8904B42019FE1B009C1308 /* YCScrollBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D8904B32019FE1B009C1308 /* YCScrollBar.m */; };
+		0D8C0ACA2089971A005193A6 /* RoomStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D8C0AC92089971A005193A6 /* RoomStateView.m */; };
+		0D8C0ACC20899725005193A6 /* RoomStateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D8C0ACB20899725005193A6 /* RoomStateView.xib */; };
 		0D90DF351FB43C3900EDB7CF /* ADTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D90DC621FB43C3800EDB7CF /* ADTransition.m */; };
 		0D90DF361FB43C3900EDB7CF /* ADFlipTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D90DC651FB43C3800EDB7CF /* ADFlipTransition.m */; };
 		0D90DF371FB43C3900EDB7CF /* UICollectionViewController+ADFlipTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D90DC671FB43C3800EDB7CF /* UICollectionViewController+ADFlipTransition.m */; };
@@ -1543,6 +1547,9 @@
 		0D1E0BD6207E030500478FA0 /* i5.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = i5.PNG; sourceTree = "<group>"; };
 		0D1E0BD7207E030600478FA0 /* 6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6.png; sourceTree = "<group>"; };
 		0D1E0BD8207E030B00478FA0 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
+		0D1E0BDC2085D0BF00478FA0 /* RoomBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoomBarView.h; sourceTree = "<group>"; };
+		0D1E0BDD2085D0BF00478FA0 /* RoomBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoomBarView.m; sourceTree = "<group>"; };
+		0D1E0BDF2085D0CB00478FA0 /* RoomBarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoomBarView.xib; sourceTree = "<group>"; };
 		0D1E96492020213600B6187A /* YCSpaceBiz.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCSpaceBiz.h; sourceTree = "<group>"; };
 		0D1E964A2020213600B6187A /* YCSpaceBiz.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCSpaceBiz.m; sourceTree = "<group>"; };
 		0D1E964D202043B800B6187A /* YCSeeBoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCSeeBoard.h; sourceTree = "<group>"; };
@@ -1668,6 +1675,9 @@
 		0D8904AF2019FD40009C1308 /* YCSpaceController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YCSpaceController.xib; sourceTree = "<group>"; };
 		0D8904B22019FE1B009C1308 /* YCScrollBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCScrollBar.h; sourceTree = "<group>"; };
 		0D8904B32019FE1B009C1308 /* YCScrollBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCScrollBar.m; sourceTree = "<group>"; };
+		0D8C0AC82089971A005193A6 /* RoomStateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoomStateView.h; sourceTree = "<group>"; };
+		0D8C0AC92089971A005193A6 /* RoomStateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoomStateView.m; sourceTree = "<group>"; };
+		0D8C0ACB20899725005193A6 /* RoomStateView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoomStateView.xib; sourceTree = "<group>"; };
 		0D90DC601FB43C3800EDB7CF /* ADHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADHeaders.h; sourceTree = "<group>"; };
 		0D90DC611FB43C3800EDB7CF /* ADTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADTransition.h; sourceTree = "<group>"; };
 		0D90DC621FB43C3800EDB7CF /* ADTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADTransition.m; sourceTree = "<group>"; };
@@ -6616,6 +6626,12 @@
 				0DBF47201FB3087300707C12 /* MJPopTool.h */,
 				0DBF47211FB3087300707C12 /* MJPopTool.m */,
 				0DAB30942005AFEE00E0DA26 /* ConferenceToolBar.xib */,
+				0D1E0BDC2085D0BF00478FA0 /* RoomBarView.h */,
+				0D1E0BDD2085D0BF00478FA0 /* RoomBarView.m */,
+				0D1E0BDF2085D0CB00478FA0 /* RoomBarView.xib */,
+				0D8C0AC82089971A005193A6 /* RoomStateView.h */,
+				0D8C0AC92089971A005193A6 /* RoomStateView.m */,
+				0D8C0ACB20899725005193A6 /* RoomStateView.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -8883,6 +8899,7 @@
 				0DB9E63C202C579F00ACA8D0 /* 54.gif in Resources */,
 				0DB9E678202C579F00ACA8D0 /* 13.gif in Resources */,
 				0DBF475B1FB3087300707C12 /* status_camera_off_40@3x.png in Resources */,
+				0D1E0BE02085D0CB00478FA0 /* RoomBarView.xib in Resources */,
 				18CAE8C51DD95DAB008AAF9F /* CollectionViewCell.xib in Resources */,
 				1841E17E1E1647E50030376A /* OpponentTableViewCell.xib in Resources */,
 				0DB9E61C202C579E00ACA8D0 /* 37.gif in Resources */,
@@ -8918,6 +8935,7 @@
 				183CDE4C1F24EA650099520F /* CGKonwledgeMoreTableViewCell.xib in Resources */,
 				183284581EE155C100964D0B /* CGMainLoginViewController.xib in Resources */,
 				181C54E11EC160F30064354D /* CGReviewCollectionViewCell.xib in Resources */,
+				0D8C0ACC20899725005193A6 /* RoomStateView.xib in Resources */,
 				1838CF6A1EA859F8005480B3 /* CGKnowledgeBaseTableViewCell.xib in Resources */,
 				D7F44D381DB1FD67004393C2 /* 项目简介.txt in Resources */,
 				D7E4175E1D9A1F0200048E57 /* HeadlineRightPicTableViewCell.xib in Resources */,
@@ -9499,6 +9517,7 @@
 				D732084A1EA64EE3006BC285 /* PinYinForObjc.m in Sources */,
 				18E4810D1F03922700A94FF8 /* split.c in Sources */,
 				180F33A81E8264910007D7F8 /* CGUserChangeDepartmentViewController.m in Sources */,
+				0D1E0BDE2085D0BF00478FA0 /* RoomBarView.m in Sources */,
 				0D90DF381FB43C3900EDB7CF /* UITableViewController+ADFlipTransition.m in Sources */,
 				0D7431061FB93D91002867FA /* CGMeetingListViewController.m in Sources */,
 				0DBF47801FB3087400707C12 /* JCMenuViewController.m in Sources */,
@@ -9855,6 +9874,7 @@
 				180B23D41DD6EF40000C5655 /* SearchTopTableViewCell.m in Sources */,
 				1868534E1EA70BFA00B79EFD /* UIImage+Gallop.m in Sources */,
 				1806D2D31DCC6763002CC77E /* CGUserSearchCompanyTableViewCell.m in Sources */,
+				0D8C0ACA2089971A005193A6 /* RoomStateView.m in Sources */,
 				0D90DFAA1FB43C3A00EDB7CF /* IMASubGroup.m in Sources */,
 				0D7905E4205BB8D000694A66 /* YCUserTask.m in Sources */,
 				D73208481EA64EE3006BC285 /* NSString+PinYin4Cocoa.m in Sources */,

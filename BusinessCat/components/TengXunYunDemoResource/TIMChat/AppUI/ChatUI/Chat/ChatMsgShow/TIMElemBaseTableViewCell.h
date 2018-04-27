@@ -76,6 +76,8 @@
 - (void)configElemContent;
 - (void)configSendingTips;
 
+// yc
+@property (nonatomic, assign) BOOL useForMeeting;
 
 
 @end

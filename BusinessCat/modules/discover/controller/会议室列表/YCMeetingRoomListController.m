@@ -253,7 +253,10 @@
             [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
             [self.tableView reloadData];
         } else {
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
+            NSIndexPath *ip = [NSIndexPath indexPathForRow:0 inSection:0];
+            if ([self.tableView cellForRowAtIndexPath:ip]) {
+                [self.tableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionNone animated:NO];
+            }
             [self getData];
         }
     };

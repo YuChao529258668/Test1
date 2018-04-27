@@ -166,7 +166,13 @@
     CGRect rect = self.contentView.bounds;
     NSInteger hor = [_msg horMargin];
     NSInteger ver = kDefaultMargin/2;
-    if ([_msg isMineMsg])
+    
+    BOOL isMineMsg = [_msg isMineMsg];
+//    if (self.useForMeeting) {
+//        isMineMsg = NO;
+//    }
+    
+    if (isMineMsg)
     {
         if (self.isEditing)
         {

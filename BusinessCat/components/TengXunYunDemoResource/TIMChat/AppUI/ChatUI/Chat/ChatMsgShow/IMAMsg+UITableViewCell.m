@@ -299,6 +299,56 @@ static NSString *const kIMAMsgShowChatAttributedText = @"kIMAMsgShowChatAttribut
     
 }
 
+- (NSInteger)heightInWidth:(CGFloat)width inStyle:(BOOL)isGroup useForMeeting:(BOOL)meeting
+{
+    if (self.showHeightInChat != 0)
+    {
+        return self.showHeightInChat;
+    }
+    
+    if (self.type == EIMAMSG_TimeTip || self.type == EIMAMSG_SaftyTip)
+    {
+        if (meeting) {
+            return 0;
+        }
+        // 时间标签显示20
+        //        self.showHeightInChat = 20;
+        self.showHeightInChat = 40;
+        return self.showHeightInChat;
+    }
+    
+    CGSize size = [self contentBackSizeInWidth:width];
+    
+    if (self.type == EIMAMSG_GroupTips)
+    {
+        if (meeting) {
+            return 0;
+        }
+
+        if (size.height < 40) {
+            size.height = 40;
+        }
+        self.showHeightInChat = size.height;
+        return size.height;
+    }
+    
+    
+    if (isGroup && ![self isMineMsg])
+    {
+        size.height += [self groupMsgTipHeight];
+    }
+    size.height += kDefaultMargin;
+    
+    CGSize iconSize = [self userIconSize];
+    if (size.height < iconSize.height + kDefaultMargin)
+    {
+        size.height = iconSize.height + kDefaultMargin;
+    }
+    self.showHeightInChat = size.height;
+    return size.height;
+    
+}
+
 - (UIEdgeInsets)contentBackInset
 {
     

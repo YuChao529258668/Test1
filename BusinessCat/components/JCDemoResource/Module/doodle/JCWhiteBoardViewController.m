@@ -48,6 +48,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 
 - (void)cleanAllPath;
 
+
 @end
 
 
@@ -156,6 +157,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 @property (nonatomic,strong) UIButton *prevBtn;
 @property (nonatomic,strong) UILabel *pageLabel;
 @property (nonatomic,strong) UIButton *closeDocBtn;
+@property (nonatomic,strong) UIButton *openFileBtn;
 @property (nonatomic,strong) YCMeetingFile *meetingFile; // 课件信息
 //@property (nonatomic,strong) NSString *currentFileName; // 当前显示的课件名字
 //@property (nonatomic,strong) NSTimer *timer;
@@ -167,6 +169,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 @property (nonatomic,assign) BOOL isSyncSwitchPage; // 是否同步翻页给其他人
 @property (nonatomic,assign) BOOL interactState; // 是否允许互动
 
+@property (nonatomic, strong) UIButton *hideBtn;
 
 
 @end
@@ -179,6 +182,7 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 //    BOOL isReview = self.isReview;
     if (isReview) {
         self.closeDocBtn.hidden = YES;
+        self.openFileBtn.hidden = YES;
     }
     self.isSyncSwitchPage = !isReview;
     if (!isReview) {
@@ -411,6 +415,8 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 //    [self beginCheckCurrentMeetingFile];
 //    [self checkCurrentMeetingFile];
     [self configBtns:self.isReview];
+    
+    [self setupHideBtn];
 }
 
 #pragma mark - DoodleToolbar delegate
@@ -905,22 +911,28 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 
 // 上一页、下一页、页码、关闭文档按钮
 - (void)setupPPTViews {
-    
+    UIButton *fileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [fileBtn setImage:[UIImage imageNamed:@"new_icon_official_open"] forState:UIControlStateNormal];
+    [fileBtn addTarget:self action:@selector(fileBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//    fileBtn.hidden = YES;
+    [self.view addSubview:fileBtn];
+    self.openFileBtn = fileBtn;
+
     UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [closeBtn setImage:[UIImage imageNamed:@"video_close"] forState:UIControlStateNormal];
+    [closeBtn setImage:[UIImage imageNamed:@"new_video_close"] forState:UIControlStateNormal];
     [closeBtn addTarget:self action:@selector(closeDocBtnClick) forControlEvents:UIControlEventTouchUpInside];
     closeBtn.hidden = YES;
     [self.view addSubview:closeBtn];
     self.closeDocBtn = closeBtn;
     
     UIButton *nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [nextBtn setImage:[UIImage imageNamed:@"icon_right_highlight"] forState:UIControlStateNormal];
+    [nextBtn setImage:[UIImage imageNamed:@"new_icon_right_normal"] forState:UIControlStateNormal];
     [nextBtn addTarget:self action:@selector(nextPageBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nextBtn];
     self.nextBtn = nextBtn;
     
     UIButton *prevBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [prevBtn setImage:[UIImage imageNamed:@"icon_left_highlight"] forState:UIControlStateNormal];
+    [prevBtn setImage:[UIImage imageNamed:@"new_icon_left_normal"] forState:UIControlStateNormal];
     [prevBtn addTarget:self action:@selector(previousPageBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:prevBtn];
     self.prevBtn = prevBtn;
@@ -1017,9 +1029,13 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
     float prevX = labelX - 10 - btnW;
     self.prevBtn.frame = CGRectMake(prevX, y, btnW, btnW);
     
-    float closeBtnW = 26;
-    float closeX = sw - closeBtnW - 15;
-    self.closeDocBtn.frame = CGRectMake(closeX, 15, closeBtnW, closeBtnW);
+//    float closeBtnW = 26;
+    float closeBtnW = 50;
+    float closeX = sw - closeBtnW - closeBtnW - 15;
+    self.closeDocBtn.frame = CGRectMake(closeX, 20, closeBtnW, closeBtnW);
+    
+    float fileX = sw - closeBtnW - 15;
+    self.openFileBtn.frame = CGRectMake(fileX, 20, closeBtnW, closeBtnW);
 }
 
 
@@ -1315,6 +1331,26 @@ typedef NS_ENUM(NSInteger, TouchActionMode) {
 //    }
     [[JCEngineManager sharedManager] sendData:kYCChangeCoursewareCommand content:@"YC_CHANGE_COURSEWARE" toReceiver:nil];
 
+}
+
+#pragma mark -
+
+
+- (void)setupHideBtn {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.view addSubview:btn];
+    [btn addTarget:self action:@selector(clickHideBtn) forControlEvents:UIControlEventTouchUpInside];
+    btn.frame = CGRectMake(12, 20, 50, 50);
+    self.hideBtn = btn;
+    [btn setImage:[UIImage imageNamed:@"new_video_left"] forState:UIControlStateNormal];
+    [self.view bringSubviewToFront:btn];
+}
+
+- (void)clickHideBtn {
+    self.view.hidden = YES;
+    if (self.didClickBackBtnBlock) {
+        self.didClickBackBtnBlock();
+    }
 }
 
 @end

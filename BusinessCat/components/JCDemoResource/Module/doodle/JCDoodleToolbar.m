@@ -48,9 +48,15 @@
 //    NSArray *backgroundNormals = @[@"brush_off",@"colour",@"clean",@"undo"];
 //    NSArray *backgourndHighlights = @[@"brush_off_highlighted",@"",@"clean_highlighted",@"undo_highlighted"];
 
-    NSArray *backgroundNormals = @[@"icon_pan_normal",@"icon_clear_highlight",@"icon_revoke_highlight", @"icon_official_highlight"];
-    NSArray *backgourndHighlights = @[@"icon_pan_highlight",@"icon_clear_highlight",@"icon_revoke_highlight", @"icon_official_highlight"];
-    NSArray *disableImages = @[@"icon_no_pan_normal", @"icon_no_clear_normal", @"icon_no_revoke_normal", @"icon_no_official_normal"];
+//    NSArray *backgroundNormals = @[@"icon_pan_normal",@"icon_clear_highlight",@"icon_revoke_highlight", @"icon_official_highlight"];
+//    NSArray *backgourndHighlights = @[@"icon_pan_highlight",@"icon_clear_highlight",@"icon_revoke_highlight", @"icon_official_highlight"];
+//    NSArray *disableImages = @[@"icon_no_pan_normal", @"icon_no_clear_normal", @"icon_no_revoke_normal", @"icon_no_official_normal"];
+    
+    NSArray *backgroundNormals = @[@"icon_pan_normal",@"new_icon_clear_highlight",@"new_icon_revoke_highlight", @"new_icon_official_open"];
+    NSArray *backgourndHighlights = @[@"icon_pan_highlight",@"new_icon_clear_highlight",@"new_icon_revoke_highlight", @"new_icon_official_open"];
+    NSArray *disableImages = @[@"icon_no_pan_normal", @"icon_no_clear_normal", @"icon_no_revoke_normal", @"new_icon_official_close"];
+
+    
     
     _buttonArray = [NSMutableArray array];
     _buttonSize = CGSizeMake(35, 35);
@@ -72,14 +78,14 @@
         [self addSubview:button];
         [_buttonArray addObject:button];
     }
-    
+    _buttonArray.lastObject.hidden = YES;
     
     // 线
-    UIImageView *iv = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"work_line_1"]];
-    iv.contentMode = UIViewContentModeScaleToFill;
-    iv.clipsToBounds = YES;
-    [self addSubview:iv];
-    self.lineIV = iv;
+//    UIImageView *iv = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"work_line_1"]];
+//    iv.contentMode = UIViewContentModeScaleToFill;
+//    iv.clipsToBounds = YES;
+//    [self addSubview:iv];
+//    self.lineIV = iv;
     
 }// 初始化View
 

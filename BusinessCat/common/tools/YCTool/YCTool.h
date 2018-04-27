@@ -15,6 +15,8 @@
 
 // x 小时 x 分钟 x 秒，倒计时
 + (NSString *)countDonwStringWithTargetDate:(NSTimeInterval)interval;
+// x 天 x 小时 x 分钟，有天不显示秒。倒计时
++ (NSString *)countDonwStringDHMWithTargetDate:(NSTimeInterval)interval;
 // x 小时 x 分钟 x 秒，倒计时
 //+ (NSString *)countDonwStringWithSeconds:(int)seconds;
 // x 小时 x 分钟 x 秒，倒计时

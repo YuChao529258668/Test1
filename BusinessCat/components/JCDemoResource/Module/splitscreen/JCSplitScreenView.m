@@ -8,6 +8,11 @@
 
 #import "JCSplitScreenView.h"
 
+//int maxCountOfJCSplitScreenView = 1; // 每一页最多显示多少个。原来是4个
+int maxCountOfJCSplitScreenView = 16; // 每一页最多显示多少个。原来是4个
+
+//#define kCellWidth 50
+
 @implementation JCSplitScreenViewCell
 
 - (instancetype)init
@@ -15,7 +20,7 @@
     self = [super init];
     if (self) {
         
-        self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = [UIColor clearColor];
         
         _contentView = [[UIView alloc] init];
         _contentView.layer.borderWidth = 0.5f;
@@ -42,8 +47,19 @@
         _microphoneView.hidden = YES;
         [_contentView addSubview:_microphoneView];
         
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
+        [self addGestureRecognizer:tap];
+        _contentView.userInteractionEnabled = NO;
+        _renderView.userInteractionEnabled = NO;
+        _videoOffView.userInteractionEnabled = NO;
+        _microphoneView.userInteractionEnabled = NO;
     }
     return self;
+}
+
+- (void)handleTap:(UITapGestureRecognizer *)tap {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"JCSplitScreenViewCellClickNotification" object:self.markStringId];
+//    NSLog(@"markStringId = %@", self.markStringId);
 }
 
 - (void)layoutSubviews
@@ -63,7 +79,9 @@
         //            _contentView.frame = CGRectMake((w - h * scale) / 2, 0, h * scale, h);
         //        }
         
-        _contentView.frame = self.bounds;
+        float width = self.bounds.size.width;
+//        _contentView.frame = self.bounds;
+        _contentView.frame = CGRectMake(0, 0, width, width);
     }
     
     if (_renderView) {
@@ -71,11 +89,14 @@
     }
     
     if (_titleLabel) {
-        _titleLabel.frame = CGRectMake(0, 0, _contentView.bounds.size.width, 20);
+        float y = self.bounds.size.width;
+        _titleLabel.frame = CGRectMake(0, y, _contentView.bounds.size.width, 20);
     }
     
     if (_microphoneView) {
-        _microphoneView.frame = CGRectMake(5, 5, 24, 24);
+        float x = self.bounds.size.width * 0.54;
+//        _microphoneView.frame = CGRectMake(5, 5, 24, 24);
+        _microphoneView.frame = CGRectMake(x, x, 24, 24);
     }
     
     if (_videoOffView) {
@@ -158,10 +179,10 @@
         _itemCount = [_dataSource numberOfItemsInSplitScreenView:self];
     }
     
-    //    if (_itemCount > 4) {
-    //        _itemCount = 4;
-    //    }
-    
+        if (_itemCount > maxCountOfJCSplitScreenView) {
+            _itemCount = maxCountOfJCSplitScreenView;
+        }
+
     [_reloadItems removeAllObjects];
     
     for (NSInteger i = 0; i < _itemCount; i++) {
@@ -239,10 +260,30 @@
     [self updateImageViews];
 }
 
+#pragma mark -
+
 - (void)updateItemsFrame
 {
     [_visibleItems removeAllObjects];
     [_visibleItems addObjectsFromArray:_reloadItems];
+    
+    CGFloat width = self.bounds.size.height - 20;
+    CGFloat height = self.bounds.size.height;
+
+    for (int i = 0; i < _itemCount; i ++) {
+        if (_visibleItems.count > 0) {
+            UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapGesture:)];
+            doubleTapGesture.numberOfTapsRequired = 2;
+            
+            UIView *view = [_visibleItems objectAtIndex:i];
+            view.frame = CGRectMake(i * width, 0, width, height);
+            [view addGestureRecognizer:doubleTapGesture];
+        }
+    }
+    
+    return;
+    
+    
     
     //    CGFloat w = self.bounds.size.width;
     //    CGFloat h = self.bounds.size.height;
@@ -318,8 +359,8 @@
                 doubleTapGesture.numberOfTapsRequired = 2;
                 
                 UIView *view = [_visibleItems objectAtIndex:i];
-                int page = i / 4; //页，每页4个
-                int row = i % 4 / 2; //行
+                int page = i / maxCountOfJCSplitScreenView; //页，每页4个
+                int row = i % maxCountOfJCSplitScreenView / 2; //行
                 int line = (i % 2) + (page * 2); //列
                 // 0 1， 4 5， 8  9，
                 // 2 3， 6 7，10 11，
@@ -378,18 +419,22 @@
     //    _itemCount = [_dataSource numberOfItemsInSplitScreenView:self];
     NSUInteger count = self.imageViews.count;
     
+//    CGFloat width = self.bounds.size.width;
+    CGFloat height = self.bounds.size.height;
+
+    for (int i = 0; i < count; i ++) {
+        self.imageViews[i].frame = CGRectMake(i * height, 0, height, height);
+    }
+    return;
+    
+    
     CGFloat w = self.bounds.size.width/2;
     CGFloat h = self.bounds.size.height/2;
-    
-    //    for (int i = 0; i < _itemCount; i ++) {
-    //        int row = i / 2; //行
-    //        int line = i % 2; //列
-    //        self.imageViews[i].frame = CGRectMake(line * w, row * h, w, h);
-    //    }
+
     
     for (int i = 0; i < count; i ++) {
-        int page = i / 4; //页，每页4个
-        int row = i % 4 / 2; //行
+        int page = i / maxCountOfJCSplitScreenView; //页，每页4个
+        int row = i % maxCountOfJCSplitScreenView / 2; //行
         int line = (i % 2) + (page * 2); //列
         // 0 1， 4 5， 8  9，
         // 2 3， 6 7，10 11，
@@ -413,9 +458,14 @@
 }
 
 - (void)updateScrollViewContentSize {
-    _itemCount = [_dataSource numberOfItemsInSplitScreenView:self];
     float w = self.frame.size.width;
     float h = self.frame.size.height;
+
+    _itemCount = [_dataSource numberOfItemsInSplitScreenView:self];
+    self.scrollView.contentSize = CGSizeMake(_itemCount * h, h);
+    return;
+    
+    
     self.scrollView.contentSize = CGSizeMake([self pageCount] * w, h);
 //    self.scrollView.contentSize = CGSizeMake([_dataSource numberOfItemsInSplitScreenView:self] * w, h);
 //        self.scrollView.contentSize = CGSizeMake(w * 6, h);
@@ -430,10 +480,12 @@
 }
 
 - (void)updateImageViews {
+    return;
+    
     _itemCount = [_dataSource numberOfItemsInSplitScreenView:self];
     
     int pageNeed = [self pageCount];
-    int pageNow = self.imageViews.count/4;
+    int pageNow = self.imageViews.count/maxCountOfJCSplitScreenView;
     int pageDif = pageNow - pageNeed;
     
     if (pageDif == 0) {
@@ -441,7 +493,7 @@
     }
     else if (pageDif > 0) {
         // 多了。要减少
-        NSUInteger count = pageDif * 4;
+        NSUInteger count = pageDif * maxCountOfJCSplitScreenView;
         for (NSUInteger i = 0; i < count; i ++) {
             [self.imageViews.lastObject removeFromSuperview];
             [self.imageViews removeObject:self.imageViews.lastObject];
@@ -449,7 +501,7 @@
     }
     else {
         // 少了。要增加
-        NSUInteger count = -pageDif * 4;
+        NSUInteger count = -pageDif * maxCountOfJCSplitScreenView;
         for (NSUInteger i = 0; i < count; i ++) {
             UIImageView *iv = [self createImageView];
             [self.imageViews addObject:iv];
@@ -471,9 +523,11 @@
 }
 
 - (void)setupImageViews {
-    self.imageViews = [NSMutableArray arrayWithCapacity:4];
+    return;
     
-    for (int i = 0; i < 4; i ++) {
+    self.imageViews = [NSMutableArray arrayWithCapacity:maxCountOfJCSplitScreenView];
+    
+    for (int i = 0; i < maxCountOfJCSplitScreenView; i ++) {
         UIImageView *iv = [self createImageView];
         [self.imageViews addObject:iv];
         //        [self addSubview:iv];
@@ -487,13 +541,15 @@
     [self addSubview:sv];
     self.scrollView = sv;
     
-    sv.pagingEnabled = YES;
+//    sv.pagingEnabled = YES;
     sv.delegate = self;
     //    sv.backgroundColor = [UIColor blueColor];
     
 }
 
 - (void)setupPageControl {
+    return;
+    
     UIPageControl *pc = [UIPageControl new];
     [self addSubview:pc];
     self.pageControl = pc;
@@ -514,9 +570,10 @@
 #pragma mark -
 
 - (NSUInteger)pageCount {
-    NSUInteger pageNeed = _itemCount/4 + 1;
-    if (_itemCount % 4 == 0) {
-        pageNeed = _itemCount / 4;
+    return _itemCount;
+    NSUInteger pageNeed = _itemCount/maxCountOfJCSplitScreenView + 1;
+    if (_itemCount % maxCountOfJCSplitScreenView == 0) {
+        pageNeed = _itemCount / maxCountOfJCSplitScreenView;
     }
     return pageNeed;
 }

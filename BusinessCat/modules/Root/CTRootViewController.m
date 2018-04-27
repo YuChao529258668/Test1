@@ -657,6 +657,8 @@
         vc.titleStr = user.nickName;
     }
     
+//    vc.useForMeeting = YES;
+    
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
     
