@@ -1,3 +1,2 @@
-# Test1
-水电费健身房都是空 手里的房价升了的会计法说了[]()
-发神经的放辣椒
+
+![整体](https://github.com/YuChao529258668/resource-for-readme.md/blob/master/Test1/整体.png)
